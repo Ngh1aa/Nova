@@ -1,0 +1,187 @@
+/* Nova system v5 — icon-scale sidebar + complete nested iOS geometry */
+:root{
+  --v5-r-card:28px;
+  --v5-r-control:18px;
+  --v5-r-small:14px;
+  --v5-line:rgba(17,19,24,.075);
+  --v5-surface:#fff;
+}
+
+/* Sidebar: full-height rail stays, but icon backgrounds become compact rounded squares. */
+body.product-body .sidebar.nova-rail-v4{
+  top:12px!important;
+  bottom:12px!important;
+  padding:12px 10px!important;
+  border-radius:30px!important;
+}
+body.product-body .v4-rail-nav{
+  min-height:0!important;
+  display:grid!important;
+  grid-template-rows:minmax(0,5fr) auto minmax(0,2fr)!important;
+  gap:10px!important;
+}
+body.product-body .v5-rail-primary,
+body.product-body .v5-rail-secondary{
+  min-height:0!important;
+  display:grid!important;
+  gap:8px!important;
+}
+body.product-body .v5-rail-primary{grid-template-rows:repeat(5,minmax(0,1fr))!important}
+body.product-body .v5-rail-secondary{grid-template-rows:repeat(2,minmax(0,1fr))!important}
+body.product-body .v5-rail-divider{
+  height:1px!important;
+  margin:0 8px!important;
+  border-radius:999px!important;
+  background:rgba(255,255,255,.12)!important;
+}
+body.product-body .v4-rail-nav a{
+  min-height:0!important;
+  padding:4px 0!important;
+  border-radius:16px!important;
+  background:transparent!important;
+  box-shadow:none!important;
+  color:#f2f5f8!important;
+  display:flex!important;
+  flex-direction:column!important;
+  align-items:center!important;
+  justify-content:center!important;
+  gap:5px!important;
+}
+body.product-body .v4-rail-nav a:hover{background:rgba(255,255,255,.035)!important}
+body.product-body .v5-rail-icon{
+  width:46px!important;
+  height:46px!important;
+  flex:0 0 46px!important;
+  display:grid!important;
+  place-items:center!important;
+  border-radius:14px!important;
+  background:#191d21!important;
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.025)!important;
+}
+body.product-body .v5-rail-icon svg{width:22px!important;height:22px!important}
+body.product-body .v4-rail-nav a.active{background:transparent!important;color:#fff!important}
+body.product-body .v4-rail-nav a.active .v5-rail-icon{
+  background:linear-gradient(145deg,#72b8ff,#4d99f7)!important;
+  box-shadow:0 7px 18px rgba(76,153,247,.28)!important;
+}
+body.product-body .v4-rail-nav a>span:last-child{
+  font-size:9px!important;
+  line-height:1!important;
+  font-weight:680!important;
+}
+
+/* Card-level geometry: every visible surface keeps the same rounded family. */
+body.product-body :is(
+  .nova-card,.v3-surface,.v4-card,.decision-field,.fi-horizon,.context-panel,.activity-header,
+  .ledger-toolbar,.ledger,.dossier-hero,.evidence-panel,.protection-band,.detail-grid,.card-quick,
+  .goal-hero,.goal-ledger,.task-panel,.recipient-card,.receipt-sheet,.document-sheet,.kyc-spine,
+  .control-list,.review-panel,.subscription-summary,.settings-panel,.notification-group,
+  .security-summary,.recurring-total,.impact-panel,.section,.callout,.empty-state,.receipt,
+  .onboarding-panel,.summary-card,.context-rail,.horizon
+){
+  border-radius:var(--v5-r-card)!important;
+  overflow:hidden!important;
+}
+
+/* Nested controls, bars, rows and mini-cards must never fall back to square web-dashboard geometry. */
+body.product-body :is(
+  .btn,.input,.search-wrap,.switch,.chip,.status,.risk-chip,.back-link,.ios-search-cancel,
+  .nova-action,.nova-kpi,.nova-account-row,.nova-protection-note,.nova-health-note,.nova-date-pill,
+  .nova-icon,.nova-mini-stat,.v3-primary-action,.v3-action-tile,.v3-stat-grid>div,.v3-goal-row,
+  .v3-add-goal,.v3-contribution-row,.v3-horizon-bar,.v3-horizon-items>div,.v3-toggle-row,
+  .v3-device-row,.v3-wallet-row,.v3-settings-link,.v3-setting-row,.v3-segmented,
+  .v4-action,.v4-search-box,.v4-recipient-chips>a,.v4-pay-list>div,.v4-transfer-list>a,
+  .v4-context-grid>div,.v4-full-action,.v4-icon-button,.v4-avatar,.v4-list-icon,.v4-status
+){
+  border-radius:var(--v5-r-control)!important;
+}
+
+/* Inputs and buttons inside cards get their own rounded container instead of touching the card edge. */
+body.product-body :is(.nova-card,.v3-surface,.v4-card,.section,.task-panel,.card-quick,.security-summary,.settings-panel) :is(button,.btn,.input,input[type="text"],input[type="search"],input[type="number"],select){
+  border-radius:var(--v5-r-control)!important;
+}
+body.product-body :is(.nova-card,.v3-surface,.v4-card,.section,.task-panel,.card-quick,.security-summary,.settings-panel) :is(.progress,.v3-progress,.v3-mini-progress,.v3-meter,.goal-timeline,.horizon-bar){
+  border-radius:999px!important;
+  overflow:hidden!important;
+}
+
+/* Pay: every parent card and every information row is visibly rounded. */
+body.product-body .v4-pay-grid{gap:16px!important}
+body.product-body .v4-pay-grid>.v4-card{
+  border-radius:30px!important;
+  border:1px solid var(--v5-line)!important;
+  background:#fff!important;
+  overflow:hidden!important;
+}
+body.product-body .v4-pay-list,
+body.product-body .v4-transfer-list{
+  display:grid!important;
+  gap:8px!important;
+}
+body.product-body .v4-pay-list>div,
+body.product-body .v4-transfer-list>a{
+  margin:0!important;
+  padding:11px 12px!important;
+  border:0!important;
+  border-radius:18px!important;
+  background:#f7f9fc!important;
+}
+body.product-body .v4-pay-list>div:nth-child(4n+1),body.product-body .v4-transfer-list>a:nth-child(4n+1){background:#eef6ff!important}
+body.product-body .v4-pay-list>div:nth-child(4n+2),body.product-body .v4-transfer-list>a:nth-child(4n+2){background:#eefaf6!important}
+body.product-body .v4-pay-list>div:nth-child(4n+3),body.product-body .v4-transfer-list>a:nth-child(4n+3){background:#fff1f7!important}
+body.product-body .v4-pay-list>div:nth-child(4n),body.product-body .v4-transfer-list>a:nth-child(4n){background:#fff8e1!important}
+body.product-body .v4-context-grid>div{
+  padding:12px!important;
+  border-radius:18px!important;
+  background:#f6f8fb!important;
+}
+body.product-body .v4-recipient-chips a{
+  border-radius:18px!important;
+  background:#f7f9fc!important;
+}
+body.product-body .v4-pay-actions .v4-action{
+  border-radius:20px!important;
+  overflow:hidden!important;
+}
+body.product-body .v4-search-box{border-radius:18px!important}
+body.product-body .v4-full-action{border-radius:18px!important}
+body.product-body .v4-icon-button{border-radius:14px!important}
+
+/* Legacy list groups: outer surface owns rounding, inner rows stay visually soft without square corners. */
+body.product-body .ledger{
+  padding:8px!important;
+  border-radius:var(--v5-r-card)!important;
+  background:#fff!important;
+}
+body.product-body .ledger-row{
+  margin:6px 0!important;
+  padding:14px 16px!important;
+  border:0!important;
+  border-radius:18px!important;
+  background:#f8fafc!important;
+}
+body.product-body .ledger-row:nth-child(3n+1){background:#eef6ff!important}
+body.product-body .ledger-row:nth-child(3n+2){background:#eefaf6!important}
+body.product-body .ledger-row:nth-child(3n){background:#fff1f7!important}
+body.product-body .ledger-row.is-risk{background:#fff0f3!important}
+
+/* Small internal cards and utility bars across every route. */
+body.product-body :is(.control-row,.review-row,.goal-ledger-row,.detail-row,.upcoming-row,.list-row){
+  margin:6px 0!important;
+  border:0!important;
+  border-radius:18px!important;
+  overflow:hidden!important;
+}
+body.product-body :is(.control-row,.review-row,.goal-ledger-row,.detail-row,.upcoming-row,.list-row)>*{min-width:0}
+
+@media (max-width:1199px){
+  body.product-body .v5-rail-primary,body.product-body .v5-rail-secondary,body.product-body .v5-rail-divider{display:none!important}
+}
+
+@media (max-height:760px) and (min-width:1200px){
+  body.product-body .v4-rail-nav{gap:6px!important}
+  body.product-body .v5-rail-primary,body.product-body .v5-rail-secondary{gap:4px!important}
+  body.product-body .v5-rail-icon{width:40px!important;height:40px!important;flex-basis:40px!important;border-radius:12px!important}
+  body.product-body .v5-rail-icon svg{width:19px!important;height:19px!important}
+  body.product-body .v4-rail-nav a>span:last-child{font-size:8px!important}
+}
