@@ -1,5 +1,5 @@
-/* Nova accessibility contrast pass — loaded last to preserve the visual direction
-   while meeting WCAG 2.2 AA text contrast on light surfaces. */
+/* Nova accessibility + responsive QA repair — loaded last to preserve the visual
+   direction while meeting WCAG 2.2 AA and preventing mobile overflow. */
 
 :root {
   --fi-muted: #5f6a64;
@@ -27,4 +27,55 @@ body.product-body .bottom-nav a:hover {
 body.product-body .bottom-nav a.active,
 body.product-body .bottom-nav a.active .nav-glyph {
   color: #ffffff !important;
+}
+
+/* Mobile grid children previously contributed their intrinsic min-content width,
+   widening the page beyond the viewport. Force every home-column boundary to
+   be shrinkable and size the hero amount to the actual phone canvas. */
+@media (max-width: 760px) {
+  body.product-body .page-grid.has-context {
+    grid-template-columns: minmax(0, 1fr) !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+  }
+
+  body.product-body .page-grid.has-context > *,
+  body.product-body .decision-field,
+  body.product-body .decision-top,
+  body.product-body .decision-copy,
+  body.product-body .decision-actions,
+  body.product-body .decision-action,
+  body.product-body .fi-horizon,
+  body.product-body .fi-chart,
+  body.product-body .fi-chart svg,
+  body.product-body .context-rail,
+  body.product-body .context-panel {
+    min-width: 0 !important;
+    max-width: 100% !important;
+  }
+
+  body.product-body .decision-actions {
+    width: 100% !important;
+  }
+
+  body.product-body .decision-action {
+    width: auto !important;
+  }
+}
+
+@media (max-width: 520px) {
+  body.product-body .money-amount {
+    display: block !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    font-size: clamp(3rem, 15vw, 4.2rem) !important;
+    line-height: .94 !important;
+    white-space: nowrap !important;
+  }
+
+  body.product-body .decision-actions {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
 }
