@@ -1,5 +1,5 @@
-/* Contrast repair for the pastel visual layer.
-   Keep pastel in surfaces, charts, and highlights; use darker ink for readable labels/actions. */
+/* Contrast repair + final visual polish for the pastel dashboard layer.
+   Pastel belongs in surfaces, charts and highlights; readable copy stays dark. */
 
 :root {
   --nova-secondary: #555d69;
@@ -43,6 +43,49 @@ body.product-body .fi-event b {
 body.product-body .btn-primary {
   background: #1264b5 !important;
   color: #fff !important;
+}
+
+/* The balance hero follows the same white-card language as the rest of the canvas.
+   Pastel is used as an accent rather than turning the whole card dark. */
+body.product-body .decision-top {
+  border: 1px solid rgba(17, 19, 24, .06) !important;
+  border-radius: 22px !important;
+  background:
+    radial-gradient(circle at 84% 2%, rgba(244, 166, 202, .24), transparent 28%),
+    radial-gradient(circle at 66% 0%, rgba(95, 168, 255, .20), transparent 30%),
+    linear-gradient(145deg, #ffffff 0%, #fbfdff 100%) !important;
+  color: #111318 !important;
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,.72) !important;
+}
+
+body.product-body .decision-top .eyebrow,
+body.product-body .decision-top .money-amount,
+body.product-body .decision-top .money-sub,
+body.product-body .decision-top .money-sub span {
+  color: #111318 !important;
+}
+
+body.product-body .decision-top .eyebrow,
+body.product-body .decision-top .money-sub,
+body.product-body .decision-top .money-sub span {
+  color: #59616d !important;
+}
+
+body.product-body .decision-top .fi-delta {
+  display: inline-flex !important;
+  width: fit-content !important;
+  padding: 6px 10px !important;
+  border-radius: 999px !important;
+  background: #eafaf5 !important;
+  color: #1f6a53 !important;
+}
+
+body.product-body .decision-top .decision-label {
+  color: #1f6a53 !important;
+}
+
+body.product-body .decision-top .decision-label::before {
+  background: #7fd9bd !important;
 }
 
 body.product-body .home-page .section .ledger {
