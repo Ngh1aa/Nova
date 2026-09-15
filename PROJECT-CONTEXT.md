@@ -1,96 +1,108 @@
-# NOVA — Project Context
+# Ledger — Project Context
 
 ## Project identity
 
-- **Project name:** NOVA — Personal Banking & Money Health
+- **Project name:** Ledger — Personal Banking & Money Planning
 - **Project type:** Mobile-first interactive UI/UX prototype / portfolio case
-- **Repository / workspace:** `https://github.com/Ngh1aa/Nova`; source methodology is `Ngh1aa/uiux-ai-workspace`
-- **Current stage:** Implementation / QA
+- **Repository / workspace:** `https://github.com/Ngh1aa/Nova`; the repository name is retained while the visible product is redesigned as Ledger.
+- **Source methodology:** `Ngh1aa/uiux-ai-workspace@221370ef294408f3f5a0c6a7fb0567c3db840c3e`
+- **Current stage:** Implementation / rendered QA
 - **Project mode:** `interactive_prototype`
 - **Responsive scope:** `responsive_all` (1440 / 1024 / 768 / 390)
+- **Release authority:** `create_pr_only`
 
 ## Project goal
 
-- **Primary goal:** Demonstrate portfolio-level consumer fintech product thinking through a believable personal banking experience centered on money health, transaction trust, KYC, cards, transfers, savings, and exception recovery.
-- **Success looks like:** A recruiter or Product Design Lead can follow realistic banking journeys, understand the decision logic behind them, inspect system states and responsive behavior, and see implementation/QA evidence without the work feeling like a generic fintech template.
-- **Primary users:** 18–30, digital-first, many recurring payments, want spending control without maintaining spreadsheets.
-- **Main user problems:**
-  1. Balance does not equal money safely available to spend.
-  2. Spending breakdowns are often retrospective instead of decision-oriented.
-  3. Upcoming bills and subscriptions are easy to forget.
-  4. Savings progress is fragmented from day-to-day spending.
-  5. Suspicious transactions require fast, trustworthy protective actions.
+Ledger demonstrates portfolio-level consumer-finance product thinking through a believable personal banking experience centered on safe-to-spend planning, transaction trust, KYC, cards, transfers, savings and exception recovery.
 
-## UX / product problem frame
+Success means a recruiter or Product Design Lead can follow realistic journeys, understand the decision logic, inspect system states and responsive behavior, and see implementation/QA evidence without the work feeling like a generic fintech template.
 
-- **Priority user / role:** Personal banking customer.
+### Primary users
+
+18–30, digital-first account owners with recurring payments who want spending control without maintaining spreadsheets.
+
+### Main user problems
+
+1. Balance does not equal money safely available to spend.
+2. Spending breakdowns are often retrospective instead of decision-oriented.
+3. Upcoming bills and subscriptions are easy to forget.
+4. Savings progress is fragmented from day-to-day spending.
+5. Suspicious transactions require fast, trustworthy protective actions.
+
+## Product problem frame
+
 - **Highest-value task:** Decide what money is truly safe to spend while preserving upcoming obligations and goals.
-- **Observed friction / unmet need:** `INFERRED` from benchmark synthesis: leading apps expose balance, spending, upcoming payments, savings and card controls, but these are commonly split into separate views/features. NOVA will compose them into one decision layer.
-- **Owner objective:** Demonstrate trust, engagement, self-service card security, and confident transaction/payment completion without misleading users.
-- **Primary behavior:** Check money health -> identify issue/opportunity -> act (review transaction, transfer, adjust savings, manage bill/card).
-- **User value:** Reduced mental math and clearer next action.
-- **Owner value:** More self-service, clearer high-risk actions, stronger trust signals in a simulated portfolio product.
-- **Critical journey:** Home -> Money Horizon -> suspicious transaction -> detail -> freeze -> confirmation -> review/report or unfreeze.
-- **Important recovery paths:** freeze/unfreeze, transaction dispute entry, biometric fallback, insufficient funds correction, offline retry, KYC capture retry/manual review.
-- **Evidence that could change the design:** Real target-market regulation, bank policy, actual account/card capabilities, real fraud signals, user study evidence, production analytics. All are `UNKNOWN`.
+- **Observed friction:** `INFERRED` from benchmark synthesis: leading products expose balance, upcoming payments, savings, transfers and card controls, but those concerns are frequently separated. Ledger composes them into one readable planning register.
+- **Primary behavior:** Check money position -> identify issue/opportunity -> act -> understand consequence/recovery.
+- **Critical journey:** Home -> Money Horizon -> unusual transaction -> detail -> freeze -> confirmation -> report/review or unfreeze.
+- **Secondary journey:** Home/Pay -> recipient -> amount -> review -> authentication -> simulated receipt.
+- **Recovery paths:** freeze/unfreeze, biometric fallback, insufficient funds correction, offline review, KYC capture retry/manual review.
+- **Unknown evidence:** real regulation, bank policy, production analytics, real fraud signals and primary user-study evidence remain `UNKNOWN`.
 
-## Product success and measurement
+## Visual direction
 
-No production metrics exist. Do not claim conversion, fraud reduction, retention, or improved financial outcomes.
+### Working direction
 
-### Planned validation signals
+**Modern Daybook — accountable / editorial / tactile / measured / readable.**
 
-- Hero flow task completion without misinterpreting “freeze” as “reverse transaction”.
-- User can explain “safe to spend” vs total balance after a 5-second exposure.
-- User can identify the next bill and whether a savings goal is on track.
-- User can recover from biometric failure and offline/insufficient-balance states.
-- Automated implementation checks: route integrity, interactions, keyboard, a11y, runtime, screenshot coverage, Lighthouse budgets.
+### Visual signature
 
-## Research and validation access
+**Ruled Money Ledger:** warm paper, hairline rules, bounded serif financial figures, date gutters, right-aligned values and a dated Money Horizon. The system borrows the structure of ledgers/statements/planners at low metaphor fidelity without fake paper texture, handwriting or vintage decoration.
 
-- **Existing user research:** UNKNOWN
-- **Existing usability evidence:** UNKNOWN
-- **Available production analytics:** UNKNOWN
-- **Current feasible validation:** benchmark research, heuristic review, prototype task testing (planned), accessibility/browser automation after implementation.
-- **High-risk hypotheses to test:**
-  - H1: “Safe to spend” is understood as a computed planning figure, not an account balance guarantee.
-  - H2: Money Horizon communicates committed vs available money faster than a conventional budget chart.
-  - H3: Users understand freeze-card consequences and do not expect it to cancel already-authorized transactions.
-  - H4: A suspicious-transaction alert can be urgent without being alarmist or falsely declaring fraud.
+### Must
+
+- Warm paper canvas and strong ink hierarchy.
+- Serif for financial figures and major editorial totals; system sans for controls/body.
+- Square corners across UI.
+- No decorative box shadows.
+- Sections and totals separated primarily by rules and spacing.
+- Distinct compositions for Home, Activity, Transaction Detail, Cards, Transfer, Savings and KYC.
+- Money Horizon remains a functional planning object.
+- Reduced motion, visible focus, ≥44px interaction targets and non-color state indicators.
+- Explicit prototype/simulation disclosure.
+
+### Must not
+
+- Rounded-card/pill-first fintech template grammar.
+- Purple/blue gradients, glass, glow or soft floating dashboard cards.
+- Giant figures that collide with adjacent controls.
+- Donut-chart-first dashboard.
+- Faux paper texture, stamps, handwriting, perforations or nostalgia styling.
+- Odometer/slot-machine money animation or confetti.
+- Fake testimonials/business metrics.
+- “Fraud detected” without evidence.
+- Imply freeze reverses authorized payments or merchant blocking cancels a subscription.
+
+## Product success and validation
+
+No production metrics exist. Do not claim conversion, fraud reduction, retention or improved financial outcomes.
+
+Planned/implemented verification signals:
+
+- Hero flow completes without confusing freeze with reversal.
+- Safe-to-spend remains visibly distinct from total balance.
+- Upcoming commitments and protected buffer remain understandable.
+- Transfer review exposes recipient, amount and resulting safe-to-spend.
+- Biometric/offline/insufficient-funds/KYC recovery paths remain usable.
+- Shared visual contract has automated regression coverage for overflow, Home amount/action collision, square-corner action styling and serif financial figures.
+- Cloud implementation checks cover route integrity, interactions, browser rendering, automated accessibility and Lighthouse budgets.
 
 ## Source of truth
 
-- User project brief for NOVA.
-- `Ngh1aa/uiux-ai-workspace` operating contract, UIUX Factory, skills_UIUX and cloud QA policy.
-- Phase-1 artifacts in `docs/uiux/`.
-- Official benchmark/help documentation listed in `Research-Synthesis.md`.
+1. User brief for Ledger.
+2. `.uiux-profile.json`.
+3. `docs/uiux/Ledger-Research-2026.md`.
+4. `docs/uiux/Ledger-Design-Contract-2026.md`.
+5. `docs/uiux/IA-and-Flows.md`.
+6. `docs/uiux/Component-State-Contract.md`.
+7. `Ngh1aa/uiux-ai-workspace` operating contract / UIUX Factory / `skills_UIUX`.
 
 ## Technology
 
-- **Target frontend:** static HTML/CSS/JavaScript, implemented as a GitHub Pages-friendly interactive prototype.
-- **Architecture:** shared `assets/nova.css` + `assets/nova.js`; product states routed through `app.html?screen=...`; evidence pages are standalone HTML.
-- **Backend/database:** N/A for prototype; banking operations are simulated.
-- **Deployment:** planned GitHub Pages.
-
-## Constraints
-
-### Must
-- Calm / clear / human.
-- Mobile-first consumer banking realism.
-- Money Horizon as visual signature.
-- KYC, transaction, card controls, transfer, savings/subscriptions/security flows.
-- Important states actually exercised in prototype.
-- Reduced motion; keyboard/focus; ≥44px touch targets; non-color state indicators.
-- Explicitly mark prototype data and simulated capabilities.
-
-### Must not
-- Purple fintech gradient template.
-- Gambling/casino-like money animation or number rolling.
-- Donut-chart-first dashboard.
-- Card-grid overload.
-- Fake testimonials or business metrics.
-- “Fraud” declaration without evidence; use review/risk language.
-- Hide the difference between blocking future payments and cancelling a merchant subscription.
+- **Frontend:** static HTML/CSS/JavaScript, GitHub Pages-compatible.
+- **Architecture:** existing `assets/nova.css` + `assets/nova.js` interaction model is preserved; `assets/ledger.css` owns the Ledger visual layer; product states route through `app.html?screen=...`; evidence pages are standalone HTML.
+- **Backend/database:** N/A; banking operations are simulated.
+- **Release:** feature branch -> cloud QA/rendered critique -> PR. Merge/deploy are outside current `create_pr_only` authority.
 
 ## System reality
 
@@ -98,19 +110,20 @@ No production metrics exist. Do not claim conversion, fraud reduction, retention
 |---|---|---|
 | Account balances | STATIC/SIMULATED | Prototype data only |
 | Money Horizon | SIMULATED computation | Formula is transparent in UI |
-| Transaction risk flag | SIMULATED | “Needs review”; no real fraud claim |
-| Freeze/unfreeze | SIMULATED state | Explain consequences accurately |
-| Transfers | SIMULATED | Never claim money moved |
+| Transaction risk flag | SIMULATED | “Needs review”; no confirmed-fraud claim |
+| Freeze/unfreeze | SIMULATED | Explain consequences accurately |
+| Transfers | SIMULATED | Never claim real money moved |
 | KYC | SIMULATED | No real identity verification |
 | Biometrics | SIMULATED | Interaction/state demo only |
 | Notifications | SIMULATED | Prototype events |
 
-## Definition of Done for the full project
+## Definition of Done
 
-1. Target repo and feature branch exist. ✅
-2. Required product screens and portfolio evidence screens are implemented.
-3. Hero + secondary + exception/recovery/security flows are interactive.
-4. Responsive behavior verified at 1440/1024/768/390.
-5. Cloud QA runs on target implementation with Playwright/axe/Lighthouse and screenshots.
-6. Rendered screenshots are manually inspected; critique/repair loop closes P0/P1 issues.
-7. PR is created; merge happens only after applicable gates pass and authorization is clear.
+1. Ledger research and Design Contract are canonical. ✅
+2. Visible product/evidence identity and visual system are implemented on an isolated feature branch.
+3. Existing hero/secondary/exception/recovery/security flows remain interactive.
+4. Responsive behavior is verified at 1440 / 1024 / 768 / 390.
+5. UIUX Factory cloud QA runs on the exact target implementation using Playwright/axe/Lighthouse and screenshots.
+6. Rendered screenshots are manually opened and critiqued; P0/P1 issues are repaired and re-run.
+7. Lighthouse thresholds are not weakened.
+8. A PR is created only after due-now gates pass; merge/deploy require later explicit authorization.
