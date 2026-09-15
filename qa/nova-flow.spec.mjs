@@ -41,7 +41,7 @@ test('core transfer flow works', async ({ page }) => {
   await expect(page.getByText('€1,155.00').first()).toBeVisible();
   await page.getByRole('button', { name: 'Confirm with biometrics' }).click();
   await page.getByRole('dialog').getByRole('button', { name: 'Approve demo' }).click();
-  await expect(page.getByRole('heading', { name: 'Transfer prepared' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Transfer successful' })).toBeVisible();
   await expect(page.getByText('No real money moved.')).toBeVisible();
 });
 
