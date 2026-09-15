@@ -1,0 +1,36 @@
+/* Keep the pastel visual system while restoring WCAG AA text contrast. */
+body.product-body .nova-top-tabs a.active,
+body.product-body .nova-card-head a,
+body.product-body .nova-insight-banner a {
+  color: #1f66ad !important;
+}
+
+body.product-body .nova-profile-chip small,
+body.product-body .nova-profile-chip b {
+  color: #66515e !important;
+}
+
+body.product-body .nova-account-row small,
+body.product-body .nova-card-head > div > small,
+body.product-body .nova-bill-row small,
+body.product-body .nova-txn-row small,
+body.product-body .nova-bars em,
+body.product-body .nova-chart-legend,
+body.product-body .nova-axis text,
+body.product-body .nova-card-spend span,
+body.product-body .nova-card-spend small,
+body.product-body .nova-category-list span,
+body.product-body .nova-donut small,
+body.product-body .nova-progress-ring small,
+body.product-body .nova-date-pill,
+body.product-body .nova-forecast-total span {
+  color: #555d69 !important;
+}
+
+body.product-body .nova-txn-row.positive > b {
+  color: #1f6a53 !important;
+}
+
+body.product-body .nova-txn-row.risk small {
+  color: #66515e !important;
+}
