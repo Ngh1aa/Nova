@@ -97,10 +97,44 @@ test('material screen roles use distinct composition families', async ({ page })
   await expect(page.locator('.document-sheet')).toBeVisible();
 });
 
+test('Ledger visual contract prevents the user-caught Home overlap regression', async ({ page }) => {
+  for (const [width, height] of [[390, 844], [768, 1024], [1024, 900], [1440, 1000]]) {
+    await page.setViewportSize({ width, height });
+    await page.goto('/app.html?screen=home');
+    await expect(page.getByText('Ledger').first()).toBeVisible();
+
+    const state = await page.evaluate(() => {
+      const amount = document.querySelector('.money-amount');
+      const actions = [...document.querySelectorAll('.decision-action')];
+      const amountRect = amount.getBoundingClientRect();
+      const overlaps = actions.some(action => {
+        const rect = action.getBoundingClientRect();
+        return !(amountRect.right <= rect.left || amountRect.left >= rect.right || amountRect.bottom <= rect.top || amountRect.top >= rect.bottom);
+      });
+      const actionStyle = getComputedStyle(actions[0]);
+      const amountStyle = getComputedStyle(amount);
+      return {
+        overlaps,
+        actionRadius: actionStyle.borderRadius,
+        actionShadow: actionStyle.boxShadow,
+        amountRight: amountRect.right,
+        viewportWidth: document.documentElement.clientWidth,
+        amountFontFamily: amountStyle.fontFamily
+      };
+    });
+
+    expect(state.overlaps, `Safe-to-spend amount overlaps actions at ${width}px`).toBeFalsy();
+    expect(state.amountRight, `Safe-to-spend amount escapes viewport at ${width}px`).toBeLessThanOrEqual(state.viewportWidth + 1);
+    expect(parseFloat(state.actionRadius)).toBe(0);
+    expect(state.actionShadow).toBe('none');
+    expect(state.amountFontFamily.toLowerCase()).toContain('georgia');
+  }
+});
+
 test('responsive rendered evidence covers product roles at 390 / 768 / 1024 / 1440', async ({ page }) => {
   await page.goto('/app.html?screen=home');
   for (const [w, h] of [[390, 844], [768, 1024], [1024, 900], [1440, 1000]]) {
-    await shot(page, 'nova-home', w, h);
+    await shot(page, 'ledger-home', w, h);
   }
 
   const evidence = [
@@ -117,14 +151,14 @@ test('responsive rendered evidence covers product roles at 390 / 768 / 1024 / 14
   for (const [name, route, widths] of evidence) {
     await page.goto(route);
     for (const width of widths) {
-      await shot(page, `nova-${name}`, width, width === 390 ? 844 : width === 1024 ? 900 : 1000);
+      await shot(page, `ledger-${name}`, width, width === 390 ? 844 : width === 1024 ? 900 : 1000);
     }
   }
 
   await page.goto('/prototype.html');
-  await shot(page, 'nova-prototype', 1440, 1000);
+  await shot(page, 'ledger-prototype', 1440, 1000);
   await page.goto('/component-states.html');
-  await shot(page, 'nova-component-states', 1440, 1000);
+  await shot(page, 'ledger-component-states', 1440, 1000);
   await page.goto('/design-system.html');
-  await shot(page, 'nova-design-system', 1440, 1000);
+  await shot(page, 'ledger-design-system', 1440, 1000);
 });
