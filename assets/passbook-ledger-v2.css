@@ -1,0 +1,294 @@
+/* Nova 2026 — The Passbook Ledger v2
+   High-fidelity domain metaphor: ruled accounting paper + bank passbook.
+   Loaded last so the signature structure wins over previous theme layers. */
+
+:root {
+  --pb-paper: #f2ecdc;
+  --pb-page: #faf6ea;
+  --pb-track: #ece3cc;
+  --pb-ink: #241f16;
+  --pb-text: #524731;
+  --pb-muted: #6f634a; /* accessible small-text treatment of the muted family */
+  --pb-rule: #d6c9a4;
+  --pb-red: #b5453a;
+  --pb-safe: #5c6b47;
+  --pb-safe-bg: #e6e8d6;
+  --pb-committed: #a9782d;
+  --pb-committed-bg: #f0e2c2;
+  --pb-buffer: #8c8067;
+  --pb-buffer-bg: #e8e1cd;
+  --pb-risk: #8c3b2c;
+  --pb-risk-bg: #f0ddd1;
+  --pb-serif: 'Source Serif 4', Georgia, serif;
+  --pb-sans: 'Inter', system-ui, sans-serif;
+}
+
+html, body, body.product-body { background: var(--pb-paper) !important; color: var(--pb-ink) !important; }
+body.passbook-v2 { font-family: var(--pb-sans) !important; }
+body.passbook-v2 *, body.passbook-v2 *::before, body.passbook-v2 *::after { box-shadow: none !important; }
+body.passbook-v2 .app-shell { grid-template-columns: 240px minmax(0, 1fr) !important; }
+body.passbook-v2 .app-stage { min-width: 0; background: var(--pb-paper) !important; }
+body.passbook-v2 .sidebar { width: 240px !important; background: var(--pb-page) !important; border-right: 1px solid var(--pb-rule) !important; }
+body.passbook-v2 .sidebar-account > span,
+body.passbook-v2 .meta,
+body.passbook-v2 .eyebrow,
+body.passbook-v2 time,
+body.passbook-v2 small,
+body.passbook-v2 .field-hint,
+body.passbook-v2 .list-sub { color: var(--pb-muted) !important; }
+body.passbook-v2 .eyebrow { text-transform: none !important; letter-spacing: 0 !important; font-size: 11px !important; font-weight: 600 !important; }
+body.passbook-v2 .brand-mark,
+body.passbook-v2 .avatar,
+body.passbook-v2 .icon-btn,
+body.passbook-v2 .receipt-mark,
+body.passbook-v2 .empty-mark,
+body.passbook-v2 .attention-mark { border-radius: 0 !important; }
+body.passbook-v2 .brand-mark { background: transparent !important; border: 1px solid var(--pb-ink) !important; color: var(--pb-ink) !important; }
+body.passbook-v2 .side-nav a { border-radius: 0 !important; border-left: 3px solid transparent !important; }
+body.passbook-v2 .side-nav a.active { background: var(--pb-track) !important; color: var(--pb-ink) !important; border-left-color: var(--pb-red) !important; }
+body.passbook-v2 .side-bottom p { color: var(--pb-text) !important; }
+
+body.passbook-v2 h1,
+body.passbook-v2 h2,
+body.passbook-v2 .money-amount,
+body.passbook-v2 .goal-amount,
+body.passbook-v2 .dossier-amount,
+body.passbook-v2 .dossier-title,
+body.passbook-v2 .cashflow-item strong,
+body.passbook-v2 .recurring-total strong,
+body.passbook-v2 .pb-money,
+body.passbook-v2 .pb-balance,
+body.passbook-v2 .pb-amount { font-family: var(--pb-serif) !important; font-variant-numeric: tabular-nums; }
+body.passbook-v2 .money-amount { font-size: clamp(3.5rem, 6.2vw, 4.5rem) !important; font-weight: 500 !important; letter-spacing: -.01em !important; }
+body.passbook-v2 h1 { font-weight: 500 !important; }
+body.passbook-v2 h2 { font-weight: 500 !important; }
+
+body.passbook-v2 .main-wrap { max-width: 1500px !important; padding: 40px 44px 72px !important; }
+body.passbook-v2 .page-grid.has-context { grid-template-columns: minmax(0, 1fr) minmax(260px, 310px) !important; gap: 24px !important; align-items: start; }
+body.passbook-v2 .section,
+body.passbook-v2 .decision-field,
+body.passbook-v2 .context-panel,
+body.passbook-v2 .task-panel,
+body.passbook-v2 .impact-panel,
+body.passbook-v2 .evidence-panel,
+body.passbook-v2 .receipt,
+body.passbook-v2 .document-sheet,
+body.passbook-v2 .goal-hero,
+body.passbook-v2 .dossier-hero,
+body.passbook-v2 .security-summary,
+body.passbook-v2 .recurring-total,
+body.passbook-v2 .callout,
+body.passbook-v2 .dialog { border-radius: 0 !important; }
+
+/* A real ledger page: heavy top rule, hairlines, red accounting margin. */
+body.passbook-v2 .pb-ledger-page,
+body.passbook-v2 .decision-field,
+body.passbook-v2 .context-panel,
+body.passbook-v2 .task-panel,
+body.passbook-v2 .impact-panel,
+body.passbook-v2 .document-sheet,
+body.passbook-v2 .receipt,
+body.passbook-v2 .dossier-hero,
+body.passbook-v2 .goal-hero {
+  position: relative;
+  background: var(--pb-page) !important;
+  border: 1px solid var(--pb-rule) !important;
+  border-top: 3px solid var(--pb-ink) !important;
+  overflow: hidden;
+}
+body.passbook-v2 .pb-ledger-page::before,
+body.passbook-v2 .decision-field::before,
+body.passbook-v2 .context-panel::before,
+body.passbook-v2 .task-panel::before,
+body.passbook-v2 .impact-panel::before,
+body.passbook-v2 .document-sheet::before,
+body.passbook-v2 .receipt::before,
+body.passbook-v2 .dossier-hero::before,
+body.passbook-v2 .goal-hero::before {
+  content: '';
+  position: absolute;
+  left: 32px;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: var(--pb-red);
+  pointer-events: none;
+  z-index: 0;
+}
+body.passbook-v2 .decision-field > *,
+body.passbook-v2 .context-panel > *,
+body.passbook-v2 .task-panel > *,
+body.passbook-v2 .impact-panel > *,
+body.passbook-v2 .document-sheet > *,
+body.passbook-v2 .receipt > *,
+body.passbook-v2 .dossier-hero > *,
+body.passbook-v2 .goal-hero > * { position: relative; z-index: 1; }
+body.passbook-v2 .decision-field,
+body.passbook-v2 .context-panel,
+body.passbook-v2 .task-panel,
+body.passbook-v2 .impact-panel,
+body.passbook-v2 .document-sheet,
+body.passbook-v2 .receipt,
+body.passbook-v2 .dossier-hero,
+body.passbook-v2 .goal-hero { padding-left: 56px !important; }
+
+/* Home: an editorial passbook spread, not a card dashboard. */
+body.passbook-v2 .home-kicker { border-bottom: 1px solid var(--pb-ink) !important; padding-bottom: 12px !important; margin-bottom: 18px !important; }
+body.passbook-v2 .decision-field { padding-top: 28px !important; }
+body.passbook-v2 .decision-top { border-bottom: 1px solid var(--pb-rule) !important; padding-bottom: 24px !important; }
+body.passbook-v2 .decision-label { display: flex; align-items: center; gap: 8px; font-weight: 600; }
+body.passbook-v2 .decision-label::before { content: ''; width: 22px; height: 2px; background: var(--pb-safe); }
+body.passbook-v2 .money-sub { border-top: 1px solid var(--pb-rule); margin-top: 18px; padding-top: 10px; }
+body.passbook-v2 .decision-actions { display: grid !important; grid-template-columns: 1fr !important; align-content: end; }
+body.passbook-v2 .decision-action { border: 0 !important; border-top: 1px solid var(--pb-rule) !important; background: transparent !important; padding: 12px 0 !important; border-radius: 0 !important; }
+body.passbook-v2 .decision-action svg { width: 18px; height: 18px; }
+body.passbook-v2 .attention-strip { border: 1px solid var(--pb-risk) !important; border-radius: 0 !important; background: var(--pb-risk-bg) !important; }
+
+/* Money Horizon becomes a three-line ledger extract. */
+body.passbook-v2 .pb-horizon { margin-top: 28px; border-top: 1px solid var(--pb-ink); border-bottom: 1px solid var(--pb-ink); }
+body.passbook-v2 .pb-horizon-head { display: flex; align-items: end; justify-content: space-between; gap: 20px; padding: 15px 0 12px; }
+body.passbook-v2 .pb-horizon-head h2 { margin: 0; font-size: 27px !important; }
+body.passbook-v2 .pb-horizon-head p { margin: 3px 0 0; color: var(--pb-text); font-size: 13px; }
+body.passbook-v2 .pb-horizon-row { display: grid; grid-template-columns: minmax(110px, .8fr) 110px minmax(90px, 1fr); gap: 16px; align-items: center; min-height: 48px; border-top: 1px solid var(--pb-rule); }
+body.passbook-v2 .pb-horizon-row strong { font-weight: 600; }
+body.passbook-v2 .pb-horizon-row .pb-money { text-align: right; font-size: 17px; }
+body.passbook-v2 .pb-inline-track { height: 3px; background: var(--pb-track); overflow: hidden; }
+body.passbook-v2 .pb-inline-track > span { display: block; height: 100%; transform-origin: left; animation: pb-rule-fill .7s cubic-bezier(.2,.8,.2,1) both; }
+body.passbook-v2 .pb-horizon-row.safe .pb-inline-track > span { background: var(--pb-safe); }
+body.passbook-v2 .pb-horizon-row.committed .pb-inline-track > span { background: var(--pb-committed); }
+body.passbook-v2 .pb-horizon-row.buffer .pb-inline-track > span { background: var(--pb-buffer); }
+body.passbook-v2 .pb-horizon-note { padding: 10px 0 12px; margin: 0; border-top: 1px solid var(--pb-rule); color: var(--pb-text); font-size: 12px; }
+
+/* Literal accounting table. */
+body.passbook-v2 .pb-table-wrap { width: 100%; overflow-x: auto; border-top: 1px solid var(--pb-ink); border-bottom: 1px solid var(--pb-ink); background: transparent; }
+body.passbook-v2 table.pb-ledger-table { width: 100%; border-collapse: collapse; table-layout: fixed; font-size: 13px; }
+body.passbook-v2 .pb-ledger-table th { font: 600 11px/1.2 var(--pb-sans); color: var(--pb-text); text-align: left; padding: 10px 8px; border-bottom: 1px solid var(--pb-ink); background: var(--pb-track); text-transform: none; letter-spacing: 0; }
+body.passbook-v2 .pb-ledger-table td { padding: 11px 8px; border-bottom: 1px solid var(--pb-rule); vertical-align: middle; color: var(--pb-text); }
+body.passbook-v2 .pb-ledger-table tbody tr:last-child td { border-bottom: 0; }
+body.passbook-v2 .pb-ledger-table .pb-date { width: 82px; color: var(--pb-muted); font-size: 11px; font-weight: 600; }
+body.passbook-v2 .pb-ledger-table .pb-desc { width: auto; color: var(--pb-ink); font-weight: 600; }
+body.passbook-v2 .pb-ledger-table .pb-debit,
+body.passbook-v2 .pb-ledger-table .pb-credit,
+body.passbook-v2 .pb-ledger-table .pb-balance { width: 118px; text-align: right; font-family: var(--pb-serif); font-size: 15px; font-variant-numeric: tabular-nums; white-space: nowrap; }
+body.passbook-v2 .pb-ledger-table .pb-debit.is-risk { color: var(--pb-red); font-weight: 600; }
+body.passbook-v2 .pb-ledger-table .pb-balance { color: var(--pb-ink); }
+body.passbook-v2 .pb-ledger-table tr.is-risk .pb-desc { color: var(--pb-risk); }
+body.passbook-v2 .pb-ledger-table a { color: inherit; text-decoration: none; }
+body.passbook-v2 .pb-ledger-table a:hover { text-decoration: underline; }
+body.passbook-v2 .pb-stamp { display: inline-block; margin-left: 7px; padding: 1px 5px; border: 1px solid currentColor; color: var(--pb-safe); font: 700 10px/1.3 var(--pb-sans); letter-spacing: .035em; text-transform: uppercase; transform: rotate(-3deg); vertical-align: 1px; white-space: nowrap; }
+body.passbook-v2 .pb-stamp.risk { color: var(--pb-risk); transform: rotate(-2deg); }
+body.passbook-v2 .pb-stamp.ochre { color: var(--pb-committed); }
+
+/* Statement page. */
+body.passbook-v2 .activity-header { border-top: 3px solid var(--pb-ink) !important; border-bottom: 1px solid var(--pb-ink) !important; background: var(--pb-page) !important; padding: 24px 28px !important; }
+body.passbook-v2 .activity-header h1 { font-size: clamp(3.5rem, 7vw, 6.5rem) !important; letter-spacing: -.025em; }
+body.passbook-v2 .cashflow-strip { border-top: 1px solid var(--pb-rule) !important; }
+body.passbook-v2 .cashflow-item { border-right: 1px solid var(--pb-rule) !important; }
+body.passbook-v2 .ledger-toolbar { border: 1px solid var(--pb-rule) !important; border-radius: 0 !important; background: var(--pb-page) !important; }
+
+/* Transaction dossier. */
+body.passbook-v2 .dossier-title { font-size: clamp(2.8rem, 6vw, 5.6rem) !important; }
+body.passbook-v2 .dossier-amount { color: var(--pb-red) !important; }
+body.passbook-v2 .risk-reasons { gap: 8px !important; }
+body.passbook-v2 .risk-chip { border-radius: 0 !important; background: var(--pb-risk-bg) !important; color: var(--pb-risk) !important; border: 1px solid var(--pb-risk) !important; }
+body.passbook-v2 .pb-risk-flag { margin-top: 16px; border: 1px solid var(--pb-risk); background: var(--pb-risk-bg); padding: 10px 12px; color: var(--pb-risk); font-weight: 700; }
+body.passbook-v2 .protection-band { border-top: 3px solid var(--pb-ink) !important; background: transparent !important; }
+body.passbook-v2 .action-stack .btn { width: 100%; }
+
+/* Transfer worksheet. */
+body.passbook-v2 .page-heading { border-bottom: 1px solid var(--pb-ink) !important; padding-bottom: 16px !important; }
+body.passbook-v2 .stepper span { border-radius: 0 !important; height: 3px !important; }
+body.passbook-v2 .recipient-card { border: 0 !important; border-top: 1px solid var(--pb-rule) !important; border-bottom: 1px solid var(--pb-rule) !important; border-radius: 0 !important; background: transparent !important; }
+body.passbook-v2 .avatar { background: transparent !important; border: 1px solid var(--pb-ink) !important; color: var(--pb-ink) !important; }
+body.passbook-v2 .input { border-radius: 0 !important; border-color: var(--pb-ink) !important; background: var(--pb-page) !important; }
+body.passbook-v2 .input:focus { outline: 2px solid var(--pb-ink) !important; outline-offset: 2px; }
+body.passbook-v2 .btn { border-radius: 0 !important; min-height: 44px; }
+body.passbook-v2 .btn-primary { background: var(--pb-ink) !important; border-color: var(--pb-ink) !important; color: var(--pb-page) !important; }
+body.passbook-v2 .btn-primary:hover { background: var(--pb-text) !important; }
+body.passbook-v2 .btn-secondary { background: transparent !important; color: var(--pb-ink) !important; border-color: var(--pb-ink) !important; }
+body.passbook-v2 .btn-risk { background: var(--pb-risk) !important; border-color: var(--pb-risk) !important; color: #fff !important; }
+body.passbook-v2 .amount-input { font-family: var(--pb-serif) !important; font-size: clamp(2.8rem, 5vw, 4.5rem) !important; font-variant-numeric: tabular-nums; }
+body.passbook-v2 .pb-balance-after { display: flex; justify-content: space-between; gap: 16px; margin-top: 10px; padding: 9px 0; border-top: 1px solid var(--pb-rule); border-bottom: 1px solid var(--pb-rule); color: var(--pb-text); }
+body.passbook-v2 .pb-balance-after strong { font-family: var(--pb-serif); color: var(--pb-ink); font-variant-numeric: tabular-nums; }
+body.passbook-v2 .review-list.pb-review-notes { border-top: 1px solid var(--pb-rule) !important; }
+body.passbook-v2 .biometric-dialog { border-top: 3px solid var(--pb-ink) !important; background: var(--pb-page) !important; }
+body.passbook-v2 .biometric-frame { width: 88px !important; height: 88px !important; border-radius: 0 !important; background: transparent !important; border: 1px solid var(--pb-ink) !important; }
+body.passbook-v2 .biometric-amount { font-size: 3rem !important; }
+
+/* Savings, subscriptions and formal notices. */
+body.passbook-v2 .goal-timeline,
+body.passbook-v2 .progress { height: 3px !important; border-radius: 0 !important; background: var(--pb-track) !important; }
+body.passbook-v2 .progress > span { background: var(--pb-safe) !important; border-radius: 0 !important; }
+body.passbook-v2 .document-sheet { min-height: 420px; }
+body.passbook-v2 .capture-frame { border: 1px dashed var(--pb-ink) !important; border-radius: 0 !important; background: var(--pb-track) !important; }
+body.passbook-v2 .kyc-capture { background: transparent !important; border: 0 !important; }
+body.passbook-v2 .empty-state { border-top: 3px solid var(--pb-ink) !important; border-left: 1px solid var(--pb-rule) !important; border-right: 1px solid var(--pb-rule) !important; border-bottom: 1px solid var(--pb-rule) !important; background: var(--pb-page) !important; text-align: left !important; max-width: 760px !important; margin-inline: auto; }
+body.passbook-v2 .empty-state .empty-mark { display: none !important; }
+
+/* Context rail is a second ledger leaf, not a widget. */
+body.passbook-v2 .context-panel { padding-top: 24px !important; }
+body.passbook-v2 .pulse-bars { border-bottom: 1px solid var(--pb-ink) !important; }
+body.passbook-v2 .pulse-bars span { background: var(--pb-buffer) !important; border-radius: 0 !important; }
+body.passbook-v2 .pulse-bars span.current { background: var(--pb-safe) !important; }
+body.passbook-v2 .insight-line { border-top: 1px solid var(--pb-rule) !important; }
+
+/* Recovery: plain facts, no illustration language. */
+body.passbook-v2 .callout-warning,
+body.passbook-v2 .callout-risk { border-radius: 0 !important; }
+body.passbook-v2 .callout-risk { border-color: var(--pb-risk) !important; background: var(--pb-risk-bg) !important; }
+body.passbook-v2 .callout-warning { border-color: var(--pb-committed) !important; background: var(--pb-committed-bg) !important; }
+
+@keyframes pb-rule-fill { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+@keyframes pb-rise { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+body.passbook-v2 .decision-field,
+body.passbook-v2 .activity-header,
+body.passbook-v2 .dossier-hero,
+body.passbook-v2 .task-panel,
+body.passbook-v2 .goal-hero,
+body.passbook-v2 .receipt { animation: pb-rise .48s cubic-bezier(.2,.8,.2,1) both; }
+body.passbook-v2 a, body.passbook-v2 button { transition: background-color .16s ease, color .16s ease, border-color .16s ease; }
+
+@media (max-width: 1100px) {
+  body.passbook-v2 .page-grid.has-context,
+  body.passbook-v2 .transfer-grid,
+  body.passbook-v2 .dossier-layout { grid-template-columns: 1fr !important; }
+  body.passbook-v2 .context-rail { max-width: none !important; }
+}
+@media (max-width: 900px) {
+  body.passbook-v2 .app-shell { display: block !important; }
+  body.passbook-v2 .sidebar { display: none !important; }
+  body.passbook-v2 .main-wrap { padding: 24px 24px 96px !important; }
+}
+@media (max-width: 620px) {
+  body.passbook-v2 .main-wrap { padding: 18px 14px 92px !important; }
+  body.passbook-v2 .decision-field,
+  body.passbook-v2 .context-panel,
+  body.passbook-v2 .task-panel,
+  body.passbook-v2 .impact-panel,
+  body.passbook-v2 .document-sheet,
+  body.passbook-v2 .receipt,
+  body.passbook-v2 .dossier-hero,
+  body.passbook-v2 .goal-hero { padding-left: 38px !important; padding-right: 14px !important; }
+  body.passbook-v2 .pb-ledger-page::before,
+  body.passbook-v2 .decision-field::before,
+  body.passbook-v2 .context-panel::before,
+  body.passbook-v2 .task-panel::before,
+  body.passbook-v2 .impact-panel::before,
+  body.passbook-v2 .document-sheet::before,
+  body.passbook-v2 .receipt::before,
+  body.passbook-v2 .dossier-hero::before,
+  body.passbook-v2 .goal-hero::before { left: 22px; }
+  body.passbook-v2 .decision-top { grid-template-columns: 1fr !important; }
+  body.passbook-v2 .pb-horizon-row { grid-template-columns: 1fr auto; gap: 8px 12px; padding: 8px 0; }
+  body.passbook-v2 .pb-inline-track { grid-column: 1 / -1; }
+  body.passbook-v2 .pb-ledger-table { min-width: 670px; }
+  body.passbook-v2 .activity-header { padding: 18px 14px !important; }
+  body.passbook-v2 .activity-header h1 { font-size: 3.6rem !important; }
+  body.passbook-v2 .cashflow-strip { grid-template-columns: 1fr !important; }
+  body.passbook-v2 .cashflow-item { border-right: 0 !important; border-bottom: 1px solid var(--pb-rule); }
+  body.passbook-v2 .money-amount { font-size: 3.35rem !important; }
+  body.passbook-v2 .dossier-title { font-size: 3rem !important; }
+}
+@media (prefers-reduced-motion: reduce) {
+  body.passbook-v2 *, body.passbook-v2 *::before, body.passbook-v2 *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+}
