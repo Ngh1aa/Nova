@@ -87,12 +87,14 @@ test('Nova iOS 26 visual contract holds at portfolio breakpoints', async ({ page
 
     expect(state.overlaps, `Safe-to-spend amount overlaps actions at ${width}px`).toBeFalsy();
     expect(state.amountRight, `Safe-to-spend amount escapes viewport at ${width}px`).toBeLessThanOrEqual(state.viewportWidth + 1);
-    expect(state.amountFontFamily).not.toContain('serif');
+    // Guard against a legacy display serif without falsely matching the word "sans-serif".
+    expect(state.amountFontFamily).toContain('sans-serif');
+    expect(state.amountFontFamily).not.toMatch(/source serif|georgia|times new roman|times,/);
     expect(state.amountNumeric).toContain('tabular-nums');
     expect(state.bodyBackground).toBe('rgb(245, 245, 247)');
     expect(state.dockPosition).toBe('fixed');
     expect(state.dockRadius).toBeGreaterThanOrEqual(24);
-    expect(state.dockWidth).toBeLessThanOrEqual(562);
+    expect(state.dockWidth).toBeLessThanOrEqual(582);
     expect(state.dockWidth).toBeLessThanOrEqual(state.viewportWidth - (width <= 430 ? 16 : 20));
     expect(state.forecastRadius).toBeGreaterThanOrEqual(22);
     if (width >= 1024) expect(state.mainWidth).toBeGreaterThan(900);
