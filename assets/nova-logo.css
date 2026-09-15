@@ -1,0 +1,27 @@
+/* Approved Nova logo lockup */
+body.product-body .brand {
+  min-width: 0 !important;
+  gap: 0 !important;
+  text-decoration: none !important;
+}
+
+body.product-body .brand-lockup {
+  display: block !important;
+  width: auto !important;
+  height: 38px !important;
+  max-width: 146px !important;
+  object-fit: contain !important;
+}
+
+body.product-body .mobile-topbar .brand-lockup {
+  height: 36px !important;
+  max-width: 138px !important;
+}
+
+@media (max-width: 520px) {
+  body.product-body .brand-lockup,
+  body.product-body .mobile-topbar .brand-lockup {
+    height: 32px !important;
+    max-width: 124px !important;
+  }
+}
