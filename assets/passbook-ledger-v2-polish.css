@@ -1,0 +1,73 @@
+/* Passbook Ledger v2 — final composition refinements */
+
+/* Home reads as one continuous accounting page, not a stack of warm cards. */
+body.passbook-v2 .home-page .page-grid.has-context > div:first-child {
+  position: relative;
+  background: var(--pb-page);
+  border: 1px solid var(--pb-rule);
+  border-top: 3px solid var(--pb-ink);
+  padding: 0 24px 24px 56px;
+  overflow: hidden;
+}
+body.passbook-v2 .home-page .page-grid.has-context > div:first-child::before {
+  content: '';
+  position: absolute;
+  left: 32px;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: var(--pb-red);
+  pointer-events: none;
+}
+body.passbook-v2 .home-page .decision-field {
+  border: 0 !important;
+  border-top: 0 !important;
+  padding: 28px 0 0 !important;
+  overflow: visible;
+}
+body.passbook-v2 .home-page .decision-field::before { display: none !important; }
+body.passbook-v2 .home-page .section {
+  margin: 0 !important;
+  padding: 28px 0 !important;
+  border: 0 !important;
+  border-top: 1px solid var(--pb-ink) !important;
+  background: transparent !important;
+}
+body.passbook-v2 .home-page .section + .section { margin-top: 0 !important; }
+
+/* Any standalone table section becomes a literal ledger leaf with its own margin rule. */
+body.passbook-v2 .main-wrap:not(.home-page) .section:has(> .pb-table-wrap) {
+  position: relative;
+  background: var(--pb-page) !important;
+  border: 1px solid var(--pb-rule) !important;
+  border-top: 3px solid var(--pb-ink) !important;
+  padding: 20px 20px 20px 56px !important;
+  overflow: hidden;
+}
+body.passbook-v2 .main-wrap:not(.home-page) .section:has(> .pb-table-wrap)::before {
+  content: '';
+  position: absolute;
+  left: 32px;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: var(--pb-red);
+  pointer-events: none;
+}
+body.passbook-v2 .main-wrap:not(.home-page) .section:has(> .pb-table-wrap) > * { position: relative; z-index: 1; }
+
+/* Keep stamps rare and tactile; warnings stay rectangular, never stamp-like. */
+body.passbook-v2 .status-risk,
+body.passbook-v2 .status-pending,
+body.passbook-v2 .status-success { border-radius: 0 !important; }
+body.passbook-v2 .prototype-label { border-radius: 0 !important; color: var(--pb-text) !important; border-color: var(--pb-rule) !important; }
+
+/* Narrow screens keep the red rule while reclaiming horizontal space. */
+@media (max-width: 620px) {
+  body.passbook-v2 .home-page .page-grid.has-context > div:first-child {
+    padding: 0 12px 18px 38px;
+  }
+  body.passbook-v2 .home-page .page-grid.has-context > div:first-child::before,
+  body.passbook-v2 .main-wrap:not(.home-page) .section:has(> .pb-table-wrap)::before { left: 22px; }
+  body.passbook-v2 .main-wrap:not(.home-page) .section:has(> .pb-table-wrap) { padding: 16px 12px 16px 38px !important; }
+}
