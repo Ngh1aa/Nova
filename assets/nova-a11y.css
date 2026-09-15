@@ -29,6 +29,12 @@ body.product-body .bottom-nav a.active .nav-glyph {
   color: #ffffff !important;
 }
 
+/* Reinstate the contemporary forecast container after the legacy Ledger reset,
+   whose global !important square-corner rule otherwise wins the cascade. */
+body.product-body .fi-horizon {
+  border-radius: 18px !important;
+}
+
 /* Mobile grid children previously contributed their intrinsic min-content width,
    widening the page beyond the viewport. Force every home-column boundary to
    be shrinkable and size the hero amount to the actual phone canvas. */
