@@ -8,9 +8,11 @@ async function resetPrototype(page) {
   await page.evaluate(() => localStorage.clear());
 }
 
-async function shot(page, name, width, height=900) {
+async function shot(page, name, width, height = 900) {
   await page.setViewportSize({ width, height });
   await page.screenshot({ path: `artifacts/${name}-${width}.png`, fullPage: true });
+  const overflow = await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth + 1);
+  expect(overflow, `Unexpected horizontal overflow on ${name} at ${width}px`).toBeFalsy();
 }
 
 test('hero flow: suspicious transaction -> freeze -> card state -> unfreeze recovery', async ({ page }) => {
@@ -73,18 +75,56 @@ test('KYC quality failure has specific retry and alternate path', async ({ page 
   await expect(page.getByRole('link', { name: 'Request another verification option' })).toBeVisible();
 });
 
-test('responsive rendered evidence at 390, 768, 1024 and 1440', async ({ page }) => {
+test('material screen roles use distinct composition families', async ({ page }) => {
   await page.goto('/app.html?screen=home');
-  for (const [w,h] of [[390,844],[768,1024],[1024,900],[1440,1000]]) {
+  await expect(page.locator('.decision-field')).toBeVisible();
+  await expect(page.locator('.horizon-timeline')).toBeVisible();
+
+  await page.goto('/app.html?screen=activity');
+  await expect(page.locator('.activity-header')).toBeVisible();
+  await expect(page.locator('.ledger')).toBeVisible();
+
+  await page.goto('/app.html?screen=transaction-detail');
+  await expect(page.locator('.dossier-hero')).toBeVisible();
+  await expect(page.locator('.evidence-panel')).toBeVisible();
+
+  await page.goto('/app.html?screen=transfer-review');
+  await expect(page.locator('.task-panel')).toBeVisible();
+  await expect(page.locator('.impact-panel')).toBeVisible();
+
+  await page.goto('/app.html?screen=kyc&state=failed');
+  await expect(page.locator('.kyc-spine')).toBeVisible();
+  await expect(page.locator('.document-sheet')).toBeVisible();
+});
+
+test('responsive rendered evidence covers product roles at 390 / 768 / 1024 / 1440', async ({ page }) => {
+  await page.goto('/app.html?screen=home');
+  for (const [w, h] of [[390, 844], [768, 1024], [1024, 900], [1440, 1000]]) {
     await shot(page, 'nova-home', w, h);
-    const overflow = await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth + 1);
-    expect(overflow, `Unexpected horizontal overflow at ${w}px`).toBeFalsy();
   }
-  await page.goto('/app.html?screen=transaction-detail'); await shot(page,'nova-transaction-detail',390,844);
-  await page.goto('/app.html?screen=transfer-review'); await shot(page,'nova-transfer-review',390,844);
-  await page.goto('/app.html?screen=biometric-failed'); await shot(page,'nova-biometric-failed',390,844);
-  await page.goto('/app.html?screen=offline'); await shot(page,'nova-offline',390,844);
-  await page.goto('/app.html?screen=kyc&state=failed'); await shot(page,'nova-kyc-failed',390,844);
-  await page.goto('/component-states.html'); await shot(page,'nova-component-states',1440,1000);
-  await page.goto('/design-system.html'); await shot(page,'nova-design-system',1440,1000);
+
+  const evidence = [
+    ['activity', '/app.html?screen=activity', [390, 1440]],
+    ['transaction-detail', '/app.html?screen=transaction-detail', [390, 1440]],
+    ['cards', '/app.html?screen=cards', [390, 1440]],
+    ['transfer-review', '/app.html?screen=transfer-review', [390, 1024]],
+    ['savings', '/app.html?screen=savings', [390, 1440]],
+    ['kyc-failed', '/app.html?screen=kyc&state=failed', [390, 1024]],
+    ['biometric-failed', '/app.html?screen=biometric-failed', [390]],
+    ['offline', '/app.html?screen=offline', [390]]
+  ];
+
+  for (const [name, route, widths] of evidence) {
+    await page.goto(route);
+    for (const width of widths) {
+      await shot(page, `nova-${name}`, width, width === 390 ? 844 : width === 1024 ? 900 : 1000);
+    }
+  }
+
+  await page.goto('/prototype.html');
+  await shot(page, 'nova-prototype', 1440, 1000);
+  await page.goto('/component-states.html');
+  await shot(page, 'nova-component-states', 1440, 1000);
+  await page.goto('/design-system.html');
+  await shot(page, 'nova-design-system', 1440, 1000);
 });
