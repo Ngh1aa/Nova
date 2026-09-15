@@ -45,34 +45,44 @@ test('core transfer flow works', async ({ page }) => {
   await expect(page.getByText(/This portfolio prototype simulates a successful/)).toBeVisible();
 });
 
-test('Nova visual contract prevents Home overlap at portfolio breakpoints', async ({ page }) => {
+test('Nova financial intelligence visual contract holds at portfolio breakpoints', async ({ page }) => {
   for (const [width, height] of [[390, 844], [768, 1024], [1024, 900], [1440, 1000]]) {
     await page.setViewportSize({ width, height });
     await page.goto('/app.html?screen=home');
+    await expect(page.locator('.fi-horizon')).toBeVisible();
+    await expect(page.locator('.bottom-nav')).toBeVisible();
+
     const state = await page.evaluate(() => {
       const amount = document.querySelector('.money-amount');
       const actions = [...document.querySelectorAll('.decision-action')];
+      const dock = document.querySelector('.bottom-nav');
+      const forecast = document.querySelector('.fi-horizon');
       const amountRect = amount.getBoundingClientRect();
       const overlaps = actions.some(action => {
         const rect = action.getBoundingClientRect();
         return !(amountRect.right <= rect.left || amountRect.left >= rect.right || amountRect.bottom <= rect.top || amountRect.top >= rect.bottom);
       });
-      const actionStyle = getComputedStyle(actions[0]);
+      const dockStyle = getComputedStyle(dock);
       const amountStyle = getComputedStyle(amount);
       return {
         overlaps,
-        actionRadius: actionStyle.borderRadius,
-        actionShadow: actionStyle.boxShadow,
         amountRight: amountRect.right,
         viewportWidth: document.documentElement.clientWidth,
-        amountFontFamily: amountStyle.fontFamily
+        amountFontFamily: amountStyle.fontFamily,
+        dockPosition: dockStyle.position,
+        dockRadius: parseFloat(dockStyle.borderRadius),
+        forecastRadius: parseFloat(getComputedStyle(forecast).borderRadius),
+        overflow: document.documentElement.scrollWidth > document.documentElement.clientWidth + 1
       };
     });
+
     expect(state.overlaps, `Safe-to-spend amount overlaps actions at ${width}px`).toBeFalsy();
     expect(state.amountRight, `Safe-to-spend amount escapes viewport at ${width}px`).toBeLessThanOrEqual(state.viewportWidth + 1);
-    expect(parseFloat(state.actionRadius)).toBe(0);
-    expect(state.actionShadow).toBe('none');
-    expect(state.amountFontFamily.toLowerCase()).toContain('source serif 4');
+    expect(state.amountFontFamily.toLowerCase()).toContain('ibm plex mono');
+    expect(state.dockPosition).toBe('fixed');
+    expect(state.dockRadius).toBeGreaterThanOrEqual(20);
+    expect(state.forecastRadius).toBeGreaterThanOrEqual(14);
+    expect(state.overflow, `Unexpected page overflow at ${width}px`).toBeFalsy();
   }
 });
 
