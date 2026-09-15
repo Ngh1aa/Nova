@@ -1,17 +1,13 @@
 {
   "project": "NOVA — Personal Banking & Money Health",
   "mode": "interactive_prototype",
-  "request_type": "new_product_portfolio_case",
+  "request_type": "whole_product_redesign",
   "domain": "consumer_fintech_personal_banking",
   "primary_audience": "18-30 digital-first users with recurring payments who want money control without spreadsheets",
   "responsive_scope": "responsive_all",
-  "viewports": [
-    1440,
-    1024,
-    768,
-    390
-  ],
+  "viewports": [1440, 1024, 768, 390],
   "release_authorization": "create_pr_only",
+  "skill_ref": "221370ef294408f3f5a0c6a7fb0567c3db840c3e",
   "system_reality": {
     "banking": "SIMULATED",
     "payments": "SIMULATED",
@@ -22,26 +18,21 @@
   },
   "source_of_truth": [
     "PROJECT-CONTEXT.md",
-    "docs/uiux/Research-Synthesis.md",
+    "docs/uiux/Redesign-Research-2026.md",
+    "docs/uiux/Redesign-Contract-2026.md",
     "docs/uiux/Design-Contract.md",
     "docs/uiux/IA-and-Flows.md",
     "docs/uiux/Component-State-Contract.md"
   ],
-  "visual_direction": [
-    "calm",
-    "clear",
-    "human"
-  ],
-  "visual_signature": "Money Horizon",
+  "visual_direction": ["grounded", "anticipatory", "editorial", "human"],
+  "visual_signature": "Money Horizon 2.0 — living financial field",
+  "composition_families": ["Decision Field", "Evidence Ledger", "Focused Task Canvas"],
   "hero_flow": "Home -> suspicious transaction -> transaction detail -> freeze card -> confirmation",
   "secondary_flow": "Home -> transfer -> recipient -> amount -> review -> biometric confirmation -> success",
   "target_repository": "Ngh1aa/Nova",
   "implementation": {
     "stack": "static HTML/CSS/JavaScript",
-    "entry_points": [
-      "prototype.html",
-      "app.html"
-    ],
-    "branch": "feat/nova-portfolio-grade"
+    "entry_points": ["index.html", "app.html", "prototype.html"],
+    "branch": "feat/nova-financial-field-guide"
   }
 }

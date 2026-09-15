@@ -29,19 +29,17 @@
     stepper.setAttribute('aria-valuetext', `Step ${now} of ${max}`);
   }
 
-  // Home intentionally leads with the primary decision amount as the page heading.
-  if (screen === 'home') {
-    const amount = document.querySelector('.money-hero .money-amount');
-    if (amount && amount.tagName !== 'H1') {
-      const heading = document.createElement('h1');
-      heading.className = amount.className;
-      heading.innerHTML = amount.innerHTML;
-      amount.replaceWith(heading);
-    }
+  const spendingPulse = document.querySelector('.pulse-bars');
+  if (spendingPulse) {
+    spendingPulse.setAttribute('role', 'img');
+    spendingPulse.setAttribute(
+      'aria-label',
+      'Prototype seven-day spending comparison: Monday 33 percent, Tuesday 49 percent, Wednesday 28 percent, Thursday 65 percent, Friday 42 percent, today 78 percent, Sunday 18 percent of the visual scale.'
+    );
   }
 
-  // NOVA moves focus to main after render for assistive-tech context. Remove only the automatic
-  // page-load focus ring; later keyboard focus (for example via the skip link) still renders normally.
+  // Remove only the automatic page-load focus ring after render. Keyboard focus reached later,
+  // including through the skip link, still uses the global focus-visible treatment.
   requestAnimationFrame(() => {
     const main = document.querySelector('#main');
     if (main && document.activeElement === main) main.blur();
