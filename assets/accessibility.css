@@ -1,0 +1,15 @@
+:root {
+  /* WCAG AA-safe secondary text across canvas, sidebar, success and risk-soft surfaces. */
+  --muted: #5b6b65;
+}
+
+/* Evidence cards inherit white text instead of the generic specimen paragraph color. */
+.mini-card p {
+  color: inherit;
+}
+
+/* Keyboard users need a visible focus affordance on horizontally scrollable specimens. */
+.spacing-scale:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 4px;
+}
