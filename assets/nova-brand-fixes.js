@@ -3,13 +3,7 @@
 
   function polishBrand(root = document) {
     root.querySelectorAll('.brand').forEach((brand) => {
-      const mark = brand.querySelector('.brand-mark');
-      if (mark) {
-        mark.textContent = '';
-        mark.setAttribute('aria-hidden', 'true');
-      }
-      const label = [...brand.children].find((child) => child !== mark);
-      if (label && label.textContent.trim() !== 'Nova') label.textContent = 'Nova';
+      brand.innerHTML = '<img class="brand-lockup" src="assets/nova-logo.svg" alt="Nova">';
       brand.setAttribute('aria-label', 'Nova home');
     });
 
