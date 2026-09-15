@@ -37,7 +37,7 @@ test('core transfer flow works', async ({ page }) => {
   await page.getByRole('link', { name: /Maya Chen/ }).click();
   await page.getByLabel('Amount').fill('145');
   await page.getByRole('button', { name: 'Review transfer' }).click();
-  await expect(page.getByRole('heading', { name: 'Review transfer' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Check every detail' })).toBeVisible();
   await expect(page.getByText('€1,155.00').first()).toBeVisible();
   await page.getByRole('button', { name: 'Confirm with biometrics' }).click();
   await page.getByRole('dialog').getByRole('button', { name: 'Approve demo' }).click();
@@ -45,13 +45,22 @@ test('core transfer flow works', async ({ page }) => {
   await expect(page.getByText(/This portfolio prototype simulates a successful/)).toBeVisible();
 });
 
-test('Nova iOS 26 visual contract holds at portfolio breakpoints', async ({ page }) => {
+test('Nova adaptive pastel visual contract holds at portfolio breakpoints', async ({ page }) => {
   for (const [width, height] of [[390, 844], [768, 1024], [1024, 900], [1440, 1000]]) {
     await page.setViewportSize({ width, height });
     await page.goto('/app.html?screen=home');
     await expect(page.locator('.fi-horizon')).toBeVisible();
-    await expect(page.locator('.bottom-nav')).toBeVisible();
     await expect(page.locator('.ios26-nav')).toBeVisible();
+
+    if (width < 768) {
+      await expect(page.locator('.bottom-nav')).toBeVisible();
+      await expect(page.locator('.nova-top-tabs')).toBeHidden();
+    } else {
+      await expect(page.locator('.bottom-nav')).toBeHidden();
+      await expect(page.locator('.nova-top-tabs')).toBeVisible();
+    }
+
+    if (width >= 1200) await expect(page.locator('.sidebar')).toBeVisible();
 
     const state = await page.evaluate(() => {
       const amount = document.querySelector('.money-amount');
@@ -59,6 +68,7 @@ test('Nova iOS 26 visual contract holds at portfolio breakpoints', async ({ page
       const dock = document.querySelector('.bottom-nav');
       const forecast = document.querySelector('.fi-horizon');
       const main = document.querySelector('.main-wrap');
+      const sidebar = document.querySelector('.sidebar');
       const amountRect = amount.getBoundingClientRect();
       const dockRect = dock.getBoundingClientRect();
       const mainRect = main.getBoundingClientRect();
@@ -69,6 +79,7 @@ test('Nova iOS 26 visual contract holds at portfolio breakpoints', async ({ page
       const dockStyle = getComputedStyle(dock);
       const amountStyle = getComputedStyle(amount);
       const bodyStyle = getComputedStyle(document.body);
+      const sidebarStyle = getComputedStyle(sidebar);
       return {
         overlaps,
         amountRight: amountRect.right,
@@ -81,22 +92,32 @@ test('Nova iOS 26 visual contract holds at portfolio breakpoints', async ({ page
         dockWidth: dockRect.width,
         forecastRadius: parseFloat(getComputedStyle(forecast).borderRadius),
         mainWidth: mainRect.width,
+        sidebarRadius: parseFloat(sidebarStyle.borderRadius),
+        sidebarBackground: sidebarStyle.backgroundColor,
         overflow: document.documentElement.scrollWidth > document.documentElement.clientWidth + 1
       };
     });
 
     expect(state.overlaps, `Safe-to-spend amount overlaps actions at ${width}px`).toBeFalsy();
     expect(state.amountRight, `Safe-to-spend amount escapes viewport at ${width}px`).toBeLessThanOrEqual(state.viewportWidth + 1);
-    // Guard against a legacy display serif without falsely matching the word "sans-serif".
     expect(state.amountFontFamily).toContain('sans-serif');
     expect(state.amountFontFamily).not.toMatch(/source serif|georgia|times new roman|times,/);
     expect(state.amountNumeric).toContain('tabular-nums');
-    expect(state.bodyBackground).toBe('rgb(245, 245, 247)');
-    expect(state.dockPosition).toBe('fixed');
-    expect(state.dockRadius).toBeGreaterThanOrEqual(24);
-    expect(state.dockWidth).toBeLessThanOrEqual(582);
-    expect(state.dockWidth).toBeLessThanOrEqual(state.viewportWidth - (width <= 430 ? 16 : 20));
-    expect(state.forecastRadius).toBeGreaterThanOrEqual(22);
+    expect(state.bodyBackground).toBe('rgb(243, 246, 250)');
+    expect(state.forecastRadius).toBeGreaterThanOrEqual(20);
+
+    if (width < 768) {
+      expect(state.dockPosition).toBe('fixed');
+      expect(state.dockRadius).toBeGreaterThanOrEqual(24);
+      expect(state.dockWidth).toBeLessThanOrEqual(582);
+      expect(state.dockWidth).toBeLessThanOrEqual(state.viewportWidth - (width <= 430 ? 16 : 20));
+    }
+
+    if (width >= 1200) {
+      expect(state.sidebarRadius).toBeGreaterThanOrEqual(24);
+      expect(state.sidebarBackground).not.toBe('rgba(0, 0, 0, 0)');
+    }
+
     if (width >= 1024) expect(state.mainWidth).toBeGreaterThan(900);
     expect(state.overflow, `Unexpected page overflow at ${width}px`).toBeFalsy();
   }

@@ -1,0 +1,124 @@
+/* Contrast repair + final visual polish for the pastel dashboard layer.
+   Pastel belongs in surfaces, charts and highlights; readable copy stays dark. */
+
+:root {
+  --nova-secondary: #555d69;
+  --nova-link: #1f66ad;
+}
+
+body.product-body .nova-top-tabs a.active,
+body.product-body .text-link,
+body.product-body .ios26-back,
+body.product-body .ios-search-cancel,
+body.product-body .horizon-range,
+body.product-body .fi-horizon-foot strong,
+body.product-body .bottom-nav a.active {
+  color: var(--nova-link) !important;
+}
+
+body.product-body .chip {
+  color: #555d69 !important;
+}
+
+body.product-body .chip[aria-pressed="true"] {
+  color: var(--nova-link) !important;
+}
+
+body.product-body .meta,
+body.product-body .list-sub,
+body.product-body .fi-horizon-range,
+body.product-body .fi-event span,
+body.product-body .fi-horizon-foot,
+body.product-body .fi-impact-total small,
+body.product-body .decision-action small,
+body.product-body .pulse-caption,
+body.product-body .ios26-nav-title p {
+  color: #555d69 !important;
+}
+
+body.product-body .fi-event b {
+  color: #76510b !important;
+}
+
+body.product-body .btn-primary {
+  background: #1264b5 !important;
+  color: #fff !important;
+}
+
+/* The balance hero follows the same white-card language as the rest of the canvas.
+   Pastel is used as an accent rather than turning the whole card dark. */
+body.product-body .decision-top {
+  border: 1px solid rgba(17, 19, 24, .06) !important;
+  border-radius: 22px !important;
+  background:
+    radial-gradient(circle at 84% 2%, rgba(244, 166, 202, .24), transparent 28%),
+    radial-gradient(circle at 66% 0%, rgba(95, 168, 255, .20), transparent 30%),
+    linear-gradient(145deg, #ffffff 0%, #fbfdff 100%) !important;
+  color: #111318 !important;
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,.72) !important;
+}
+
+body.product-body .decision-top .eyebrow,
+body.product-body .decision-top .money-amount,
+body.product-body .decision-top .money-sub,
+body.product-body .decision-top .money-sub span {
+  color: #111318 !important;
+}
+
+body.product-body .decision-top .eyebrow,
+body.product-body .decision-top .money-sub,
+body.product-body .decision-top .money-sub span {
+  color: #59616d !important;
+}
+
+body.product-body .decision-top .fi-delta {
+  display: inline-flex !important;
+  width: fit-content !important;
+  padding: 6px 10px !important;
+  border-radius: 999px !important;
+  background: #eafaf5 !important;
+  color: #1f6a53 !important;
+}
+
+body.product-body .decision-top .decision-label {
+  color: #1f6a53 !important;
+}
+
+body.product-body .decision-top .decision-label::before {
+  background: #7fd9bd !important;
+}
+
+body.product-body .home-page .section .ledger {
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+body.product-body .status-risk {
+  color: #93436b !important;
+}
+
+body.product-body .status-success {
+  color: #1f6a53 !important;
+}
+
+/* The legacy stage is width:100%; once the floating rail adds left margin it would
+   extend beyond the viewport. Reserve the rail width instead of creating scroll. */
+@media (min-width: 1200px) {
+  body.product-body .app-stage {
+    width: calc(100% - 96px) !important;
+    max-width: calc(100% - 96px) !important;
+  }
+
+  body.product-body .sidebar {
+    background-color: #0a0b0d !important;
+  }
+}
+
+@media (max-width: 1199px) {
+  body.product-body .app-stage {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+}
