@@ -1,0 +1,5 @@
+/* Final Ledger polish — keep subtle copy readable on warm paper. */
+.sidebar-account > span,
+.side-bottom > .meta {
+  color: #5f665f !important;
+}
