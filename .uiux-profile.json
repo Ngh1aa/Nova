@@ -1,5 +1,5 @@
 {
-  "project": "NOVA — Personal Banking & Money Health",
+  "project": "Ledger — Personal Banking & Money Planning",
   "mode": "interactive_prototype",
   "request_type": "whole_product_redesign",
   "domain": "consumer_fintech_personal_banking",
@@ -18,21 +18,20 @@
   },
   "source_of_truth": [
     "PROJECT-CONTEXT.md",
-    "docs/uiux/Redesign-Research-2026.md",
-    "docs/uiux/Redesign-Contract-2026.md",
-    "docs/uiux/Design-Contract.md",
+    "docs/uiux/Ledger-Research-2026.md",
+    "docs/uiux/Ledger-Design-Contract-2026.md",
     "docs/uiux/IA-and-Flows.md",
     "docs/uiux/Component-State-Contract.md"
   ],
-  "visual_direction": ["grounded", "anticipatory", "editorial", "human"],
-  "visual_signature": "Money Horizon 2.0 — living financial field",
-  "composition_families": ["Decision Field", "Evidence Ledger", "Focused Task Canvas"],
+  "visual_direction": ["accountable", "editorial", "tactile", "measured", "readable"],
+  "visual_signature": "Ruled Money Ledger — a dated financial register built from warm paper, hairline rules and serif figures",
+  "composition_families": ["Daybook Decision", "Statement Ledger", "Transaction Worksheet"],
   "hero_flow": "Home -> suspicious transaction -> transaction detail -> freeze card -> confirmation",
   "secondary_flow": "Home -> transfer -> recipient -> amount -> review -> biometric confirmation -> success",
   "target_repository": "Ngh1aa/Nova",
   "implementation": {
     "stack": "static HTML/CSS/JavaScript",
     "entry_points": ["index.html", "app.html", "prototype.html"],
-    "branch": "feat/nova-financial-field-guide"
+    "branch": "feat/ledger-editorial-redesign"
   }
 }
