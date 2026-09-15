@@ -4,6 +4,19 @@
   color: #5f665f !important;
 }
 
+/* Both review columns must be allowed to shrink inside the desktop grid. */
+.transfer-grid > * {
+  min-width: 0 !important;
+}
+
+.impact-panel .money-amount {
+  width: auto !important;
+  max-width: 100% !important;
+  font-size: clamp(3.2rem, 4.6vw, 4.6rem) !important;
+  line-height: .88 !important;
+  white-space: nowrap !important;
+}
+
 /* 1024px is too narrow for a credible split review sheet once the sidebar is present. */
 @media (max-width: 1100px) {
   .transfer-grid {
