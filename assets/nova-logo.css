@@ -18,10 +18,36 @@ body.product-body .mobile-topbar .brand-lockup {
   max-width: 138px !important;
 }
 
+/* Portfolio/evidence pages use the same approved lockup without duplicating markup. */
+.evidence-nav .brand {
+  position: relative !important;
+  display: block !important;
+  width: 138px !important;
+  height: 38px !important;
+  background: url('nova-logo.svg') left center / contain no-repeat !important;
+  text-decoration: none !important;
+}
+.evidence-nav .brand > * {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  margin: -1px !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+  clip: rect(0 0 0 0) !important;
+  clip-path: inset(50%) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
 @media (max-width: 520px) {
   body.product-body .brand-lockup,
   body.product-body .mobile-topbar .brand-lockup {
     height: 32px !important;
     max-width: 124px !important;
+  }
+  .evidence-nav .brand {
+    width: 124px !important;
+    height: 32px !important;
   }
 }
