@@ -1,13 +1,13 @@
 {
-  "project": "Ledger — Personal Banking & Money Planning",
+  "project": "Nova — Personal Banking & Money Planning",
   "mode": "interactive_prototype",
   "request_type": "whole_product_redesign",
   "domain": "consumer_fintech_personal_banking",
   "primary_audience": "18-30 digital-first users with recurring payments who want money control without spreadsheets",
   "responsive_scope": "responsive_all",
   "viewports": [1440, 1024, 768, 390],
-  "release_authorization": "create_pr_only",
-  "skill_ref": "221370ef294408f3f5a0c6a7fb0567c3db840c3e",
+  "release_authorization": "merge_and_deploy",
+  "skill_ref": "main",
   "system_reality": {
     "banking": "SIMULATED",
     "payments": "SIMULATED",
@@ -18,20 +18,20 @@
   },
   "source_of_truth": [
     "PROJECT-CONTEXT.md",
-    "docs/uiux/Ledger-Research-2026.md",
-    "docs/uiux/Ledger-Design-Contract-2026.md",
+    "docs/uiux/Nova-iOS26-Design-Contract-2026.md",
     "docs/uiux/IA-and-Flows.md",
-    "docs/uiux/Component-State-Contract.md"
+    "docs/uiux/Component-State-Contract.md",
+    "Ngh1aa/uiux-ai-workspace"
   ],
-  "visual_direction": ["accountable", "editorial", "tactile", "measured", "readable"],
-  "visual_signature": "Ruled Money Ledger — a dated financial register built from warm paper, hairline rules and serif figures",
-  "composition_families": ["Daybook Decision", "Statement Ledger", "Transaction Worksheet"],
-  "hero_flow": "Home -> suspicious transaction -> transaction detail -> freeze card -> confirmation",
+  "visual_direction": ["native", "calm", "precise", "fluid", "premium"],
+  "visual_signature": "Nova Financial Workspace — cool neutral content surfaces with a restrained iOS 26 Liquid Glass navigation layer and a blue Money Horizon forecast",
+  "composition_families": ["Financial Overview", "Grouped Activity", "Focused Money Task", "Protection Detail"],
+  "hero_flow": "Home -> unusual transaction -> transaction detail -> freeze card -> confirmation",
   "secondary_flow": "Home -> transfer -> recipient -> amount -> review -> biometric confirmation -> success",
   "target_repository": "Ngh1aa/Nova",
   "implementation": {
     "stack": "static HTML/CSS/JavaScript",
     "entry_points": ["index.html", "app.html", "prototype.html"],
-    "branch": "feat/ledger-editorial-redesign"
+    "branch": "feat/nova-ios26-redesign"
   }
 }
