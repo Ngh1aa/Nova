@@ -1,0 +1,259 @@
+/* Nova iOS 26 — screenshot critique repair
+   Loaded after nova-ios26-final.css. Removes the remaining ledger-era visual
+   artifacts and fixes the 1024px composition that escaped the viewport. */
+
+/* Kill warm/ledger dividers that survived from older layers. */
+body.product-body .context-rail,
+body.product-body .card-quick,
+body.product-body .ledger-toolbar,
+body.product-body .dossier-meta,
+body.product-body .risk-reasons,
+body.product-body .evidence-panel .insight-line,
+body.product-body .goal-ledger,
+body.product-body .goal-ledger > *,
+body.product-body .review-row,
+body.product-body .horizon,
+body.product-body .horizon * {
+  border-color: rgba(60, 60, 67, .14) !important;
+}
+body.product-body .context-rail,
+body.product-body .card-quick { border: 0 !important; }
+body.product-body .context-rail::before,
+body.product-body .context-rail::after,
+body.product-body .card-quick::before,
+body.product-body .card-quick::after { content: none !important; display: none !important; }
+body.product-body .ledger-toolbar {
+  border: 0 !important;
+  border-bottom: 1px solid rgba(60,60,67,.14) !important;
+}
+body.product-body .dossier-meta,
+body.product-body .risk-reasons { border-color: rgba(60,60,67,.12) !important; }
+body.product-body .evidence-panel .insight-line { border-bottom-color: rgba(60,60,67,.12) !important; }
+body.product-body .evidence-panel .insight-line:last-child { border-bottom: 0 !important; }
+
+/* Hero quick actions: readable at every breakpoint, no clipped legacy labels. */
+body.product-body .decision-action strong {
+  color: #fff !important;
+  white-space: normal !important;
+  overflow: visible !important;
+  text-overflow: clip !important;
+}
+body.product-body .decision-action small {
+  color: rgba(255,255,255,.72) !important;
+  white-space: normal !important;
+  overflow: visible !important;
+  text-overflow: clip !important;
+}
+
+/* Recast the old compact Money Horizon used in transfer/savings into a neutral
+   grouped iOS surface instead of the beige passbook treatment. */
+body.product-body .horizon {
+  --safe: #18794e;
+  --committed: #0057d9;
+  --buffer: #6e6e73;
+  margin: 0 !important;
+  padding: 22px !important;
+  border: 1px solid rgba(60,60,67,.10) !important;
+  border-radius: 24px !important;
+  background: #fff !important;
+  box-shadow: 0 12px 32px rgba(22,22,26,.07), 0 1px 4px rgba(22,22,26,.04) !important;
+  color: var(--nova-ink) !important;
+  overflow: hidden !important;
+}
+body.product-body .horizon::before,
+body.product-body .horizon::after,
+body.product-body .horizon-grid { content: none !important; display: none !important; }
+body.product-body .horizon-top {
+  display: flex !important;
+  align-items: flex-start !important;
+  justify-content: space-between !important;
+  gap: 16px !important;
+  padding: 0 !important;
+  border: 0 !important;
+}
+body.product-body .horizon-top .eyebrow { display: none !important; }
+body.product-body .horizon-top h2 {
+  margin: 0 !important;
+  font: 700 24px/30px var(--nova-font) !important;
+  letter-spacing: -.025em !important;
+  color: var(--nova-ink) !important;
+}
+body.product-body .horizon-top p {
+  margin: 5px 0 0 !important;
+  max-width: 52ch;
+  color: var(--nova-secondary) !important;
+  font: 450 13px/19px var(--nova-font) !important;
+}
+body.product-body .horizon-range {
+  flex: 0 0 auto;
+  padding: 6px 10px !important;
+  border: 0 !important;
+  border-radius: 999px !important;
+  background: var(--nova-blue-soft) !important;
+  color: var(--nova-blue) !important;
+  font: 620 11px/16px var(--nova-font) !important;
+}
+body.product-body .horizon-timeline {
+  position: relative !important;
+  margin-top: 20px !important;
+  padding: 0 !important;
+  border: 0 !important;
+  background: transparent !important;
+}
+body.product-body .horizon-marker {
+  top: -7px !important;
+  width: 1px !important;
+  background: var(--nova-blue) !important;
+  opacity: .55 !important;
+}
+body.product-body .horizon-bar {
+  min-height: 48px !important;
+  display: flex !important;
+  border: 0 !important;
+  border-radius: 14px !important;
+  overflow: hidden !important;
+  background: #ededf2 !important;
+  box-shadow: inset 0 0 0 1px rgba(60,60,67,.07) !important;
+}
+body.product-body .horizon-zone {
+  min-width: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  padding: 0 10px !important;
+  border: 0 !important;
+  font: 600 11px/15px var(--nova-font) !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+}
+body.product-body .horizon-zone.safe {
+  background: #e7f5ed !important;
+  color: #145c3d !important;
+}
+body.product-body .horizon-zone.committed {
+  background: #e6f0ff !important;
+  color: #004b9a !important;
+}
+body.product-body .horizon-zone.buffer {
+  background: #ededf2 !important;
+  color: #4a4a50 !important;
+}
+body.product-body .horizon-dates {
+  display: none !important;
+}
+body.product-body .horizon-legend {
+  display: grid !important;
+  grid-template-columns: repeat(3, minmax(0,1fr)) !important;
+  gap: 0 !important;
+  margin-top: 16px !important;
+  padding-top: 14px !important;
+  border-top: 1px solid rgba(60,60,67,.12) !important;
+}
+body.product-body .horizon-legend > div {
+  min-width: 0 !important;
+  padding: 0 12px !important;
+  border: 0 !important;
+  border-right: 1px solid rgba(60,60,67,.12) !important;
+}
+body.product-body .horizon-legend > div:first-child { padding-left: 0 !important; }
+body.product-body .horizon-legend > div:last-child { padding-right: 0 !important; border-right: 0 !important; }
+body.product-body .legend-key {
+  color: var(--nova-secondary) !important;
+  font: 500 11px/15px var(--nova-font) !important;
+}
+body.product-body .legend-swatch { width: 8px !important; height: 8px !important; border-radius: 50% !important; }
+body.product-body .horizon-legend strong {
+  display: block !important;
+  margin-top: 7px !important;
+  color: var(--nova-ink) !important;
+  font: 650 18px/22px var(--nova-font) !important;
+  font-variant-numeric: tabular-nums !important;
+}
+body.product-body .horizon-note {
+  margin: 14px 0 0 !important;
+  padding: 12px 0 0 !important;
+  border: 0 !important;
+  border-top: 1px solid rgba(60,60,67,.12) !important;
+  color: var(--nova-secondary) !important;
+  font: 450 11px/16px var(--nova-font) !important;
+}
+
+/* Savings: remove the remaining accounting-sheet lines. */
+body.product-body .goal-hero { overflow: hidden !important; }
+body.product-body .goal-hero,
+body.product-body .goal-hero *,
+body.product-body .goal-ledger,
+body.product-body .goal-ledger * { border-color: rgba(60,60,67,.12) !important; }
+body.product-body .goal-ledger { border-radius: 20px !important; }
+body.product-body .goal-ledger > div:last-child { border-bottom: 0 !important; }
+
+/* KYC progress should read as a compact native step list, not an old rail. */
+body.product-body .kyc-layout,
+body.product-body .kyc-grid { gap: 24px !important; }
+body.product-body .kyc-progress,
+body.product-body .kyc-steps,
+body.product-body .kyc-sidebar {
+  border: 0 !important;
+  color: var(--nova-secondary) !important;
+}
+body.product-body .kyc-progress *,
+body.product-body .kyc-steps *,
+body.product-body .kyc-sidebar * { border-color: rgba(60,60,67,.12) !important; }
+body.product-body .kyc-capture,
+body.product-body .capture-frame { border-color: rgba(60,60,67,.18) !important; }
+
+/* Transaction protection copy must wrap naturally in the left column. */
+body.product-body .protection-band h2 {
+  white-space: normal !important;
+  overflow: visible !important;
+  text-overflow: clip !important;
+  max-width: 30ch !important;
+}
+
+/* The 1024px audit showed the context rail escaping the viewport. iPad/tablet
+   widths now use the same stacked hierarchy as native adaptive layouts. */
+@media (max-width: 1100px) {
+  body.product-body .page-grid,
+  body.product-body .page-grid.has-context,
+  body.product-body .dossier-layout {
+    grid-template-columns: minmax(0,1fr) !important;
+  }
+  body.product-body .context-rail {
+    order: 2 !important;
+    min-width: 0 !important;
+    width: 100% !important;
+  }
+  body.product-body .context-panel { max-width: none !important; }
+  body.product-body .main-wrap,
+  .ios26-nav-inner {
+    width: min(calc(100% - 32px), 1000px) !important;
+  }
+}
+
+/* At 768px the two hero action tiles were clipping their labels. Collapse the
+   hero before that squeeze happens while keeping actions side-by-side. */
+@media (max-width: 900px) {
+  body.product-body .decision-top {
+    grid-template-columns: minmax(0,1fr) !important;
+    align-items: start !important;
+  }
+  body.product-body .decision-actions {
+    width: 100% !important;
+    grid-template-columns: repeat(2, minmax(0,1fr)) !important;
+  }
+  body.product-body .decision-action { min-width: 0 !important; }
+  body.product-body .context-rail { border-top: 0 !important; padding-top: 0 !important; }
+}
+
+@media (max-width: 720px) {
+  body.product-body .horizon { padding: 18px !important; }
+  body.product-body .horizon-top { display: block !important; }
+  body.product-body .horizon-range { display: inline-flex !important; margin-top: 10px !important; }
+  body.product-body .horizon-legend { grid-template-columns: 1fr !important; gap: 10px !important; }
+  body.product-body .horizon-legend > div {
+    padding: 0 0 10px !important;
+    border-right: 0 !important;
+    border-bottom: 1px solid rgba(60,60,67,.10) !important;
+  }
+  body.product-body .horizon-legend > div:last-child { padding-bottom: 0 !important; border-bottom: 0 !important; }
+}
