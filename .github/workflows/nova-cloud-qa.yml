@@ -1,4 +1,4 @@
-name: NOVA Cloud QA
+name: Ledger Cloud QA
 
 on:
   push:
@@ -6,6 +6,7 @@ on:
       - feat/nova-portfolio-grade
       - feat/nova-financial-field-guide
       - fix/nova-lighthouse-stability
+      - feat/ledger-editorial-redesign
   pull_request:
     branches:
       - main
@@ -18,7 +19,7 @@ jobs:
   cloud-qa:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout NOVA target
+      - name: Checkout Ledger target
         uses: actions/checkout@v6
 
       - name: Checkout pinned UIUX Factory
@@ -41,17 +42,17 @@ jobs:
         working-directory: .factory/uiux-factory/qa
         run: npx playwright install --with-deps chromium
 
-      - name: Prepare NOVA-specific flow tests
+      - name: Prepare Ledger-specific flow tests
         run: cp qa/nova-flow.spec.mjs .factory/uiux-factory/qa/tests/nova-flow.spec.mjs
 
-      - name: Serve and audit NOVA with Factory QA
+      - name: Serve and audit Ledger with Factory QA
         working-directory: .factory/uiux-factory/qa
         env:
           QA_TARGET_DIR: ${{ github.workspace }}
           QA_BASE_URL: http://127.0.0.1:4173
           QA_ROUTES: /prototype.html,/app.html?screen=onboarding,/app.html?screen=kyc,/app.html?screen=home,/app.html?screen=activity,/app.html?screen=transaction-detail,/app.html?screen=cards,/app.html?screen=card-frozen,/app.html?screen=card-controls,/app.html?screen=transfer-recipient,/app.html?screen=transfer-amount,/app.html?screen=transfer-review,/app.html?screen=transfer-success,/app.html?screen=biometric-failed,/app.html?screen=offline,/app.html?screen=savings,/app.html?screen=subscriptions,/app.html?screen=security,/app.html?screen=notifications,/design-system.html,/component-states.html,/sitemap.html,/user-flows.html
         run: |
-          node scripts/serve-target.mjs > /tmp/nova-qa-server.log 2>&1 &
+          node scripts/serve-target.mjs > /tmp/ledger-qa-server.log 2>&1 &
           SERVER_PID=$!
           trap 'kill $SERVER_PID 2>/dev/null || true' EXIT
           node scripts/wait-ready.mjs
@@ -62,13 +63,13 @@ jobs:
 
       - name: Print target server log on failure
         if: failure()
-        run: cat /tmp/nova-qa-server.log || true
+        run: cat /tmp/ledger-qa-server.log || true
 
-      - name: Upload NOVA QA evidence
+      - name: Upload Ledger QA evidence
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: nova-cloud-qa-evidence
+          name: ledger-cloud-qa-evidence
           path: .factory/uiux-factory/qa/artifacts/
           if-no-files-found: warn
           retention-days: 14
