@@ -1,0 +1,28 @@
+/* Nova accessibility contrast pass — loaded last to preserve the visual direction
+   while meeting WCAG 2.2 AA text contrast on light surfaces. */
+
+:root {
+  --fi-muted: #5f6a64;
+  --muted: #5f6a64;
+}
+
+body.product-body .meta,
+body.product-body .ledger-date,
+body.product-body .step-labels > span,
+body.product-body .horizon-range,
+body.product-body .horizon-note {
+  color: #5f6a64 !important;
+}
+
+body.product-body .bottom-nav a {
+  color: #5f6a64 !important;
+}
+
+body.product-body .bottom-nav a:hover {
+  color: #121714 !important;
+}
+
+body.product-body .bottom-nav a.active,
+body.product-body .bottom-nav a.active .nav-glyph {
+  color: #ffffff !important;
+}
