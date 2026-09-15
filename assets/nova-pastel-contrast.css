@@ -59,3 +59,19 @@ body.product-body .status-risk {
 body.product-body .status-success {
   color: #1f6a53 !important;
 }
+
+/* The legacy stage is width:100%; once the floating rail adds left margin it would
+   extend beyond the viewport. Reserve the rail width instead of creating scroll. */
+@media (min-width: 1200px) {
+  body.product-body .app-stage {
+    width: calc(100% - 96px) !important;
+    max-width: calc(100% - 96px) !important;
+  }
+}
+
+@media (max-width: 1199px) {
+  body.product-body .app-stage {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+}
