@@ -1,0 +1,287 @@
+/* Nova iOS 26 — final visual QA repair layer
+   This file intentionally loads last. It resolves WCAG AA contrast issues and
+   tightens the final desktop/mobile composition after screenshot critique. */
+
+:root {
+  --nova-bg: #f5f5f7;
+  --nova-surface-solid: #ffffff;
+  --nova-surface-soft: #f2f2f7;
+  --nova-ink: #1c1c1e;
+  --nova-secondary: #515158;
+  --nova-tertiary: #5c5c63;
+  --nova-blue: #0057d9;
+  --nova-blue-soft: #e6f0ff;
+  --nova-green: #18794e;
+  --nova-green-soft: #e7f5ed;
+  --nova-red: #b42318;
+  --nova-red-soft: #fff0ef;
+  --nova-orange: #a85d00;
+}
+
+/* Keep the app cool, neutral and unmistakably contemporary. */
+html,
+body.product-body,
+body.product-body .app-stage {
+  background: var(--nova-bg) !important;
+}
+body.product-body::before {
+  height: 300px !important;
+  background:
+    radial-gradient(circle at 18% -22%, rgba(0, 87, 217, .10), transparent 43%),
+    radial-gradient(circle at 78% -28%, rgba(24, 121, 78, .08), transparent 40%) !important;
+}
+
+/* Use more of a desktop canvas while keeping an Apple-like reading rhythm. */
+.ios26-nav-inner,
+body.product-body .main-wrap {
+  width: min(calc(100% - 48px), 1320px) !important;
+  max-width: 1320px !important;
+}
+body.product-body .main-wrap {
+  padding-top: 20px !important;
+  padding-bottom: 68px !important;
+}
+body.product-body .page-grid,
+body.product-body .page-grid.has-context {
+  grid-template-columns: minmax(0, 1.72fr) minmax(320px, .78fr) !important;
+  gap: 24px !important;
+}
+body.product-body .card-grid {
+  grid-template-columns: minmax(0, 1.05fr) minmax(390px, .95fr) !important;
+  gap: 34px !important;
+}
+
+/* Navigation chrome: quiet glass, high legibility and no clipped states. */
+.ios26-nav {
+  background: linear-gradient(to bottom, rgba(245,245,247,.96), rgba(245,245,247,.78) 74%, rgba(245,245,247,0)) !important;
+}
+.ios26-brand,
+.ios26-back,
+.ios26-icon-btn {
+  border-color: rgba(255,255,255,.86) !important;
+  background: rgba(255,255,255,.70) !important;
+}
+.ios26-back,
+.ios26-icon-btn { color: var(--nova-blue) !important; }
+
+body.product-body .bottom-nav {
+  box-sizing: border-box !important;
+  left: 50% !important;
+  right: auto !important;
+  transform: translate3d(-50%,0,0) !important;
+  width: min(calc(100vw - 32px), 580px) !important;
+  max-width: 580px !important;
+  min-height: 74px !important;
+  bottom: max(14px, env(safe-area-inset-bottom)) !important;
+  padding: 7px !important;
+  border: 1px solid rgba(255,255,255,.88) !important;
+  border-radius: 29px !important;
+  background: rgba(250,250,253,.82) !important;
+  box-shadow: 0 18px 54px rgba(20,20,24,.15), inset 0 0 0 1px rgba(255,255,255,.28) !important;
+  overflow: hidden !important;
+}
+body.product-body .bottom-nav a {
+  color: #5c5c63 !important;
+  font-weight: 620 !important;
+}
+body.product-body .bottom-nav a.active {
+  color: var(--nova-blue) !important;
+  background: rgba(255,255,255,.92) !important;
+  box-shadow: 0 2px 12px rgba(20,20,24,.07), inset 0 0 0 1px rgba(60,60,67,.06) !important;
+}
+body.product-body .bottom-nav a::before,
+body.product-body .bottom-nav a::after { content: none !important; display: none !important; }
+
+/* WCAG AA: Apple's raw system colors are tuned for native rendering and some
+   combinations miss web AA. These web-safe equivalents preserve the iOS feel. */
+body.product-body .eyebrow,
+body.product-body .ledger-date,
+body.product-body .upcoming-date,
+body.product-body .upcoming-amount small,
+body.product-body .cashflow-item > span,
+body.product-body .fi-event > span,
+body.product-body .fi-impact-item span {
+  color: var(--nova-tertiary) !important;
+}
+body.product-body .text-link,
+body.product-body .ios-search-cancel,
+body.product-body .ios26-back,
+body.product-body .ios26-icon-btn {
+  color: var(--nova-blue) !important;
+}
+body.product-body .fi-horizon-range {
+  color: var(--nova-blue) !important;
+  background: var(--nova-blue-soft) !important;
+}
+body.product-body .fi-event strong {
+  color: var(--nova-ink) !important;
+}
+body.product-body .fi-event b,
+body.product-body .fi-impact-item b {
+  color: var(--nova-secondary) !important;
+}
+body.product-body .goal-percent { color: var(--nova-green) !important; }
+body.product-body .ledger-row.is-risk .list-value,
+body.product-body .ledger-row.is-risk .list-value small,
+body.product-body .is-risk .list-value,
+body.product-body .is-risk .list-value small,
+body.product-body .risk-amount {
+  color: var(--nova-red) !important;
+}
+body.product-body .risk-chip {
+  color: var(--nova-red) !important;
+  background: var(--nova-red-soft) !important;
+}
+
+body.product-body .btn-primary {
+  background: var(--nova-blue) !important;
+  color: #fff !important;
+}
+body.product-body .btn-secondary {
+  background: #e9e9ee !important;
+  color: var(--nova-blue) !important;
+}
+body.product-body .btn-risk,
+body.product-body #freeze-card.btn-risk,
+body.product-body #card-freeze-toggle.btn-risk,
+body.product-body .control-row .btn-risk {
+  color: var(--nova-red) !important;
+}
+body.product-body .btn.btn-risk:not(#freeze-card):not(#card-freeze-toggle):not(.control-row .btn-risk) {
+  background: var(--nova-red) !important;
+  color: #fff !important;
+}
+
+/* Home: make the hero and forecast feel like a native financial workspace,
+   not a reskinned accounting page. */
+body.product-body .decision-top {
+  min-height: 288px !important;
+  padding: 34px !important;
+  border-radius: 32px !important;
+  background:
+    radial-gradient(circle at 82% 12%, rgba(83, 211, 159, .18), transparent 31%),
+    radial-gradient(circle at 6% 110%, rgba(0, 122, 255, .13), transparent 42%),
+    linear-gradient(145deg, #17191b 0%, #111615 62%, #16231f 100%) !important;
+}
+body.product-body .decision-copy .eyebrow { color: rgba(255,255,255,.76) !important; }
+body.product-body .money-sub { color: rgba(255,255,255,.74) !important; }
+body.product-body .decision-action small { color: rgba(255,255,255,.72) !important; }
+body.product-body .fi-delta { color: #b7f4d5 !important; }
+body.product-body .fi-horizon,
+body.product-body .context-panel,
+body.product-body .upcoming-list,
+body.product-body .ledger,
+body.product-body .list,
+body.product-body .goal-strip,
+body.product-body .control-list,
+body.product-body .detail-grid,
+body.product-body .recipient-card,
+body.product-body .task-panel,
+body.product-body .cashflow-strip,
+body.product-body .goal-ledger,
+body.product-body .receipt,
+body.product-body .receipt-sheet,
+body.product-body .evidence-panel,
+body.product-body .goal-hero,
+body.product-body .dossier-hero,
+body.product-body .protection-band {
+  border-color: rgba(60,60,67,.10) !important;
+}
+body.product-body .fi-horizon { padding: 26px !important; }
+body.product-body .fi-forecast-line { stroke: var(--nova-blue) !important; }
+body.product-body .fi-event-dot { stroke: var(--nova-blue) !important; }
+body.product-body .fi-today-dot { fill: var(--nova-blue) !important; }
+body.product-body .fi-forecast-area { fill: rgba(0,87,217,.075) !important; }
+body.product-body .fi-chart-label { fill: #5c5c63 !important; }
+
+/* Cards: Wallet-like object + Settings-like controls, visually balanced. */
+body.product-body .card-object {
+  max-width: 660px !important;
+  border-radius: 30px !important;
+  background:
+    radial-gradient(circle at 84% 8%, rgba(84,198,151,.24), transparent 30%),
+    radial-gradient(circle at 18% 118%, rgba(0,122,255,.12), transparent 42%),
+    linear-gradient(145deg, #17191b 0%, #101412 64%, #17251f 100%) !important;
+  box-shadow: 0 24px 54px rgba(13,16,14,.18) !important;
+}
+body.product-body .card-state {
+  margin-top: 14px !important;
+  color: var(--nova-secondary) !important;
+}
+body.product-body .card-quick {
+  padding-top: 4px !important;
+}
+body.product-body .control-list {
+  border-radius: 22px !important;
+}
+body.product-body .control-row {
+  min-height: 76px !important;
+  padding: 13px 17px !important;
+}
+body.product-body .switch input:checked + span:not(.sr-only) { background: #2f7d52 !important; }
+
+/* Activity and detail screens: native grouped rows, no old ledger tint. */
+body.product-body .ledger-row.is-risk,
+body.product-body .is-risk {
+  background: #fff8f7 !important;
+}
+body.product-body .ledger-row,
+body.product-body .list-row,
+body.product-body .upcoming-row,
+body.product-body .control-row,
+body.product-body .detail-row {
+  border-bottom-color: rgba(60,60,67,.14) !important;
+}
+body.product-body .ios-search-cancel {
+  border: 0 !important;
+  background: transparent !important;
+  font-weight: 560 !important;
+}
+
+/* Desktop polish: keep root screens dense enough to avoid the 'tiny phone page on a
+   desktop canvas' look, while secondary flows stay comfortably readable. */
+@media (min-width: 981px) {
+  html[data-nova-screen="home"] body.product-body .main-wrap,
+  html[data-nova-screen="cards"] body.product-body .main-wrap,
+  html[data-nova-screen="activity"] body.product-body .main-wrap,
+  html[data-nova-screen="savings"] body.product-body .main-wrap {
+    padding-top: 24px !important;
+  }
+  html[data-nova-screen="cards"] body.product-body .card-grid {
+    align-items: center !important;
+  }
+}
+
+@media (max-width: 980px) {
+  .ios26-nav-inner,
+  body.product-body .main-wrap {
+    width: min(calc(100% - 32px), 900px) !important;
+  }
+  body.product-body .page-grid,
+  body.product-body .page-grid.has-context,
+  body.product-body .card-grid,
+  body.product-body .dossier-layout {
+    grid-template-columns: minmax(0,1fr) !important;
+  }
+  body.product-body .card-object { max-width: 680px !important; }
+}
+
+@media (max-width: 720px) {
+  .ios26-nav-inner,
+  body.product-body .main-wrap { width: calc(100% - 24px) !important; }
+  body.product-body .main-wrap { padding-bottom: 52px !important; }
+  body.product-body .decision-top { min-height: 0 !important; padding: 22px !important; }
+  body.product-body .fi-horizon { padding: 18px !important; }
+  body.product-body .card-object { max-width: none !important; }
+}
+
+@media (max-width: 430px) {
+  body.product-body .bottom-nav {
+    width: calc(100vw - 18px) !important;
+    max-width: none !important;
+    bottom: max(8px, env(safe-area-inset-bottom)) !important;
+  }
+  body.product-body .bottom-nav a { font-size: 10px !important; }
+  body.product-body .main-wrap,
+  .ios26-nav-inner { width: calc(100% - 24px) !important; }
+}

@@ -1,9 +1,9 @@
-name: Ledger Visual QA
+name: Nova Visual QA
 
 on:
   push:
     branches:
-      - feat/ledger-editorial-redesign
+      - feat/nova-ios26-redesign
       - main
   pull_request:
     branches:
@@ -17,7 +17,7 @@ jobs:
   visual-qa:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Ledger target
+      - name: Checkout Nova target
         uses: actions/checkout@v6
 
       - name: Checkout pinned UIUX Factory
@@ -40,17 +40,17 @@ jobs:
         working-directory: .factory/uiux-factory/qa
         run: npx playwright install --with-deps chromium
 
-      - name: Prepare Ledger prototype tests
+      - name: Prepare Nova prototype tests
         run: cp qa/nova-flow.spec.mjs .factory/uiux-factory/qa/tests/nova-flow.spec.mjs
 
-      - name: Serve and visually audit key Ledger screens
+      - name: Serve and visually audit key Nova screens
         working-directory: .factory/uiux-factory/qa
         env:
           QA_TARGET_DIR: ${{ github.workspace }}
           QA_BASE_URL: http://127.0.0.1:4173
           QA_ROUTES: /app.html?screen=home,/app.html?screen=activity,/app.html?screen=transaction-detail,/app.html?screen=cards,/app.html?screen=transfer-review,/app.html?screen=savings,/app.html?screen=kyc
         run: |
-          node scripts/serve-target.mjs > /tmp/ledger-qa-server.log 2>&1 &
+          node scripts/serve-target.mjs > /tmp/nova-qa-server.log 2>&1 &
           SERVER_PID=$!
           trap 'kill $SERVER_PID 2>/dev/null || true' EXIT
           node scripts/wait-ready.mjs
@@ -59,13 +59,13 @@ jobs:
 
       - name: Print target server log on failure
         if: failure()
-        run: cat /tmp/ledger-qa-server.log || true
+        run: cat /tmp/nova-qa-server.log || true
 
-      - name: Upload Ledger screenshots and QA evidence
+      - name: Upload Nova screenshots and QA evidence
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: ledger-visual-qa
+          name: nova-visual-qa
           path: .factory/uiux-factory/qa/artifacts/
           if-no-files-found: warn
           retention-days: 7

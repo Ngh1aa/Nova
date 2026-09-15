@@ -45,44 +45,89 @@ test('core transfer flow works', async ({ page }) => {
   await expect(page.getByText(/This portfolio prototype simulates a successful/)).toBeVisible();
 });
 
-test('Nova financial intelligence visual contract holds at portfolio breakpoints', async ({ page }) => {
+test('Nova iOS 26 visual contract holds at portfolio breakpoints', async ({ page }) => {
   for (const [width, height] of [[390, 844], [768, 1024], [1024, 900], [1440, 1000]]) {
     await page.setViewportSize({ width, height });
     await page.goto('/app.html?screen=home');
     await expect(page.locator('.fi-horizon')).toBeVisible();
     await expect(page.locator('.bottom-nav')).toBeVisible();
+    await expect(page.locator('.ios26-nav')).toBeVisible();
 
     const state = await page.evaluate(() => {
       const amount = document.querySelector('.money-amount');
       const actions = [...document.querySelectorAll('.decision-action')];
       const dock = document.querySelector('.bottom-nav');
       const forecast = document.querySelector('.fi-horizon');
+      const main = document.querySelector('.main-wrap');
       const amountRect = amount.getBoundingClientRect();
+      const dockRect = dock.getBoundingClientRect();
+      const mainRect = main.getBoundingClientRect();
       const overlaps = actions.some(action => {
         const rect = action.getBoundingClientRect();
         return !(amountRect.right <= rect.left || amountRect.left >= rect.right || amountRect.bottom <= rect.top || amountRect.top >= rect.bottom);
       });
       const dockStyle = getComputedStyle(dock);
       const amountStyle = getComputedStyle(amount);
+      const bodyStyle = getComputedStyle(document.body);
       return {
         overlaps,
         amountRight: amountRect.right,
         viewportWidth: document.documentElement.clientWidth,
-        amountFontFamily: amountStyle.fontFamily,
+        amountFontFamily: amountStyle.fontFamily.toLowerCase(),
+        amountNumeric: amountStyle.fontVariantNumeric,
+        bodyBackground: bodyStyle.backgroundColor,
         dockPosition: dockStyle.position,
         dockRadius: parseFloat(dockStyle.borderRadius),
+        dockWidth: dockRect.width,
         forecastRadius: parseFloat(getComputedStyle(forecast).borderRadius),
+        mainWidth: mainRect.width,
         overflow: document.documentElement.scrollWidth > document.documentElement.clientWidth + 1
       };
     });
 
     expect(state.overlaps, `Safe-to-spend amount overlaps actions at ${width}px`).toBeFalsy();
     expect(state.amountRight, `Safe-to-spend amount escapes viewport at ${width}px`).toBeLessThanOrEqual(state.viewportWidth + 1);
-    expect(state.amountFontFamily.toLowerCase()).toContain('ibm plex mono');
+    // Guard against a legacy display serif without falsely matching the word "sans-serif".
+    expect(state.amountFontFamily).toContain('sans-serif');
+    expect(state.amountFontFamily).not.toMatch(/source serif|georgia|times new roman|times,/);
+    expect(state.amountNumeric).toContain('tabular-nums');
+    expect(state.bodyBackground).toBe('rgb(245, 245, 247)');
     expect(state.dockPosition).toBe('fixed');
-    expect(state.dockRadius).toBeGreaterThanOrEqual(20);
-    expect(state.forecastRadius).toBeGreaterThanOrEqual(14);
+    expect(state.dockRadius).toBeGreaterThanOrEqual(24);
+    expect(state.dockWidth).toBeLessThanOrEqual(582);
+    expect(state.dockWidth).toBeLessThanOrEqual(state.viewportWidth - (width <= 430 ? 16 : 20));
+    expect(state.forecastRadius).toBeGreaterThanOrEqual(22);
+    if (width >= 1024) expect(state.mainWidth).toBeGreaterThan(900);
     expect(state.overflow, `Unexpected page overflow at ${width}px`).toBeFalsy();
+  }
+});
+
+test('Cards uses responsive card-plus-controls composition', async ({ page }) => {
+  for (const width of [390, 1440]) {
+    await page.setViewportSize({ width, height: width === 390 ? 844 : 1000 });
+    await page.goto('/app.html?screen=cards');
+    await expect(page.locator('.card-object')).toBeVisible();
+    await expect(page.locator('.control-list')).toBeVisible();
+
+    const state = await page.evaluate(() => {
+      const grid = document.querySelector('.card-grid');
+      const card = document.querySelector('.card-object');
+      const controls = document.querySelector('.card-quick');
+      const cardRect = card.getBoundingClientRect();
+      const controlRect = controls.getBoundingClientRect();
+      return {
+        columns: getComputedStyle(grid).gridTemplateColumns,
+        cardRadius: parseFloat(getComputedStyle(card).borderRadius),
+        cardWidth: cardRect.width,
+        controlsBesideCard: controlRect.left > cardRect.left + cardRect.width * .72,
+        overflow: document.documentElement.scrollWidth > document.documentElement.clientWidth + 1
+      };
+    });
+
+    expect(state.cardRadius).toBeGreaterThanOrEqual(22);
+    expect(state.cardWidth).toBeLessThanOrEqual(width - 20);
+    if (width >= 1000) expect(state.controlsBesideCard).toBeTruthy();
+    expect(state.overflow).toBeFalsy();
   }
 });
 
