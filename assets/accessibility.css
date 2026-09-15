@@ -1,0 +1,52 @@
+:root {
+  /* WCAG AA-safe secondary text across canvas, sidebar, success and risk-soft surfaces. */
+  --muted: #5b6b65;
+}
+
+/* Evidence cards inherit white text instead of the generic specimen paragraph color. */
+.mini-card p {
+  color: inherit;
+}
+
+/* Anchor the future-commitment marker to the bar instead of fragile card-top coordinates. */
+.horizon-marker {
+  position: relative;
+  top: -48px;
+  left: 60%;
+  width: 1px;
+  height: 48px;
+  margin-bottom: -48px;
+}
+
+/* Keyboard users need a visible focus affordance on horizontally scrollable specimens. */
+.spacing-scale:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 4px;
+}
+
+@media (max-width: 679px) {
+  /* The same commitment is already listed immediately below on small screens; remove label collision. */
+  .horizon-marker {
+    display: none;
+  }
+}
+
+@media (max-width: 479px) {
+  /* Keep the critical risk entry visible in the first phone viewport without duplicating explanation. */
+  .money-hero .horizon-top p {
+    display: none;
+  }
+
+  .money-hero .horizon-top {
+    align-items: center;
+    margin-bottom: 12px;
+  }
+}
+
+@media (min-width: 960px) {
+  .horizon-marker {
+    top: -54px;
+    height: 54px;
+    margin-bottom: -54px;
+  }
+}
