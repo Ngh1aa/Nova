@@ -1,0 +1,111 @@
+/* Nova system v4 — hard visual owner for iOS geometry, typography, spacing and Pay */
+:root{
+  --v4-bg:#f3f6fa;--v4-surface:#fff;--v4-ink:#111318;--v4-muted:#687386;--v4-line:rgba(17,19,24,.07);
+  --v4-blue:#5fa8ff;--v4-blue-soft:#eaf4ff;--v4-pink:#f39bc5;--v4-pink-soft:#fff0f7;--v4-yellow:#f4c85e;--v4-yellow-soft:#fff7dc;
+  --v4-mint:#68d3b0;--v4-mint-soft:#e8faf4;--v4-lav:#9a8af5;--v4-lav-soft:#f0efff;
+  --v4-r-xl:32px;--v4-r-lg:26px;--v4-r-md:20px;--v4-r-sm:16px;--v4-shadow:0 16px 42px rgba(45,57,75,.08);
+}
+body.product-body{background:var(--v4-bg)!important;color:var(--v4-ink)!important}
+body.product-body .app-stage{background:var(--v4-bg)!important}
+
+/* 1) EVERY visible card/surface gets real iOS rounding */
+body.product-body :is(.nova-card,.v3-surface,.decision-field,.fi-horizon,.context-panel,.activity-header,.ledger-toolbar,.ledger,.dossier-hero,.evidence-panel,.protection-band,.detail-grid,.card-quick,.goal-hero,.goal-ledger,.task-panel,.recipient-card,.receipt-sheet,.document-sheet,.kyc-spine,.control-list,.review-panel,.subscription-summary,.settings-panel,.notification-group,.security-summary,.recurring-total,.impact-panel,.section,.callout,.empty-state,.receipt,.onboarding-panel,.summary-card,.context-rail,.horizon,.recurring-total,.protection-band){
+  border-radius:var(--v4-r-lg)!important;
+  border:1px solid var(--v4-line)!important;
+  background:var(--v4-surface)!important;
+  box-shadow:var(--v4-shadow)!important;
+  overflow:hidden!important;
+}
+body.product-body :is(.ledger-row,.list-row,.control-row,.review-row,.goal-ledger-row,.detail-row,.upcoming-row,.nova-account-row,.nova-protection-note,.nova-kpi,.nova-action,.nova-date-pill,.nova-health-note,.nova-mini-stat,.nova-bill-row,.nova-txn-row,.field,.input,.search-wrap,.chip,.status,.btn,.risk-chip){border-radius:var(--v4-r-sm)!important}
+body.product-body :is(.nova-card,.v3-surface,.section,.task-panel,.security-summary,.goal-hero,.dossier-hero,.evidence-panel,.protection-band,.review-panel,.notification-group,.recurring-total,.impact-panel){padding:20px!important}
+body.product-body .nova-card{border-radius:28px!important}
+body.product-body .nova-density-dashboard{gap:16px!important}
+body.product-body .nova-insight-banner{display:none!important}
+
+/* Remove nested-card-on-card leftovers: the group itself owns the card */
+body.product-body .section:has(> .ledger),
+body.product-body .section:has(> .control-list),
+body.product-body .section:has(> .goal-ledger),
+body.product-body .section:has(> .detail-grid){
+  padding:0!important;border:0!important;background:transparent!important;box-shadow:none!important;overflow:visible!important
+}
+body.product-body .section:has(> .ledger)>.section-head,
+body.product-body .section:has(> .control-list)>.section-head,
+body.product-body .section:has(> .goal-ledger)>.section-head,
+body.product-body .section:has(> .detail-grid)>.section-head{padding:0 4px!important;margin-bottom:10px!important}
+body.product-body .ledger{padding:0!important;overflow:hidden!important}
+body.product-body .ledger-row{margin:0!important;border-radius:0!important;border-bottom:1px solid var(--v4-line)!important;background:#fff!important;padding:16px 18px!important}
+body.product-body .ledger-row:last-child{border-bottom:0!important}
+body.product-body .ledger-row.is-risk{background:#fff4f6!important}
+body.product-body .control-list{padding:8px!important}
+body.product-body .control-row{margin:6px 0!important;padding:14px!important}
+
+/* 2) Typography is one system, not route-by-route random sizes */
+body.product-body :is(.v3-page-head,.v4-page-head,.page-heading)>div>h1,
+body.product-body .page-heading h1,
+body.product-body .dossier-title,
+body.product-body .receipt h1,
+body.product-body .goal-hero>h1{
+  margin:0!important;
+  font-family:var(--nova-font,Inter,sans-serif)!important;
+  font-size:clamp(2.05rem,2.8vw,3.1rem)!important;
+  line-height:1!important;
+  letter-spacing:-.045em!important;
+  font-weight:780!important;
+}
+body.product-body :is(.nova-card,.v3-surface,.v4-card,.section,.security-summary,.card-quick,.goal-hero,.task-panel) h2{
+  font-family:var(--nova-font,Inter,sans-serif)!important;
+  font-size:18px!important;
+  line-height:1.1!important;
+  letter-spacing:-.025em!important;
+  font-weight:760!important;
+}
+body.product-body :is(.nova-card,.v3-surface,.v4-card,.section,.security-summary,.card-quick,.goal-hero,.task-panel) h3{font-size:14px!important;line-height:1.2!important;font-weight:740!important}
+body.product-body :is(.nova-card,.v3-surface,.v4-card,.section,.security-summary,.card-quick,.goal-hero,.task-panel) p{line-height:1.45!important}
+
+/* 3) Fix content touching edges */
+body.product-body .section-head{padding-inline:2px!important}
+body.product-body :is(.page-heading,.v3-page-head,.v4-page-head){padding-inline:4px!important}
+body.product-body .activity-header{padding:20px!important}
+body.product-body .ledger-toolbar{padding:12px 16px!important}
+body.product-body .nova-card-head{padding-inline:0!important}
+body.product-body .nova-account-list,.nova-bill-list,.nova-txn-list{padding-inline:0!important}
+
+/* 4) Home card geometry + fix quick action overlap */
+body.product-body .nova-hero-card{border-radius:30px!important}
+body.product-body .nova-hero-actions{gap:10px!important}
+body.product-body .nova-action{min-height:78px!important;padding:12px 14px!important;display:flex!important;align-items:center!important;justify-content:flex-start!important;gap:10px!important;overflow:hidden!important}
+body.product-body .nova-action *{position:static!important;inset:auto!important;transform:none!important}
+body.product-body .nova-action>span{display:flex!important;flex-direction:column!important;gap:3px!important;min-width:0!important}
+body.product-body .nova-action strong{font-size:12px!important;line-height:1.15!important;white-space:nowrap!important}
+body.product-body .nova-action small{font-size:9px!important;line-height:1.25!important;white-space:normal!important}
+body.product-body .nova-mini-stat{padding:8px 6px!important}
+body.product-body .nova-upcoming-card,.nova-accounts-card,.nova-flow-card,.nova-forecast-card,.nova-spending-card,.nova-savings-card,.nova-transactions-card,.nova-card-snapshot{border-radius:28px!important}
+
+/* 5) Full-height floating sidebar, equal top/bottom margin, evenly distributed icons */
+body.product-body .sidebar.nova-rail-v4{
+  position:fixed!important;left:12px!important;top:12px!important;bottom:12px!important;width:88px!important;height:auto!important;min-height:0!important;
+  padding:12px 10px!important;border-radius:30px!important;background:#101214!important;box-shadow:0 18px 42px rgba(12,15,18,.22)!important;
+  display:grid!important;grid-template-rows:auto 1fr!important;gap:10px!important;overflow:hidden!important;z-index:240!important
+}
+.v4-rail-brand{width:56px;height:56px;margin:0 auto;display:grid;place-items:center;border-radius:20px;background:#1a1e22;box-shadow:inset 0 0 0 1px rgba(255,255,255,.035)}
+.v4-rail-brand img{width:32px;height:32px;border-radius:11px}
+.v4-rail-nav{min-height:0;display:grid!important;grid-template-rows:repeat(7,minmax(0,1fr))!important;gap:8px!important}
+.v4-rail-nav a{min-height:0!important;padding:5px 3px!important;border-radius:22px!important;background:#191d21!important;color:#f2f5f8!important;text-decoration:none!important;display:grid!important;place-items:center!important;align-content:center!important;gap:5px!important;font-size:10px!important;font-weight:650!important}
+.v4-rail-nav a svg{width:23px;height:23px}.v4-rail-nav a.active{background:linear-gradient(145deg,#72b8ff,#4d99f7)!important;color:#fff!important;box-shadow:0 8px 20px rgba(76,153,247,.28)!important}
+body.product-body .nova-rail-v4~.app-stage{margin-left:102px!important}
+
+/* 6) Pay rebuild */
+.v4-page{width:calc(100% - 28px)!important;max-width:none!important;margin:0 auto!important;padding:18px 0 46px!important}
+.v4-page-head{margin:4px 0 16px;display:flex;align-items:end;justify-content:space-between;gap:18px}.v4-page-head p{margin:0 0 5px;color:#718096;font-size:11px;font-weight:750}.v4-page-head h1{margin:0}.v4-page-head>div>span{display:block;margin-top:8px;color:var(--v4-muted);font-size:13px;line-height:1.45;max-width:76ch}.v4-dark-pill{min-height:44px;padding:0 15px;border-radius:999px;background:#111318;color:#fff!important;text-decoration:none;display:inline-flex;align-items:center;gap:8px;font-size:11px;font-weight:760;white-space:nowrap}.v4-dark-pill svg{width:17px}
+.v4-pay-grid{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:16px;align-items:stretch}.v4-card{min-width:0;padding:20px;border:1px solid var(--v4-line);border-radius:28px;background:#fff;box-shadow:var(--v4-shadow);overflow:hidden}.v4-section-head{margin-bottom:13px;display:flex;align-items:flex-start;justify-content:space-between;gap:12px}.v4-section-head small{display:block;margin-bottom:5px;color:#748094;font-size:10px;font-weight:700}.v4-section-head h2{margin:0;font-size:18px!important}.v4-section-head a{color:#2877cb;text-decoration:none;font-size:10px;font-weight:760}.v4-status{display:inline-flex;align-items:center;padding:6px 10px;border-radius:999px;font-size:9px;font-weight:800;white-space:nowrap}.v4-status.mint{color:#126f54;background:var(--v4-mint-soft)}.v4-status.blue{color:#2469b2;background:var(--v4-blue-soft)}
+.v4-pay-hero{grid-column:span 7;background:radial-gradient(circle at 88% 12%,rgba(104,211,176,.2),transparent 28%),radial-gradient(circle at 65% -4%,rgba(95,168,255,.17),transparent 28%),#fff}.v4-pay-hero .v4-section-head h2{font-size:46px!important;letter-spacing:-.05em!important}.v4-copy{max-width:66ch;margin:0 0 16px;color:#687386;font-size:11px}.v4-pay-actions{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.v4-action{min-height:92px;padding:13px;border:0;border-radius:20px;color:var(--v4-ink)!important;text-decoration:none;display:flex;align-items:center;gap:10px;text-align:left}.v4-action svg{width:23px;height:23px;flex:0 0 23px}.v4-action span{display:grid}.v4-action strong{font-size:11px}.v4-action small{font-size:9px;color:#6f7989}.v4-action.blue{background:var(--v4-blue-soft)}.v4-action.pink{background:var(--v4-pink-soft)}.v4-action.yellow{background:var(--v4-yellow-soft)}
+.v4-pay-search{grid-column:span 5}.v4-icon-button{width:38px;height:38px;border:0;border-radius:14px;background:#f3f6f9;color:#2877cb;display:grid;place-items:center}.v4-icon-button svg{width:18px}.v4-search-box{height:48px;padding:0 14px;border-radius:18px;background:#f5f7fa;display:flex;align-items:center;gap:9px}.v4-search-box>span{width:19px;height:19px;color:#748094}.v4-search-box input{min-width:0;flex:1;border:0;outline:0;background:transparent;color:#222;font-size:11px}.v4-recipient-chips{margin-top:13px;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px}.v4-recipient-chips a{min-width:0;padding:11px 8px;border-radius:18px;background:#f8fafc;color:inherit!important;text-decoration:none;display:grid;justify-items:center;text-align:center;gap:4px}.v4-recipient-chips strong{font-size:10px}.v4-recipient-chips small{font-size:8px;color:#788394}.v4-avatar{width:38px;height:38px;border-radius:14px;display:grid;place-items:center;font-size:10px;font-weight:800}.v4-avatar.blue{background:var(--v4-blue-soft);color:#2678d1}.v4-avatar.pink{background:var(--v4-pink-soft);color:#b84d80}.v4-avatar.mint{background:var(--v4-mint-soft);color:#197558}.v4-avatar.yellow{background:var(--v4-yellow-soft);color:#a97812}
+.v4-pay-upcoming{grid-column:span 5}.v4-pay-recent{grid-column:span 4}.v4-pay-context{grid-column:span 3}.v4-pay-list{display:grid}.v4-pay-list>div{padding:10px 0;display:grid;grid-template-columns:36px minmax(0,1fr) auto;gap:9px;align-items:center;border-top:1px solid var(--v4-line)}.v4-pay-list>div:first-child{border-top:0}.v4-list-icon{width:36px;height:36px;border-radius:13px;display:grid;place-items:center}.v4-list-icon svg{width:18px}.v4-list-icon.blue{background:var(--v4-blue-soft);color:#2877cb}.v4-list-icon.pink{background:var(--v4-pink-soft);color:#bc4e82}.v4-list-icon.yellow{background:var(--v4-yellow-soft);color:#a87912}.v4-list-icon.lavender{background:var(--v4-lav-soft);color:#6656c7}.v4-pay-list>div>span:nth-child(2){display:grid}.v4-pay-list strong{font-size:10px}.v4-pay-list small{font-size:8px;color:#788394}.v4-pay-list b{font-size:9px}.v4-transfer-list{display:grid}.v4-transfer-list a{padding:10px 0;display:grid;grid-template-columns:38px minmax(0,1fr) auto;gap:9px;align-items:center;border-top:1px solid var(--v4-line);color:inherit!important;text-decoration:none}.v4-transfer-list a:first-child{border-top:0}.v4-transfer-list a>span:nth-child(2){display:grid}.v4-transfer-list strong{font-size:10px}.v4-transfer-list small{font-size:8px;color:#788394}.v4-transfer-list b{font-size:9px}.v4-context-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px}.v4-context-grid>div{padding:11px;border-radius:16px;background:#f7f9fc;display:grid}.v4-context-grid small{font-size:8px;color:#748094}.v4-context-grid strong{font-size:13px}.v4-full-action{min-height:46px;margin-top:12px;padding:0 13px;border-radius:16px;background:#111318;color:#fff!important;text-decoration:none;display:flex;align-items:center;justify-content:space-between;gap:10px;font-size:10px;font-weight:760}.v4-full-action svg{width:17px}.v4-toast{position:fixed;left:50%;bottom:28px;z-index:9999;padding:12px 16px;border-radius:999px;background:#14171b;color:#fff;box-shadow:0 16px 36px rgba(0,0,0,.22);font-size:11px;font-weight:700;opacity:0;transform:translate(-50%,18px);transition:.2s;pointer-events:none}.v4-toast.show{opacity:1;transform:translate(-50%,0)}
+
+/* 7) Top toolbar remains properly rounded */
+body.product-body .ios26-nav-row{border-radius:32px!important;overflow:visible!important}.nova-search-chip,.nova-bell-chip,.nova-profile-chip{border-radius:999px!important}.nova-bell-chip{border-radius:50%!important}.nova-avatar{border-radius:50%!important}
+
+@media (max-width:1199px){body.product-body .sidebar.nova-rail-v4{display:none!important}body.product-body .nova-rail-v4~.app-stage{margin-left:0!important}.v4-pay-grid{grid-template-columns:repeat(6,minmax(0,1fr))}.v4-pay-hero,.v4-pay-search,.v4-pay-upcoming,.v4-pay-recent,.v4-pay-context{grid-column:span 3}.v4-pay-hero,.v4-pay-upcoming{grid-column:span 6}}
+@media (max-width:767px){body.product-body .v4-page{width:calc(100% - 20px)!important;padding-bottom:110px!important}.v4-page-head{align-items:flex-start;flex-direction:column}.v4-page-head h1{font-size:2rem!important}.v4-pay-grid{grid-template-columns:1fr}.v4-pay-hero,.v4-pay-search,.v4-pay-upcoming,.v4-pay-recent,.v4-pay-context{grid-column:1}.v4-pay-hero .v4-section-head h2{font-size:38px!important}.v4-pay-actions{grid-template-columns:1fr}.v4-recipient-chips{grid-template-columns:repeat(2,1fr)}body.product-body :is(.nova-card,.v3-surface,.v4-card,.section,.task-panel){padding:16px!important;border-radius:24px!important}}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{transition-duration:.01ms!important;animation-duration:.01ms!important;animation-iteration-count:1!important}}
