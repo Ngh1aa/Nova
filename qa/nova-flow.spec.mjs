@@ -148,6 +148,44 @@ test('iOS search cancel is contextual, not permanently visible', async ({ page }
   }
 });
 
+test('Activity filters stay reachable on iPhone width', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto('/app.html?screen=activity');
+  const filters = page.locator('.filter-row');
+  const income = filters.getByRole('button', { name: 'Income' });
+  await expect(filters).toBeVisible();
+
+  const initial = await filters.evaluate((node) => ({
+    overflowX: getComputedStyle(node).overflowX,
+    scrollWidth: node.scrollWidth,
+    clientWidth: node.clientWidth,
+    pageOverflow: document.documentElement.scrollWidth > document.documentElement.clientWidth + 1
+  }));
+  expect(['auto', 'scroll']).toContain(initial.overflowX);
+  expect(initial.scrollWidth).toBeGreaterThan(initial.clientWidth);
+  expect(initial.pageOverflow).toBeFalsy();
+
+  await filters.evaluate((node) => { node.scrollLeft = node.scrollWidth; });
+  await page.waitForTimeout(80);
+  const visibility = await page.evaluate(() => {
+    const row = document.querySelector('.filter-row').getBoundingClientRect();
+    const last = [...document.querySelectorAll('.filter-row .chip')].at(-1).getBoundingClientRect();
+    return { lastRight: last.right, rowRight: row.right, lastLeft: last.left, rowLeft: row.left };
+  });
+  expect(visibility.lastRight).toBeLessThanOrEqual(visibility.rowRight + 2);
+  expect(visibility.lastLeft).toBeGreaterThanOrEqual(visibility.rowLeft - 2);
+  await expect(income).toBeVisible();
+});
+
+test('Pay recipient split view includes transfer context and recent history', async ({ page }) => {
+  await page.setViewportSize({ width: 1728, height: 1080 });
+  await page.goto('/app.html?screen=transfer-recipient');
+  await expect(page.locator('.ios26-pay-aside')).toBeVisible();
+  await expect(page.locator('.ios26-pay-history')).toBeVisible();
+  await expect(page.getByText('Recent transfers')).toBeVisible();
+  await expect(page.getByText('Sofia Andersson').first()).toBeVisible();
+});
+
 test('Cards uses responsive card-plus-controls composition', async ({ page }) => {
   for (const width of [390, 1440, 1728]) {
     await page.setViewportSize({ width, height: width === 390 ? 844 : 1000 });
