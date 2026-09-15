@@ -1,6 +1,6 @@
-# NOVA — Personal Banking & Money Health
+# Ledger — Personal Banking & Money Health
 
-NOVA is a portfolio-grade consumer fintech prototype focused on **Money Health**, safe-to-spend decision support, transaction trust, card controls, KYC, transfers, savings, subscriptions, and security recovery.
+Ledger is a portfolio-grade consumer fintech prototype focused on **Money Health**, safe-to-spend decision support, transaction trust, card controls, KYC, transfers, savings, subscriptions, and security recovery.
 
 ## Prototype
 
