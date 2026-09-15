@@ -3,3 +3,24 @@
 .side-bottom > .meta {
   color: #5f665f !important;
 }
+
+/* 1024px is too narrow for a credible split review sheet once the sidebar is present. */
+@media (max-width: 1100px) {
+  .transfer-grid {
+    grid-template-columns: minmax(0, 1fr) !important;
+    gap: 28px !important;
+  }
+
+  .impact-panel {
+    padding: 24px 0 0 !important;
+    border-left: 0 !important;
+    border-top: 1px solid var(--ledger-ink) !important;
+  }
+
+  .impact-panel .money-amount,
+  .impact-panel .goal-amount {
+    width: auto !important;
+    max-width: 100% !important;
+    white-space: normal !important;
+  }
+}
