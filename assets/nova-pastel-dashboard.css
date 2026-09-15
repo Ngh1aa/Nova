@@ -1,0 +1,611 @@
+/* Nova — Pastel iOS dashboard direction
+   Visual-first override: floating iOS chrome, black floating rail, white rounded cards,
+   pastel data accents, and an expansive desktop canvas. Loaded last on purpose. */
+
+:root {
+  --nova-canvas: #f3f6fa;
+  --nova-card: #ffffff;
+  --nova-ink: #111318;
+  --nova-secondary: #6d7480;
+  --nova-line: rgba(17, 19, 24, .08);
+  --nova-blue: #5fa8ff;
+  --nova-blue-soft: #eaf4ff;
+  --nova-pink: #f4a6ca;
+  --nova-pink-soft: #fff0f7;
+  --nova-yellow: #f0ce71;
+  --nova-yellow-soft: #fff8de;
+  --nova-lavender: #afa1ff;
+  --nova-lavender-soft: #f2efff;
+  --nova-mint: #7fd9bd;
+  --nova-mint-soft: #eafaf5;
+  --nova-shadow: 0 18px 52px rgba(48, 58, 76, .10), 0 2px 10px rgba(48, 58, 76, .04);
+  --nova-card-shadow: 0 10px 28px rgba(48, 58, 76, .07), 0 1px 3px rgba(48, 58, 76, .04);
+}
+
+html,
+body,
+body.product-body,
+body.product-body .app-shell,
+body.product-body .app-stage {
+  background: var(--nova-canvas) !important;
+}
+
+body.product-body {
+  color: var(--nova-ink) !important;
+  padding-bottom: 28px !important;
+}
+
+body.product-body::before {
+  height: 440px !important;
+  background:
+    radial-gradient(circle at 12% -8%, rgba(95, 168, 255, .16), transparent 34%),
+    radial-gradient(circle at 42% -16%, rgba(244, 166, 202, .13), transparent 30%),
+    radial-gradient(circle at 78% -12%, rgba(175, 161, 255, .12), transparent 31%) !important;
+}
+
+/* ---------- Floating top navigation ---------- */
+body.product-body .ios26-nav {
+  position: sticky !important;
+  top: 12px !important;
+  z-index: 150 !important;
+  padding: 0 !important;
+  background: transparent !important;
+}
+body.product-body .ios26-nav::after { content: none !important; display: none !important; }
+body.product-body .ios26-nav-inner {
+  width: calc(100% - 28px) !important;
+  max-width: none !important;
+  margin: 0 auto !important;
+  padding: 0 !important;
+}
+body.product-body .ios26-nav-row {
+  min-height: 62px !important;
+  grid-template-columns: auto minmax(0, 1fr) auto !important;
+  gap: 18px !important;
+  padding: 7px 9px 7px 10px !important;
+  border: 1px solid rgba(255,255,255,.90) !important;
+  border-radius: 24px !important;
+  background: rgba(255,255,255,.82) !important;
+  box-shadow: 0 14px 38px rgba(47, 58, 79, .10), inset 0 0 0 1px rgba(255,255,255,.48) !important;
+  backdrop-filter: saturate(175%) blur(24px) !important;
+  -webkit-backdrop-filter: saturate(175%) blur(24px) !important;
+}
+body.product-body .ios26-brand {
+  min-height: 46px !important;
+  padding: 5px 9px 5px 6px !important;
+  border: 0 !important;
+  border-radius: 16px !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  font-weight: 760 !important;
+  letter-spacing: -.03em !important;
+}
+body.product-body .ios26-brand img { width: 34px !important; height: 34px !important; border-radius: 11px !important; }
+body.product-body .ios26-wordmark { font-size: 17px !important; }
+body.product-body .ios26-nav-center { display: none !important; }
+body.product-body .ios26-nav-actions { gap: 7px !important; }
+body.product-body .ios26-icon-btn {
+  width: 44px !important;
+  height: 44px !important;
+  border: 1px solid rgba(17,19,24,.055) !important;
+  background: #f8fafc !important;
+  color: #1b1e24 !important;
+  box-shadow: none !important;
+}
+body.product-body .ios26-icon-btn:first-child { background: var(--nova-blue-soft) !important; color: #3d86dc !important; }
+body.product-body .ios26-icon-btn:last-child { background: var(--nova-pink-soft) !important; color: #b85d8a !important; }
+body.product-body .ios26-nav-title { display: none !important; }
+
+body.product-body .nova-top-tabs {
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 4px;
+  border-radius: 18px;
+  background: #f4f6f9;
+}
+body.product-body .nova-top-tabs a {
+  min-width: 0;
+  padding: 9px clamp(11px, 1.4vw, 18px);
+  border-radius: 14px;
+  color: #4c5360 !important;
+  font: 620 12px/16px var(--nova-font) !important;
+  text-decoration: none !important;
+  white-space: nowrap;
+  transition: background-color .18s ease, color .18s ease, transform .18s ease, box-shadow .18s ease;
+}
+body.product-body .nova-top-tabs a:hover {
+  background: rgba(255,255,255,.72);
+  color: #171a20 !important;
+}
+body.product-body .nova-top-tabs a:active { transform: scale(.97); }
+body.product-body .nova-top-tabs a.active {
+  background: #fff !important;
+  color: #2f7fda !important;
+  box-shadow: 0 4px 14px rgba(50, 89, 136, .09), inset 0 0 0 1px rgba(95,168,255,.12);
+}
+body.product-body .nova-top-tabs a:focus-visible,
+body.product-body .ios26-icon-btn:focus-visible,
+body.product-body .sidebar a:focus-visible {
+  outline: 3px solid rgba(95,168,255,.34) !important;
+  outline-offset: 3px !important;
+}
+
+/* ---------- Expansive content canvas ---------- */
+body.product-body .main-wrap {
+  width: calc(100% - 28px) !important;
+  max-width: none !important;
+  margin: 0 auto !important;
+  padding: 22px 0 44px !important;
+}
+body.product-body .page-grid,
+body.product-body .page-grid.has-context {
+  gap: 18px !important;
+}
+body.product-body .page-grid.has-context {
+  grid-template-columns: minmax(0, 1fr) minmax(300px, 350px) !important;
+}
+body.product-body .home-kicker { margin-bottom: 16px !important; }
+body.product-body .home-kicker strong { color: var(--nova-ink) !important; }
+
+/* ---------- Shared white card language ---------- */
+body.product-body .decision-field,
+body.product-body .fi-horizon,
+body.product-body .context-panel,
+body.product-body .home-page .section,
+body.product-body .activity-header,
+body.product-body .ledger-toolbar,
+body.product-body .ledger,
+body.product-body .dossier-hero,
+body.product-body .evidence-panel,
+body.product-body .protection-band,
+body.product-body .detail-grid,
+body.product-body .card-quick,
+body.product-body .goal-hero,
+body.product-body .goal-ledger,
+body.product-body .task-panel,
+body.product-body .recipient-card,
+body.product-body .receipt-sheet,
+body.product-body .document-sheet,
+body.product-body .kyc-spine,
+body.product-body .control-list,
+body.product-body .review-panel,
+body.product-body .subscription-summary,
+body.product-body .settings-panel {
+  border: 1px solid rgba(17,19,24,.065) !important;
+  border-radius: 24px !important;
+  background: var(--nova-card) !important;
+  box-shadow: var(--nova-card-shadow) !important;
+}
+
+body.product-body .home-page .section {
+  margin: 0 !important;
+  padding: 20px !important;
+  min-width: 0;
+  overflow: hidden;
+}
+body.product-body .section-head { margin-bottom: 14px !important; }
+body.product-body .section-head h2 { font-size: 18px !important; line-height: 23px !important; }
+body.product-body .text-link { color: #4b8ed9 !important; }
+
+/* ---------- Home dashboard composition ---------- */
+body.product-body .decision-field {
+  padding: 22px !important;
+  overflow: hidden !important;
+  background:
+    radial-gradient(circle at 88% 4%, rgba(244,166,202,.20), transparent 30%),
+    radial-gradient(circle at 70% 0%, rgba(95,168,255,.16), transparent 28%),
+    #fff !important;
+}
+body.product-body .decision-top {
+  grid-template-columns: minmax(0, 1fr) minmax(260px, 320px) !important;
+  gap: 24px !important;
+  padding-bottom: 18px !important;
+  align-items: center !important;
+}
+body.product-body .money-amount {
+  color: #12151b !important;
+  font-size: clamp(3.1rem, 5vw, 5.6rem) !important;
+}
+body.product-body .decision-label { color: #26846a !important; }
+body.product-body .decision-label::before { background: var(--nova-mint) !important; }
+body.product-body .fi-delta { color: #26846a !important; }
+body.product-body .money-sub { border-top-color: rgba(17,19,24,.075) !important; }
+body.product-body .decision-actions {
+  width: 100% !important;
+  grid-template-columns: repeat(2, minmax(0,1fr)) !important;
+  display: grid !important;
+  gap: 10px !important;
+}
+body.product-body .decision-action {
+  min-width: 0 !important;
+  min-height: 82px;
+  padding: 13px !important;
+  border: 0 !important;
+  border-radius: 18px !important;
+  box-shadow: inset 0 0 0 1px rgba(17,19,24,.045) !important;
+}
+body.product-body .decision-action:first-child {
+  background: linear-gradient(145deg, #eaf4ff, #f7fbff) !important;
+  color: #2f7fda !important;
+}
+body.product-body .decision-action:last-child {
+  background: linear-gradient(145deg, #fff0f7, #fff9fc) !important;
+  color: #b55f8b !important;
+}
+body.product-body .decision-action svg { color: currentColor !important; }
+body.product-body .decision-action strong { color: #1b1e24 !important; }
+body.product-body .decision-action small { color: #7a818d !important; }
+body.product-body .decision-action:hover { transform: translateY(-2px) !important; border-color: transparent !important; }
+
+body.product-body .fi-horizon {
+  margin-top: 2px !important;
+  padding: 20px !important;
+  color: var(--nova-ink) !important;
+  background: linear-gradient(180deg, #ffffff 0%, #fbfdff 100%) !important;
+}
+body.product-body .fi-horizon-head h2 { color: var(--nova-ink) !important; }
+body.product-body .fi-horizon-head p,
+body.product-body .fi-horizon-range,
+body.product-body .fi-event span,
+body.product-body .fi-horizon-foot { color: var(--nova-secondary) !important; }
+body.product-body .fi-chart {
+  border-color: rgba(17,19,24,.07) !important;
+  background: linear-gradient(180deg, rgba(234,244,255,.60), rgba(255,255,255,0));
+  border-radius: 18px;
+  overflow: hidden;
+}
+body.product-body .fi-grid-line { stroke: rgba(62, 91, 126, .10) !important; }
+body.product-body .fi-buffer-line { stroke: var(--nova-lavender) !important; }
+body.product-body .fi-forecast-line { stroke: var(--nova-blue) !important; }
+body.product-body .fi-forecast-area { fill: rgba(244,166,202,.14) !important; }
+body.product-body .fi-event-dot { fill: #fff !important; stroke: var(--nova-yellow) !important; }
+body.product-body .fi-today-dot { fill: var(--nova-blue) !important; stroke: #fff !important; }
+body.product-body .fi-chart-label { fill: #7a818d !important; }
+body.product-body .fi-chart-value { fill: #252932 !important; }
+body.product-body .fi-event {
+  border-left-color: rgba(17,19,24,.075) !important;
+  border-radius: 14px;
+}
+body.product-body .fi-event strong { color: #282c34 !important; }
+body.product-body .fi-event b { color: #b97e16 !important; }
+body.product-body .fi-horizon-foot strong { color: #2f7fda !important; }
+
+body.product-body .context-panel {
+  position: sticky !important;
+  top: 92px !important;
+  padding: 20px !important;
+}
+body.product-body .pulse-bars {
+  border-radius: 18px;
+  padding: 12px 10px 0 !important;
+  background: #f8fafc;
+}
+body.product-body .pulse-bars span { border-radius: 999px 999px 5px 5px !important; background: var(--nova-blue) !important; }
+body.product-body .pulse-bars span:nth-child(2n) { background: var(--nova-pink) !important; }
+body.product-body .pulse-bars span:nth-child(3n) { background: var(--nova-yellow) !important; }
+body.product-body .pulse-bars span:nth-child(4n) { background: var(--nova-lavender) !important; }
+body.product-body .pulse-bars span:nth-child(5n) { background: var(--nova-mint) !important; }
+body.product-body .insight-line { border-color: rgba(17,19,24,.07) !important; }
+
+body.product-body .attention-strip {
+  border: 0 !important;
+  border-radius: 18px !important;
+  background: var(--nova-pink-soft) !important;
+  box-shadow: inset 0 0 0 1px rgba(244,166,202,.24) !important;
+}
+body.product-body .attention-mark {
+  border-radius: 14px !important;
+  background: #fff !important;
+  color: #c26894 !important;
+}
+body.product-body .goal-strip {
+  border: 0 !important;
+  border-radius: 18px !important;
+  background: var(--nova-lavender-soft) !important;
+  padding: 18px !important;
+}
+body.product-body .progress { background: rgba(175,161,255,.16) !important; }
+body.product-body .progress > span {
+  background: linear-gradient(90deg, var(--nova-blue), var(--nova-pink)) !important;
+  border-radius: inherit !important;
+}
+body.product-body .goal-percent { color: #6656c8 !important; }
+body.product-body .upcoming-row,
+body.product-body .ledger-row,
+body.product-body .list-row { border-color: rgba(17,19,24,.065) !important; }
+body.product-body .upcoming-date {
+  border: 0 !important;
+  border-radius: 14px !important;
+  background: var(--nova-yellow-soft) !important;
+  color: #8b681a !important;
+}
+
+@media (min-width: 1380px) {
+  body.product-body .home-page .page-grid > div:first-child {
+    display: grid !important;
+    grid-template-columns: repeat(12, minmax(0, 1fr)) !important;
+    gap: 18px !important;
+    align-items: stretch !important;
+  }
+  body.product-body .home-page .page-grid > div:first-child > .decision-field {
+    grid-column: 1 / -1 !important;
+    grid-row: 1 !important;
+  }
+  body.product-body .home-page .page-grid > div:first-child > .section:nth-of-type(2) {
+    grid-column: 1 / 6 !important;
+    grid-row: 2 !important;
+  }
+  body.product-body .home-page .page-grid > div:first-child > .section:nth-of-type(4) {
+    grid-column: 6 / -1 !important;
+    grid-row: 2 !important;
+  }
+  body.product-body .home-page .page-grid > div:first-child > .section:nth-of-type(3) {
+    grid-column: 1 / 6 !important;
+    grid-row: 3 !important;
+  }
+  body.product-body .home-page .page-grid > div:first-child > .section:nth-of-type(5) {
+    grid-column: 6 / -1 !important;
+    grid-row: 3 !important;
+  }
+  body.product-body .home-page .page-grid > div:first-child > .section:nth-of-type(3),
+  body.product-body .home-page .page-grid > div:first-child > .section:nth-of-type(5) {
+    min-height: 100% !important;
+  }
+}
+
+/* ---------- Secondary screens: same card grid language ---------- */
+body.product-body .activity-header {
+  padding: 20px !important;
+  margin-bottom: 16px !important;
+}
+body.product-body .cashflow-strip {
+  gap: 10px !important;
+}
+body.product-body .cashflow-item {
+  border: 0 !important;
+  border-radius: 18px !important;
+  background: #f8fafc !important;
+  padding: 15px !important;
+}
+body.product-body .cashflow-item:nth-child(1) { background: var(--nova-mint-soft) !important; }
+body.product-body .cashflow-item:nth-child(2) { background: var(--nova-pink-soft) !important; }
+body.product-body .cashflow-item:nth-child(3) { background: var(--nova-blue-soft) !important; }
+body.product-body .ledger-toolbar { padding: 14px !important; margin-bottom: 16px !important; border-bottom: 0 !important; }
+body.product-body .search-wrap .input,
+body.product-body .input,
+body.product-body select,
+body.product-body textarea {
+  border-color: rgba(17,19,24,.07) !important;
+  border-radius: 15px !important;
+  background: #f6f8fb !important;
+}
+body.product-body .chip {
+  border-color: transparent !important;
+  border-radius: 999px !important;
+  background: #f2f4f7 !important;
+}
+body.product-body .chip[aria-pressed="true"] {
+  background: var(--nova-blue-soft) !important;
+  color: #2f7fda !important;
+}
+body.product-body .ledger { overflow: hidden !important; }
+
+body.product-body .dossier-hero,
+body.product-body .protection-band,
+body.product-body .evidence-panel,
+body.product-body .card-quick,
+body.product-body .goal-hero,
+body.product-body .goal-ledger,
+body.product-body .task-panel,
+body.product-body .recipient-card,
+body.product-body .receipt-sheet {
+  padding: 22px !important;
+}
+body.product-body .risk-chip { background: var(--nova-pink-soft) !important; color: #a6557f !important; }
+body.product-body .status-success { background: var(--nova-mint-soft) !important; color: #26745d !important; }
+body.product-body .status-risk { background: var(--nova-pink-soft) !important; color: #a6557f !important; }
+body.product-body .status-neutral { background: #f2f4f7 !important; color: #5f6670 !important; }
+body.product-body .btn-primary {
+  border-color: transparent !important;
+  background: #1e86f3 !important;
+  color: #fff !important;
+}
+body.product-body .btn-secondary {
+  border-color: rgba(17,19,24,.07) !important;
+  background: #f5f7fa !important;
+  color: #20242b !important;
+}
+body.product-body .btn-risk {
+  border-color: transparent !important;
+  background: #ec7eaa !important;
+  color: #fff !important;
+}
+body.product-body .card-object {
+  border-radius: 28px !important;
+  background:
+    radial-gradient(circle at 84% 10%, rgba(255,255,255,.34), transparent 24%),
+    linear-gradient(135deg, #a9ceff 0%, #c8bcff 48%, #f4b9d4 100%) !important;
+  color: #13161d !important;
+  box-shadow: 0 20px 50px rgba(86, 95, 145, .18) !important;
+}
+body.product-body .card-object * { color: inherit !important; }
+
+/* ---------- Black floating desktop rail ---------- */
+@media (min-width: 1200px) {
+  body.product-body .sidebar {
+    position: fixed !important;
+    inset: 16px auto 16px 14px !important;
+    z-index: 170 !important;
+    width: 76px !important;
+    min-height: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    padding: 10px 8px !important;
+    border: 1px solid rgba(255,255,255,.10) !important;
+    border-radius: 28px !important;
+    background: linear-gradient(180deg, #0a0b0d 0%, #15171b 100%) !important;
+    color: #fff !important;
+    box-shadow: 0 20px 54px rgba(12,14,18,.24) !important;
+    overflow: hidden !important;
+  }
+  body.product-body .app-stage {
+    margin-left: 96px !important;
+    min-width: 0 !important;
+  }
+  body.product-body .sidebar .brand {
+    width: 52px !important;
+    height: 52px !important;
+    min-height: 52px !important;
+    margin: 0 auto 14px !important;
+    display: grid !important;
+    place-items: center !important;
+    padding: 0 !important;
+    border: 0 !important;
+    border-radius: 18px !important;
+    background: rgba(255,255,255,.08) !important;
+  }
+  body.product-body .sidebar .brand-lockup,
+  body.product-body .sidebar .nova-rail-mark {
+    width: 32px !important;
+    height: 32px !important;
+    object-fit: contain !important;
+  }
+  body.product-body .sidebar-account,
+  body.product-body .sidebar .side-nav a span:not(.nav-glyph),
+  body.product-body .sidebar .side-bottom .meta { display: none !important; }
+  body.product-body .sidebar .side-nav {
+    display: grid !important;
+    gap: 8px !important;
+    margin: 0 !important;
+  }
+  body.product-body .sidebar .side-nav a {
+    width: 50px !important;
+    height: 50px !important;
+    min-height: 50px !important;
+    margin: 0 auto !important;
+    padding: 0 !important;
+    display: grid !important;
+    place-items: center !important;
+    border: 0 !important;
+    border-radius: 17px !important;
+    background: rgba(255,255,255,.045) !important;
+    color: rgba(255,255,255,.72) !important;
+    text-decoration: none !important;
+    transition: background-color .18s ease, color .18s ease, transform .18s ease !important;
+  }
+  body.product-body .sidebar .side-nav a:hover {
+    background: rgba(255,255,255,.10) !important;
+    color: #fff !important;
+    transform: translateY(-1px) !important;
+  }
+  body.product-body .sidebar .side-nav a.active {
+    background: linear-gradient(145deg, #75b8ff, #5f9cff) !important;
+    color: #fff !important;
+    box-shadow: 0 8px 22px rgba(95,168,255,.30) !important;
+  }
+  body.product-body .sidebar .side-nav svg,
+  body.product-body .sidebar .nav-glyph svg {
+    width: 22px !important;
+    height: 22px !important;
+    stroke-width: 1.9 !important;
+  }
+  body.product-body .sidebar .side-bottom {
+    margin-top: auto !important;
+    padding: 8px 0 0 !important;
+    border: 0 !important;
+  }
+  body.product-body .main-wrap,
+  body.product-body .ios26-nav-inner {
+    width: calc(100% - 28px) !important;
+  }
+}
+
+/* Desktop/iPad use top navigation, not the iPhone dock. */
+@media (min-width: 768px) {
+  body.product-body .bottom-nav { display: none !important; }
+  body.product-body { padding-bottom: 24px !important; }
+}
+
+@media (max-width: 1199px) {
+  body.product-body .sidebar { display: none !important; }
+  body.product-body .app-stage { margin-left: 0 !important; }
+}
+
+@media (max-width: 1100px) {
+  body.product-body .page-grid,
+  body.product-body .page-grid.has-context,
+  body.product-body .dossier-layout,
+  body.product-body .card-grid {
+    grid-template-columns: minmax(0,1fr) !important;
+  }
+  body.product-body .context-panel { position: static !important; }
+  body.product-body .main-wrap,
+  body.product-body .ios26-nav-inner { width: calc(100% - 24px) !important; }
+}
+
+@media (max-width: 900px) {
+  body.product-body .ios26-nav-row { gap: 10px !important; }
+  body.product-body .nova-top-tabs a { padding-inline: 11px !important; }
+  body.product-body .decision-top { grid-template-columns: minmax(0,1fr) !important; }
+  body.product-body .decision-actions { max-width: none !important; }
+}
+
+@media (max-width: 767px) {
+  body.product-body { padding-bottom: calc(106px + env(safe-area-inset-bottom)) !important; }
+  body.product-body .ios26-nav { top: 8px !important; }
+  body.product-body .ios26-nav-inner { width: calc(100% - 20px) !important; }
+  body.product-body .ios26-nav-row {
+    grid-template-columns: 1fr auto !important;
+    border-radius: 22px !important;
+    padding: 6px 7px 6px 8px !important;
+  }
+  body.product-body .nova-top-tabs { display: none !important; }
+  body.product-body .ios26-nav-title { display: block !important; padding: 12px 5px 0 !important; }
+  body.product-body .ios26-nav-title h1 { font-size: 30px !important; }
+  body.product-body .bottom-nav {
+    display: grid !important;
+    background: rgba(255,255,255,.78) !important;
+    box-shadow: 0 16px 46px rgba(47,58,79,.18), inset 0 0 0 1px rgba(255,255,255,.48) !important;
+  }
+  body.product-body .bottom-nav a.active { background: var(--nova-blue-soft) !important; color: #2f7fda !important; }
+  body.product-body .main-wrap { width: calc(100% - 20px) !important; padding-top: 16px !important; }
+  body.product-body .decision-field,
+  body.product-body .fi-horizon,
+  body.product-body .context-panel,
+  body.product-body .home-page .section,
+  body.product-body .activity-header,
+  body.product-body .ledger-toolbar,
+  body.product-body .ledger,
+  body.product-body .dossier-hero,
+  body.product-body .evidence-panel,
+  body.product-body .protection-band,
+  body.product-body .card-quick,
+  body.product-body .goal-hero,
+  body.product-body .goal-ledger,
+  body.product-body .task-panel,
+  body.product-body .recipient-card,
+  body.product-body .receipt-sheet { border-radius: 20px !important; }
+  body.product-body .fi-events { grid-template-columns: repeat(2, minmax(0,1fr)) !important; }
+}
+
+@media (max-width: 520px) {
+  body.product-body .decision-actions { grid-template-columns: 1fr !important; }
+  body.product-body .fi-events { grid-template-columns: 1fr !important; }
+  body.product-body .fi-horizon-foot { display: grid !important; gap: 6px !important; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body.product-body *,
+  body.product-body *::before,
+  body.product-body *::after {
+    animation-duration: .001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
