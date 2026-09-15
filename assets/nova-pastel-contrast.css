@@ -1,0 +1,61 @@
+/* Contrast repair for the pastel visual layer.
+   Keep pastel in surfaces, charts, and highlights; use darker ink for readable labels/actions. */
+
+:root {
+  --nova-secondary: #555d69;
+  --nova-link: #1f66ad;
+}
+
+body.product-body .nova-top-tabs a.active,
+body.product-body .text-link,
+body.product-body .ios26-back,
+body.product-body .ios-search-cancel,
+body.product-body .horizon-range,
+body.product-body .fi-horizon-foot strong,
+body.product-body .bottom-nav a.active {
+  color: var(--nova-link) !important;
+}
+
+body.product-body .chip {
+  color: #555d69 !important;
+}
+
+body.product-body .chip[aria-pressed="true"] {
+  color: var(--nova-link) !important;
+}
+
+body.product-body .meta,
+body.product-body .list-sub,
+body.product-body .fi-horizon-range,
+body.product-body .fi-event span,
+body.product-body .fi-horizon-foot,
+body.product-body .fi-impact-total small,
+body.product-body .decision-action small,
+body.product-body .pulse-caption,
+body.product-body .ios26-nav-title p {
+  color: #555d69 !important;
+}
+
+body.product-body .fi-event b {
+  color: #76510b !important;
+}
+
+body.product-body .btn-primary {
+  background: #1264b5 !important;
+  color: #fff !important;
+}
+
+body.product-body .home-page .section .ledger {
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+body.product-body .status-risk {
+  color: #93436b !important;
+}
+
+body.product-body .status-success {
+  color: #1f6a53 !important;
+}
