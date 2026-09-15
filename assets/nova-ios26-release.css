@@ -1,0 +1,195 @@
+/* Nova iOS 26 — release polish after final screenshot review. */
+
+/* Home quick actions need enough intrinsic width for their labels at desktop. */
+body.product-body .decision-actions {
+  width: min(100%, 310px) !important;
+  grid-template-columns: repeat(2, minmax(145px, 1fr)) !important;
+}
+body.product-body .decision-action {
+  min-width: 0 !important;
+}
+body.product-body .decision-action strong,
+body.product-body .decision-action small {
+  max-width: 100% !important;
+  white-space: normal !important;
+  overflow: visible !important;
+  text-overflow: clip !important;
+}
+
+/* Savings milestone track: replace ledger-style rule/squares with a native progress rail. */
+body.product-body .goal-timeline {
+  position: relative !important;
+  margin-top: 30px !important;
+  padding-top: 18px !important;
+  border: 0 !important;
+  background: transparent !important;
+}
+body.product-body .goal-timeline::before {
+  content: "" !important;
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  height: 8px !important;
+  border-radius: 999px !important;
+  background: #e9e9ee !important;
+}
+body.product-body .goal-timeline-fill {
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 62% !important;
+  height: 8px !important;
+  border-radius: 999px !important;
+  background: #18794e !important;
+}
+body.product-body .goal-timeline-points {
+  display: grid !important;
+  grid-template-columns: repeat(4, minmax(0,1fr)) !important;
+  gap: 12px !important;
+  border: 0 !important;
+}
+body.product-body .goal-point {
+  min-width: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  background: transparent !important;
+}
+body.product-body .goal-point::before,
+body.product-body .goal-point::after {
+  content: none !important;
+  display: none !important;
+}
+body.product-body .goal-point strong {
+  display: block !important;
+  color: var(--nova-secondary) !important;
+  font: 620 11px/15px var(--nova-font) !important;
+}
+body.product-body .goal-point span {
+  display: block !important;
+  margin-top: 4px !important;
+  color: var(--nova-secondary) !important;
+  font: 450 11px/15px var(--nova-font) !important;
+  font-variant-numeric: tabular-nums !important;
+}
+body.product-body .goal-point:last-child { text-align: right !important; }
+
+/* KYC: turn the legacy ledger spine into a grouped native progress surface. */
+body.product-body .kyc-layout {
+  display: grid !important;
+  grid-template-columns: minmax(210px, 250px) minmax(0,1fr) !important;
+  gap: 24px !important;
+  align-items: start !important;
+}
+body.product-body .kyc-spine {
+  margin: 0 !important;
+  padding: 18px !important;
+  border: 1px solid rgba(60,60,67,.10) !important;
+  border-radius: 20px !important;
+  background: #fff !important;
+  box-shadow: 0 8px 24px rgba(22,22,26,.05) !important;
+}
+body.product-body .kyc-spine::before,
+body.product-body .kyc-spine::after {
+  content: none !important;
+  display: none !important;
+}
+body.product-body .kyc-spine h2 {
+  margin: 0 0 14px !important;
+  color: var(--nova-ink) !important;
+  font: 700 20px/25px var(--nova-font) !important;
+}
+body.product-body .kyc-spine ol {
+  list-style: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  display: grid !important;
+  gap: 6px !important;
+  border: 0 !important;
+}
+body.product-body .kyc-spine li {
+  position: relative !important;
+  min-height: 42px !important;
+  display: flex !important;
+  align-items: center !important;
+  margin: 0 !important;
+  padding: 9px 10px 9px 34px !important;
+  border: 0 !important;
+  border-radius: 12px !important;
+  background: #f2f2f7 !important;
+  color: #5c5c63 !important;
+  font: 560 12px/16px var(--nova-font) !important;
+}
+body.product-body .kyc-spine li::before {
+  content: "" !important;
+  display: block !important;
+  position: absolute !important;
+  left: 12px !important;
+  top: 50% !important;
+  width: 10px !important;
+  height: 10px !important;
+  margin: -5px 0 0 !important;
+  border: 2px solid #8e8e93 !important;
+  border-radius: 50% !important;
+  background: #fff !important;
+  box-sizing: border-box !important;
+}
+body.product-body .kyc-spine li.done {
+  background: #e7f5ed !important;
+  color: #145c3d !important;
+}
+body.product-body .kyc-spine li.done::before {
+  border-color: #18794e !important;
+  background: #18794e !important;
+  box-shadow: inset 0 0 0 2px #e7f5ed !important;
+}
+body.product-body .kyc-spine .meta {
+  margin: 14px 2px 0 !important;
+  color: var(--nova-secondary) !important;
+  font: 450 11px/16px var(--nova-font) !important;
+}
+body.product-body .document-sheet {
+  border: 1px solid rgba(60,60,67,.10) !important;
+  border-radius: 24px !important;
+  background: #fff !important;
+  box-shadow: 0 10px 28px rgba(22,22,26,.05) !important;
+}
+
+@media (max-width: 900px) {
+  body.product-body .decision-actions {
+    width: 100% !important;
+    grid-template-columns: repeat(2, minmax(0,1fr)) !important;
+  }
+  body.product-body .kyc-layout {
+    grid-template-columns: minmax(0,1fr) !important;
+  }
+  body.product-body .kyc-spine {
+    padding: 14px !important;
+    border-radius: 18px !important;
+  }
+  body.product-body .kyc-spine h2 { display: none !important; }
+  body.product-body .kyc-spine .eyebrow { margin-bottom: 8px !important; }
+  body.product-body .kyc-spine ol {
+    grid-template-columns: repeat(3, minmax(0,1fr)) !important;
+    gap: 6px !important;
+  }
+  body.product-body .kyc-spine li {
+    min-height: 38px !important;
+    justify-content: center !important;
+    padding: 7px 6px !important;
+    text-align: center !important;
+    font-size: 10px !important;
+    line-height: 13px !important;
+  }
+  body.product-body .kyc-spine li::before { display: none !important; }
+  body.product-body .kyc-spine .meta { display: none !important; }
+}
+
+@media (max-width: 430px) {
+  body.product-body .decision-actions { gap: 8px !important; }
+  body.product-body .decision-action { padding: 12px 10px !important; }
+  body.product-body .goal-timeline-points { gap: 5px !important; }
+  body.product-body .goal-point strong,
+  body.product-body .goal-point span { font-size: 10px !important; line-height: 13px !important; }
+  body.product-body .kyc-spine { margin-bottom: 2px !important; }
+}
