@@ -110,6 +110,10 @@ body.product-body .status-success {
     width: calc(100% - 96px) !important;
     max-width: calc(100% - 96px) !important;
   }
+
+  body.product-body .sidebar {
+    background-color: #0a0b0d !important;
+  }
 }
 
 @media (max-width: 1199px) {
