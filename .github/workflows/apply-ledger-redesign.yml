@@ -1,0 +1,71 @@
+name: Apply Ledger Redesign
+
+on:
+  push:
+    branches:
+      - feat/ledger-editorial-redesign
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  apply-ledger:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: feat/ledger-editorial-redesign
+          fetch-depth: 0
+
+      - name: Apply Ledger identity and stylesheet
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          root = Path('.')
+          html_files = list(root.glob('*.html'))
+          for path in html_files:
+              text = path.read_text(encoding='utf-8')
+              text = text.replace('#f3f0e8', '#f1ebdd')
+              text = text.replace('NOVA', 'Ledger')
+              text = text.replace('NVA_', 'LDG_')
+              text = text.replace('Financial Field Guide', 'Modern Daybook')
+              text = text.replace('Source Serif 4', 'Georgia')
+              text = text.replace('Inter / UI body', 'System sans / UI body')
+              text = text.replace(
+                  'Circular mark + direct wordmark. Recognition should come from the financial-field grammar even when the logo is removed.',
+                  'Ruled ledger mark + direct wordmark. Recognition should come from the financial-register grammar even when the logo is removed.'
+              )
+              text = text.replace(
+                  'Default grouped surfaces use 4–12px radius. Pills are reserved for filters/status. The physical card keeps a recognisable card radius. Hairline rules and whitespace do most of the grouping; shadows are reserved for floating layers.',
+                  'Corners are square across product UI. Hairline rules, numeric alignment and whitespace do the grouping. Floating layers use stronger borders rather than decorative shadows.'
+              )
+              if 'assets/ledger.css' not in text:
+                  text = text.replace('</head>', '<link rel="stylesheet" href="assets/ledger.css">\n</head>')
+              path.write_text(text, encoding='utf-8')
+
+          js = Path('assets/nova.js')
+          text = js.read_text(encoding='utf-8')
+          text = text.replace('NOVA', 'Ledger').replace('NVA_', 'LDG_')
+          js.write_text(text, encoding='utf-8')
+
+          readme = Path('README.md')
+          if readme.exists():
+              text = readme.read_text(encoding='utf-8')
+              text = text.replace('NOVA', 'Ledger')
+              readme.write_text(text, encoding='utf-8')
+          PY
+
+      - name: Commit migration
+        run: |
+          if git diff --quiet; then
+            echo "No migration changes needed."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add '*.html' assets/nova.js README.md
+          git commit -m "refactor: apply Ledger identity across product"
+          git push origin HEAD:feat/ledger-editorial-redesign
