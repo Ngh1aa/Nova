@@ -42,7 +42,7 @@ test('core transfer flow works', async ({ page }) => {
   await page.getByRole('button', { name: 'Confirm with biometrics' }).click();
   await page.getByRole('dialog').getByRole('button', { name: 'Approve demo' }).click();
   await expect(page.getByRole('heading', { name: 'Transfer successful' })).toBeVisible();
-  await expect(page.getByText('No real money moved.')).toBeVisible();
+  await expect(page.getByText(/This portfolio prototype simulates a successful/)).toBeVisible();
 });
 
 test('Nova visual contract prevents Home overlap at portfolio breakpoints', async ({ page }) => {
