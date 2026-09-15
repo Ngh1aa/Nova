@@ -9,11 +9,15 @@
   min-width: 0 !important;
 }
 
-.impact-panel .money-amount {
+/* The review rail is intentionally narrower than the savings hero; give its
+   projected figure its own scale instead of inheriting the hero-sized goal amount. */
+.impact-panel .money-amount,
+.impact-panel .goal-amount {
   width: auto !important;
   max-width: 100% !important;
-  font-size: clamp(3.2rem, 4.6vw, 4.6rem) !important;
-  line-height: .88 !important;
+  font-size: clamp(3rem, 4.15vw, 3.75rem) !important;
+  line-height: .9 !important;
+  letter-spacing: -.035em !important;
   white-space: nowrap !important;
 }
 
