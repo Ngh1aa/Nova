@@ -34,6 +34,10 @@ jobs:
               text = text.replace('Financial Field Guide', 'Modern Daybook')
               text = text.replace('Source Serif 4', 'Georgia')
               text = text.replace('Inter / UI body', 'System sans / UI body')
+              text = text.replace('<span class="brand-mark" aria-hidden="true">N</span>', '<span class="brand-mark" aria-hidden="true">L</span>')
+              text = text.replace('Decision Field', 'Daybook Decision')
+              text = text.replace('Evidence Ledger', 'Statement Ledger')
+              text = text.replace('Focused Task Canvas', 'Transaction Worksheet')
               text = text.replace(
                   'Circular mark + direct wordmark. Recognition should come from the financial-field grammar even when the logo is removed.',
                   'Ruled ledger mark + direct wordmark. Recognition should come from the financial-register grammar even when the logo is removed.'
@@ -49,6 +53,7 @@ jobs:
           js = Path('assets/nova.js')
           text = js.read_text(encoding='utf-8')
           text = text.replace('NOVA', 'Ledger').replace('NVA_', 'LDG_')
+          text = text.replace('<span class="brand-mark" aria-hidden="true">N</span>', '<span class="brand-mark" aria-hidden="true">L</span>')
           js.write_text(text, encoding='utf-8')
 
           readme = Path('README.md')
@@ -67,5 +72,5 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add '*.html' assets/nova.js README.md
-          git commit -m "refactor: apply Ledger identity across product"
+          git commit -m "refactor: align Ledger identity and composition naming"
           git push origin HEAD:feat/ledger-editorial-redesign
