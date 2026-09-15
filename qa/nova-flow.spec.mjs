@@ -45,7 +45,7 @@ test('core transfer flow works', async ({ page }) => {
   await expect(page.getByText('No real money moved.')).toBeVisible();
 });
 
-test('Ledger visual contract prevents Home overlap at portfolio breakpoints', async ({ page }) => {
+test('Nova visual contract prevents Home overlap at portfolio breakpoints', async ({ page }) => {
   for (const [width, height] of [[390, 844], [768, 1024], [1024, 900], [1440, 1000]]) {
     await page.setViewportSize({ width, height });
     await page.goto('/app.html?screen=home');
@@ -72,7 +72,7 @@ test('Ledger visual contract prevents Home overlap at portfolio breakpoints', as
     expect(state.amountRight, `Safe-to-spend amount escapes viewport at ${width}px`).toBeLessThanOrEqual(state.viewportWidth + 1);
     expect(parseFloat(state.actionRadius)).toBe(0);
     expect(state.actionShadow).toBe('none');
-    expect(state.amountFontFamily.toLowerCase()).toContain('georgia');
+    expect(state.amountFontFamily.toLowerCase()).toContain('source serif 4');
   }
 });
 
@@ -92,7 +92,7 @@ test('portfolio screenshots render without overflow', async ({ page }) => {
       await page.setViewportSize({ width, height: width === 390 ? 844 : width === 768 ? 1024 : width === 1024 ? 900 : 1000 });
       await page.goto(route);
       await expect(page.locator('#main')).toBeVisible();
-      await shot(page, `ledger-${name}`, width, width === 390 ? 844 : width === 768 ? 1024 : width === 1024 ? 900 : 1000);
+      await shot(page, `nova-${name}`, width, width === 390 ? 844 : width === 768 ? 1024 : width === 1024 ? 900 : 1000);
     }
   }
 });
