@@ -1,0 +1,49 @@
+/* Passbook Ledger v2 — responsive containment repair.
+   Preserve literal ledger columns on small screens by scrolling the table
+   inside its paper leaf instead of widening the entire document. */
+
+body.passbook-v2 .main-wrap,
+body.passbook-v2 .main-wrap > *,
+body.passbook-v2 .page-grid,
+body.passbook-v2 .page-grid > *,
+body.passbook-v2 .section,
+body.passbook-v2 .goal-hero,
+body.passbook-v2 .goal-layout,
+body.passbook-v2 .goal-layout > *,
+body.passbook-v2 .pb-table-wrap {
+  min-width: 0 !important;
+  max-width: 100% !important;
+  box-sizing: border-box;
+}
+
+body.passbook-v2 .pb-table-wrap {
+  width: 100%;
+  overflow-x: auto !important;
+  overflow-y: hidden;
+  overscroll-behavior-inline: contain;
+  -webkit-overflow-scrolling: touch;
+}
+
+@media (max-width: 620px) {
+  body.passbook-v2 .main-wrap:not(.home-page) .section:has(> .pb-table-wrap) {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    overflow: hidden !important;
+  }
+
+  body.passbook-v2 .main-wrap:not(.home-page) .section:has(> .pb-table-wrap) > .pb-table-wrap {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    overflow-x: auto !important;
+  }
+
+  body.passbook-v2 .goal-hero,
+  body.passbook-v2 .goal-hero > *,
+  body.passbook-v2 .goal-layout,
+  body.passbook-v2 .goal-layout > * {
+    min-width: 0 !important;
+    max-width: 100% !important;
+  }
+}

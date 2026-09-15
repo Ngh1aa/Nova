@@ -1,0 +1,53 @@
+/* Passbook Ledger v2 — accessibility repair after real axe runtime audit. */
+
+body.passbook-v2 {
+  /* Keep the prompt palette, but promote small/meta copy from the decorative
+     muted tone to the supplied secondary-ink token so 11–16px text clears AA. */
+  --nova-muted: #524731;
+  --muted: #524731;
+  --pb-muted: #524731;
+}
+
+body.passbook-v2 .meta,
+body.passbook-v2 .eyebrow,
+body.passbook-v2 time,
+body.passbook-v2 small,
+body.passbook-v2 .field-hint,
+body.passbook-v2 .list-sub,
+body.passbook-v2 .upcoming-copy span,
+body.passbook-v2 .cashflow-item > span,
+body.passbook-v2 .detail-row dt,
+body.passbook-v2 .protection-band > p,
+body.passbook-v2 .card-quick > p,
+body.passbook-v2 .control-row p,
+body.passbook-v2 .step-labels span,
+body.passbook-v2 .review-row > span,
+body.passbook-v2 .impact-panel > p,
+body.passbook-v2 .horizon-note,
+body.passbook-v2 .horizon-range,
+body.passbook-v2 .kyc-steps li,
+body.passbook-v2 .document-sheet > p,
+body.passbook-v2 .pb-horizon-note,
+body.passbook-v2 .pb-horizon-head p {
+  color: #524731 !important;
+}
+
+body.passbook-v2 .attention-strip small {
+  color: #524731 !important;
+}
+
+/* The physical card is the only dark object; its microcopy must invert. */
+body.passbook-v2 .card-object,
+body.passbook-v2 .card-object strong,
+body.passbook-v2 .card-object small,
+body.passbook-v2 .card-object .card-brand,
+body.passbook-v2 .card-object .card-number {
+  color: #faf6ea !important;
+}
+body.passbook-v2 .card-object small { opacity: .88; }
+
+/* Focused ledger regions make horizontal tables keyboard-discoverable. */
+body.passbook-v2 .pb-table-wrap:focus-visible {
+  outline: 2px solid #241f16;
+  outline-offset: 3px;
+}
