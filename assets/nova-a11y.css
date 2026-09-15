@@ -14,8 +14,10 @@ body.product-body .horizon-note {
   color: #5f6a64 !important;
 }
 
+/* The dock is translucent and can sit over the dark Money Horizon surface,
+   so its inactive labels need a slightly stronger neutral than body metadata. */
 body.product-body .bottom-nav a {
-  color: #5f6a64 !important;
+  color: #59645e !important;
 }
 
 body.product-body .bottom-nav a:hover {
