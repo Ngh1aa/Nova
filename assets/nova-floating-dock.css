@@ -1,26 +1,14 @@
-/* Nova — floating navigation dock
-   Moves primary product navigation from a persistent sidebar to a modern,
-   platform-familiar bottom dock. The dock is intentionally restrained: a
-   translucent material surface, compact icon+label tabs, one clear active
-   state, and safe-area aware placement. */
+/* Nova — iOS-inspired floating navigation dock */
 
-body.passbook-v2 .app-shell {
+body.product-body .app-shell {
   display: block !important;
   min-height: 100vh;
 }
 
-body.passbook-v2 .sidebar {
-  display: none !important;
-}
+body.product-body .sidebar { display: none !important; }
+body.product-body .app-stage { width: 100% !important; min-width: 0 !important; }
 
-body.passbook-v2 .app-stage {
-  width: 100% !important;
-  min-width: 0 !important;
-}
-
-/* Keep identity and utility actions at the top while primary navigation moves
-   to the dock. This is deliberately much quieter than the old left rail. */
-body.passbook-v2 .mobile-topbar {
+body.product-body .mobile-topbar {
   display: flex !important;
   position: sticky;
   top: 0;
@@ -29,50 +17,58 @@ body.passbook-v2 .mobile-topbar {
   padding: 10px clamp(16px, 3vw, 40px) !important;
   align-items: center;
   justify-content: space-between;
-  background: color-mix(in srgb, var(--pb-page) 84%, transparent) !important;
+  background: rgba(255,255,255,.82) !important;
   border: 0 !important;
-  border-bottom: 1px solid color-mix(in srgb, var(--pb-ink) 10%, transparent) !important;
+  border-bottom: 1px solid rgba(18,23,20,.07) !important;
   backdrop-filter: blur(22px) saturate(1.18) !important;
   -webkit-backdrop-filter: blur(22px) saturate(1.18) !important;
 }
 
-body.passbook-v2 .mobile-topbar .brand {
+body.product-body .mobile-topbar .brand {
   display: inline-flex !important;
   align-items: center;
   gap: 10px;
+  color: var(--fi-ink, #121714) !important;
+  font-family: var(--fi-sans, Inter, sans-serif) !important;
+  font-size: 14px;
+  font-weight: 700 !important;
+  letter-spacing: -.02em !important;
   text-decoration: none;
 }
 
-body.passbook-v2 .mobile-topbar .brand-mark {
+body.product-body .mobile-topbar .brand-mark {
   width: 34px !important;
   height: 34px !important;
+  display: grid !important;
+  place-items: center;
+  border: 0 !important;
   border-radius: 10px !important;
-  background: var(--pb-ink) !important;
-  color: var(--pb-page) !important;
+  background: var(--fi-ink, #121714) !important;
+  color: #fff !important;
+  font-family: var(--fi-sans, Inter, sans-serif) !important;
+  font-weight: 700 !important;
 }
 
-body.passbook-v2 .mobile-topbar .utility-actions {
+body.product-body .mobile-topbar .utility-actions {
   display: flex !important;
   align-items: center;
   gap: 8px;
 }
 
-body.passbook-v2 .mobile-topbar .icon-btn {
+body.product-body .mobile-topbar .icon-btn {
   width: 38px !important;
   height: 38px !important;
   display: grid !important;
   place-items: center;
   border-radius: 12px !important;
-  border: 1px solid color-mix(in srgb, var(--pb-ink) 12%, transparent) !important;
-  background: color-mix(in srgb, var(--pb-page) 76%, transparent) !important;
+  border: 1px solid rgba(18,23,20,.08) !important;
+  background: rgba(255,255,255,.8) !important;
+  color: var(--fi-ink, #121714) !important;
+  box-shadow: none !important;
 }
+body.product-body .mobile-topbar .icon-btn:hover { background: #eef3f0 !important; }
 
-body.passbook-v2 .mobile-topbar .icon-btn:hover {
-  background: var(--pb-track) !important;
-}
-
-/* iOS-inspired floating tab dock. */
-body.passbook-v2 .bottom-nav {
+body.product-body .bottom-nav {
   display: flex !important;
   position: fixed !important;
   left: 50% !important;
@@ -81,24 +77,24 @@ body.passbook-v2 .bottom-nav {
   bottom: max(18px, env(safe-area-inset-bottom)) !important;
   transform: translateX(-50%) !important;
   z-index: 120 !important;
-  width: min(560px, calc(100vw - 40px)) !important;
-  height: auto !important;
+  width: min(570px, calc(100vw - 40px)) !important;
   min-height: 72px;
-  padding: 8px !important;
+  height: auto !important;
+  padding: 7px !important;
   gap: 4px !important;
   grid-template-columns: none !important;
   align-items: stretch;
   justify-content: center;
   overflow: visible !important;
-  border: 1px solid color-mix(in srgb, var(--pb-ink) 12%, transparent) !important;
-  border-radius: 24px !important;
-  background: color-mix(in srgb, var(--pb-page) 82%, transparent) !important;
-  box-shadow: 0 14px 40px rgba(36, 31, 22, .14), 0 2px 8px rgba(36, 31, 22, .08) !important;
-  backdrop-filter: blur(26px) saturate(1.2) !important;
-  -webkit-backdrop-filter: blur(26px) saturate(1.2) !important;
+  border: 1px solid rgba(18,23,20,.09) !important;
+  border-radius: 25px !important;
+  background: rgba(255,255,255,.86) !important;
+  box-shadow: 0 18px 52px rgba(18,23,20,.13), 0 3px 10px rgba(18,23,20,.06) !important;
+  backdrop-filter: blur(28px) saturate(1.25) !important;
+  -webkit-backdrop-filter: blur(28px) saturate(1.25) !important;
 }
 
-body.passbook-v2 .bottom-nav a {
+body.product-body .bottom-nav a {
   position: relative;
   flex: 1 1 0;
   min-width: 0;
@@ -109,86 +105,42 @@ body.passbook-v2 .bottom-nav a {
   align-items: center;
   justify-content: center;
   gap: 4px;
-  color: var(--pb-muted) !important;
+  color: #78847e !important;
   background: transparent !important;
   border: 0 !important;
-  border-radius: 17px !important;
+  border-radius: 18px !important;
   text-decoration: none;
-  font: 600 11px/1 var(--pb-sans) !important;
+  font: 650 11px/1 var(--fi-sans, Inter, sans-serif) !important;
   transition: color .18s ease, background-color .18s ease, transform .18s ease !important;
 }
 
-body.passbook-v2 .bottom-nav a .nav-glyph {
+body.product-body .bottom-nav a .nav-glyph {
   width: 22px;
   height: 22px;
   display: grid;
   place-items: center;
 }
-
-body.passbook-v2 .bottom-nav a .nav-glyph svg {
-  width: 20px;
-  height: 20px;
-  stroke-width: 1.8;
+body.product-body .bottom-nav a .nav-glyph svg { width: 20px; height: 20px; stroke-width: 1.8; }
+body.product-body .bottom-nav a:hover { color: #121714 !important; background: #eef3f0 !important; }
+body.product-body .bottom-nav a:active { transform: scale(.96) !important; }
+body.product-body .bottom-nav a.active {
+  color: #fff !important;
+  background: #121714 !important;
 }
+body.product-body .bottom-nav a.active .nav-glyph { color: #fff !important; }
 
-body.passbook-v2 .bottom-nav a:hover {
-  color: var(--pb-ink) !important;
-  background: color-mix(in srgb, var(--pb-track) 70%, transparent) !important;
-}
+body.product-body .main-wrap { padding-bottom: 142px !important; }
 
-body.passbook-v2 .bottom-nav a:active {
-  transform: scale(.96) !important;
-}
-
-body.passbook-v2 .bottom-nav a.active {
-  color: var(--pb-page) !important;
-  background: var(--pb-ink) !important;
-}
-
-body.passbook-v2 .bottom-nav a.active .nav-glyph {
-  color: var(--pb-page) !important;
-}
-
-body.passbook-v2 .main-wrap {
-  padding-bottom: 136px !important;
-}
-
-/* Tablet and phone: the dock expands to the available width and sits above
-   the iOS safe area. Labels remain visible because this prototype has only
-   five primary destinations. */
 @media (max-width: 900px) {
-  body.passbook-v2 .mobile-topbar {
-    padding-inline: 18px !important;
-  }
-
-  body.passbook-v2 .main-wrap {
-    padding-bottom: 128px !important;
-  }
+  body.product-body .mobile-topbar { padding-inline: 18px !important; }
+  body.product-body .main-wrap { padding-bottom: 128px !important; }
 }
 
 @media (max-width: 620px) {
-  body.passbook-v2 .mobile-topbar {
-    min-height: 58px;
-    padding: 8px 14px !important;
-  }
-
-  body.passbook-v2 .mobile-topbar .brand > span:last-child {
-    font-size: 15px;
-  }
-
-  body.passbook-v2 .mobile-topbar .brand-mark {
-    width: 32px !important;
-    height: 32px !important;
-    border-radius: 9px !important;
-  }
-
-  body.passbook-v2 .mobile-topbar .icon-btn {
-    width: 36px !important;
-    height: 36px !important;
-    border-radius: 11px !important;
-  }
-
-  body.passbook-v2 .bottom-nav {
+  body.product-body .mobile-topbar { min-height: 58px; padding: 8px 14px !important; }
+  body.product-body .mobile-topbar .brand-mark { width: 32px !important; height: 32px !important; border-radius: 9px !important; }
+  body.product-body .mobile-topbar .icon-btn { width: 36px !important; height: 36px !important; border-radius: 11px !important; }
+  body.product-body .bottom-nav {
     width: calc(100vw - 20px) !important;
     bottom: max(10px, env(safe-area-inset-bottom)) !important;
     min-height: 66px;
@@ -196,28 +148,18 @@ body.passbook-v2 .main-wrap {
     gap: 2px !important;
     border-radius: 22px !important;
   }
-
-  body.passbook-v2 .bottom-nav a {
+  body.product-body .bottom-nav a {
     min-height: 54px;
     padding: 6px 3px !important;
     gap: 3px;
     border-radius: 16px !important;
     font-size: 10px !important;
   }
-
-  body.passbook-v2 .bottom-nav a .nav-glyph,
-  body.passbook-v2 .bottom-nav a .nav-glyph svg {
-    width: 19px;
-    height: 19px;
-  }
-
-  body.passbook-v2 .main-wrap {
-    padding-bottom: 112px !important;
-  }
+  body.product-body .bottom-nav a .nav-glyph,
+  body.product-body .bottom-nav a .nav-glyph svg { width: 19px; height: 19px; }
+  body.product-body .main-wrap { padding-bottom: 112px !important; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  body.passbook-v2 .bottom-nav a {
-    transition: none !important;
-  }
+  body.product-body .bottom-nav a { transition: none !important; }
 }
