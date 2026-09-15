@@ -39,4 +39,11 @@
       amount.replaceWith(heading);
     }
   }
+
+  // NOVA moves focus to main after render for assistive-tech context. Remove only the automatic
+  // page-load focus ring; later keyboard focus (for example via the skip link) still renders normally.
+  requestAnimationFrame(() => {
+    const main = document.querySelector('#main');
+    if (main && document.activeElement === main) main.blur();
+  });
 })();
