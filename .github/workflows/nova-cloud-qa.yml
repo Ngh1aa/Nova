@@ -5,6 +5,7 @@ on:
     branches:
       - feat/nova-portfolio-grade
       - feat/nova-financial-field-guide
+      - fix/nova-lighthouse-stability
   pull_request:
     branches:
       - main
