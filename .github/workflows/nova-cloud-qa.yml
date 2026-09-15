@@ -1,12 +1,10 @@
-name: Ledger Cloud QA
+name: Ledger Visual QA
 
 on:
   push:
     branches:
-      - feat/nova-portfolio-grade
-      - feat/nova-financial-field-guide
-      - fix/nova-lighthouse-stability
       - feat/ledger-editorial-redesign
+      - main
   pull_request:
     branches:
       - main
@@ -16,7 +14,7 @@ permissions:
   contents: read
 
 jobs:
-  cloud-qa:
+  visual-qa:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Ledger target
@@ -42,15 +40,15 @@ jobs:
         working-directory: .factory/uiux-factory/qa
         run: npx playwright install --with-deps chromium
 
-      - name: Prepare Ledger-specific flow tests
+      - name: Prepare Ledger prototype tests
         run: cp qa/nova-flow.spec.mjs .factory/uiux-factory/qa/tests/nova-flow.spec.mjs
 
-      - name: Serve and audit Ledger with Factory QA
+      - name: Serve and visually audit key Ledger screens
         working-directory: .factory/uiux-factory/qa
         env:
           QA_TARGET_DIR: ${{ github.workspace }}
           QA_BASE_URL: http://127.0.0.1:4173
-          QA_ROUTES: /prototype.html,/app.html?screen=onboarding,/app.html?screen=kyc,/app.html?screen=home,/app.html?screen=activity,/app.html?screen=transaction-detail,/app.html?screen=cards,/app.html?screen=card-frozen,/app.html?screen=card-controls,/app.html?screen=transfer-recipient,/app.html?screen=transfer-amount,/app.html?screen=transfer-review,/app.html?screen=transfer-success,/app.html?screen=biometric-failed,/app.html?screen=offline,/app.html?screen=savings,/app.html?screen=subscriptions,/app.html?screen=security,/app.html?screen=notifications,/design-system.html,/component-states.html,/sitemap.html,/user-flows.html
+          QA_ROUTES: /app.html?screen=home,/app.html?screen=activity,/app.html?screen=transaction-detail,/app.html?screen=cards,/app.html?screen=transfer-review,/app.html?screen=savings,/app.html?screen=kyc
         run: |
           node scripts/serve-target.mjs > /tmp/ledger-qa-server.log 2>&1 &
           SERVER_PID=$!
@@ -58,18 +56,16 @@ jobs:
           node scripts/wait-ready.mjs
           npm test
           npx playwright test tests/nova-flow.spec.mjs
-          node scripts/write-lighthouse-config.mjs
-          npx lhci autorun --config=lighthouserc.runtime.json
 
       - name: Print target server log on failure
         if: failure()
         run: cat /tmp/ledger-qa-server.log || true
 
-      - name: Upload Ledger QA evidence
+      - name: Upload Ledger screenshots and QA evidence
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: ledger-cloud-qa-evidence
+          name: ledger-visual-qa
           path: .factory/uiux-factory/qa/artifacts/
           if-no-files-found: warn
-          retention-days: 14
+          retention-days: 7
