@@ -7,6 +7,10 @@
   <meta name="description" content="NOVA personal banking and money health interactive portfolio prototype.">
   <title>NOVA — Personal Banking & Money Health</title>
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Source+Serif+4:opsz,wght@8..60,500;8..60,600&display=swap">
+  <link rel="preload" href="assets/nova.js" as="script">
   <link rel="stylesheet" href="assets/nova.css">
   <link rel="stylesheet" href="assets/accessibility.css">
 </head>
@@ -20,7 +24,15 @@
     </main>
   </div>
   <noscript><div class="noscript">NOVA’s interactive product flow needs JavaScript. The research and evidence pages remain available from <a href="prototype.html">prototype.html</a>.</div></noscript>
-  <script src="assets/route-bootstrap.js"></script>
+  <script>
+    (() => {
+      'use strict';
+      try {
+        const screen = new URLSearchParams(location.search).get('screen');
+        if (screen === 'card-frozen') localStorage.setItem('nova_card_frozen', 'true');
+      } catch {}
+    })();
+  </script>
   <script src="assets/nova.js" defer></script>
   <script src="assets/accessibility.js" defer></script>
 </body>
