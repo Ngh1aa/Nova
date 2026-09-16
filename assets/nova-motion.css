@@ -1,0 +1,144 @@
+/* Nova motion pass — precise / kinetic / system-led
+   Signature: compact route reveal + tactile rail/action feedback. */
+
+:root{
+  --nova-motion-micro:120ms;
+  --nova-motion-fast:180ms;
+  --nova-motion-base:260ms;
+  --nova-motion-route:360ms;
+  --nova-motion-ease:cubic-bezier(.2,.72,.25,1);
+  --nova-motion-spring:cubic-bezier(.16,1,.3,1);
+}
+
+html.nova-motion-enabled [data-nova-motion="surface"]{
+  transition:
+    opacity var(--nova-motion-route) var(--nova-motion-spring),
+    transform var(--nova-motion-route) var(--nova-motion-spring),
+    box-shadow var(--nova-motion-base) var(--nova-motion-ease),
+    border-color var(--nova-motion-fast) ease,
+    background-color var(--nova-motion-fast) ease;
+  transition-delay:var(--nova-motion-delay,0ms);
+}
+
+html.nova-motion-enabled [data-nova-motion="surface"]:not(.is-nova-motion-visible){
+  opacity:0;
+  transform:translate3d(0,10px,0) scale(.996);
+}
+
+html.nova-motion-enabled [data-nova-motion="row"]{
+  transition:
+    opacity var(--nova-motion-base) var(--nova-motion-spring),
+    transform var(--nova-motion-base) var(--nova-motion-spring),
+    background-color var(--nova-motion-fast) ease;
+  transition-delay:var(--nova-motion-delay,0ms);
+}
+
+html.nova-motion-enabled [data-nova-motion="row"]:not(.is-nova-motion-visible){
+  opacity:0;
+  transform:translate3d(8px,0,0);
+}
+
+/* Sidebar behaves like an instrument panel, not a floating toy. */
+body.product-body .v5-rail-icon,
+body.product-body .v4-rail-nav a,
+body.product-body .v4-icon-button,
+body.product-body .nova-icon,
+body.product-body .v4-avatar{
+  transition:
+    transform var(--nova-motion-fast) var(--nova-motion-spring),
+    background-color var(--nova-motion-fast) ease,
+    box-shadow var(--nova-motion-base) var(--nova-motion-ease),
+    color var(--nova-motion-fast) ease;
+}
+
+@media (hover:hover) and (pointer:fine){
+  body.product-body .v4-rail-nav a:hover .v5-rail-icon,
+  body.product-body .v4-icon-button:hover,
+  body.product-body .nova-icon:hover{
+    transform:translate3d(0,-2px,0);
+  }
+
+  body.product-body .v4-rail-nav a:active .v5-rail-icon,
+  body.product-body .v4-icon-button:active,
+  body.product-body .nova-icon:active{
+    transform:translate3d(0,1px,0) scale(.98);
+  }
+
+  body.product-body :is(.nova-card,.v3-surface,.v4-card,.decision-field,.fi-horizon,.context-panel,.activity-header,.ledger,.task-panel,.settings-panel):hover{
+    box-shadow:0 18px 44px rgba(29,43,60,.08)!important;
+  }
+}
+
+/* Active rail gets one crisp state change, no looping pulse. */
+body.product-body .v4-rail-nav a.active .v5-rail-icon{
+  transform:translateZ(0);
+}
+
+body.product-body .v4-rail-nav a.active .v5-rail-icon::after{
+  content:"";
+  position:absolute;
+  inset:auto 9px 6px;
+  height:2px;
+  border-radius:999px;
+  background:rgba(255,255,255,.92);
+  transform:scaleX(1);
+  transform-origin:center;
+}
+
+body.product-body .v5-rail-icon{position:relative}
+
+/* Controls: quick, tactile, finance-grade. */
+body.product-body :is(.btn,.nova-action,.v3-primary-action,.v3-action-tile,.v4-action,.v4-full-action,.chip,.back-link){
+  transition:
+    transform var(--nova-motion-fast) var(--nova-motion-spring),
+    box-shadow var(--nova-motion-fast) var(--nova-motion-ease),
+    background-color var(--nova-motion-fast) ease,
+    color var(--nova-motion-fast) ease,
+    border-color var(--nova-motion-fast) ease;
+}
+
+@media (hover:hover) and (pointer:fine){
+  body.product-body :is(.btn,.nova-action,.v3-primary-action,.v3-action-tile,.v4-action,.v4-full-action,.back-link):hover{
+    transform:translate3d(0,-2px,0);
+  }
+}
+
+body.product-body :is(.btn,.nova-action,.v3-primary-action,.v3-action-tile,.v4-action,.v4-full-action,.back-link):active{
+  transform:translate3d(0,1px,0) scale(.99);
+  transition-duration:var(--nova-motion-micro);
+}
+
+/* Focus states appear with a short system snap. */
+body.product-body :is(input,select,textarea,.input,.search-wrap,.v4-search-box){
+  transition:
+    box-shadow var(--nova-motion-fast) var(--nova-motion-ease),
+    border-color var(--nova-motion-fast) ease,
+    background-color var(--nova-motion-fast) ease;
+}
+
+/* Progress/state indicators fill with intent when introduced. */
+body.product-body :is(.progress,.v3-progress,.v3-mini-progress,.v3-meter,.goal-timeline,.horizon-bar) > *{
+  transition:width var(--nova-motion-route) var(--nova-motion-spring), transform var(--nova-motion-route) var(--nova-motion-spring);
+  transform-origin:left center;
+}
+
+/* Mobile: preserve feedback but remove spatial entrance on dense screens. */
+@media (max-width:768px){
+  html.nova-motion-enabled [data-nova-motion="surface"]:not(.is-nova-motion-visible),
+  html.nova-motion-enabled [data-nova-motion="row"]:not(.is-nova-motion-visible){
+    transform:translate3d(0,6px,0);
+  }
+}
+
+@media (prefers-reduced-motion:reduce){
+  html.nova-motion-enabled [data-nova-motion],
+  html.nova-motion-enabled [data-nova-motion] *,
+  body.product-body .v5-rail-icon,
+  body.product-body .v4-rail-nav a,
+  body.product-body :is(.btn,.nova-action,.v3-primary-action,.v3-action-tile,.v4-action,.v4-full-action,.chip,.back-link,input,select,textarea,.input,.search-wrap,.v4-search-box){
+    animation:none!important;
+    transition-duration:.01ms!important;
+    opacity:1!important;
+    transform:none!important;
+  }
+}
