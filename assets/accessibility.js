@@ -38,6 +38,26 @@
     );
   }
 
+  // Later visual-system scripts render the Cards screen after this helper runs.
+  // Repair decorative/network marks whenever that late DOM arrives so aria-label
+  // is attached to a role that supports an accessible name.
+  const repairLateAria = (root = document) => {
+    root.querySelectorAll?.('.v3-network[aria-label]').forEach((node) => {
+      node.setAttribute('role', 'img');
+    });
+  };
+  repairLateAria();
+  const ariaObserver = new MutationObserver((mutations) => {
+    for (const mutation of mutations) {
+      for (const node of mutation.addedNodes) {
+        if (node.nodeType !== 1) continue;
+        if (node.matches?.('.v3-network[aria-label]')) node.setAttribute('role', 'img');
+        repairLateAria(node);
+      }
+    }
+  });
+  ariaObserver.observe(document.documentElement, { childList: true, subtree: true });
+
   // Remove only the automatic page-load focus ring after render. Keyboard focus reached later,
   // including through the skip link, still uses the global focus-visible treatment.
   requestAnimationFrame(() => {
