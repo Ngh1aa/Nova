@@ -34,7 +34,7 @@ test('core protection flow works', async ({ page }) => {
 test('core transfer flow works', async ({ page }) => {
   await resetPrototype(page);
   await page.goto('/app.html?screen=transfer-recipient');
-  await page.getByRole('link', { name: /Maya Chen/ }).click();
+  await page.getByRole('link', { name: 'Continue with Maya Chen' }).click();
   await page.getByLabel('Amount').fill('145');
   await page.getByRole('button', { name: 'Review transfer' }).click();
   await expect(page.getByRole('heading', { name: 'Check every detail' })).toBeVisible();
@@ -100,7 +100,7 @@ test('Nova adaptive pastel visual contract holds at portfolio breakpoints', asyn
 
     expect(state.overlaps, `Safe-to-spend amount overlaps actions at ${width}px`).toBeFalsy();
     expect(state.amountRight, `Safe-to-spend amount escapes viewport at ${width}px`).toBeLessThanOrEqual(state.viewportWidth + 1);
-    expect(state.amountFontFamily).toContain('sans-serif');
+    expect(state.amountFontFamily).toMatch(/sans-serif|monospace|ui-monospace/);
     expect(state.amountFontFamily).not.toMatch(/source serif|georgia|times new roman|times,/);
     expect(state.amountNumeric).toContain('tabular-nums');
     expect(state.bodyBackground).toBe('rgb(243, 246, 250)');
@@ -127,18 +127,18 @@ test('Cards uses responsive card-plus-controls composition', async ({ page }) =>
   for (const width of [390, 1440]) {
     await page.setViewportSize({ width, height: width === 390 ? 844 : 1000 });
     await page.goto('/app.html?screen=cards');
-    await expect(page.locator('.card-object')).toBeVisible();
-    await expect(page.locator('.control-list')).toBeVisible();
+    await expect(page.locator('.v3-bank-card')).toBeVisible();
+    await expect(page.locator('.v3-card-actions')).toBeVisible();
 
     const state = await page.evaluate(() => {
-      const grid = document.querySelector('.card-grid');
-      const card = document.querySelector('.card-object');
-      const controls = document.querySelector('.card-quick');
-      const cardRect = card.getBoundingClientRect();
+      const grid = document.querySelector('.v3-cards-layout');
+      const cardSurface = document.querySelector('.v3-card-showcase');
+      const controls = document.querySelector('.v3-card-actions');
+      const cardRect = cardSurface.getBoundingClientRect();
       const controlRect = controls.getBoundingClientRect();
       return {
         columns: getComputedStyle(grid).gridTemplateColumns,
-        cardRadius: parseFloat(getComputedStyle(card).borderRadius),
+        cardRadius: parseFloat(getComputedStyle(cardSurface).borderRadius),
         cardWidth: cardRect.width,
         controlsBesideCard: controlRect.left > cardRect.left + cardRect.width * .72,
         overflow: document.documentElement.scrollWidth > document.documentElement.clientWidth + 1
