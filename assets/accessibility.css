@@ -1,24 +1,72 @@
-/* Accessibility-specific refinements only. Core color and layout ownership lives in nova.css. */
+/* Accessibility helpers */
+.sr-only{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important}
+.skip-link{position:fixed;left:16px;top:12px;z-index:9999;transform:translateY(-180%);padding:10px 14px;background:#111318;color:#fff;border-radius:12px;text-decoration:none;font:700 13px/1.2 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+.skip-link:focus{transform:none}
 
-.mini-card p {
-  color: inherit;
+/* --------------------------------------------------------------------------
+   Nova evidence AA repair
+   The evidence visual layer is loaded later, so these intentionally use a
+   more-specific selector + !important. Palette surfaces stay unchanged.
+   -------------------------------------------------------------------------- */
+html body.evidence-body .evidence-kicker,
+html body.evidence-body .eyebrow,
+html body.evidence-body .evidence-hero > div > p:not(.evidence-kicker),
+html body.evidence-body .evidence-section p,
+html body.evidence-body .evidence-section li,
+html body.evidence-body .state-name,
+html body.evidence-body .meta,
+html body.evidence-body .flow-node span {
+  color:#596575!important;
 }
 
-.spacing-scale:focus-visible,
-.flow-track:focus-visible,
-.filter-row:focus-visible {
-  outline: 3px solid var(--focus);
-  outline-offset: 4px;
+html body.evidence-body .evidence-section a:not(.btn):not(.launch-card),
+html body.evidence-body .launch-link {
+  color:#1f67ad!important;
 }
 
-@media (max-width: 479px) {
-  /* Keep labels readable when Money Horizon zones become narrow. */
-  .horizon-zone.buffer {
-    font-size: 0;
-  }
+html body.evidence-body .btn-risk,
+html body.evidence-body .field-error,
+html body.evidence-body .status-risk {
+  color:#a53f53!important;
+}
 
-  .horizon-zone.buffer::after {
-    content: "Buffer";
-    font-size: .64rem;
-  }
+html body.evidence-body .status-pending {
+  color:#8a620e!important;
+}
+
+html body.evidence-body .horizon-zone {
+  color:#111318!important;
+}
+
+/* Color-token labels are labels, not brand marks: ink gives AA contrast on
+   the mid-tone Nova blue/lavender swatches while preserving the swatch color. */
+html body.evidence-body .swatch.dark {
+  color:#111318!important;
+}
+
+/* Flow diagrams wrap rather than creating a keyboard-inaccessible horizontal
+   scroll region. The sequence remains left-to-right and naturally continues. */
+html body.evidence-body .flow-track {
+  flex-wrap:wrap!important;
+  overflow-x:visible!important;
+}
+
+/* --------------------------------------------------------------------------
+   Existing Nova product baseline repair surfaced by the expanded QA gate.
+   These only strengthen small secondary text; geometry and palette are intact.
+   -------------------------------------------------------------------------- */
+html body.product-body .nova-mini-stat small,
+html body.product-body .v3-page-head > div > p,
+html body.product-body .v3-section-title > div > small,
+html body.product-body .v3-stat-grid small,
+html body.product-body .v3-stat-grid span,
+html body.product-body .v3-wallet-row > div > small,
+html body.product-body .v3-list a > div > small,
+html body.product-body .v3-goal-amount > span,
+html body.product-body .v3-goal-stats small,
+html body.product-body .v3-goal-row > div > small,
+html body.product-body .v3-contribution-row > div > small,
+html body.product-body .v3-horizon-items > div > span,
+html body.product-body button[data-v3-toggle] > span {
+  color:#596575!important;
 }
