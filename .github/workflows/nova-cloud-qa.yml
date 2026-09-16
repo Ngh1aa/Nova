@@ -43,12 +43,12 @@ jobs:
       - name: Prepare Nova prototype tests
         run: cp qa/nova-flow.spec.mjs .factory/uiux-factory/qa/tests/nova-flow.spec.mjs
 
-      - name: Serve and visually audit key Nova screens
+      - name: Serve and visually audit Nova product and evidence screens
         working-directory: .factory/uiux-factory/qa
         env:
           QA_TARGET_DIR: ${{ github.workspace }}
           QA_BASE_URL: http://127.0.0.1:4173
-          QA_ROUTES: /app.html?screen=home,/app.html?screen=activity,/app.html?screen=transaction-detail,/app.html?screen=cards,/app.html?screen=transfer-review,/app.html?screen=savings,/app.html?screen=kyc
+          QA_ROUTES: /app.html?screen=home,/app.html?screen=activity,/app.html?screen=transaction-detail,/app.html?screen=cards,/app.html?screen=transfer-review,/app.html?screen=savings,/app.html?screen=kyc,/prototype.html,/design-system.html,/component-states.html,/sitemap.html,/user-flows.html
         run: |
           node scripts/serve-target.mjs > /tmp/nova-qa-server.log 2>&1 &
           SERVER_PID=$!
