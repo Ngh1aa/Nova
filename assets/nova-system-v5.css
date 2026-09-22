@@ -96,6 +96,18 @@ body.product-body :is(
   border-radius:var(--v5-r-control)!important;
 }
 
+/* Critical decision actions need real separation. The previous system generations
+   relied on per-screen margins; after cascade consolidation that left adjacent
+   full-width controls only ~9px apart and axe correctly flagged WCAG 2.2 target-size. */
+body.product-body :is(.action-row,.button-row,.form-actions,.review-actions,.protection-actions,.kyc-actions){
+  display:flex;
+  flex-wrap:wrap;
+  gap:16px!important;
+}
+body.product-body :is(.action-row,.button-row,.form-actions,.review-actions,.protection-actions,.kyc-actions) :is(.btn,button,a[role="button"]){
+  min-height:44px;
+}
+
 /* Inputs and buttons inside cards get their own rounded container instead of touching the card edge. */
 body.product-body :is(.nova-card,.v3-surface,.v4-card,.section,.task-panel,.card-quick,.security-summary,.settings-panel) :is(button,.btn,.input,input[type="text"],input[type="search"],input[type="number"],select){
   border-radius:var(--v5-r-control)!important;
