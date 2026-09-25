@@ -40,14 +40,17 @@ body.product-body .v4-rail-nav a>span:last-child{font-size:9px!important;line-he
 body.product-body :is(.nova-card,.v3-surface,.v4-card,.decision-field,.fi-horizon,.context-panel,.activity-header,.ledger-toolbar,.ledger,.dossier-hero,.evidence-panel,.protection-band,.detail-grid,.card-quick,.goal-hero,.goal-ledger,.task-panel,.recipient-card,.receipt-sheet,.document-sheet,.kyc-spine,.control-list,.review-panel,.subscription-summary,.settings-panel,.notification-group,.security-summary,.recurring-total,.impact-panel,.section,.callout,.empty-state,.receipt,.onboarding-panel,.summary-card,.context-rail,.horizon){border-radius:var(--v5-r-card)!important;overflow:hidden!important}
 body.product-body :is(.btn,.input,.search-wrap,.switch,.chip,.status,.risk-chip,.back-link,.ios-search-cancel,.nova-action,.nova-kpi,.nova-account-row,.nova-protection-note,.nova-health-note,.nova-date-pill,.nova-icon,.nova-mini-stat,.v3-primary-action,.v3-action-tile,.v3-stat-grid>div,.v3-goal-row,.v3-add-goal,.v3-contribution-row,.v3-horizon-bar,.v3-horizon-items>div,.v3-toggle-row,.v3-device-row,.v3-wallet-row,.v3-settings-link,.v3-setting-row,.v3-segmented,.v4-action,.v4-search-box,.v4-recipient-chips>a,.v4-pay-list>div,.v4-transfer-list>a,.v4-context-grid>div,.v4-full-action,.v4-icon-button,.v4-avatar,.v4-list-icon,.v4-status){border-radius:var(--v5-r-control)!important}
 
-/* WCAG 2.2 target separation. First repair targeted historical action-group names,
-   but run #146 proved these three live pairs use different wrappers. Keep the general
-   rule and explicitly separate the verified critical primaries without changing flow. */
-body.product-body :is(.action-row,.button-row,.form-actions,.review-actions,.protection-actions,.kyc-actions){display:flex;flex-wrap:wrap;gap:16px!important}
-body.product-body :is(.action-row,.button-row,.form-actions,.review-actions,.protection-actions,.kyc-actions) :is(.btn,button,a[role="button"]){min-height:44px}
-body.product-body :is(#freeze-card,#confirm-transfer,a.btn[href*="screen=kyc"][href*="state=capture"]){
-  min-height:44px!important;
-  margin-inline-end:16px!important;
+/* WCAG 2.2 target ownership.
+   Exact-head QA proved the failing pairs are rendered by .action-stack.
+   Own spacing at that structural wrapper instead of offsetting individual primaries. */
+body.product-body .action-stack{
+  display:flex;
+  flex-wrap:wrap;
+  gap:24px!important;
+}
+body.product-body .action-stack :is(.btn,button,a[role="button"]){
+  min-height:44px;
+  margin:0!important;
 }
 
 body.product-body :is(.nova-card,.v3-surface,.v4-card,.section,.task-panel,.card-quick,.security-summary,.settings-panel) :is(button,.btn,.input,input[type="text"],input[type="search"],input[type="number"],select){border-radius:var(--v5-r-control)!important}
