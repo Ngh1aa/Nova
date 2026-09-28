@@ -46,10 +46,10 @@ jobs:
           mkdir -p .factory/uiux-factory/qa/artifacts
           python .factory/skills_UIUX/scripts/uiux-agent.py \
             --project "$GITHUB_WORKSPACE" \
-            --task "Improve and validate the Nova personal banking interactive prototype across product flows and responsive visual quality" \
+            --task "Redesign and validate the Nova personal banking interactive prototype across product flows and responsive visual quality" \
             --managed \
             --authority read_only \
-            --intent improve \
+            --intent redesign \
             --change-surface PRODUCT \
             --domain financial-services \
             --validation-lane evidence-led \
