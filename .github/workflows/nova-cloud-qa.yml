@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - feat/nova-ios26-redesign
+      - a13-factory-dogfood
       - main
   pull_request:
     branches:
@@ -24,13 +25,53 @@ jobs:
         uses: actions/checkout@v6
         with:
           repository: Ngh1aa/uiux-ai-workspace
-          ref: 221370ef294408f3f5a0c6a7fb0567c3db840c3e
+          ref: a9b74f354c485f8b61635755704342205083bb13
           path: .factory
 
+      - name: Set up Python
+        uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+
       - name: Set up Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v7
         with:
           node-version: "22"
+
+      - name: Install Factory runtime dependencies
+        run: python -m pip install "pydantic>=2.5.3,<3" "python-dotenv>=1,<2"
+
+      - name: Dogfood canonical Flow OS on Nova
+        run: |
+          mkdir -p .factory/uiux-factory/qa/artifacts
+          python .factory/skills_UIUX/scripts/uiux-agent.py \
+            --project "$GITHUB_WORKSPACE" \
+            --task "Redesign and validate the Nova personal banking interactive prototype across product flows and responsive visual quality" \
+            --managed \
+            --authority read_only \
+            --intent redesign \
+            --change-surface PRODUCT \
+            --domain financial-services \
+            --validation-lane evidence-led \
+            --mode interactive-prototype \
+            --risk high \
+            --feature payments \
+            --feature cards \
+            --feature savings \
+            > .factory/uiux-factory/qa/artifacts/a13-managed-plan.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          path = Path('.factory/uiux-factory/qa/artifacts/a13-managed-plan.json')
+          data = json.loads(path.read_text(encoding='utf-8'))
+          assert data.get('manager_run_id'), 'Factory did not create a managed run'
+          assert data.get('active_stage'), 'Factory did not resolve an active stage'
+          flow = data.get('flow') or {}
+          assert flow.get('id'), 'Factory did not resolve a Flow'
+          assert flow.get('stages'), 'Factory resolved an empty Flow'
+          assert any(stage.get('skills') for stage in flow['stages']), 'Factory routed no skills to Nova'
+          print(f"A13 managed plan: flow={flow['id']} active_stage={data['active_stage']} stages={len(flow['stages'])}")
+          PY
 
       - name: Install Factory QA dependencies
         working-directory: .factory/uiux-factory/qa
