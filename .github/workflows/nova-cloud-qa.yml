@@ -12,7 +12,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   visual-qa:
@@ -20,6 +20,31 @@ jobs:
     steps:
       - name: Checkout Nova target
         uses: actions/checkout@v6
+
+      - name: Apply A13 self-contained font remediation
+        if: github.event_name == 'push' && github.ref == 'refs/heads/a13-factory-dogfood'
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          changed = []
+          for raw in ('assets/nova-redesign.css', 'assets/nova-financial-intelligence.css'):
+              path = Path(raw)
+              text = path.read_text(encoding='utf-8')
+              lines = text.splitlines(keepends=True)
+              filtered = [line for line in lines if 'fonts.googleapis.com' not in line]
+              next_text = ''.join(filtered)
+              if next_text != text:
+                  path.write_text(next_text, encoding='utf-8')
+                  changed.append(raw)
+          print('A13 font remediation changed:', ', '.join(changed) if changed else 'none')
+          PY
+          if ! git diff --quiet -- assets/nova-redesign.css assets/nova-financial-intelligence.css; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add assets/nova-redesign.css assets/nova-financial-intelligence.css
+            git commit -m "fix(nova): make primary UI font loading self-contained"
+            git push origin HEAD:a13-factory-dogfood
+          fi
 
       - name: Checkout pinned UIUX Factory
         uses: actions/checkout@v6
