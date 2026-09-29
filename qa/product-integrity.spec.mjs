@@ -80,7 +80,7 @@ test('activity search, filters and no-results state change the native ledger', a
   const visibleRows = page.locator('.section .ledger .ledger-row:not([hidden])');
   const summary = page.locator('.section .section-head .meta');
   const empty = page.locator('[data-nova-activity-empty]');
-  const search = page.getByLabel('Search transactions');
+  const search = page.getByRole('searchbox', { name: 'Search transactions' });
 
   await expect(rows).toHaveCount(8);
   await expect(visibleRows).toHaveCount(8);
