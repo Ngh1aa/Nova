@@ -29,6 +29,37 @@ body.product-body .bottom-nav a.active .nav-glyph {
   color: #ffffff !important;
 }
 
+/* The v4 Pay surface previously used several pale 8–11px labels and avatar
+   foregrounds that only became visible to automated QA once transfer-recipient
+   joined the rendered route matrix. Keep the pastel surfaces, but strengthen
+   text/icon foregrounds so small copy clears WCAG AA instead of hiding the route. */
+body.product-body .v4-page-head p,
+body.product-body .v4-page-head > div > span,
+body.product-body .v4-card small,
+body.product-body .v4-copy,
+body.product-body .v4-search-box > span {
+  color: #596679 !important;
+}
+
+body.product-body .v4-avatar.blue,
+body.product-body .v4-list-icon.blue {
+  color: #1f63a8 !important;
+}
+
+body.product-body .v4-avatar.pink,
+body.product-body .v4-list-icon.pink {
+  color: #9a3768 !important;
+}
+
+body.product-body .v4-avatar.yellow,
+body.product-body .v4-list-icon.yellow {
+  color: #7c5910 !important;
+}
+
+body.product-body .v4-avatar.mint {
+  color: #18684f !important;
+}
+
 /* Reinstate the contemporary forecast container after the legacy Ledger reset,
    whose global !important square-corner rule otherwise wins the cascade. */
 body.product-body .fi-horizon {
