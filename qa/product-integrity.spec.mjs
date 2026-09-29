@@ -54,9 +54,10 @@ test('above-safe transfer keeps truthful planning state through biometric failur
   await expect(page.locator('.impact-panel .horizon-bar')).toContainText('Plan shortfall €100.00');
   await expect(page.locator('.impact-panel')).toContainText('−€100.00');
 
-  const visibleRecovery = page.locator('.task-panel:visible').filter({ hasText: /No transfer has been made/ }).first();
-  await expect(visibleRecovery).toBeVisible();
-  await expect(visibleRecovery).toContainText('No transfer has been made');
+  const recovery = page.locator('[data-nova-recovery-reassurance="true"]');
+  await expect(recovery).toBeVisible();
+  await expect(recovery).toContainText('No transfer has been made');
+  await expect(recovery).toContainText('failed before money movement');
 });
 
 test('amount above total balance remains blocked', async ({ page }) => {
