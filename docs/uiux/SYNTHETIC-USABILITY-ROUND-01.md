@@ -78,6 +78,57 @@ The same SU-01 scenario is protected by dedicated browser regression coverage: �
 
 This remains a simulated re-test backed by browser regression and expert inspection, not evidence from a real participant.
 
+### P1.7 addendum — choosing the right recipient
+
+Mai then continues the same transfer scenario but deliberately chooses Daniel instead of the default-looking Maya entry. She wants to know that Nova will not quietly switch the person receiving the money later in the flow.
+
+#### What she tries
+
+1. Opens the recipient step.
+2. Searches `7184` and then `Daniel`.
+3. Tries a search that returns nobody.
+4. Clears the search.
+5. Chooses Daniel Lee.
+6. Enters €145 and the reference `Rent split`.
+7. Checks Review.
+8. Opens the biometric-failure recovery state.
+9. Checks the final receipt.
+
+#### Before fix — simulated comments
+
+> “Mình thấy có ô tìm người nhận mà gõ vào chẳng thấy danh sách đổi, nên mình không biết ô đó có dùng được không.”
+
+> “Nếu mình chọn Daniel mà qua bước sau lại hiện người khác thì mình không dám bấm gửi đâu.”
+
+#### Implemented fix
+
+Recipient selection now:
+
+- searches the four saved recipients already present in the rendered prototype by name/account ending;
+- shows a no-results message and lets the user clear the search;
+- removes the fake add-recipient action and states that this scenario uses saved recipients only;
+- remembers the person actually selected;
+- carries that identity through Amount, Review, biometric/offline recovery and Receipt;
+- keeps only source-backed metadata instead of inventing missing bank details.
+
+#### After fix — simulated re-test
+
+> “Giờ mình gõ 7184 là chỉ còn Daniel, nên mình biết mình đang chọn đúng người.”
+
+> “Mình gõ tên không có thì app báo không tìm thấy, bấm xoá là danh sách quay lại bình thường.”
+
+> “Mình chọn Daniel rồi qua phần nhập tiền, xác nhận, tới lúc xác thực bị lỗi vẫn thấy đúng Daniel và số đuôi 7184.”
+
+> “Tới biên nhận vẫn là Daniel, vậy mình không phải quay lại kiểm tra xem app có tự đổi người nhận không.”
+
+#### Re-test result
+
+`DONE_VERIFIED`
+
+Dedicated browser regression deliberately chooses Daniel Lee and verifies search → no-results → clear → selection → Amount → Review → biometric recovery → Receipt. The newly audited recipient route also passes automated accessibility/render checks. Nova Visual QA and GitHub Pages both passed after PR #44 merged.
+
+This remains a simulated re-test backed by browser regression and expert inspection, not evidence from a real participant.
+
 ---
 
 ## SU-02 — Huy, 29
@@ -324,26 +375,26 @@ This remains a simulated re-test backed by browser regression and expert inspect
 | Card settings must persist and freeze must remain authoritative | SU-03 | P1 | Fixed / verified |
 | Savings preview must recompute the money result | SU-05 | P1 | Fixed / verified |
 | Important money consequences must appear before review | SU-01 | P1 | Fixed / verified |
+| Selected recipient must remain the same through transfer/recovery | SU-01 | P1 | Fixed / verified |
 | Security recovery must feel believable and retryable | SU-04 | P1 | Fixed / verified |
 | Transfer consequences must stay consistent | SU-01, SU-04 | P0 | Fixed / verified |
 
 ## Main conclusion
 
-All five synthetic-user interaction gaps currently assigned to SU-01 through SU-05 are now fixed and regression-tested: live transfer impact for SU-01, Activity for SU-02, card settings for SU-03, passcode recovery for SU-04 and Savings for SU-05.
+All five synthetic-user primary interaction gaps assigned to SU-01 through SU-05 are fixed and regression-tested, and the P1.7 recipient-selection follow-up is also fixed and verified. SU-01 now covers both transfer-consequence clarity and recipient continuity; SU-02 covers Activity; SU-03 covers card settings; SU-04 covers security recovery; SU-05 covers Savings.
 
-The remaining P1 work is no longer one of these five primary scenario failures. It is now focused on the recipient-search dead affordance, native state ownership and manual accessibility evidence.
+The remaining P1 work is focused on native state ownership and manual accessibility evidence rather than a known dead recipient/search control.
 
 The next fixes should be:
 
-1. Recipient-search dead affordance.
-2. Manual accessibility evidence for critical flows.
-3. Native state ownership where Recruiter State Lab still injects behavior.
-4. Runtime-layer consolidation during P2 cleanup.
+1. Manual accessibility evidence for critical flows.
+2. Native state ownership where Recruiter State Lab still injects behavior.
+3. Runtime-layer consolidation during P2 cleanup.
 
 ## Portfolio wording
 
 Use:
 
-> Tested with 5 simulated users across money planning, transaction review, card controls, security recovery and savings behavior. Their scenarios were used to expose interaction gaps, prioritize fixes and rerun the prototype after each iteration.
+> Tested with 5 simulated users across money planning, transaction review, recipient selection, card controls, security recovery and savings behavior. Their scenarios were used to expose interaction gaps, prioritize fixes and rerun the prototype after each iteration.
 
 Do not present these five profiles as real research participants unless real participant evidence exists.
