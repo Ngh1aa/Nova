@@ -4,14 +4,23 @@
   "study_type": "moderated usability test",
   "status": "RECRUITING",
   "evidence_state": "PLANNED",
+  "recruitment_readiness": "READY_TO_RECRUIT",
   "target_participants": 5,
   "verified_sessions": 0,
   "participant_profile": "18–30, uses at least one digital banking app weekly; no real financial data required",
   "primary_question": "Can people correctly interpret Money Horizon and decide what is safe to spend without confusing forecasted or committed money with immediately spendable funds?",
   "prototype_url": "https://nova-gamma-eosin.vercel.app/",
+  "recruitment_assets": {
+    "operations": "research/validation/nova-round-01/RECRUITMENT-OPS.md",
+    "screener_and_consent": "research/validation/nova-round-01/SCREENER-AND-CONSENT.md",
+    "participant_tracker": "research/validation/nova-round-01/PARTICIPANT-TRACKER.md",
+    "session_storage_rules": "research/validation/nova-round-01/sessions/README.md"
+  },
+  "next_valid_transition": "Recruit a real eligible participant, obtain consent, run the moderated study, and commit an anonymized session record that passes the integrity checklist.",
   "allowed_claims": [
     "A moderated usability study has been designed",
     "Participant recruitment is open",
+    "The study is operationally ready to recruit",
     "The current product thesis remains a hypothesis"
   ],
   "forbidden_claims_until_verified": [
