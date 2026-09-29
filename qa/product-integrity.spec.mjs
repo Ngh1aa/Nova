@@ -120,3 +120,107 @@ test('activity search, filters and no-results state change the native ledger', a
   await expect(visibleRows).toHaveCount(8);
   await expect(empty).toBeHidden();
 });
+
+test('card preferences persist, freeze remains authoritative, and daily limit rejects invalid values', async ({ page }) => {
+  await reset(page);
+  await page.goto('/app.html?screen=cards');
+
+  const onlineQuick = page.getByRole('checkbox', { name: 'Online payments' });
+  const contactlessQuick = page.getByRole('checkbox', { name: 'Contactless' });
+  await expect(onlineQuick).toBeChecked();
+  await expect(contactlessQuick).toBeChecked();
+
+  await onlineQuick.uncheck();
+  await contactlessQuick.uncheck();
+  await expect(page.locator('[data-nova-card-status]')).toContainText('Contactless disabled');
+
+  await page.goto('/app.html?screen=card-controls');
+  const online = page.getByRole('checkbox', { name: 'Online payments' });
+  const contactless = page.getByRole('checkbox', { name: 'Contactless' });
+  const cash = page.getByRole('checkbox', { name: 'Cash withdrawals' });
+  const magstripe = page.getByRole('checkbox', { name: 'Magstripe' });
+
+  await expect(online).not.toBeChecked();
+  await expect(contactless).not.toBeChecked();
+  await expect(cash).toBeChecked();
+  await expect(magstripe).not.toBeChecked();
+
+  await cash.uncheck();
+  await magstripe.check();
+  await page.reload();
+  await expect(online).not.toBeChecked();
+  await expect(contactless).not.toBeChecked();
+  await expect(cash).not.toBeChecked();
+  await expect(magstripe).toBeChecked();
+
+  const limit = page.getByLabel('Card purchases');
+  const save = page.getByRole('button', { name: 'Save limit' });
+  const error = page.locator('#daily-limit-error');
+  const status = page.locator('[data-nova-card-status]');
+
+  await expect(limit).toHaveValue('1200');
+
+  await limit.fill('');
+  await save.click();
+  await expect(error).toContainText('Enter a daily card limit.');
+  await expect(limit).toHaveAttribute('aria-invalid', 'true');
+
+  await limit.fill('abc');
+  await save.click();
+  await expect(error).toContainText('Enter a valid number for the daily card limit.');
+
+  await limit.fill('0');
+  await save.click();
+  await expect(error).toContainText('must be greater than €0');
+
+  await limit.fill('-25');
+  await save.click();
+  await expect(error).toContainText('must be greater than €0');
+
+  await limit.fill('5001');
+  await save.click();
+  await expect(error).toContainText('cannot exceed €5,000.00');
+
+  await limit.fill('900.5');
+  await save.click();
+  await expect(error).toBeHidden();
+  await expect(limit).not.toHaveAttribute('aria-invalid', 'true');
+  await expect(status).toContainText('Daily card limit saved at €900.50 per day.');
+
+  await page.reload();
+  await expect(page.getByLabel('Card purchases')).toHaveValue('900.5');
+  await expect(page.getByRole('checkbox', { name: 'Online payments' })).not.toBeChecked();
+  await expect(page.getByRole('checkbox', { name: 'Contactless' })).not.toBeChecked();
+  await expect(page.getByRole('checkbox', { name: 'Cash withdrawals' })).not.toBeChecked();
+  await expect(page.getByRole('checkbox', { name: 'Magstripe' })).toBeChecked();
+
+  await page.goto('/app.html?screen=cards');
+  await page.getByRole('button', { name: 'Freeze', exact: true }).click();
+  const freezeDialog = page.getByRole('dialog', { name: 'Freeze card?' });
+  await expect(freezeDialog).toBeVisible();
+  await freezeDialog.getByRole('button', { name: 'Freeze card', exact: true }).click();
+  await expect(page).toHaveURL(/screen=cards/);
+
+  await expect(page.getByRole('checkbox', { name: 'Online payments' })).toBeDisabled();
+  await expect(page.getByRole('checkbox', { name: 'Online payments' })).not.toBeChecked();
+  await expect(page.locator('[data-nova-card-status]')).toContainText('all new card payments and ATM withdrawals remain blocked');
+
+  await page.goto('/app.html?screen=card-controls');
+  await expect(page.getByRole('checkbox', { name: 'Online payments' })).toBeDisabled();
+  await expect(page.getByRole('checkbox', { name: 'Contactless' })).toBeDisabled();
+  await expect(page.getByRole('checkbox', { name: 'Cash withdrawals' })).toBeDisabled();
+  await expect(page.getByRole('checkbox', { name: 'Magstripe' })).toBeDisabled();
+  await expect(page.getByLabel('Card purchases')).toHaveValue('900.5');
+
+  await page.goto('/app.html?screen=cards');
+  await page.getByRole('button', { name: 'Unfreeze', exact: true }).click();
+  const unfreezeDialog = page.getByRole('dialog', { name: 'Unfreeze card?' });
+  await expect(unfreezeDialog).toBeVisible();
+  await unfreezeDialog.getByRole('button', { name: 'Authenticate & unfreeze', exact: true }).click();
+  await expect(page).toHaveURL(/screen=cards/);
+
+  await expect(page.getByRole('checkbox', { name: 'Online payments' })).toBeEnabled();
+  await expect(page.getByRole('checkbox', { name: 'Online payments' })).not.toBeChecked();
+  await expect(page.getByRole('checkbox', { name: 'Contactless' })).toBeEnabled();
+  await expect(page.getByRole('checkbox', { name: 'Contactless' })).not.toBeChecked();
+});
