@@ -50,6 +50,8 @@
       .nova-safe-ack{width:min(520px,100%);border:1px solid rgba(20,32,51,.15);border-radius:24px;background:#fff;color:#142033;padding:24px;box-shadow:0 24px 70px rgba(14,23,38,.28)}
       .nova-safe-ack h2{margin:0 0 10px;font-size:1.45rem}.nova-safe-ack p{margin:0 0 14px;color:#566276;line-height:1.55}.nova-safe-ack strong{color:#142033}
       .nova-safe-ack-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}.nova-safe-ack-actions button{min-height:44px}
+      .nova-activity-empty{margin-top:18px;padding:26px 22px;border:1px dashed rgba(20,32,51,.2);border-radius:18px;text-align:center;background:rgba(255,255,255,.66)}
+      .nova-activity-empty[hidden]{display:none}.nova-activity-empty strong{display:block;margin-bottom:6px;color:#142033}.nova-activity-empty p{margin:0 auto 14px;max-width:48ch;color:#657085;line-height:1.5}
     `;
     document.head.appendChild(style);
   }
@@ -330,6 +332,96 @@
     patchReference();
   }
 
+  function normalizeActivityText(value = '') {
+    return String(value)
+      .toLowerCase()
+      .replace(/[€+−-]/g, ' ')
+      .replace(/,/g, '.')
+      .replace(/\s+/g, ' ')
+      .trim();
+  }
+
+  function activityMatchesFilter(row, filter) {
+    if (filter === 'All') return true;
+    const sub = normalizeActivityText(row.querySelector('.list-sub')?.textContent || '');
+    const value = (row.querySelector('.list-value')?.textContent || '').trim();
+
+    if (filter === 'Needs review') return sub.includes('needs review');
+    if (filter === 'Recurring') return sub.includes('subscription');
+    if (filter === 'Pending') return sub.includes('pending');
+    if (filter === 'Income') return /^\s*\+/.test(value);
+    return true;
+  }
+
+  function initActivityTools() {
+    if (screen !== 'activity') return;
+
+    const search = document.querySelector('#txn-search');
+    const chips = [...document.querySelectorAll('.filter-row .chip')];
+    const ledger = document.querySelector('.section .ledger');
+    if (!search || !chips.length || !ledger) return;
+
+    const section = ledger.closest('.section');
+    const rows = [...ledger.querySelectorAll('.ledger-row')];
+    const summary = section?.querySelector('.section-head .meta');
+    let selectedFilter = chips.find((chip) => chip.getAttribute('aria-pressed') === 'true')?.textContent?.trim() || 'All';
+
+    if (summary) {
+      summary.setAttribute('aria-live', 'polite');
+      summary.setAttribute('aria-atomic', 'true');
+    }
+
+    let empty = section?.querySelector('[data-nova-activity-empty]');
+    if (!empty && section) {
+      empty = document.createElement('div');
+      empty.className = 'nova-activity-empty';
+      empty.dataset.novaActivityEmpty = 'true';
+      empty.setAttribute('role', 'status');
+      empty.setAttribute('aria-live', 'polite');
+      empty.hidden = true;
+      empty.innerHTML = '<strong>No matching transactions</strong><p>Try another search or clear the filters to see all activity.</p><button class="btn btn-secondary" type="button" data-nova-clear-activity>Clear search and filters</button>';
+      ledger.insertAdjacentElement('afterend', empty);
+    }
+
+    const apply = () => {
+      const query = normalizeActivityText(search.value);
+      let visible = 0;
+
+      rows.forEach((row) => {
+        const haystack = normalizeActivityText(row.textContent || '');
+        const matchesSearch = !query || haystack.includes(query);
+        const matchesFilter = activityMatchesFilter(row, selectedFilter);
+        const show = matchesSearch && matchesFilter;
+        row.hidden = !show;
+        if (show) visible += 1;
+      });
+
+      const filtered = Boolean(query) || selectedFilter !== 'All';
+      if (summary) {
+        summary.textContent = `${visible} ${visible === 1 ? 'transaction' : 'transactions'} · ${filtered ? 'filtered' : 'newest first'}`;
+      }
+      if (empty) empty.hidden = visible !== 0;
+    };
+
+    const reset = () => {
+      search.value = '';
+      selectedFilter = 'All';
+      chips.forEach((chip) => chip.setAttribute('aria-pressed', chip.textContent.trim() === 'All' ? 'true' : 'false'));
+      apply();
+      search.focus();
+    };
+
+    search.addEventListener('input', apply);
+    chips.forEach((chip) => chip.addEventListener('click', () => {
+      selectedFilter = chip.textContent.trim();
+      chips.forEach((candidate) => candidate.setAttribute('aria-pressed', candidate === chip ? 'true' : 'false'));
+      apply();
+    }));
+    empty?.querySelector('[data-nova-clear-activity]')?.addEventListener('click', reset);
+
+    apply();
+  }
+
   function init() {
     addStyles();
 
@@ -348,6 +440,7 @@
 
     if (screen === 'biometric-failed' || screen === 'offline') ensureRecoveryReassurance();
     if (screen === 'transfer-success') patchSuccessReceipt();
+    if (screen === 'activity') initActivityTools();
   }
 
   // Capture-phase handlers intentionally own the high-consequence transfer rules

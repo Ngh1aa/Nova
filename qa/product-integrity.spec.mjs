@@ -71,3 +71,52 @@ test('amount above total balance remains blocked', async ({ page }) => {
   await expect(page.locator('#amount-error')).toContainText('You need €160.00 more to send this amount.');
   await expect(page.getByLabel('Amount')).toHaveAttribute('aria-invalid', 'true');
 });
+
+test('activity search, filters and no-results state change the native ledger', async ({ page }) => {
+  await reset(page);
+  await page.goto('/app.html?screen=activity');
+
+  const rows = page.locator('.section .ledger .ledger-row');
+  const visibleRows = page.locator('.section .ledger .ledger-row:not([hidden])');
+  const summary = page.locator('.section .section-head .meta');
+  const empty = page.locator('[data-nova-activity-empty]');
+  const search = page.getByRole('searchbox', { name: 'Search transactions' });
+
+  await expect(rows).toHaveCount(8);
+  await expect(visibleRows).toHaveCount(8);
+  await expect(summary).toContainText('8 transactions · newest first');
+
+  await search.fill('ByteMart');
+  await expect(visibleRows).toHaveCount(1);
+  await expect(visibleRows.first()).toContainText('ByteMart Online');
+  await expect(summary).toContainText('1 transaction · filtered');
+
+  await search.fill('');
+  await page.getByRole('button', { name: 'Pending', exact: true }).click();
+  await expect(visibleRows).toHaveCount(1);
+  await expect(visibleRows.first()).toContainText('Northstar Books');
+
+  await page.getByRole('button', { name: 'Income', exact: true }).click();
+  await expect(visibleRows).toHaveCount(1);
+  await expect(visibleRows.first()).toContainText('Merchant refund');
+
+  await page.getByRole('button', { name: 'Needs review', exact: true }).click();
+  await expect(visibleRows).toHaveCount(1);
+  await expect(visibleRows.first()).toContainText('ByteMart Online');
+
+  await page.getByRole('button', { name: 'Recurring', exact: true }).click();
+  await expect(visibleRows).toHaveCount(2);
+  await expect(visibleRows).toContainText(['Cloudbox', 'River Gym']);
+
+  await search.fill('does-not-exist');
+  await expect(visibleRows).toHaveCount(0);
+  await expect(empty).toBeVisible();
+  await expect(empty).toContainText('No matching transactions');
+  await expect(summary).toContainText('0 transactions · filtered');
+
+  await empty.getByRole('button', { name: 'Clear search and filters' }).click();
+  await expect(search).toHaveValue('');
+  await expect(page.getByRole('button', { name: 'All', exact: true })).toHaveAttribute('aria-pressed', 'true');
+  await expect(visibleRows).toHaveCount(8);
+  await expect(empty).toBeHidden();
+});
