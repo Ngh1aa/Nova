@@ -6,7 +6,9 @@
   // canonical shared state model during the P1 state-architecture cleanup.
   const MODEL = Object.freeze({
     balance: 2840,
-    safeToSpend: 1300
+    safeToSpend: 1300,
+    knownCommitments: 1040,
+    protectedBuffer: 500
   });
 
   const params = new URLSearchParams(location.search);
@@ -38,6 +40,12 @@
       .nova-safe-warning{margin-top:12px;padding:12px 14px;border:1px solid #e8bd76;border-radius:14px;background:#fff8e8;color:#5f4314;line-height:1.45}
       .nova-safe-warning[hidden]{display:none}.nova-safe-warning strong{display:block;margin-bottom:4px}
       .nova-safe-warning.is-critical{border-color:#e1a1aa;background:#fff3f5;color:#741f2c}
+      .nova-safe-shortfall{width:100%;min-height:58px;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 14px;border-radius:14px;background:#fff3f5;color:#741f2c;border:1px solid #e1a1aa;font-weight:750}
+      .nova-safe-shortfall small{font-weight:600;color:#8d3a47;text-align:right}
+      .nova-safe-legend{width:100%;display:flex!important;justify-content:space-between;gap:14px;align-items:flex-start}
+      .nova-safe-legend span{color:#657085}.nova-safe-legend strong{color:#741f2c}
+      .nova-recovery-reassurance{margin:16px 0;padding:14px 16px;border:1px solid #b8d6c5;border-radius:16px;background:#f1faf5;color:#234c35;line-height:1.5}
+      .nova-recovery-reassurance strong{display:block;margin-bottom:4px;color:#173925}
       .nova-safe-ack-backdrop{position:fixed;inset:0;z-index:10050;display:grid;place-items:center;padding:20px;background:rgba(14,23,38,.46);backdrop-filter:blur(8px)}
       .nova-safe-ack{width:min(520px,100%);border:1px solid rgba(20,32,51,.15);border-radius:24px;background:#fff;color:#142033;padding:24px;box-shadow:0 24px 70px rgba(14,23,38,.28)}
       .nova-safe-ack h2{margin:0 0 10px;font-size:1.45rem}.nova-safe-ack p{margin:0 0 14px;color:#566276;line-height:1.55}.nova-safe-ack strong{color:#142033}
@@ -149,33 +157,94 @@
     });
   }
 
-  function addReviewWarning() {
-    const amount = Number(storageGet('nova_transfer_amount', '145')) || 145;
-    const above = Math.max(0, amount - MODEL.safeToSpend);
+  function patchAboveSafeImpact(amount) {
+    const remaining = MODEL.safeToSpend - amount;
+    const above = Math.max(0, -remaining);
     if (above <= 0) return;
 
-    const actions = document.querySelector('#confirm-transfer')?.closest('.action-stack');
-    if (!actions || document.querySelector('[data-nova-safe-review-warning]')) return;
-
-    const warning = document.createElement('div');
-    warning.className = 'nova-safe-warning is-critical';
-    warning.dataset.novaSafeReviewWarning = 'true';
-    warning.setAttribute('role', 'alert');
-    warning.innerHTML = `<strong>This transfer is ${money(above)} above Safe to spend.</strong>Total balance is sufficient, but completing it means the current plan can no longer claim all known commitments and the protected buffer remain covered. Review the trade-off before authentication.`;
-    actions.before(warning);
-
     document.querySelectorAll('.impact-panel p').forEach((node) => {
-      if (/known bills.*protected buffer.*remain covered/i.test(node.textContent || '')) {
-        node.textContent = `After this transfer, projected Safe to spend is ${money(MODEL.safeToSpend - amount, { signed: true })}. Known commitments or the protected buffer would need to change for the plan to become safe again.`;
+      if (/known bills.*protected buffer.*remain covered/i.test(node.textContent || '') || /Known commitments.*protected buffer/i.test(node.textContent || '')) {
+        node.textContent = `After this transfer, projected Safe to spend is ${money(remaining, { signed: true })}. The current plan is short by ${money(above)}, so known commitments or the protected buffer would need to change.`;
       }
     });
 
     const projected = document.querySelector('.impact-panel .goal-amount');
     if (projected) {
-      const remaining = MODEL.safeToSpend - amount;
       projected.textContent = money(remaining, { signed: true });
-      projected.setAttribute('aria-label', `${remaining < 0 ? 'Negative ' : ''}projected safe to spend ${money(remaining)}`);
+      projected.setAttribute('aria-label', `Negative projected safe to spend ${money(above)}`);
     }
+
+    const horizon = document.querySelector('.impact-panel .horizon');
+    if (!horizon) return;
+
+    const bar = horizon.querySelector('.horizon-bar');
+    if (bar) {
+      bar.innerHTML = `<div class="nova-safe-shortfall"><span>Plan shortfall ${money(above)}</span><small>Commitments + full buffer no longer fit</small></div>`;
+      bar.setAttribute('aria-label', `Plan shortfall ${money(above)} after transfer; current commitments and protected buffer cannot both remain fully covered`);
+    }
+
+    const legend = horizon.querySelector('.horizon-legend');
+    if (legend) {
+      legend.innerHTML = `<div class="nova-safe-legend"><span>Projected Safe to spend</span><strong>${money(remaining, { signed: true })}</strong></div>`;
+    }
+
+    const note = horizon.querySelector('.horizon-note');
+    if (note) {
+      note.textContent = `This is an over-plan prototype state: the transfer is ${money(above)} beyond Safe to spend. Nova does not hide the shortfall or pretend the protected allocation is still fully covered.`;
+    }
+  }
+
+  function isRendered(element) {
+    if (!element) return false;
+    const style = getComputedStyle(element);
+    return style.display !== 'none' && style.visibility !== 'hidden' && element.getClientRects().length > 0;
+  }
+
+  function ensureRecoveryReassurance() {
+    if (screen !== 'biometric-failed' && screen !== 'offline') return;
+    if (document.querySelector('[data-nova-recovery-reassurance="true"]')) return;
+
+    const notice = document.createElement('div');
+    notice.className = 'nova-recovery-reassurance';
+    notice.dataset.novaRecoveryReassurance = 'true';
+    notice.setAttribute('role', 'status');
+    notice.setAttribute('aria-live', 'polite');
+
+    if (screen === 'offline') {
+      notice.innerHTML = '<strong>No transfer has been made.</strong>Nova is offline and cannot safely confirm money movement. Reconnect, then review the transfer again before confirming.';
+    } else {
+      notice.innerHTML = '<strong>No transfer has been made.</strong>Biometric authentication failed before money movement. Retry biometrics or use PIN only when you are ready to continue.';
+    }
+
+    const visibleImpact = [...document.querySelectorAll('.impact-panel')].find(isRendered);
+    const visibleActions = [...document.querySelectorAll('.action-stack')].find(isRendered);
+    const anchor = visibleImpact || visibleActions;
+
+    if (anchor) {
+      anchor.insertAdjacentElement('afterend', notice);
+      return;
+    }
+
+    const main = document.querySelector('#main') || document.querySelector('main') || document.body;
+    main.prepend(notice);
+  }
+
+  function addReviewWarning() {
+    const amount = Number(storageGet('nova_transfer_amount', '145')) || 145;
+    const above = Math.max(0, amount - MODEL.safeToSpend);
+    if (above <= 0) return;
+
+    const actions = [...document.querySelectorAll('.action-stack')].find(isRendered) || document.querySelector('.task-panel .action-stack');
+    if (actions && !document.querySelector('[data-nova-safe-review-warning]')) {
+      const warning = document.createElement('div');
+      warning.className = 'nova-safe-warning is-critical';
+      warning.dataset.novaSafeReviewWarning = 'true';
+      warning.setAttribute('role', 'alert');
+      warning.innerHTML = `<strong>This transfer is ${money(above)} above Safe to spend.</strong>Total balance is sufficient, but the current plan can no longer claim all known commitments and the protected buffer remain covered. This warning persists through authentication and recovery states.`;
+      actions.before(warning);
+    }
+
+    patchAboveSafeImpact(amount);
   }
 
   function openSafeAcknowledgement(confirmButton) {
@@ -277,6 +346,7 @@
       addReviewWarning();
     }
 
+    if (screen === 'biometric-failed' || screen === 'offline') ensureRecoveryReassurance();
     if (screen === 'transfer-success') patchSuccessReceipt();
   }
 
