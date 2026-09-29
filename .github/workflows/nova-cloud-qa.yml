@@ -25,7 +25,7 @@ jobs:
         uses: actions/checkout@v6
         with:
           repository: Ngh1aa/uiux-ai-workspace
-          ref: a9b74f354c485f8b61635755704342205083bb13
+          ref: 11003bf36909b08c3def617023dc8ecd9c3964fd
           path: .factory
 
       - name: Set up Python
@@ -88,20 +88,21 @@ jobs:
           cp qa/savings-integrity.spec.mjs .factory/uiux-factory/qa/tests/savings-integrity.spec.mjs
           cp qa/passcode-recovery.spec.mjs .factory/uiux-factory/qa/tests/passcode-recovery.spec.mjs
           cp qa/transfer-impact.spec.mjs .factory/uiux-factory/qa/tests/transfer-impact.spec.mjs
+          cp qa/recipient-continuity.spec.mjs .factory/uiux-factory/qa/tests/recipient-continuity.spec.mjs
 
       - name: Serve and visually audit Nova product and evidence screens
         working-directory: .factory/uiux-factory/qa
         env:
           QA_TARGET_DIR: ${{ github.workspace }}
           QA_BASE_URL: http://127.0.0.1:4173
-          QA_ROUTES: /app.html?screen=home,/app.html?screen=activity,/app.html?screen=transaction-detail,/app.html?screen=cards,/app.html?screen=transfer-amount,/app.html?screen=transfer-review,/app.html?screen=biometric-failed,/app.html?screen=transfer-success,/app.html?screen=savings,/app.html?screen=savings-detail,/app.html?screen=kyc,/prototype.html,/design-system.html,/component-states.html,/sitemap.html,/user-flows.html
+          QA_ROUTES: /app.html?screen=home,/app.html?screen=activity,/app.html?screen=transaction-detail,/app.html?screen=cards,/app.html?screen=transfer-recipient,/app.html?screen=transfer-amount,/app.html?screen=transfer-review,/app.html?screen=biometric-failed,/app.html?screen=transfer-success,/app.html?screen=savings,/app.html?screen=savings-detail,/app.html?screen=kyc,/prototype.html,/design-system.html,/component-states.html,/sitemap.html,/user-flows.html
         run: |
           node scripts/serve-target.mjs > /tmp/nova-qa-server.log 2>&1 &
           SERVER_PID=$!
           trap 'kill $SERVER_PID 2>/dev/null || true' EXIT
           node scripts/wait-ready.mjs
           npm test
-          npx playwright test tests/nova-flow.spec.mjs tests/product-integrity.spec.mjs tests/savings-integrity.spec.mjs tests/passcode-recovery.spec.mjs tests/transfer-impact.spec.mjs
+          npx playwright test tests/nova-flow.spec.mjs tests/product-integrity.spec.mjs tests/savings-integrity.spec.mjs tests/passcode-recovery.spec.mjs tests/transfer-impact.spec.mjs tests/recipient-continuity.spec.mjs
 
       - name: Print target server log on failure
         if: failure()
