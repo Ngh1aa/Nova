@@ -1,15 +1,25 @@
 (() => {
   'use strict';
 
-  // P0 product-integrity rules for the current static prototype data model.
+  // Product-integrity rules for the current static prototype data model.
   // These values mirror assets/nova.js DATA.account and must move into the
-  // canonical shared state model during the P1 state-architecture cleanup.
+  // canonical shared state model during the P2 state-architecture cleanup.
   const MODEL = Object.freeze({
     balance: 2840,
     safeToSpend: 1300,
     knownCommitments: 1040,
     protectedBuffer: 500
   });
+
+  const CARD_CONTROLS = Object.freeze({
+    'Online payments': { key: 'nova_card_online_payments', defaultOn: true },
+    'Contactless': { key: 'nova_card_contactless', defaultOn: true },
+    'Cash withdrawals': { key: 'nova_card_cash_withdrawals', defaultOn: true },
+    'Magstripe': { key: 'nova_card_magstripe', defaultOn: false }
+  });
+  const CARD_LIMIT_KEY = 'nova_card_daily_limit';
+  const CARD_LIMIT_DEFAULT = 1200;
+  const CARD_LIMIT_MAX = 5000;
 
   const params = new URLSearchParams(location.search);
   const screen = params.get('screen') || 'home';
@@ -52,6 +62,8 @@
       .nova-safe-ack-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}.nova-safe-ack-actions button{min-height:44px}
       .nova-activity-empty{margin-top:18px;padding:26px 22px;border:1px dashed rgba(20,32,51,.2);border-radius:18px;text-align:center;background:rgba(255,255,255,.66)}
       .nova-activity-empty[hidden]{display:none}.nova-activity-empty strong{display:block;margin-bottom:6px;color:#142033}.nova-activity-empty p{margin:0 auto 14px;max-width:48ch;color:#657085;line-height:1.5}
+      .nova-card-status{margin-top:14px;padding:12px 14px;border:1px solid #b8d6c5;border-radius:14px;background:#f1faf5;color:#234c35;line-height:1.45}
+      .nova-card-status[hidden]{display:none}.nova-card-status.is-warning{border-color:#e8bd76;background:#fff8e8;color:#5f4314}
     `;
     document.head.appendChild(style);
   }
@@ -422,6 +434,164 @@
     apply();
   }
 
+  function cardPreference(name) {
+    const config = CARD_CONTROLS[name];
+    if (!config) return null;
+    return storageGet(config.key, config.defaultOn ? 'true' : 'false') === 'true';
+  }
+
+  function ensureCardStatus(anchor = null) {
+    let status = document.querySelector('[data-nova-card-status]');
+    if (status) return status;
+    status = document.createElement('div');
+    status.className = 'nova-card-status';
+    status.dataset.novaCardStatus = 'true';
+    status.setAttribute('role', 'status');
+    status.setAttribute('aria-live', 'polite');
+    status.setAttribute('aria-atomic', 'true');
+    status.hidden = true;
+    const target = anchor || document.querySelector('.control-list') || document.querySelector('#main');
+    target?.insertAdjacentElement('afterend', status);
+    return status;
+  }
+
+  function announceCardStatus(message, { warning = false } = {}) {
+    const status = ensureCardStatus();
+    if (!status) return;
+    status.classList.toggle('is-warning', warning);
+    status.textContent = message;
+    status.hidden = false;
+  }
+
+  function initCardPreferences() {
+    if (screen !== 'cards' && screen !== 'card-controls') return;
+    const frozen = storageGet('nova_card_frozen', 'false') === 'true';
+    const inputs = [...document.querySelectorAll('input[data-control]')]
+      .filter((input) => CARD_CONTROLS[input.dataset.control]);
+
+    inputs.forEach((input) => {
+      const saved = cardPreference(input.dataset.control);
+      input.checked = Boolean(saved);
+      input.disabled = frozen;
+      input.setAttribute('aria-disabled', frozen ? 'true' : 'false');
+      input.title = frozen ? 'Card is frozen. This saved preference will apply again after unfreezing.' : '';
+    });
+
+    if (screen === 'cards') {
+      ensureCardStatus(document.querySelector('.card-quick .control-list'));
+      if (frozen) {
+        announceCardStatus('Card is frozen. Payment-channel preferences are saved, but all new card payments and ATM withdrawals remain blocked until you unfreeze.', { warning: true });
+      }
+      return;
+    }
+
+    const limitInput = document.querySelector('#daily-limit');
+    const limitButton = [...document.querySelectorAll('button')].find((button) => /save limit/i.test(button.textContent || ''));
+    const limitField = limitInput?.closest('.field');
+    const hint = limitField?.querySelector('.field-hint');
+    let error = limitField?.querySelector('#daily-limit-error');
+
+    if (limitInput) {
+      const stored = Number(storageGet(CARD_LIMIT_KEY, String(CARD_LIMIT_DEFAULT)));
+      limitInput.value = Number.isFinite(stored) && stored > 0 && stored <= CARD_LIMIT_MAX ? String(stored) : String(CARD_LIMIT_DEFAULT);
+      limitInput.setAttribute('autocomplete', 'off');
+      if (hint) {
+        hint.id = hint.id || 'daily-limit-hint';
+        hint.textContent = `€ per day · Minimum €1 · Maximum ${money(CARD_LIMIT_MAX)} · Prototype setting`;
+      }
+      if (!error && limitField) {
+        error = document.createElement('span');
+        error.id = 'daily-limit-error';
+        error.className = 'field-error';
+        error.setAttribute('role', 'alert');
+        error.hidden = true;
+        limitField.appendChild(error);
+      }
+      const describedBy = new Set((limitInput.getAttribute('aria-describedby') || '').split(/\s+/).filter(Boolean));
+      if (hint?.id) describedBy.add(hint.id);
+      if (error?.id) describedBy.add(error.id);
+      limitInput.setAttribute('aria-describedby', [...describedBy].join(' '));
+    }
+
+    if (limitButton) {
+      limitButton.removeAttribute('data-toast');
+      limitButton.dataset.novaSaveCardLimit = 'true';
+    }
+
+    ensureCardStatus(limitButton?.closest('.section') || document.querySelector('.control-list'));
+    if (frozen) {
+      announceCardStatus('Card is frozen. Channel preferences are locked by the freeze state; changing the daily limit is still allowed and will apply when the card is active again.', { warning: true });
+    }
+  }
+
+  function handleCardControlChange(event) {
+    const input = event.target.closest?.('input[data-control]');
+    const config = input ? CARD_CONTROLS[input.dataset.control] : null;
+    if (!input || !config) return;
+
+    event.stopImmediatePropagation();
+    const frozen = storageGet('nova_card_frozen', 'false') === 'true';
+    if (frozen) {
+      event.preventDefault();
+      input.checked = cardPreference(input.dataset.control);
+      announceCardStatus('Card is frozen. Unfreeze before changing payment-channel preferences.', { warning: true });
+      return;
+    }
+
+    storageSet(config.key, input.checked ? 'true' : 'false');
+    announceCardStatus(`${input.dataset.control} ${input.checked ? 'enabled' : 'disabled'}. This preference will be kept when you return.`);
+  }
+
+  function validateAndSaveCardLimit(button) {
+    const input = document.querySelector('#daily-limit');
+    const error = document.querySelector('#daily-limit-error');
+    if (!input || !error) return;
+
+    const raw = input.value.trim();
+    const value = Number(raw);
+    const fail = (message) => {
+      input.setAttribute('aria-invalid', 'true');
+      error.textContent = message;
+      error.hidden = false;
+      input.focus();
+      announceCardStatus(message, { warning: true });
+    };
+
+    if (!raw) {
+      fail('Enter a daily card limit.');
+      return;
+    }
+    if (!Number.isFinite(value)) {
+      fail('Enter a valid number for the daily card limit.');
+      return;
+    }
+    if (value <= 0) {
+      fail('Daily card limit must be greater than €0.');
+      return;
+    }
+    if (value > CARD_LIMIT_MAX) {
+      fail(`Daily card limit cannot exceed ${money(CARD_LIMIT_MAX)} in this prototype.`);
+      return;
+    }
+
+    input.removeAttribute('aria-invalid');
+    error.hidden = true;
+    error.textContent = '';
+    const normalized = Math.round(value * 100) / 100;
+    input.value = String(normalized);
+    storageSet(CARD_LIMIT_KEY, normalized);
+    button?.focus?.();
+    announceCardStatus(`Daily card limit saved at ${money(normalized)} per day.`);
+  }
+
+  function handleCardLimitClick(event) {
+    const button = event.target.closest?.('[data-nova-save-card-limit]');
+    if (!button) return;
+    event.preventDefault();
+    event.stopImmediatePropagation();
+    validateAndSaveCardLimit(button);
+  }
+
   function init() {
     addStyles();
 
@@ -441,12 +611,15 @@
     if (screen === 'biometric-failed' || screen === 'offline') ensureRecoveryReassurance();
     if (screen === 'transfer-success') patchSuccessReceipt();
     if (screen === 'activity') initActivityTools();
+    if (screen === 'cards' || screen === 'card-controls') initCardPreferences();
   }
 
-  // Capture-phase handlers intentionally own the high-consequence transfer rules
-  // until the P1 state-model refactor moves these rules into the canonical renderer.
+  // Capture-phase handlers intentionally own high-consequence product rules
+  // until the P2 state-model cleanup moves these rules into the canonical renderer.
   document.addEventListener('submit', handleAmountSubmit, true);
   document.addEventListener('click', handleConfirmCapture, true);
+  document.addEventListener('change', handleCardControlChange, true);
+  document.addEventListener('click', handleCardLimitClick, true);
 
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', init, { once: true });
