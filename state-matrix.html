@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="robots" content="noindex,follow">
+  <title>Nova — Product State Matrix</title>
+  <style>
+    *{box-sizing:border-box}html,body{margin:0;background:#eef3f9;color:#142033;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}body{padding:28px}.head{display:flex;justify-content:space-between;gap:24px;align-items:end;margin-bottom:18px}.head p{margin:0 0 6px;color:#657085;font-size:11px;text-transform:uppercase;letter-spacing:.12em}.head h1{margin:0;font-size:28px;letter-spacing:-.035em}.head a{color:#142033;font-size:12px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.tile{min-width:0;background:white;border:1px solid #dbe2ec;border-radius:18px;overflow:hidden;box-shadow:0 10px 30px rgba(20,32,51,.06)}.tile-head{height:42px;display:flex;align-items:center;justify-content:space-between;padding:0 13px;border-bottom:1px solid #e5eaf1;font-size:11px}.tile-head strong{font-size:12px}.tile-head span{color:#657085}.viewport{height:520px}.viewport iframe{width:100%;height:100%;border:0;display:block;background:#fff}@media(max-width:1000px){body{padding:16px}.grid{grid-template-columns:1fr}.viewport{height:560px}}@media(max-width:600px){.head{display:block}.head a{display:inline-block;margin-top:10px}.viewport{height:620px}}
+  </style>
+</head>
+<body>
+  <header class="head"><div><p>Recruiter evidence · lifecycle coverage</p><h1>Nova state matrix</h1></div><a href="recruiter-state-lab.html?state=normal">Open interactive State Lab →</a></header>
+  <main class="grid">
+    <section class="tile"><div class="tile-head"><strong>01 · EMPTY</strong><span>No linked accounts</span></div><div class="viewport"><iframe data-state="empty" title="Nova empty state" src="recruiter-state-lab.html?state=empty&pin=1&matrix=1"></iframe></div></section>
+    <section class="tile"><div class="tile-head"><strong>02 · LOADING</strong><span>Money Horizon calculation</span></div><div class="viewport"><iframe data-state="loading" title="Nova loading state" src="recruiter-state-lab.html?state=loading&pin=1&matrix=1"></iframe></div></section>
+    <section class="tile"><div class="tile-head"><strong>03 · ERROR</strong><span>Transfer recovery</span></div><div class="viewport"><iframe data-state="error" title="Nova error state" src="recruiter-state-lab.html?state=error&pin=1&matrix=1"></iframe></div></section>
+    <section class="tile"><div class="tile-head"><strong>04 · EDGE CASE</strong><span>Negative safe-to-spend</span></div><div class="viewport"><iframe data-state="edge" title="Nova edge-case state" src="recruiter-state-lab.html?state=edge&pin=1&matrix=1"></iframe></div></section>
+  </main>
+<script>
+  const focusState = (outer) => {
+    try {
+      const lab=outer.contentDocument;
+      const bar=lab.querySelector('.labbar'); if(bar) bar.style.display='none';
+      const note=lab.querySelector('.corner-note'); if(note) note.style.display='none';
+      const wrap=lab.querySelector('.frame-wrap'); if(wrap) wrap.style.height='100%';
+      const product=lab.querySelector('#productFrame');
+      const state=outer.dataset.state;
+      const focus=()=>{
+        try{
+          const doc=product?.contentDocument;
+          const target=doc?.querySelector(`[data-state-lab-marker="${state}"]`);
+          if(target){target.scrollIntoView({block:'start'});product.contentWindow.scrollBy(0,-18);}
+        }catch{}
+      };
+      product?.addEventListener('load',()=>setTimeout(focus,760),{once:true});
+      setTimeout(focus,950);
+    } catch {}
+  };
+  document.querySelectorAll('iframe[data-state]').forEach(frame => frame.addEventListener('load', () => focusState(frame)));
+</script>
+</body>
+</html>
