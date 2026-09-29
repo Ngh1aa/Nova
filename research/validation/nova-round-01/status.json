@@ -3,7 +3,7 @@
   "product": "Nova",
   "study_type": "moderated usability test",
   "status": "RECRUITING",
-  "evidence_state": "PLANNED",
+  "evidence_state": "PLANNED_VALIDATION",
   "recruitment_readiness": "READY_TO_RECRUIT",
   "target_participants": 5,
   "verified_sessions": 0,
@@ -16,12 +16,21 @@
     "participant_tracker": "research/validation/nova-round-01/PARTICIPANT-TRACKER.md",
     "session_storage_rules": "research/validation/nova-round-01/sessions/README.md"
   },
-  "next_valid_transition": "Recruit a real eligible participant, obtain consent, run the moderated study, and commit an anonymized session record that passes the integrity checklist.",
+  "evidence_pipeline": {
+    "session_template": "research/validation/nova-round-01/SESSION-TEMPLATE.md",
+    "human_readable_register": "research/validation/nova-round-01/EVIDENCE-REGISTER.md",
+    "atomic_ledger": "research/validation/nova-round-01/evidence-ledger.jsonl",
+    "findings": "research/validation/nova-round-01/FINDINGS.md",
+    "decision_log": "research/validation/nova-round-01/DECISION-LOG.md"
+  },
+  "figma_handoff_contract": "docs/FIGMA-HANDOFF-SPEC.md",
+  "next_valid_transition": "Recruit a real eligible participant, obtain consent, run the moderated study, commit an anonymized session record, append traceable atomic observations to evidence-ledger.jsonl, and update findings/decisions only from those records.",
   "allowed_claims": [
     "A moderated usability study has been designed",
     "Participant recruitment is open",
     "The study is operationally ready to recruit",
-    "The current product thesis remains a hypothesis"
+    "The current product thesis remains a hypothesis",
+    "A traceable evidence ingestion and decision-log pipeline exists"
   ],
   "forbidden_claims_until_verified": [
     "Nova has been validated by users",
@@ -30,5 +39,5 @@
     "Users prefer Nova",
     "Any conversion, retention, adoption or business impact claim"
   ],
-  "promotion_rule": "Change evidence_state to VERIFIED only after anonymized session records exist, the evidence register references them, and synthesis separates observations from interpretations."
+  "promotion_rule": "Change evidence_state to DIRECT_USER / VERIFIED_FOR_ROUND only after anonymized session records exist, the atomic evidence ledger references them, findings preserve contradictions, and synthesis separates observations from interpretations."
 }
