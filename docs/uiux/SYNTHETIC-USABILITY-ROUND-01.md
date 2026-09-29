@@ -101,31 +101,58 @@ The same SU-02 scenario is protected by browser regression coverage: ByteMart se
 
 ### Scenario
 
-Lan freezes her card, turns off online payments and lowers her daily card limit.
+Lan freezes her card, changes payment-channel preferences and lowers her daily card limit.
 
 ### What she tries
 
-1. Freezes the card.
-2. Turns off Online payments and Contactless.
-3. Leaves the page and comes back.
-4. Changes the daily card limit.
-5. Tries invalid values.
+1. Turns off Online payments and Contactless from the Cards overview.
+2. Opens the detailed Card controls screen and checks whether the choices carried over.
+3. Changes Cash withdrawals and Magstripe, leaves the page and comes back.
+4. Enters invalid daily-limit values, then saves €900.50.
+5. Returns to Cards and checks whether the saved limit appears there.
+6. Freezes the card, reloads, opens Card controls while frozen, then unfreezes.
 
-### Simulated comments
+### Before fix — simulated comments
 
 > “Ủa mình vừa tắt thanh toán online rồi, sao quay lại nó bật lại vậy? Vậy lúc nãy có lưu chưa?”
 
 > “Mình nhập số này rồi bấm lưu mà không thấy app nói đúng hay sai. Nếu mình nhập nhầm thì sao?”
 
-### Findings
+### Before fix — findings
 
-- Card-control choices do not survive navigation or reload.
-- Daily limit changes are not really saved.
-- Invalid values do not get clear feedback.
+- Card-control choices did not survive navigation or reload.
+- The Cards overview and detailed Card controls were owned by different runtime layers and could drift apart.
+- Daily limit changes were not really saved.
+- Invalid values did not get clear feedback.
+- Freeze behavior did not authoritatively govern every payment-channel control.
 
-### Fix
+### Implemented fix
 
-Persist card settings, make freeze state override payment channels, validate the daily limit and show clear success/error feedback.
+Card settings now support:
+
+- persisted Online payments, Contactless, Cash withdrawals and Magstripe preferences;
+- one shared stored preference contract across the final Cards v3 overview and detailed Card controls;
+- persisted card freeze that disables payment channels without deleting saved preferences;
+- preference restoration after unfreeze;
+- persisted Daily card limit shown again on the Cards overview;
+- inline validation for empty, non-numeric, zero/negative and >€5,000 values;
+- inline accessible success feedback for valid saves.
+
+### After fix — simulated re-test
+
+> “Giờ mình tắt thanh toán online rồi quay lại vẫn thấy nó tắt, nên mình biết app đã nhớ lựa chọn của mình.”
+
+> “Khi thẻ đang đóng băng thì mấy nút thanh toán bị khoá hẳn. Mở lại thẻ thì những lựa chọn trước đó vẫn còn, chứ không bị reset.”
+
+> “Mình nhập số sai thì app nói rõ sai ở đâu. Nhập €900.50 rồi quay lại trang Cards vẫn thấy đúng mức đó.”
+
+### Re-test result
+
+`DONE_VERIFIED`
+
+The same SU-03 scenario is protected by browser regression coverage on the final rendered UI: Cards v3 quick controls → detailed Card controls → reload persistence → invalid/valid Daily limit → Cards overview → freeze → frozen reload → detailed frozen controls → unfreeze with saved preferences restored. Nova Visual QA and GitHub Pages both passed after PR #36 merged.
+
+This remains a simulated re-test backed by browser regression and expert inspection, not evidence from a real participant.
 
 ---
 
@@ -195,25 +222,25 @@ Recompute committed money and Safe to spend immediately, update Money Horizon vi
 | Repeated problem | Users affected | Priority | Status |
 |---|---|---:|---|
 | Activity search/filter controls must change the result | SU-02 | P1 | Fixed / verified |
-| Other controls still look usable but do not fully change/persist the result | SU-03, SU-05 | P1 | Open |
+| Card settings must persist and freeze must remain authoritative | SU-03 | P1 | Fixed / verified |
+| Savings controls still look usable without recomputing the result | SU-05 | P1 | Open |
 | Important money consequences appear too late | SU-01, SU-05 | P1 | Open |
-| A saved setting should still be there when the user returns | SU-03 | P1 | Open |
 | Security steps must feel believable | SU-04 | P1 | Open |
 | Transfer consequences must stay consistent | SU-01, SU-04 | P0 | Fixed / verified |
 
 ## Main conclusion
 
-The first P1 iteration closed the Activity interaction-depth gap for SU-02: search, filters, result count, no-results and reset now behave like real product controls and are regression-tested.
+Two P1 interaction-depth gaps are now closed and regression-tested: Activity for SU-02 and card settings for SU-03. Search/filter controls now change the ledger, and card preferences/limits now behave like persistent product state with an authoritative frozen-card hierarchy.
 
-The biggest remaining weakness is still interaction depth in the other flows, especially card settings and savings planning.
+The biggest remaining interaction-depth gap is Savings: changing the contribution still needs to recompute Money Horizon rather than only acknowledge the action.
 
 The next fixes should be:
 
-1. Card settings persistence + daily-limit validation.
-2. Savings contribution that really updates Money Horizon.
-3. Passcode recovery without a prefilled code.
-4. Live transfer impact while entering the amount.
-5. Recipient-search dead affordance.
+1. Savings contribution that really updates Money Horizon.
+2. Passcode recovery without a prefilled code.
+3. Live transfer impact while entering the amount.
+4. Recipient-search dead affordance.
+5. Manual accessibility evidence for critical flows.
 
 ## Portfolio wording
 
