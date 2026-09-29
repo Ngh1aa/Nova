@@ -8,30 +8,17 @@
   <title>Nova — Personal Banking & Money Planning</title>
   <link rel="icon" href="assets/nova-mark.svg" type="image/svg+xml">
   <link rel="preload" href="assets/nova.js" as="script">
+
+  <!-- Runtime foundation: product structure + accessibility. -->
   <link rel="stylesheet" href="assets/nova.css">
   <link rel="stylesheet" href="assets/accessibility.css">
-  <link rel="stylesheet" href="assets/ledger.css">
-  <link rel="stylesheet" href="assets/ledger-v2.css">
-  <link rel="stylesheet" href="assets/ledger-final.css">
-  <link rel="stylesheet" href="assets/nova-redesign.css">
-  <link rel="stylesheet" href="assets/nova-financial-intelligence.css">
-  <link rel="stylesheet" href="assets/nova-floating-dock.css">
   <link rel="stylesheet" href="assets/nova-a11y.css">
-  <link rel="stylesheet" href="assets/nova-polish.css">
-  <link rel="stylesheet" href="assets/nova-logo.css">
-  <link rel="stylesheet" href="assets/nova-ios26.css">
-  <link rel="stylesheet" href="assets/nova-ios26-final.css">
-  <link rel="stylesheet" href="assets/nova-ios26-critique.css">
-  <link rel="stylesheet" href="assets/nova-ios26-release.css">
-  <link rel="stylesheet" href="assets/nova-pastel-dashboard.css">
-  <link rel="stylesheet" href="assets/nova-pastel-contrast.css">
-  <link rel="stylesheet" href="assets/nova-dashboard-v2.css">
-  <link rel="stylesheet" href="assets/nova-dashboard-v2-responsive.css">
-  <link rel="stylesheet" href="assets/nova-dashboard-v2-contrast.css">
-  <link rel="stylesheet" href="assets/nova-system-v3.css">
+
+  <!-- Active visual owner. Historical ledger/iOS/pastel/dashboard layers stay in the repo as evidence,
+       but no longer compete in the production cascade. v4 owns composition; v5 owns final geometry. -->
   <link rel="stylesheet" href="assets/nova-system-v4.css">
   <link rel="stylesheet" href="assets/nova-system-v5.css">
-  <link rel="stylesheet" href="assets/nova-motion.css?v=20260917-2">
+  <link rel="stylesheet" href="assets/nova-motion.css?v=20260922-1">
 </head>
 <body class="product-body">
   <a class="skip-link" href="#main">Skip to main content</a>
@@ -52,17 +39,13 @@
       } catch {}
     })();
   </script>
+
+  <!-- Product behavior first; system enhancement second. No historical mutation layers. -->
   <script src="assets/nova.js" defer></script>
-  <script src="assets/nova-redesign.js" defer></script>
-  <script src="assets/nova-financial-intelligence.js" defer></script>
   <script src="assets/accessibility.js" defer></script>
-  <script src="assets/nova-brand-fixes.js" defer></script>
-  <script src="assets/nova-ios26.js" defer></script>
-  <script src="assets/nova-pastel-dashboard.js" defer></script>
-  <script src="assets/nova-dashboard-v2.js" defer></script>
-  <script src="assets/nova-system-v3.js" defer></script>
+  <script src="assets/nova-financial-intelligence.js" defer></script>
   <script src="assets/nova-system-v4.js" defer></script>
   <script src="assets/nova-system-v5.js" defer></script>
-  <script src="assets/nova-motion.js?v=20260917-2" defer></script>
+  <script src="assets/nova-motion.js?v=20260922-1" defer></script>
 </body>
 </html>
