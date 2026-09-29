@@ -59,9 +59,28 @@ Verified on `main` commit `04c87a9cb8ba387808d6e4d4376c870fae86b3dc`:
 - Nova Visual QA passed after merge;
 - GitHub Pages build and deployment passed after merge.
 
+### 2026-09-29 — P1.4 Card controls and Daily limit remediation
+
+PR #36 replaced reset-on-render / toast-only card controls with persisted product state across the final Cards v3 surface and the detailed Card controls surface.
+
+Verified on `main` commit `25279eeeb63bb1e409034e0e63b9113edf4cc70a`:
+
+- Online payments, Contactless, Cash withdrawals and Magstripe preferences persist across navigation and reload;
+- Cards quick controls and detailed Card controls read/write the same stored preferences;
+- card freeze persists across reload and becomes authoritative by blocking payment-channel controls without erasing saved preferences;
+- unfreezing restores the saved channel preferences;
+- Daily card limit persists and is reflected back on the Cards overview;
+- empty, non-numeric, zero/negative and values above €5,000 are rejected with inline accessible errors;
+- valid values show inline success feedback and persist after reload;
+- browser regression covers Cards v3 → detailed controls → reload → freeze → reload → unfreeze;
+- Nova Visual QA passed after merge;
+- GitHub Pages build and deployment passed after merge.
+
+A runtime ownership issue was also exposed during this work: `nova-system-v3.js` replaces the base Cards renderer later in the script chain. P1.4 therefore repairs the final rendered Cards owner rather than masking the problem with another override layer. The broader runtime-layer consolidation remains P2.1.
+
 ## Executive result
 
-Nova has a coherent product thesis, IA, exception/recovery flows, state contracts, responsive QA, handoff documentation and technical product-integrity tests. The transfer P0s are repaired, and Activity search/filter behavior is now a verified product interaction rather than a decorative prototype affordance. The current work should be presented as an **expert-evaluated interactive prototype**, not a user-validated commercial product.
+Nova has a coherent product thesis, IA, exception/recovery flows, state contracts, responsive QA, handoff documentation and technical product-integrity tests. The transfer P0s are repaired, Activity search/filter behavior is verified, and card settings now persist with authoritative freeze behavior and validated limits. The current work should be presented as an **expert-evaluated interactive prototype**, not a user-validated commercial product.
 
 ## P0
 
@@ -151,16 +170,23 @@ Status: `DONE_VERIFIED`
 
 The amount screen should recalculate projected Safe to spend as the amount changes, including the over-plan state before review.
 
-### P1.4 — Card controls and limits need persistence + invalid input handling
+### P1.4 — Card controls persistence + Daily limit validation
 
-`VERIFIED_GAP`: payment/security switches are hard-coded on render and only emit toasts. Daily limit Save emits a toast without validation or persistence.
+**Evidence:** `VERIFIED`
 
-Required:
+Implemented:
 
-- persist prototype preferences;
-- make frozen/system-restricted state authoritative;
-- validate empty/zero/negative/excessive/invalid limits;
-- expose inline error and success states.
+- persisted Online payments, Contactless, Cash withdrawals and Magstripe preferences;
+- synchronized state between the final Cards v3 quick controls and detailed Card controls;
+- persisted card freeze that disables payment channels while preserving their saved preferences;
+- restored saved preferences after unfreeze;
+- persisted Daily card limit reflected on the Cards overview;
+- validation for empty, non-numeric, zero/negative and >€5,000 values;
+- inline accessible error and success feedback.
+
+Regression coverage verifies persistence through navigation/reload, all four channel states, invalid and valid limit values, freeze hierarchy, frozen reload and preference restoration after unfreeze.
+
+Status: `DONE_VERIFIED`
 
 ### P1.5 — Savings contribution preview should recompute Money Horizon
 
@@ -202,6 +228,8 @@ Automated checks are useful but not a conformance claim. Capture keyboard-only c
 
 `app.html` loads many historical CSS/JS passes. Collapse to one canonical current visual layer and one canonical interaction layer; archive experiments outside runtime.
 
+P1.4 confirmed this is not cosmetic debt: the final Cards UI is owned by `nova-system-v3.js`, which replaces the earlier base Cards renderer. The current fix makes the final owner truthful, but the storage contract is still duplicated across runtime layers and should become one canonical state model during P2 cleanup.
+
 ### P2.2 — Remove source-level Nova/Ledger identity drift
 
 Canonical renderer strings still contain Ledger while runtime scripts repair visible output. Move identity truth into canonical source.
@@ -220,12 +248,12 @@ Recruiter-visible material should show trade-offs such as balance-first vs Money
 |---|---|---|
 | Product thinking | Strong hypothesis + coherent financial model; expert-evaluated, not user-validated | P1 |
 | UX states | Broad documented coverage; native ownership incomplete | P1 |
-| Edge cases | Transfer/recovery P0 repaired; deeper control/input conflicts remain | P1 |
+| Edge cases | Transfer/recovery P0 repaired; Activity and card-control integrity verified; savings/security gaps remain | P1 |
 | Validation | Expert walkthrough + adversarial QA complete; no external participant claims | Current scope complete |
 | Metrics | Canonical framework exists; outcomes remain `NOT_MEASURED` | P0 technical done |
 | Accessibility | Automated/render checks strong; manual evidence incomplete | P1 |
 | Handoff | Source-backed contract exists; runtime layering remains difficult | P2 |
-| Prototype | Transfer integrity + Activity search/filter behavior regression-tested; several secondary controls remain shallow | P1 |
+| Prototype | Transfer integrity, Activity search/filter and card controls are regression-tested; savings/passcode/recipient depth remains | P1 |
 
 ## Portfolio truth statement
 
