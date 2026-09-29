@@ -120,7 +120,7 @@ Verified on `main` commit `199a00eddbb65e90fe3789e9ce8b6302d12567a0`:
 - Nova Visual QA passed after merge;
 - GitHub Pages build and deployment passed after merge.
 
-The focused recovery module intentionally owns this P1 interaction after the legacy base listener because the base `openDialog()` closes before validation can occur. That temporary ownership is explicit technical debt for P2.1 runtime consolidation, not hidden from the completion claim.
+The focused recovery module intentionally owns this P1 interaction after the legacy base listener because the base `openDialog()` closes before inline validation can occur. That temporary ownership is explicit technical debt for P2.1 runtime consolidation, not hidden from the completion claim.
 
 ### 2026-09-30 — P1.3 Live transfer impact remediation
 
@@ -164,9 +164,29 @@ Verified on `main` commit `870ed343fbba242d08bfafe18d5093ad1d89ecc5`:
 - Nova Visual QA passed after merge;
 - GitHub Pages build and deployment passed after merge.
 
+### 2026-09-30 — P1.8 Accessibility evidence remediation
+
+PR #46 added regression-protected browser evidence for accessibility behaviors that automated Axe checks alone do not prove.
+
+Verified on `main` commit `9204bc51aeb16dc855e166d58dc226b14302ffa4`:
+
+- the critical transfer scenario is keyboard reachable from recipient search through authentication;
+- representative keyboard targets expose a visible `:focus-visible` indicator;
+- representative routes avoid document-level horizontal overflow at a 200%-zoom-equivalent layout width;
+- the same routes avoid document-level horizontal overflow under a separate 200% root-text stress condition;
+- `prefers-reduced-motion: reduce` suppresses route/interaction motion while keeping content visible and usable;
+- Chromium Accessibility Tree exposes representative landmarks, headings, named recipient search, recipient links, passcode dialog/textbox semantics and live-error semantics;
+- the first evidence run caught two brittle measurement assumptions, not hidden product defects: one-tab distance to the Review button and Chromium's child-node representation of alert text. The tests were corrected without removing keyboard reachability, visible focus, alert-role or error-text requirements;
+- the full existing Nova regression suite passed alongside the new accessibility evidence suite;
+- Factory Flow OS passed on cross-project-verified Factory `11003bf36909b08c3def617023dc8ecd9c3964fd`, so P1.8 did not expose a generic Factory defect;
+- Nova Visual QA passed after merge;
+- GitHub Pages build and deployment passed after merge.
+
+Truth boundary: this is browser-assisted accessibility evidence. It is not hands-on NVDA/JAWS/VoiceOver/TalkBack testing and is not a WCAG conformance certification. See `docs/uiux/ACCESSIBILITY-EVIDENCE-2026-09-30.md`.
+
 ## Executive result
 
-Nova has a coherent product thesis, IA, exception/recovery flows, state contracts, responsive QA, handoff documentation and technical product-integrity tests. Transfer P0s are repaired, transfer consequences now appear while the amount is being entered, Activity search/filter behavior is verified, card settings persist with authoritative freeze behavior and validated limits, Savings recomputes Money Horizon with truthful overcommitted states, biometric fallback has a believable retryable passcode recovery path, and recipient search/selection now preserves the chosen person through the transfer and recovery flow. The current work should be presented as an **expert-evaluated interactive prototype**, not a user-validated commercial product.
+Nova has a coherent product thesis, IA, exception/recovery flows, state contracts, responsive QA, handoff documentation and technical product-integrity tests. Transfer P0s are repaired, transfer consequences now appear while the amount is being entered, Activity search/filter behavior is verified, card settings persist with authoritative freeze behavior and validated limits, Savings recomputes Money Horizon with truthful overcommitted states, biometric fallback has a believable retryable passcode recovery path, recipient search/selection preserves the chosen person through transfer/recovery, and accessibility behavior now has browser-backed evidence for keyboard, focus, enlarged content, reduced motion and accessibility-tree semantics. The current work should be presented as an **expert-evaluated interactive prototype**, not a user-validated commercial product.
 
 ## P0
 
@@ -202,7 +222,7 @@ Current evidence:
 
 - expert walkthrough and adversarial QA;
 - browser regression evidence;
-- automated render/accessibility checks;
+- automated accessibility/render checks;
 - explicit inspection of native interaction behavior.
 
 Allowed claim:
@@ -344,9 +364,28 @@ Regression coverage deliberately chooses Daniel Lee rather than Maya Chen and ve
 
 Status: `DONE_VERIFIED`
 
-### P1.8 — Manual accessibility evidence
+### P1.8 — Accessibility evidence
 
-Automated checks are useful but not a conformance claim. Capture keyboard-only critical flows, focus order, zoom/text scaling, screen-reader semantics and reduced-motion behavior.
+**Evidence:** `VERIFIED` for the inspected browser-assisted scenarios.
+
+Implemented and captured:
+
+- keyboard-only critical transfer traversal;
+- logical keyboard reachability from recipient selection through authentication;
+- durable visible `:focus-visible` treatment for interactive controls;
+- 200%-zoom-equivalent reflow checks across representative product routes;
+- separate 200% root-text scaling stress checks;
+- `prefers-reduced-motion: reduce` checks that preserve content while suppressing motion;
+- Chromium Accessibility Tree inspection for representative landmarks, headings, controls, dialog and live-error semantics;
+- JSON evidence artifacts uploaded by Nova Visual QA.
+
+Regression coverage lives in `qa/accessibility-evidence.spec.mjs` and runs with the full existing Nova suite.
+
+Truth boundary: this does not claim hands-on testing with NVDA, JAWS, VoiceOver or TalkBack, and it is not a WCAG conformance certification.
+
+See `docs/uiux/ACCESSIBILITY-EVIDENCE-2026-09-30.md` for the evidence record and five simulated-user accessibility walkthroughs.
+
+Status: `DONE_VERIFIED`
 
 ## P2 — cleanup / maintainability / portfolio clarity
 
@@ -377,14 +416,14 @@ Recruiter-visible material should show trade-offs such as balance-first vs Money
 | Edge cases | Transfer/recovery P0 repaired; live transfer impact, Activity, card-control, Savings, passcode and recipient continuity verified | P1 |
 | Validation | Expert walkthrough + adversarial QA complete; no external participant claims | Current scope complete |
 | Metrics | Canonical framework exists; outcomes remain `NOT_MEASURED` | P0 technical done |
-| Accessibility | Automated/render checks strong, including recipient Pay surface; manual evidence incomplete | P1 |
+| Accessibility | Browser-backed keyboard/focus, 200% scaling, reduced-motion and Chromium accessibility-tree evidence verified; no hands-on screen-reader conformance claim | P1 done |
 | Handoff | Source-backed contract exists; runtime layering remains difficult | P2 |
-| Prototype | Transfer amount/review/recovery, Activity, card controls, Savings, passcode recovery and recipient selection are regression-tested | P1 |
+| Prototype | Transfer, Activity, cards, Savings, security recovery, recipient continuity and accessibility scenarios are regression-tested | P1 |
 
 ## Portfolio truth statement
 
 Use:
 
-> An independent consumer-finance product concept and interactive prototype. Product decisions are grounded in benchmark research and explicit hypotheses. The prototype has been evaluated through expert walkthrough, adversarial edge-case review, automated accessibility/render checks and browser regression testing. No direct-user or production-impact claims are made.
+> An independent consumer-finance product concept and interactive prototype. Product decisions are grounded in benchmark research and explicit hypotheses. The prototype has been evaluated through expert walkthrough, adversarial edge-case review, automated accessibility/render checks, keyboard/zoom/reduced-motion/accessibility-tree evidence and browser regression testing. No direct-user or production-impact claims are made.
 
 Do not convert this into a commercial impact case until real commercial/product evidence exists.
