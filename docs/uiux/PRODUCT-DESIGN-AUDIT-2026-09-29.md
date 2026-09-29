@@ -120,7 +120,7 @@ Verified on `main` commit `199a00eddbb65e90fe3789e9ce8b6302d12567a0`:
 - Nova Visual QA passed after merge;
 - GitHub Pages build and deployment passed after merge.
 
-The focused recovery module intentionally owns this P1 interaction after the legacy base listener because the base `openDialog()` closes before inline validation can occur. That temporary ownership is explicit technical debt for P2.1 runtime consolidation, not hidden from the completion claim.
+The focused recovery module intentionally owns this P1 interaction after the legacy base listener because the base `openDialog()` closes before validation can occur. That temporary ownership is explicit technical debt for P2.1 runtime consolidation, not hidden from the completion claim.
 
 ### 2026-09-30 — P1.3 Live transfer impact remediation
 
@@ -184,9 +184,31 @@ Verified on `main` commit `9204bc51aeb16dc855e166d58dc226b14302ffa4`:
 
 Truth boundary: this is browser-assisted accessibility evidence. It is not hands-on NVDA/JAWS/VoiceOver/TalkBack testing and is not a WCAG conformance certification. See `docs/uiux/ACCESSIBILITY-EVIDENCE-2026-09-30.md`.
 
+### 2026-09-30 — P1.1 Native lifecycle-state remediation
+
+PR #48 moved Empty, Loading and Edge ownership out of Recruiter State Lab and into direct Nova product routes. The existing transfer Error state remains native.
+
+Verified on `main` commit `d997d7b6bcae16af5df6adf2555fd967fc55389e`:
+
+- Empty is a direct first-use route and refuses to invent a Safe-to-spend number before account data exists;
+- `Connect demo account` recovers from Empty to the normal demo account;
+- Loading exposes busy semantics, suppresses stale financial certainty and automatically returns to normal Home when not pinned for evidence;
+- Error keeps the existing `No money moved` transfer-recovery truth;
+- Edge calculates the stress scenario inside the product owner: €2,840 − €780 − €260 − €500 − €9,720 = −€8,420;
+- the negative result remains visible rather than being clipped to €0;
+- Recruiter State Lab now only switches native product routes and no longer injects product markup or state CSS;
+- State Matrix embeds the direct product routes;
+- dedicated regression asserts the direct routes, recovery paths, calculation truth and absence of wrapper injection;
+- the first browser run caught real AA contrast defects in the newly introduced small labels and State Matrix eyebrow; source colors were repaired and the full gate rerun without weakening Axe;
+- Factory Flow OS passed on pinned Factory `11003bf36909b08c3def617023dc8ecd9c3964fd`, so this remained Nova PRODUCT/runtime work;
+- full Nova Visual QA passed on PR #48 and again on merged `main`;
+- GitHub Pages build and deployment passed on the same merged `main` commit.
+
+Truth boundary: these are simulated prototype lifecycle conditions, not production connectivity/network states. See `docs/uiux/NATIVE-STATE-EVIDENCE-2026-09-30.md` for direct-route evidence and the five simulated-user walkthroughs.
+
 ## Executive result
 
-Nova has a coherent product thesis, IA, exception/recovery flows, state contracts, responsive QA, handoff documentation and technical product-integrity tests. Transfer P0s are repaired, transfer consequences now appear while the amount is being entered, Activity search/filter behavior is verified, card settings persist with authoritative freeze behavior and validated limits, Savings recomputes Money Horizon with truthful overcommitted states, biometric fallback has a believable retryable passcode recovery path, recipient search/selection preserves the chosen person through transfer/recovery, and accessibility behavior now has browser-backed evidence for keyboard, focus, enlarged content, reduced motion and accessibility-tree semantics. The current work should be presented as an **expert-evaluated interactive prototype**, not a user-validated commercial product.
+Nova has a coherent product thesis, IA, exception/recovery flows, native lifecycle states, responsive QA, handoff documentation and technical product-integrity tests. Transfer P0s are repaired, transfer consequences now appear while the amount is being entered, Activity search/filter behavior is verified, card settings persist with authoritative freeze behavior and validated limits, Savings recomputes Money Horizon with truthful overcommitted states, biometric fallback has a believable retryable passcode recovery path, recipient search/selection preserves the chosen person through transfer/recovery, and accessibility behavior now has browser-backed evidence for keyboard, focus, enlarged content, reduced motion and accessibility-tree semantics. Empty, Loading, Error and overcommitted Edge evidence now comes from product-owned routes instead of a recruiter wrapper. The current work should be presented as an **expert-evaluated interactive prototype**, not a user-validated commercial product.
 
 ## P0
 
@@ -251,9 +273,26 @@ Status: `DONE_VERIFIED`
 
 ## P1 — verified gaps from expert walkthrough
 
-### P1.1 — Make state handling native rather than primarily recruiter-injected
+### P1.1 — Native Empty / Loading / Error / Edge product states
 
-The Recruiter State Lab has useful rendered QA, but some Empty/Loading/Edge behavior is still forced by a review wrapper instead of the core product state model.
+**Evidence:** `VERIFIED`
+
+Implemented:
+
+- Empty, Loading and Edge render from the product runtime on direct `app.html` routes;
+- Error remains the native transfer-recovery screen;
+- Empty represents unknown data as unavailable instead of inventing a financial value;
+- Loading uses busy/live semantics, suppresses stale numbers and auto-recovers when not pinned for evidence;
+- Edge computes and displays the full negative Safe-to-spend result from explicit stress-scenario inputs;
+- Recruiter State Lab only switches routes and does not rewrite iframe product DOM;
+- State Matrix embeds the native routes directly;
+- accessibility contrast defects caught by the first QA run were repaired in source before merge.
+
+Regression coverage verifies direct route ownership, Empty recovery, Loading recovery, Error reassurance, Edge calculation truth, route-only State Lab behavior, direct State Matrix embeds and absence of wrapper injection.
+
+See `docs/uiux/NATIVE-STATE-EVIDENCE-2026-09-30.md`.
+
+Status: `DONE_VERIFIED`
 
 ### P1.2 — Activity search and filters must change results
 
@@ -391,9 +430,9 @@ Status: `DONE_VERIFIED`
 
 ### P2.1 — Collapse legacy visual override layers
 
-`app.html` loads many historical CSS/JS passes. Collapse to one canonical current visual layer and one canonical interaction layer; archive experiments outside runtime.
+`app.html` loads many historical CSS/JS passes. Collapse to one canonical current visual layer and one canonical interaction/state layer; archive experiments outside runtime.
 
-P1.4 confirmed this is not cosmetic debt: the final Cards UI is owned by `nova-system-v3.js`, which replaces the earlier base Cards renderer. P1.5 needs a focused Savings rule layer to override a legacy toast-only handler. P1.6 needs a focused Passcode recovery layer because the base dialog closes before inline validation can occur. P1.3 uses a focused transfer-impact owner so the live Horizon can stay consistent with later submit/review rules. P1.7 again exposed the same ownership pattern: the visible Pay recipient surface belongs to `nova-system-v4.js`, not the stale base renderer. These P1 fixes make final rendered behavior truthful, but one canonical state/interaction owner is still required during P2 cleanup.
+P1.4 confirmed this is not cosmetic debt: the final Cards UI is owned by `nova-system-v3.js`, which replaces the earlier base Cards renderer. P1.5 needs a focused Savings rule layer to override a legacy toast-only handler. P1.6 needs a focused Passcode recovery layer because the base dialog closes before inline validation can occur. P1.3 uses a focused transfer-impact owner so the live Horizon can stay consistent with later submit/review rules. P1.7 exposed the visible Pay recipient surface in `nova-system-v4.js`. P1.1 now adds a focused `nova-native-states.js` owner so lifecycle evidence is truthful before consolidation. These P1 fixes make final rendered behavior product-owned, but the next step is to absorb the focused owners into one canonical state/interaction architecture rather than stacking further downstream patches.
 
 ### P2.2 — Remove source-level Nova/Ledger identity drift
 
@@ -411,19 +450,19 @@ Recruiter-visible material should show trade-offs such as balance-first vs Money
 
 | Area | Current state | Priority |
 |---|---|---|
-| Product thinking | Strong hypothesis + coherent financial model; expert-evaluated, not user-validated | P1 |
-| UX states | Broad documented coverage; native ownership incomplete | P1 |
-| Edge cases | Transfer/recovery P0 repaired; live transfer impact, Activity, card-control, Savings, passcode and recipient continuity verified | P1 |
-| Validation | Expert walkthrough + adversarial QA complete; no external participant claims | Current scope complete |
+| Product thinking | Strong hypothesis + coherent financial model; expert-evaluated, not user-validated | P1 complete / P2 evidence polish |
+| UX states | Empty, Loading, Error and overcommitted Edge are native product states; runtime ownership still needs consolidation | P1 done / P2 architecture |
+| Edge cases | Transfer/recovery P0, live transfer impact, Activity, card controls, Savings, passcode, recipient continuity and lifecycle edge states verified | P1 done |
+| Validation | Expert walkthrough + adversarial QA + synthetic walkthroughs; no external participant claims | Current scope complete |
 | Metrics | Canonical framework exists; outcomes remain `NOT_MEASURED` | P0 technical done |
-| Accessibility | Browser-backed keyboard/focus, 200% scaling, reduced-motion and Chromium accessibility-tree evidence verified; no hands-on screen-reader conformance claim | P1 done |
+| Accessibility | Browser-backed Axe/render, keyboard/focus, 200% scaling, reduced-motion and Chromium accessibility-tree evidence verified; no hands-on screen-reader conformance claim | P1 done |
 | Handoff | Source-backed contract exists; runtime layering remains difficult | P2 |
-| Prototype | Transfer, Activity, cards, Savings, security recovery, recipient continuity and accessibility scenarios are regression-tested | P1 |
+| Prototype | Critical flows plus native lifecycle states are regression-tested directly | P1 done |
 
 ## Portfolio truth statement
 
 Use:
 
-> An independent consumer-finance product concept and interactive prototype. Product decisions are grounded in benchmark research and explicit hypotheses. The prototype has been evaluated through expert walkthrough, adversarial edge-case review, automated accessibility/render checks, keyboard/zoom/reduced-motion/accessibility-tree evidence and browser regression testing. No direct-user or production-impact claims are made.
+> An independent consumer-finance product concept and interactive prototype. Product decisions are grounded in benchmark research and explicit hypotheses. The prototype has been evaluated through expert walkthrough, adversarial edge-case review, automated accessibility/render checks, keyboard/zoom/reduced-motion/accessibility-tree evidence, native lifecycle-state regression and browser testing. No direct-user or production-impact claims are made.
 
 Do not convert this into a commercial impact case until real commercial/product evidence exists.
