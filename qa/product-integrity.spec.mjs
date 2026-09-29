@@ -53,7 +53,10 @@ test('above-safe transfer keeps truthful planning state through biometric failur
   await expect(page.locator('[data-nova-safe-review-warning]')).toContainText('€100.00 above Safe to spend');
   await expect(page.locator('.impact-panel .horizon-bar')).toContainText('Plan shortfall €100.00');
   await expect(page.locator('.impact-panel')).toContainText('−€100.00');
-  await expect(page.getByText(/No transfer has been made/)).toBeVisible();
+
+  const visibleRecovery = page.locator('.task-panel:visible').filter({ hasText: /No transfer has been made/ }).first();
+  await expect(visibleRecovery).toBeVisible();
+  await expect(visibleRecovery).toContainText('No transfer has been made');
 });
 
 test('amount above total balance remains blocked', async ({ page }) => {
