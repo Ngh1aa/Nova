@@ -1,0 +1,25 @@
+{
+  "study_id": "nova-round-01",
+  "product": "Nova",
+  "study_type": "moderated usability test",
+  "status": "RECRUITING",
+  "evidence_state": "PLANNED",
+  "target_participants": 5,
+  "verified_sessions": 0,
+  "participant_profile": "18–30, uses at least one digital banking app weekly; no real financial data required",
+  "primary_question": "Can people correctly interpret Money Horizon and decide what is safe to spend without confusing forecasted or committed money with immediately spendable funds?",
+  "prototype_url": "https://nova-gamma-eosin.vercel.app/",
+  "allowed_claims": [
+    "A moderated usability study has been designed",
+    "Participant recruitment is open",
+    "The current product thesis remains a hypothesis"
+  ],
+  "forbidden_claims_until_verified": [
+    "Nova has been validated by users",
+    "Money Horizon improves financial confidence",
+    "Task success improved",
+    "Users prefer Nova",
+    "Any conversion, retention, adoption or business impact claim"
+  ],
+  "promotion_rule": "Change evidence_state to VERIFIED only after anonymized session records exist, the evidence register references them, and synthesis separates observations from interpretations."
+}
