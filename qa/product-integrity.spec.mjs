@@ -26,7 +26,7 @@ test('custom transfer amount and reference remain consistent through receipt', a
   await expect(page.locator('.receipt-sheet')).toContainText('Dinner split');
 });
 
-test('above-safe transfer requires explicit planning acknowledgement before biometrics', async ({ page }) => {
+test('above-safe transfer keeps truthful planning state through biometric failure', async ({ page }) => {
   await reset(page);
   await page.goto('/app.html?screen=transfer-amount');
 
@@ -37,6 +37,7 @@ test('above-safe transfer requires explicit planning acknowledgement before biom
   await expect(page).toHaveURL(/screen=transfer-review/);
   await expect(page.locator('[data-nova-safe-review-warning]')).toContainText('€100.00 above Safe to spend');
   await expect(page.getByText('−€100.00').first()).toBeVisible();
+  await expect(page.locator('.impact-panel .horizon-bar')).toContainText('Plan shortfall €100.00');
 
   await page.getByRole('button', { name: /Confirm with biometrics/ }).click();
   const acknowledgement = page.getByRole('dialog', { name: 'Review the planning trade-off' });
@@ -44,7 +45,15 @@ test('above-safe transfer requires explicit planning acknowledgement before biom
   await expect(acknowledgement).toContainText('€100.00 above Safe to spend');
 
   await acknowledgement.getByRole('button', { name: 'Continue to biometric review' }).click();
-  await expect(page.getByRole('dialog', { name: 'Confirm with biometrics' })).toBeVisible();
+  const biometric = page.getByRole('dialog', { name: 'Confirm with biometrics' });
+  await expect(biometric).toBeVisible();
+  await biometric.getByRole('button', { name: 'Simulate failure' }).click();
+
+  await expect(page).toHaveURL(/screen=biometric-failed/);
+  await expect(page.locator('[data-nova-safe-review-warning]')).toContainText('€100.00 above Safe to spend');
+  await expect(page.locator('.impact-panel .horizon-bar')).toContainText('Plan shortfall €100.00');
+  await expect(page.locator('.impact-panel')).toContainText('−€100.00');
+  await expect(page.getByText(/No transfer has been made/)).toBeVisible();
 });
 
 test('amount above total balance remains blocked', async ({ page }) => {
