@@ -25,7 +25,7 @@ jobs:
         uses: actions/checkout@v6
         with:
           repository: Ngh1aa/uiux-ai-workspace
-          ref: a9b74f354c485f8b61635755704342205083bb13
+          ref: 3e6dc5cae21121c734fd1edceae729126c455912
           path: .factory
 
       - name: Set up Python
@@ -46,7 +46,7 @@ jobs:
           mkdir -p .factory/uiux-factory/qa/artifacts
           python .factory/skills_UIUX/scripts/uiux-agent.py \
             --project "$GITHUB_WORKSPACE" \
-            --task "Redesign and validate the Nova personal banking interactive prototype across product flows and responsive visual quality" \
+            --task "Upgrade and validate the Nova personal banking interactive prototype across product decisions, recruiter evidence, state/recovery flows and responsive visual quality" \
             --managed \
             --authority read_only \
             --intent redesign \
@@ -58,11 +58,11 @@ jobs:
             --feature payments \
             --feature cards \
             --feature savings \
-            > .factory/uiux-factory/qa/artifacts/a13-managed-plan.json
+            > .factory/uiux-factory/qa/artifacts/a32-managed-plan.json
           python - <<'PY'
           import json
           from pathlib import Path
-          path = Path('.factory/uiux-factory/qa/artifacts/a13-managed-plan.json')
+          path = Path('.factory/uiux-factory/qa/artifacts/a32-managed-plan.json')
           data = json.loads(path.read_text(encoding='utf-8'))
           assert data.get('manager_run_id'), 'Factory did not create a managed run'
           assert data.get('active_stage'), 'Factory did not resolve an active stage'
@@ -70,7 +70,7 @@ jobs:
           assert flow.get('id'), 'Factory did not resolve a Flow'
           assert flow.get('stages'), 'Factory resolved an empty Flow'
           assert any(stage.get('skills') for stage in flow['stages']), 'Factory routed no skills to Nova'
-          print(f"A13 managed plan: flow={flow['id']} active_stage={data['active_stage']} stages={len(flow['stages'])}")
+          print(f"A32 managed plan: flow={flow['id']} active_stage={data['active_stage']} stages={len(flow['stages'])}")
           PY
 
       - name: Install Factory QA dependencies
@@ -82,7 +82,7 @@ jobs:
         run: npx playwright install --with-deps chromium
 
       - name: Prepare Nova prototype tests
-        run: cp qa/nova-flow.spec.mjs .factory/uiux-factory/qa/tests/nova-flow.spec.mjs
+        run: cp qa/*.spec.mjs .factory/uiux-factory/qa/tests/
 
       - name: Serve and visually audit Nova product and evidence screens
         working-directory: .factory/uiux-factory/qa
@@ -96,7 +96,7 @@ jobs:
           trap 'kill $SERVER_PID 2>/dev/null || true' EXIT
           node scripts/wait-ready.mjs
           npm test
-          npx playwright test tests/nova-flow.spec.mjs
+          npx playwright test tests/nova-flow.spec.mjs tests/nova-evidence.spec.mjs
 
       - name: Print target server log on failure
         if: failure()
