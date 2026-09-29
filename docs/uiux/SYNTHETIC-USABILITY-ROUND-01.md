@@ -168,22 +168,57 @@ Minh deliberately makes biometric verification fail and tries the fallback optio
 2. Starts biometric confirmation.
 3. Simulates failure.
 4. Checks whether any money moved.
-5. Uses passcode fallback.
+5. Opens passcode fallback.
+6. Submits nothing.
+7. Tries a short code.
+8. Tries a wrong four-digit code.
+9. Corrects it with the prototype demo code.
+10. Separately checks that Cancel leaves the transfer incomplete.
 
-### Simulated comments
+### Before fix — simulated comments
 
 > “Đoạn báo chưa chuyển tiền thì mình thấy yên tâm.”
 
 > “Nhưng sao mã lại có sẵn luôn vậy? Nếu đây là bước bảo mật thì mình nghĩ mình phải tự nhập chứ.”
 
-### Findings
+### Before fix — findings
 
-- Recovery messaging is now clear and trustworthy.
-- The passcode field is prefilled, which makes the security step feel fake.
+- Recovery messaging was clear and trustworthy.
+- The passcode field was prefilled, which made the security step feel fake.
+- The old dialog closed before it could show a useful wrong-code state.
+- There was no believable retry loop inside the passcode fallback.
 
-### Fix
+### Implemented fix
 
-Use an empty masked field, keep demo guidance outside the field, validate the input and show a clear wrong-code state.
+Passcode recovery now:
+
+- opens with an empty masked field;
+- keeps the prototype hint outside the credential value;
+- says explicitly that no credential is stored;
+- rejects empty input;
+- rejects invalid length/format;
+- shows a wrong-code message without closing the dialog;
+- lets the user correct the code and retry in the same task;
+- only continues to simulated success after the correct prototype code;
+- lets Cancel return to the failed-biometric recovery screen with no transfer completed.
+
+### After fix — simulated re-test
+
+> “Giờ mở lên ô mã trống nên mình thấy hợp lý hơn, ít nhất là mình phải tự nhập.”
+
+> “Mình nhập thiếu số thì app nói rõ, nhập sai thì nó vẫn để mình ở đây để sửa lại chứ không tự nhảy sang chỗ khác.”
+
+> “Mình thử sai trước rồi nhập lại đúng vẫn tiếp tục được, nên cảm giác giống một bước xác nhận thật hơn.”
+
+> “Bấm huỷ thì mình vẫn thấy rõ là chưa có tiền nào được chuyển, vậy mình yên tâm hơn.”
+
+### Re-test result
+
+`DONE_VERIFIED`
+
+The same SU-04 scenario is protected by dedicated browser regression coverage: biometric failure → no-money-moved reassurance → empty masked passcode → empty validation → invalid length → wrong four-digit code → retry → correct prototype code → simulated success, plus a cancel path that leaves the transfer incomplete. Nova Visual QA and GitHub Pages both passed after PR #40 merged.
+
+This remains a simulated re-test backed by browser regression and expert inspection, not evidence from a real participant.
 
 ---
 
@@ -255,22 +290,21 @@ This remains a simulated re-test backed by browser regression and expert inspect
 | Card settings must persist and freeze must remain authoritative | SU-03 | P1 | Fixed / verified |
 | Savings preview must recompute the money result | SU-05 | P1 | Fixed / verified |
 | Important money consequences appear too late | SU-01 | P1 | Open |
-| Security steps must feel believable | SU-04 | P1 | Open |
+| Security recovery must feel believable and retryable | SU-04 | P1 | Fixed / verified |
 | Transfer consequences must stay consistent | SU-01, SU-04 | P0 | Fixed / verified |
 
 ## Main conclusion
 
-Three P1 interaction-depth gaps are now closed and regression-tested: Activity for SU-02, card settings for SU-03 and Savings for SU-05. Search/filter controls change the ledger, card preferences/limits behave like persistent product state, and changing a savings contribution now recomputes Money Horizon instead of acknowledging the action with a toast.
+Four P1 interaction-depth gaps are now closed and regression-tested: Activity for SU-02, card settings for SU-03, Savings for SU-05 and passcode recovery for SU-04. Search/filter controls change the ledger, card preferences/limits behave like persistent product state, Savings recomputes Money Horizon, and failed biometrics now lead to an empty masked passcode flow with validation and retry instead of a prefilled demo shortcut.
 
-The biggest remaining interaction-depth gaps are now security recovery and pre-submit transfer clarity rather than basic control functionality.
+The biggest remaining interaction-depth gap is now pre-submit transfer clarity for SU-01, followed by the recipient-search dead affordance and manual accessibility evidence.
 
 The next fixes should be:
 
-1. Passcode recovery without a prefilled code.
-2. Live transfer impact while entering the amount.
-3. Recipient-search dead affordance.
-4. Manual accessibility evidence for critical flows.
-5. Runtime-layer consolidation during P2 cleanup.
+1. Live transfer impact while entering the amount.
+2. Recipient-search dead affordance.
+3. Manual accessibility evidence for critical flows.
+4. Runtime-layer consolidation during P2 cleanup.
 
 ## Portfolio wording
 
