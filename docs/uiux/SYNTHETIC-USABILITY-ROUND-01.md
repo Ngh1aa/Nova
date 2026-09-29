@@ -28,21 +28,55 @@ Mai checks Nova before sending money. She wants to know whether the transfer wil
 
 1. Checks Safe to spend.
 2. Opens Send Money.
-3. Tries a normal amount.
-4. Tries an amount above Safe to spend.
-5. Continues through review and recovery.
+3. Watches the impact while changing the amount.
+4. Tries €500 as a normal transfer.
+5. Tries exactly €1,300.
+6. Tries €1,400, above Safe to spend but still inside total balance.
+7. Tries €3,000, above the total available balance.
+8. Changes the amount back to €145 to see whether the preview returns to normal.
 
-### Simulated comment
+### Before fix — simulated comment
 
 > “Mình muốn thấy ngay lúc nhập số tiền là gửi xong còn lại bao nhiêu. Đến màn sau mới báo thì hơi muộn, vì lúc đó mình đã nghĩ là số tiền này ổn rồi.”
 
-### Finding
+### Before fix — findings
 
-The transfer flow is now truthful once the user reaches review, but the amount screen should update the projected Safe to spend while the user is typing.
+- The amount screen warned about risky values but the Money Horizon preview stayed visually stale.
+- The user had to reach review to understand the full consequence of an over-plan transfer.
+- Above-balance validation existed at submit, but the impact panel did not explain the blocked state while typing.
 
-### Fix
+### Implemented fix
 
-Make the impact preview react immediately for normal, above-safe and above-balance values.
+Transfer amount preview now:
+
+- recalculates projected Safe to spend while the amount changes;
+- shows the remaining account balance in the same live preview;
+- recomposes Money Horizon for normal transfers;
+- treats €1,300 as the exact Safe-to-spend boundary with €0 left safe;
+- shows a visible plan shortfall before review when the amount exceeds Safe to spend;
+- shows a blocked preview immediately when the amount exceeds total available balance;
+- keeps the existing submit validation, so preview feedback does not weaken the transfer rule;
+- restores the normal Horizon state when the amount is corrected.
+
+### After fix — simulated re-test
+
+> “Giờ mình gõ €500 là thấy ngay còn €800 để tiêu, nên mình không cần bấm qua màn sau mới biết.”
+
+> “Mình thử đúng €1,300 thì nó báo còn €0, vậy mình hiểu đây là giới hạn tiền mình đang có thể dùng thoải mái.”
+
+> “Nhập €1,400 là nó báo thiếu kế hoạch €100 ngay ở đây. Mình vẫn có đủ tiền trong tài khoản, nhưng nhìn vậy là biết mình đang ăn vào phần đã để dành cho việc khác.”
+
+> “Mình thử €3,000 thì nó nói luôn là không đủ tiền và thiếu €160. Vậy đỡ phải bấm tiếp rồi mới bị chặn.”
+
+> “Sửa lại về €145 thì mấy con số trở lại bình thường, nên mình thấy phần này phản hồi theo số mình đang nhập thật.”
+
+### Re-test result
+
+`DONE_VERIFIED`
+
+The same SU-01 scenario is protected by dedicated browser regression coverage: €145 baseline → €500 normal state → €1,300 boundary → €1,400 plan shortfall → €3,000 blocked preview + submit rejection → correction back to €145. Nova Visual QA and GitHub Pages both passed after PR #42 merged.
+
+This remains a simulated re-test backed by browser regression and expert inspection, not evidence from a real participant.
 
 ---
 
@@ -289,21 +323,21 @@ This remains a simulated re-test backed by browser regression and expert inspect
 | Activity search/filter controls must change the result | SU-02 | P1 | Fixed / verified |
 | Card settings must persist and freeze must remain authoritative | SU-03 | P1 | Fixed / verified |
 | Savings preview must recompute the money result | SU-05 | P1 | Fixed / verified |
-| Important money consequences appear too late | SU-01 | P1 | Open |
+| Important money consequences must appear before review | SU-01 | P1 | Fixed / verified |
 | Security recovery must feel believable and retryable | SU-04 | P1 | Fixed / verified |
 | Transfer consequences must stay consistent | SU-01, SU-04 | P0 | Fixed / verified |
 
 ## Main conclusion
 
-Four P1 interaction-depth gaps are now closed and regression-tested: Activity for SU-02, card settings for SU-03, Savings for SU-05 and passcode recovery for SU-04. Search/filter controls change the ledger, card preferences/limits behave like persistent product state, Savings recomputes Money Horizon, and failed biometrics now lead to an empty masked passcode flow with validation and retry instead of a prefilled demo shortcut.
+All five synthetic-user interaction gaps currently assigned to SU-01 through SU-05 are now fixed and regression-tested: live transfer impact for SU-01, Activity for SU-02, card settings for SU-03, passcode recovery for SU-04 and Savings for SU-05.
 
-The biggest remaining interaction-depth gap is now pre-submit transfer clarity for SU-01, followed by the recipient-search dead affordance and manual accessibility evidence.
+The remaining P1 work is no longer one of these five primary scenario failures. It is now focused on the recipient-search dead affordance, native state ownership and manual accessibility evidence.
 
 The next fixes should be:
 
-1. Live transfer impact while entering the amount.
-2. Recipient-search dead affordance.
-3. Manual accessibility evidence for critical flows.
+1. Recipient-search dead affordance.
+2. Manual accessibility evidence for critical flows.
+3. Native state ownership where Recruiter State Lab still injects behavior.
 4. Runtime-layer consolidation during P2 cleanup.
 
 ## Portfolio wording

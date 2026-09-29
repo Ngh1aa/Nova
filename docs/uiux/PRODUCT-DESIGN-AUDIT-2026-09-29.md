@@ -122,9 +122,29 @@ Verified on `main` commit `199a00eddbb65e90fe3789e9ce8b6302d12567a0`:
 
 The focused recovery module intentionally owns this P1 interaction after the legacy base listener because the base `openDialog()` closes before validation can occur. That temporary ownership is explicit technical debt for P2.1 runtime consolidation, not hidden from the completion claim.
 
+### 2026-09-30 — P1.3 Live transfer impact remediation
+
+PR #42 made the amount-entry screen show transfer consequences before review instead of keeping Money Horizon visually stale while the user typed.
+
+Verified on `main` commit `eb6edc171b5ac0c2161f7d25c1ec34de020c58c4`:
+
+- the default €145 transfer previews €1,155 Safe to spend and €2,695 remaining balance;
+- €500 previews €800 Safe to spend and updates the Money Horizon composition immediately;
+- €1,300 is treated as the Safe-to-spend boundary and previews €0 without an over-plan warning;
+- €1,400 shows a €100 plan shortfall before review while keeping total-balance sufficiency explicit;
+- €3,000 shows a blocked preview because it exceeds the €2,840 balance by €160;
+- the existing submit validation still blocks the above-balance amount, so the live preview does not weaken transfer-integrity rules;
+- returning from a blocked amount to €145 restores the normal Horizon state;
+- the preview updates its live status, bar, legend, accessible label and explanation together;
+- dedicated Playwright regression coverage passed on the PR and again on merged `main`;
+- Nova Visual QA passed after merge;
+- GitHub Pages build and deployment passed after merge.
+
+The focused transfer-impact module exists because the current runtime still separates base rendering from later product-rule ownership. Consolidating the transfer preview, submit rules and renderer into one canonical interaction owner remains P2.1 debt.
+
 ## Executive result
 
-Nova has a coherent product thesis, IA, exception/recovery flows, state contracts, responsive QA, handoff documentation and technical product-integrity tests. Transfer P0s are repaired, Activity search/filter behavior is verified, card settings persist with authoritative freeze behavior and validated limits, Savings recomputes Money Horizon with truthful overcommitted states, and biometric fallback now has a believable retryable passcode recovery path. The current work should be presented as an **expert-evaluated interactive prototype**, not a user-validated commercial product.
+Nova has a coherent product thesis, IA, exception/recovery flows, state contracts, responsive QA, handoff documentation and technical product-integrity tests. Transfer P0s are repaired, transfer consequences now appear while the amount is being entered, Activity search/filter behavior is verified, card settings persist with authoritative freeze behavior and validated limits, Savings recomputes Money Horizon with truthful overcommitted states, and biometric fallback now has a believable retryable passcode recovery path. The current work should be presented as an **expert-evaluated interactive prototype**, not a user-validated commercial product.
 
 ## P0
 
@@ -210,9 +230,24 @@ Regression coverage verifies ByteMart search, Pending → Northstar Books, Incom
 
 Status: `DONE_VERIFIED`
 
-### P1.3 — Transfer impact preview should react before submit
+### P1.3 — Transfer impact preview reacts before submit
 
-The amount screen should recalculate projected Safe to spend as the amount changes, including the over-plan state before review.
+**Evidence:** `VERIFIED`
+
+Implemented:
+
+- live projected Safe to spend while the amount changes;
+- live remaining-balance feedback;
+- normal Money Horizon recomposition for transfers within Safe to spend;
+- explicit €0 boundary at the full Safe-to-spend amount;
+- negative Safe-to-spend / plan-shortfall state before review;
+- above-total-balance blocked preview before submit;
+- synchronized live status, Horizon bar, legend, accessible label and explanation;
+- preview-only wording that does not imply money movement.
+
+Regression coverage verifies €145 baseline, €500 normal state, €1,300 boundary, €1,400 over-plan shortfall, €3,000 above-balance blocked state, submit blocking and recovery back to a normal amount.
+
+Status: `DONE_VERIFIED`
 
 ### P1.4 — Card controls persistence + Daily limit validation
 
@@ -286,7 +321,7 @@ Automated checks are useful but not a conformance claim. Capture keyboard-only c
 
 `app.html` loads many historical CSS/JS passes. Collapse to one canonical current visual layer and one canonical interaction layer; archive experiments outside runtime.
 
-P1.4 confirmed this is not cosmetic debt: the final Cards UI is owned by `nova-system-v3.js`, which replaces the earlier base Cards renderer. P1.5 needs a focused Savings rule layer to override a legacy toast-only handler. P1.6 needs a focused Passcode recovery layer because the base dialog closes before inline validation can occur. These P1 fixes make final rendered behavior truthful, but one canonical state/interaction owner is still required during P2 cleanup.
+P1.4 confirmed this is not cosmetic debt: the final Cards UI is owned by `nova-system-v3.js`, which replaces the earlier base Cards renderer. P1.5 needs a focused Savings rule layer to override a legacy toast-only handler. P1.6 needs a focused Passcode recovery layer because the base dialog closes before inline validation can occur. P1.3 now also uses a focused transfer-impact owner so the live Horizon can stay consistent with the later submit/review rules. These P1 fixes make final rendered behavior truthful, but one canonical state/interaction owner is still required during P2 cleanup.
 
 ### P2.2 — Remove source-level Nova/Ledger identity drift
 
@@ -306,12 +341,12 @@ Recruiter-visible material should show trade-offs such as balance-first vs Money
 |---|---|---|
 | Product thinking | Strong hypothesis + coherent financial model; expert-evaluated, not user-validated | P1 |
 | UX states | Broad documented coverage; native ownership incomplete | P1 |
-| Edge cases | Transfer/recovery P0 repaired; Activity, card-control, Savings and passcode integrity verified | P1 |
+| Edge cases | Transfer/recovery P0 repaired; live transfer impact, Activity, card-control, Savings and passcode integrity verified | P1 |
 | Validation | Expert walkthrough + adversarial QA complete; no external participant claims | Current scope complete |
 | Metrics | Canonical framework exists; outcomes remain `NOT_MEASURED` | P0 technical done |
 | Accessibility | Automated/render checks strong; manual evidence incomplete | P1 |
 | Handoff | Source-backed contract exists; runtime layering remains difficult | P2 |
-| Prototype | Transfer, Activity, card controls, Savings preview and passcode recovery are regression-tested; recipient-search depth remains | P1 |
+| Prototype | Transfer amount/review/recovery, Activity, card controls, Savings preview and passcode recovery are regression-tested; recipient-search depth remains | P1 |
 
 ## Portfolio truth statement
 
