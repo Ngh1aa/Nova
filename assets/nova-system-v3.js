@@ -4,6 +4,43 @@
   const screen = new URLSearchParams(location.search).get('screen') || 'home';
   const $ = (selector, root = document) => root.querySelector(selector);
   const svg = (path) => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${path}</svg>`;
+  const CARD_CONTROLS = Object.freeze({
+    'Online payments': { key: 'nova_card_online_payments', defaultOn: true },
+    'Contactless': { key: 'nova_card_contactless', defaultOn: true },
+    'Cash withdrawals': { key: 'nova_card_cash_withdrawals', defaultOn: true },
+    'Magstripe': { key: 'nova_card_magstripe', defaultOn: false }
+  });
+  const CARD_FROZEN_KEY = 'nova_card_frozen';
+  const CARD_LIMIT_KEY = 'nova_card_daily_limit';
+  const CARD_LIMIT_DEFAULT = 1200;
+
+  function storageGet(key, fallback = '') {
+    try { return localStorage.getItem(key) ?? fallback; } catch { return fallback; }
+  }
+
+  function storageSet(key, value) {
+    try { localStorage.setItem(key, String(value)); } catch {}
+  }
+
+  function cardPreference(name) {
+    const config = CARD_CONTROLS[name];
+    if (!config) return false;
+    return storageGet(config.key, config.defaultOn ? 'true' : 'false') === 'true';
+  }
+
+  function cardFrozen() {
+    return storageGet(CARD_FROZEN_KEY, 'false') === 'true';
+  }
+
+  function savedDailyLimit() {
+    const value = Number(storageGet(CARD_LIMIT_KEY, String(CARD_LIMIT_DEFAULT)));
+    return Number.isFinite(value) && value > 0 ? value : CARD_LIMIT_DEFAULT;
+  }
+
+  function formattedMoney(value) {
+    return `€${Number(value).toLocaleString('en-IE', { minimumFractionDigits: 0, maximumFractionDigits: 2 })}`;
+  }
+
   const icons = {
     search: svg('<circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/>'),
     bell: svg('<path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 7h18s-3 0-3-7"/><path d="M10 19h4"/>'),
@@ -74,7 +111,7 @@
             <div class="v3-bank-bottom"><div><small>CARDHOLDER</small><strong>Alex Nguyen</strong></div><div><small>VALID THRU</small><strong>09/29</strong></div><span class="v3-network" aria-label="Card network"><i></i><b></b></span></div>
           </div>
           <div class="v3-card-summary">
-            <div><span class="v3-status live">● Active</span><strong>Everyday debit</strong><small>Linked to Current Account •••• 4421</small></div>
+            <div><span class="v3-status live" data-v3-card-state>● Active</span><strong>Everyday debit</strong><small>Linked to Current Account •••• 4421</small></div>
             <button class="v3-primary-action" type="button" data-v3-reveal>${icons.eye}<span>Show details</span></button>
           </div>
         </section>
@@ -82,15 +119,15 @@
         <section class="v3-surface v3-card-balance"><div class="v3-section-title"><div><small>Available to spend</small><h2>€1,300.00</h2></div><span class="v3-icon blue">${icons.card}</span></div><div class="v3-stat-grid"><div><small>Spent this month</small><strong>€620</strong><span>62% of €1,000 limit</span></div><div><small>Cash withdrawals</small><strong>€120</strong><span>€380 left this month</span></div></div><div class="v3-meter"><span style="width:62%"></span></div></section>
 
         <section class="v3-surface v3-card-actions"><div class="v3-section-title"><div><small>Card controls</small><h2>Use it your way</h2></div><span class="v3-status safe">Protected</span></div><div class="v3-action-grid">
-          <button class="v3-action-tile danger" type="button" data-v3-freeze>${icons.lock}<strong>Freeze card</strong><span>Pause new payments instantly</span></button>
-          <button class="v3-action-tile blue" type="button" data-v3-toggle="Online payments">${icons.globe}<strong>Online payments</strong><span>Enabled</span></button>
-          <button class="v3-action-tile mint" type="button" data-v3-toggle="Contactless">${icons.wifi}<strong>Contactless</strong><span>Enabled</span></button>
-          <button class="v3-action-tile yellow" type="button" data-v3-toggle="Cash withdrawals">${icons.cash}<strong>Cash withdrawals</strong><span>Enabled</span></button>
+          <button class="v3-action-tile danger" type="button" data-v3-freeze aria-pressed="false">${icons.lock}<strong>Freeze card</strong><span>Pause new payments instantly</span></button>
+          <button class="v3-action-tile blue" type="button" data-v3-toggle="Online payments" aria-pressed="true">${icons.globe}<strong>Online payments</strong><span>Enabled</span></button>
+          <button class="v3-action-tile mint" type="button" data-v3-toggle="Contactless" aria-pressed="true">${icons.wifi}<strong>Contactless</strong><span>Enabled</span></button>
+          <button class="v3-action-tile yellow" type="button" data-v3-toggle="Cash withdrawals" aria-pressed="true">${icons.cash}<strong>Cash withdrawals</strong><span>Enabled</span></button>
         </div></section>
 
         <section class="v3-surface v3-wallet-card"><div class="v3-section-title"><div><small>Mobile wallet</small><h2>Apple Pay</h2></div><span class="v3-status safe">Ready</span></div><div class="v3-wallet-row"><span class="v3-icon blue">${icons.phone}</span><div><strong>iPhone 16 Pro</strong><small>Default contactless card</small></div><button type="button" class="v3-text-button" data-v3-toast="Wallet management is simulated in this prototype.">Manage</button></div><div class="v3-wallet-row"><span class="v3-icon lavender">${icons.phone}</span><div><strong>Apple Watch</strong><small>Added 2 months ago</small></div><span class="v3-status live">Active</span></div></section>
 
-        <section class="v3-surface v3-limits-card"><div class="v3-section-title"><div><small>Limits</small><h2>Spending guardrails</h2></div><a href="app.html?screen=card-controls">Edit →</a></div><div class="v3-limit-row"><span>Daily card spend</span><strong>€1,000</strong></div><div class="v3-limit-row"><span>Cash withdrawal</span><strong>€500 / month</strong></div><div class="v3-limit-row"><span>Single contactless tap</span><strong>€100</strong></div></section>
+        <section class="v3-surface v3-limits-card"><div class="v3-section-title"><div><small>Limits</small><h2>Spending guardrails</h2></div><a href="app.html?screen=card-controls">Edit →</a></div><div class="v3-limit-row"><span>Daily card spend</span><strong data-v3-daily-limit>${formattedMoney(savedDailyLimit())}</strong></div><div class="v3-limit-row"><span>Cash withdrawal</span><strong>€500 / month</strong></div><div class="v3-limit-row"><span>Single contactless tap</span><strong>€100</strong></div></section>
 
         <section class="v3-surface v3-card-activity"><div class="v3-section-title"><div><small>Card activity</small><h2>Recent payments</h2></div><a href="app.html?screen=activity">See all →</a></div><div class="v3-list">
           <a href="app.html?screen=transaction-detail"><span class="v3-merchant blue">G</span><div><strong>Greenline Market</strong><small>Today, 14:32 · Groceries</small></div><b>−€42.70</b></a>
@@ -144,6 +181,39 @@
     </main>`;
   }
 
+  function syncCardOverviewControls() {
+    if (screen !== 'cards') return;
+    const frozen = cardFrozen();
+    const freeze = $('[data-v3-freeze]');
+    const state = $('[data-v3-card-state]');
+
+    if (state) state.textContent = frozen ? '● Frozen' : '● Active';
+    if (freeze) {
+      freeze.dataset.frozen = String(frozen);
+      freeze.setAttribute('aria-pressed', String(frozen));
+      const strong = $('strong', freeze);
+      const note = $('span', freeze);
+      if (strong) strong.textContent = frozen ? 'Unfreeze card' : 'Freeze card';
+      if (note) note.textContent = frozen ? 'Restore your saved payment preferences' : 'Pause new payments instantly';
+    }
+
+    document.querySelectorAll('[data-v3-toggle]').forEach((button) => {
+      const name = button.dataset.v3Toggle;
+      if (!CARD_CONTROLS[name]) return;
+      const enabled = cardPreference(name);
+      button.dataset.enabled = String(enabled);
+      button.setAttribute('aria-pressed', String(enabled));
+      button.disabled = frozen;
+      button.setAttribute('aria-disabled', String(frozen));
+      const status = $('span', button);
+      if (status) status.textContent = frozen ? `${enabled ? 'Saved on' : 'Saved off'} · blocked` : enabled ? 'Enabled' : 'Disabled';
+      button.title = frozen ? 'Card is frozen. This saved preference will apply again after unfreezing.' : '';
+    });
+
+    const daily = $('[data-v3-daily-limit]');
+    if (daily) daily.textContent = formattedMoney(savedDailyLimit());
+  }
+
   const renderers = { cards: renderCards, savings: renderSavings, security: renderSecurity, settings: renderSettings };
   const renderer = renderers[screen];
   if (renderer) {
@@ -154,6 +224,7 @@
   }
 
   repairChrome();
+  syncCardOverviewControls();
 
   function toast(message) {
     let node = $('.v3-toast');
@@ -186,22 +257,28 @@
 
     const freeze = event.target.closest('[data-v3-freeze]');
     if (freeze) {
-      const frozen = freeze.dataset.frozen === 'true';
-      freeze.dataset.frozen = String(!frozen);
-      const strong = $('strong', freeze);
-      const span = $('span', freeze);
-      if (strong) strong.textContent = frozen ? 'Freeze card' : 'Card frozen';
-      if (span) span.textContent = frozen ? 'Pause new payments instantly' : 'Tap again to unfreeze';
-      toast(frozen ? 'Card unfrozen in prototype.' : 'Card frozen in prototype.');
+      const nextFrozen = !cardFrozen();
+      storageSet(CARD_FROZEN_KEY, nextFrozen);
+      syncCardOverviewControls();
+      toast(nextFrozen ? 'Card frozen. New card payments and ATM withdrawals are blocked.' : 'Card unfrozen. Your saved payment preferences are active again.');
+      return;
     }
 
     const toggle = event.target.closest('[data-v3-toggle]');
     if (toggle) {
-      const current = toggle.dataset.enabled !== 'false';
-      toggle.dataset.enabled = String(!current);
-      const status = $('span', toggle);
-      if (status) status.textContent = current ? 'Disabled' : 'Enabled';
-      toast(`${toggle.dataset.v3Toggle} ${current ? 'disabled' : 'enabled'} in prototype.`);
+      const name = toggle.dataset.v3Toggle;
+      const config = CARD_CONTROLS[name];
+      if (!config) return;
+      if (cardFrozen()) {
+        syncCardOverviewControls();
+        toast('Card is frozen. Unfreeze before changing payment preferences.');
+        return;
+      }
+      const next = !cardPreference(name);
+      storageSet(config.key, next);
+      syncCardOverviewControls();
+      toast(`${name} ${next ? 'enabled' : 'disabled'}. This preference will be kept when you return.`);
+      return;
     }
 
     const segment = event.target.closest('.v3-segmented button');

@@ -5,6 +5,14 @@ async function reset(page) {
   await page.evaluate(() => localStorage.clear());
 }
 
+function cardControl(page, name) {
+  return page.locator(`input[data-control="${name}"]`);
+}
+
+function cardQuickControl(page, name) {
+  return page.locator(`button[data-v3-toggle="${name}"]`);
+}
+
 test('custom transfer amount and reference remain consistent through receipt', async ({ page }) => {
   await reset(page);
   await page.goto('/app.html?screen=transfer-amount');
@@ -119,4 +127,123 @@ test('activity search, filters and no-results state change the native ledger', a
   await expect(page.getByRole('button', { name: 'All', exact: true })).toHaveAttribute('aria-pressed', 'true');
   await expect(visibleRows).toHaveCount(8);
   await expect(empty).toBeHidden();
+});
+
+test('card preferences persist, freeze remains authoritative, and daily limit rejects invalid values', async ({ page }) => {
+  await reset(page);
+  await page.goto('/app.html?screen=cards');
+
+  const onlineQuick = cardQuickControl(page, 'Online payments');
+  const contactlessQuick = cardQuickControl(page, 'Contactless');
+  const cashQuick = cardQuickControl(page, 'Cash withdrawals');
+  const freeze = page.locator('[data-v3-freeze]');
+
+  await expect(onlineQuick).toHaveAttribute('aria-pressed', 'true');
+  await expect(contactlessQuick).toHaveAttribute('aria-pressed', 'true');
+  await expect(cashQuick).toHaveAttribute('aria-pressed', 'true');
+  await expect(freeze).toHaveAttribute('aria-pressed', 'false');
+
+  await onlineQuick.click();
+  await contactlessQuick.click();
+  await expect(onlineQuick).toHaveAttribute('aria-pressed', 'false');
+  await expect(contactlessQuick).toHaveAttribute('aria-pressed', 'false');
+
+  await page.reload();
+  await expect(cardQuickControl(page, 'Online payments')).toHaveAttribute('aria-pressed', 'false');
+  await expect(cardQuickControl(page, 'Contactless')).toHaveAttribute('aria-pressed', 'false');
+
+  await page.goto('/app.html?screen=card-controls');
+  const online = cardControl(page, 'Online payments');
+  const contactless = cardControl(page, 'Contactless');
+  const cash = cardControl(page, 'Cash withdrawals');
+  const magstripe = cardControl(page, 'Magstripe');
+
+  await expect(online).not.toBeChecked();
+  await expect(contactless).not.toBeChecked();
+  await expect(cash).toBeChecked();
+  await expect(magstripe).not.toBeChecked();
+
+  await cash.uncheck({ force: true });
+  await magstripe.check({ force: true });
+  await page.reload();
+  await expect(cardControl(page, 'Online payments')).not.toBeChecked();
+  await expect(cardControl(page, 'Contactless')).not.toBeChecked();
+  await expect(cardControl(page, 'Cash withdrawals')).not.toBeChecked();
+  await expect(cardControl(page, 'Magstripe')).toBeChecked();
+
+  const limit = page.getByLabel('Card purchases');
+  const save = page.getByRole('button', { name: 'Save limit' });
+  const error = page.locator('#daily-limit-error');
+  const status = page.locator('[data-nova-card-status]');
+
+  await expect(limit).toHaveValue('1200');
+
+  await limit.fill('');
+  await save.click();
+  await expect(error).toContainText('Enter a daily card limit.');
+  await expect(limit).toHaveAttribute('aria-invalid', 'true');
+
+  await limit.fill('abc');
+  await save.click();
+  await expect(error).toContainText('Enter a valid number for the daily card limit.');
+
+  await limit.fill('0');
+  await save.click();
+  await expect(error).toContainText('must be greater than €0');
+
+  await limit.fill('-25');
+  await save.click();
+  await expect(error).toContainText('must be greater than €0');
+
+  await limit.fill('5001');
+  await save.click();
+  await expect(error).toContainText('cannot exceed €5,000.00');
+
+  await limit.fill('900.5');
+  await save.click();
+  await expect(error).toBeHidden();
+  await expect(limit).not.toHaveAttribute('aria-invalid', 'true');
+  await expect(status).toContainText('Daily card limit saved at €900.50 per day.');
+
+  await page.reload();
+  await expect(page.getByLabel('Card purchases')).toHaveValue('900.5');
+  await expect(cardControl(page, 'Online payments')).not.toBeChecked();
+  await expect(cardControl(page, 'Contactless')).not.toBeChecked();
+  await expect(cardControl(page, 'Cash withdrawals')).not.toBeChecked();
+  await expect(cardControl(page, 'Magstripe')).toBeChecked();
+
+  await page.goto('/app.html?screen=cards');
+  await expect(page.locator('[data-v3-daily-limit]')).toHaveText('€900.5');
+  await expect(cardQuickControl(page, 'Online payments')).toHaveAttribute('aria-pressed', 'false');
+  await expect(cardQuickControl(page, 'Contactless')).toHaveAttribute('aria-pressed', 'false');
+  await expect(cardQuickControl(page, 'Cash withdrawals')).toHaveAttribute('aria-pressed', 'false');
+
+  await page.locator('[data-v3-freeze]').click();
+  await expect(page.locator('[data-v3-freeze]')).toHaveAttribute('aria-pressed', 'true');
+  await expect(page.locator('[data-v3-card-state]')).toContainText('Frozen');
+  await expect(cardQuickControl(page, 'Online payments')).toBeDisabled();
+  await expect(cardQuickControl(page, 'Contactless')).toBeDisabled();
+  await expect(cardQuickControl(page, 'Cash withdrawals')).toBeDisabled();
+
+  await page.reload();
+  await expect(page.locator('[data-v3-freeze]')).toHaveAttribute('aria-pressed', 'true');
+  await expect(cardQuickControl(page, 'Online payments')).toBeDisabled();
+
+  await page.goto('/app.html?screen=card-controls');
+  await expect(cardControl(page, 'Online payments')).toBeDisabled();
+  await expect(cardControl(page, 'Contactless')).toBeDisabled();
+  await expect(cardControl(page, 'Cash withdrawals')).toBeDisabled();
+  await expect(cardControl(page, 'Magstripe')).toBeDisabled();
+  await expect(page.getByLabel('Card purchases')).toHaveValue('900.5');
+
+  await page.goto('/app.html?screen=cards');
+  await page.locator('[data-v3-freeze]').click();
+  await expect(page.locator('[data-v3-freeze]')).toHaveAttribute('aria-pressed', 'false');
+  await expect(page.locator('[data-v3-card-state]')).toContainText('Active');
+  await expect(cardQuickControl(page, 'Online payments')).toBeEnabled();
+  await expect(cardQuickControl(page, 'Online payments')).toHaveAttribute('aria-pressed', 'false');
+  await expect(cardQuickControl(page, 'Contactless')).toBeEnabled();
+  await expect(cardQuickControl(page, 'Contactless')).toHaveAttribute('aria-pressed', 'false');
+  await expect(cardQuickControl(page, 'Cash withdrawals')).toBeEnabled();
+  await expect(cardQuickControl(page, 'Cash withdrawals')).toHaveAttribute('aria-pressed', 'false');
 });
