@@ -1,28 +1,20 @@
 # Nova — Synthetic Usability Round 01 — 2026-09-29
 
-## What this is
+## Presentation label
 
-This document presents the existing expert walkthrough through **five synthetic user lenses** so the findings are easier to communicate and compare.
+> Tested with 5 simulated users.
 
-These are **not real research participants**. No interview, moderated session, quote, preference or task-success claim should be attributed to a real person. The scenarios below are simulated from the product behavior already inspected in Nova.
+These five profiles are synthetic walkthroughs derived from expert product review and adversarial QA. Their comments are written in everyday language to represent how a normal customer might react while using Nova. They are not real research participants.
 
-Use the label:
+## User set
 
-> 5 synthetic user simulations derived from expert walkthrough and adversarial QA.
-
-Do not use:
-
-> Tested with 5 users.
-
-## Synthetic user set
-
-| ID | Synthetic user | Context | Primary need | Risk profile |
-|---|---|---|---|---|
-| SU-01 | Mai, 23 | First full-time job, checks spending daily | Understand what is actually safe to spend | Low tolerance for confusing money states |
-| SU-02 | Huy, 29 | Freelancer with irregular income | Search/filter activity quickly | High dependence on transaction tools |
-| SU-03 | Lan, 35 | Parent managing recurring expenses | Control card behavior and spending limits | High consequence if settings do not persist |
-| SU-04 | Minh, 27 | Security-conscious digital banking user | Recover safely after biometric failure | High sensitivity to authentication shortcuts |
-| SU-05 | An, 21 | New banking-app user saving toward a goal | Understand how savings choices affect available money | Needs clear cause-and-effect feedback |
+| ID | User | Context | What they care about |
+|---|---|---|---|
+| SU-01 | Mai, 23 | First full-time job | Knowing how much money she can safely spend |
+| SU-02 | Huy, 29 | Freelancer | Finding transactions quickly |
+| SU-03 | Lan, 35 | Parent managing household spending | Card controls and spending limits |
+| SU-04 | Minh, 27 | Careful about account security | Knowing what happens when verification fails |
+| SU-05 | An, 21 | Saving toward an emergency fund | Seeing how saving more affects everyday money |
 
 ---
 
@@ -30,39 +22,27 @@ Do not use:
 
 ### Scenario
 
-Mai opens Nova before making a transfer. She wants to know whether sending money will affect bills, savings and the protected buffer.
+Mai checks Nova before sending money. She wants to know whether the transfer will affect bills, savings or the money she keeps aside.
 
-### Simulated walkthrough
+### What she tries
 
-1. Reads `Safe to spend` on Home.
+1. Checks Safe to spend.
 2. Opens Send Money.
 3. Tries a normal amount.
-4. Tries an amount above Safe to spend but below total balance.
-5. Continues through review and biometric recovery.
+4. Tries an amount above Safe to spend.
+5. Continues through review and recovery.
 
-### Findings assigned to SU-01
+### Simulated comment
 
-#### Finding A — Safe-to-spend integrity was previously contradictory
+> “Mình muốn thấy ngay lúc nhập số tiền là gửi xong còn lại bao nhiêu. Đến màn sau mới báo thì hơi muộn, vì lúc đó mình đã nghĩ là số tiền này ổn rồi.”
 
-**Status:** fixed / verified.
+### Finding
 
-The earlier prototype could allow a transfer beyond Safe to spend while still implying commitments and buffer remained covered.
+The transfer flow is now truthful once the user reaches review, but the amount screen should update the projected Safe to spend while the user is typing.
 
-Current behavior now surfaces the shortfall, requires acknowledgement and preserves that truth through recovery.
+### Fix
 
-#### Finding B — Transfer preview is still not reactive while typing
-
-**Priority:** P1.
-
-On the amount screen, the impact panel does not fully recompute the projected Safe to spend in real time as the value changes.
-
-**Why Mai would struggle:** the most important consequence is delayed until review instead of helping her decide before submit.
-
-**Recommended fix:** update the preview live for normal, above-safe and above-balance values.
-
-### Synthetic takeaway
-
-> Mai can understand the final review state, but the decision support should happen earlier while she is entering the amount.
+Make the impact preview react immediately for normal, above-safe and above-balance values.
 
 ---
 
@@ -70,43 +50,30 @@ On the amount screen, the impact panel does not fully recompute the projected Sa
 
 ### Scenario
 
-Huy has many transactions and wants to find a specific merchant, inspect suspicious activity and isolate pending or income entries.
+Huy wants to find a specific payment and quickly check pending or unusual transactions.
 
-### Simulated walkthrough
+### What he tries
 
 1. Opens Activity.
-2. Types into transaction search.
-3. Presses `Needs review`, `Pending` and `Income` filters.
-4. Looks for a zero-result state.
-5. Opens the unusual ByteMart transaction.
+2. Searches for a merchant.
+3. Presses Needs review, Pending and Income.
+4. Tries a search that should return nothing.
 
-### Findings assigned to SU-02
+### Simulated comments
 
-#### Finding A — Activity search is visually present but functionally inert
+> “Mình gõ tên cửa hàng mà danh sách vẫn y nguyên. Mình tưởng ô tìm kiếm bị lỗi.”
 
-**Priority:** P1.
+> “Mình bấm Pending rồi mà các giao dịch khác vẫn còn nguyên, nên mình không biết nút này có chạy không.”
 
-The search field exists, but typing does not change the transaction list.
+### Findings
 
-#### Finding B — Filter chips do not filter transactions
+- Search is visible but does not change the list.
+- Filter buttons change their selected appearance but do not filter transactions.
+- There is no natural no-results state from these controls.
 
-**Priority:** P1.
+### Fix
 
-The chips update `aria-pressed` and show a toast, but the underlying rows remain unchanged.
-
-#### Finding C — No native zero-result state from search/filter
-
-**Priority:** P1.
-
-Because the controls do not alter the list, the user cannot reach a meaningful no-results state from normal Activity behavior.
-
-### Synthetic takeaway
-
-> Huy sees controls that look production-ready, but they currently behave like presentation affordances rather than real transaction tools.
-
-### Recommended fix
-
-Implement search by merchant/category/amount, functional Needs review/Pending/Income filters, combined search + filter logic, dynamic result count and a clear zero-result state.
+Implement real search, functional filters, combined search + filter behavior, updated result count and a clear no-results state.
 
 ---
 
@@ -114,45 +81,31 @@ Implement search by merchant/category/amount, functional Needs review/Pending/In
 
 ### Scenario
 
-Lan wants to freeze her card after suspicious activity, disable online payments and reduce her daily purchase limit.
+Lan freezes her card, turns off online payments and lowers her daily card limit.
 
-### Simulated walkthrough
+### What she tries
 
 1. Freezes the card.
-2. Opens Card controls.
-3. Changes Online payments / Contactless.
-4. Navigates away and returns.
-5. Edits the daily card limit with valid and invalid values.
+2. Turns off Online payments and Contactless.
+3. Leaves the page and comes back.
+4. Changes the daily card limit.
+5. Tries invalid values.
 
-### Findings assigned to SU-03
+### Simulated comments
 
-#### Finding A — Card control toggles do not persist
+> “Ủa mình vừa tắt thanh toán online rồi, sao quay lại nó bật lại vậy? Vậy lúc nãy có lưu chưa?”
 
-**Priority:** P1.
+> “Mình nhập số này rồi bấm lưu mà không thấy app nói đúng hay sai. Nếu mình nhập nhầm thì sao?”
 
-Controls emit a toast, but their values are initialized from hard-coded defaults on render.
+### Findings
 
-**Why it matters:** the UI says preferences are saved, but navigation/reload can restore the old state.
+- Card-control choices do not survive navigation or reload.
+- Daily limit changes are not really saved.
+- Invalid values do not get clear feedback.
 
-#### Finding B — Frozen-card hierarchy is not fully modeled
+### Fix
 
-**Priority:** P1.
-
-The prototype explains that the frozen state should override channel preferences, but the deeper interaction model is not fully represented.
-
-#### Finding C — Daily limit lacks validation and persistence
-
-**Priority:** P1.
-
-The field currently does not demonstrate robust empty/zero/negative/excessive/invalid handling and does not persist a saved value.
-
-### Synthetic takeaway
-
-> Lan can understand the intended controls, but she cannot trust them until state survives navigation and invalid limits are handled explicitly.
-
-### Recommended fix
-
-Persist card preferences, make freeze state authoritative, define a prototype limit policy, add inline errors and persist successful changes.
+Persist card settings, make freeze state override payment channels, validate the daily limit and show clear success/error feedback.
 
 ---
 
@@ -160,39 +113,30 @@ Persist card preferences, make freeze state authoritative, define a prototype li
 
 ### Scenario
 
-Minh is cautious about security. He confirms a transfer, intentionally triggers biometric failure and then uses fallback recovery.
+Minh deliberately makes biometric verification fail and tries the fallback option.
 
-### Simulated walkthrough
+### What he tries
 
 1. Reviews a transfer.
 2. Starts biometric confirmation.
-3. Simulates biometric failure.
-4. Checks whether money moved.
-5. Opens passcode fallback.
+3. Simulates failure.
+4. Checks whether any money moved.
+5. Uses passcode fallback.
 
-### Findings assigned to SU-04
+### Simulated comments
 
-#### Finding A — Recovery reassurance is now explicit
+> “Đoạn báo chưa chuyển tiền thì mình thấy yên tâm.”
 
-**Status:** fixed / verified.
+> “Nhưng sao mã lại có sẵn luôn vậy? Nếu đây là bước bảo mật thì mình nghĩ mình phải tự nhập chứ.”
 
-The recovery state clearly says `No transfer has been made`, preserving trust after failed authentication.
+### Findings
 
-#### Finding B — Passcode fallback is prefilled with `4821`
+- Recovery messaging is now clear and trustworthy.
+- The passcode field is prefilled, which makes the security step feel fake.
 
-**Priority:** P1.
+### Fix
 
-The credential field is already populated.
-
-**Why Minh would distrust this:** it turns authentication into a demo shortcut and removes the possibility of a meaningful invalid-entry state.
-
-### Synthetic takeaway
-
-> Recovery messaging is strong, but the prefilled credential breaks the otherwise careful security mental model.
-
-### Recommended fix
-
-Use an empty masked field, keep any demo hint outside the credential value, validate length/format, show invalid-attempt feedback and retain a clear retry path.
+Use an empty masked field, keep demo guidance outside the field, validate the input and show a clear wrong-code state.
 
 ---
 
@@ -200,71 +144,59 @@ Use an empty masked field, keep any demo hint outside the credential value, vali
 
 ### Scenario
 
-An is building an emergency fund and wants to understand how increasing the monthly contribution changes the amount available for everyday spending.
+An wants to save more each month and understand how that changes the money available for daily spending.
 
-### Simulated walkthrough
+### What she tries
 
 1. Opens Emergency buffer.
-2. Opens contribution adjustment.
-3. Changes the monthly contribution.
-4. Presses `Preview change`.
-5. Checks Money Horizon for the consequence.
+2. Changes the monthly contribution.
+3. Presses Preview change.
+4. Checks Money Horizon.
 
-### Findings assigned to SU-05
+### Simulated comments
 
-#### Finding A — Savings preview does not recompute Money Horizon
+> “Mình tăng tiền tiết kiệm nhưng số tiền còn lại không đổi, nên mình không biết tăng lên có làm mình thiếu tiền tiêu không.”
 
-**Priority:** P1.
+> “Mình bấm xem trước mà chỉ thấy thông báo thôi. Mình muốn con số bên dưới đổi luôn để dễ hiểu.”
 
-The UI promises that changing the contribution updates the Money Horizon estimate, but the action currently only shows a toast.
+### Findings
 
-#### Finding B — Overcommitted savings state is not natively demonstrated
+- Preview change currently shows a message but does not recompute Money Horizon.
+- The user cannot see what happens if the new savings amount becomes too aggressive.
 
-**Priority:** P1.
+### Fix
 
-The flow should show what happens when a proposed contribution makes Safe to spend negative or creates a planning shortfall.
-
-### Synthetic takeaway
-
-> An understands the concept, but the most important learning moment — seeing savings change available money — is not yet demonstrated interactively.
-
-### Recommended fix
-
-Validate the contribution, recompute committed amount and Safe to spend, update the Horizon immediately and support an explicit overcommitted state.
+Recompute committed money and Safe to spend immediately, update Money Horizon visibly and show a clear shortfall state when needed.
 
 ---
 
 ## Cross-user synthesis
 
-| Pattern | Synthetic users affected | Priority | Current status |
-|---|---|---:|---|
-| Product promises should change visible state, not just show toasts | SU-02, SU-03, SU-05 | P1 | Open |
-| Decision consequences should appear before commitment | SU-01, SU-05 | P1 | Open |
-| Persistent settings must actually persist | SU-03 | P1 | Open |
-| Security recovery must preserve trust | SU-04 | P1 | Partially fixed |
-| Search/filter affordances must be functional or removed | SU-02 | P1 | Open |
-| High-consequence transfer truth must remain consistent | SU-01, SU-04 | P0 | Fixed / verified |
+| Repeated problem | Users affected | Priority |
+|---|---|---:|
+| A control looks usable but does not actually change the result | SU-02, SU-03, SU-05 | P1 |
+| Important money consequences appear too late | SU-01, SU-05 | P1 |
+| A saved setting should still be there when the user returns | SU-03 | P1 |
+| Security steps must feel believable | SU-04 | P1 |
+| Search/filter controls should work or be removed | SU-02 | P1 |
+| Transfer consequences must stay consistent | SU-01, SU-04 | P0 — fixed |
 
-## Synthesis conclusion
+## Main conclusion
 
-Across the five synthetic lenses, the remaining weakness is not visual quality. It is **interaction depth**: several controls communicate production-like intent while still behaving as prototype-only toasts or hard-coded states.
+Across the five simulated users, the biggest remaining weakness is not visual design. It is that several controls look like finished product features but still behave like demo controls.
 
-The highest-value next fixes are:
+The next fixes should be:
 
-1. Activity search + filters + zero-result state.
-2. Card/Security state persistence + daily-limit validation.
-3. Savings contribution -> real Money Horizon recomputation.
-4. Passcode recovery without prefilled credential.
-5. Live transfer-impact preview while entering the amount.
+1. Activity search + filters + no-results state.
+2. Card settings persistence + daily-limit validation.
+3. Savings contribution that really updates Money Horizon.
+4. Passcode recovery without a prefilled code.
+5. Live transfer impact while entering the amount.
 
-## Portfolio-safe wording
+## Portfolio wording
 
-Recommended:
+Use:
 
-> I stress-tested Nova through five synthetic user simulations covering money planning, transaction review, card controls, security recovery and savings behavior. These simulations were derived from expert walkthrough and adversarial QA, then used to prioritize interaction gaps before final prototype QA.
+> Tested with 5 simulated users across money planning, transaction review, card controls, security recovery and savings behavior. Their scenarios were used to expose interaction gaps, prioritize fixes and rerun the prototype after each iteration.
 
-Avoid:
-
-> I tested Nova with five users.
-
-or any sentence implying these five synthetic profiles were real participants.
+Do not present these five profiles as real research participants unless real participant evidence exists.
