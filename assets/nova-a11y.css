@@ -60,6 +60,14 @@ body.product-body .v4-avatar.mint {
   color: #18684f !important;
 }
 
+/* v4 recipient cards use display rules that can override the browser's native
+   [hidden] behavior. Filtering and no-result recovery must make hidden content
+   actually non-rendered for both sighted and assistive-technology users. */
+body.product-body .v4-recipient-chips [hidden],
+body.product-body [data-nova-recipient-empty][hidden] {
+  display: none !important;
+}
+
 /* Reinstate the contemporary forecast container after the legacy Ledger reset,
    whose global !important square-corner rule otherwise wins the cascade. */
 body.product-body .fi-horizon {
