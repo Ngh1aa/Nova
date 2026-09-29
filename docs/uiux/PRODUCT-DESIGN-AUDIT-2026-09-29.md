@@ -142,9 +142,31 @@ Verified on `main` commit `eb6edc171b5ac0c2161f7d25c1ec34de020c58c4`:
 
 The focused transfer-impact module exists because the current runtime still separates base rendering from later product-rule ownership. Consolidating the transfer preview, submit rules and renderer into one canonical interaction owner remains P2.1 debt.
 
+### 2026-09-30 — P1.7 Recipient search and transfer-identity remediation
+
+PR #44 closed the recipient dead-affordance gap against the **actual rendered Pay surface** rather than the stale base renderer.
+
+Rendered QA exposed an important source-truth correction during the work: the active `nova-system-v4.js` Pay surface already contains four saved recipients — Maya Chen, Daniel Lee, An Nguyen and Natalie. The initial base-source assumption that the prototype had only Maya was therefore rejected instead of being encoded into a fake one-recipient fix.
+
+Verified on `main` commit `870ed343fbba242d08bfafe18d5093ad1d89ecc5`:
+
+- recipient search filters the four existing saved recipients by name or account ending;
+- a native no-results state appears when nothing matches and `Clear search` restores the saved recipients;
+- the fake `Add new recipient` action was replaced by an explicit `Saved recipients only` prototype boundary;
+- `New transfer` and `Send money` return focus to recipient choice instead of silently assuming Maya;
+- selecting a saved or recent recipient persists that identity into the transfer task;
+- regression deliberately selects Daniel Lee and verifies Daniel remains the recipient through Amount → Review → biometric recovery → Receipt;
+- Maya keeps the documented Northfield Bank metadata, while no bank names are invented for Daniel, An or Natalie because their source data does not provide one;
+- adding `transfer-recipient` to rendered QA exposed latent v4 Pay contrast failures; those foregrounds were strengthened to WCAG AA targets and the final route has zero automated Axe violations;
+- a v4 cascade rule that overrode native `[hidden]` behavior was repaired so filtered recipient chips and no-results states actually become non-rendered;
+- Factory Flow OS passed on the cross-project-verified Factory commit `11003bf36909b08c3def617023dc8ecd9c3964fd` throughout P1.7, so this remained a Nova PRODUCT/runtime repair rather than a Factory patch;
+- dedicated recipient continuity regression and the full existing Nova regression suite passed on PR #44 and again on merged `main`;
+- Nova Visual QA passed after merge;
+- GitHub Pages build and deployment passed after merge.
+
 ## Executive result
 
-Nova has a coherent product thesis, IA, exception/recovery flows, state contracts, responsive QA, handoff documentation and technical product-integrity tests. Transfer P0s are repaired, transfer consequences now appear while the amount is being entered, Activity search/filter behavior is verified, card settings persist with authoritative freeze behavior and validated limits, Savings recomputes Money Horizon with truthful overcommitted states, and biometric fallback now has a believable retryable passcode recovery path. The current work should be presented as an **expert-evaluated interactive prototype**, not a user-validated commercial product.
+Nova has a coherent product thesis, IA, exception/recovery flows, state contracts, responsive QA, handoff documentation and technical product-integrity tests. Transfer P0s are repaired, transfer consequences now appear while the amount is being entered, Activity search/filter behavior is verified, card settings persist with authoritative freeze behavior and validated limits, Savings recomputes Money Horizon with truthful overcommitted states, biometric fallback has a believable retryable passcode recovery path, and recipient search/selection now preserves the chosen person through the transfer and recovery flow. The current work should be presented as an **expert-evaluated interactive prototype**, not a user-validated commercial product.
 
 ## P0
 
@@ -303,13 +325,24 @@ Regression coverage verifies biometric failure → no-money-moved reassurance �
 
 Status: `DONE_VERIFIED`
 
-### P1.7 — Recipient search is a dead affordance
+### P1.7 — Recipient search + recipient continuity
 
-`VERIFIED_GAP`: recipient search is rendered but does not search the one-recipient prototype dataset.
+**Evidence:** `VERIFIED`
 
-Decision:
+Implemented against the rendered v4 Pay owner:
 
-Implement a minimal recipient dataset/search or remove the search affordance for this scoped flow.
+- functional search across the four existing saved recipients by name/account;
+- no-results + clear-search recovery;
+- explicit `Saved recipients only` prototype boundary instead of a fake add-recipient action;
+- persisted recipient selection from saved/recent entries;
+- selected identity carried through Amount, Review, biometric/offline recovery and Receipt;
+- truthful metadata boundary: no invented bank data for recipients whose source record does not contain one;
+- WCAG AA contrast repair for the newly audited Pay route;
+- native `[hidden]` semantics restored where v4 display rules previously kept filtered content visible.
+
+Regression coverage deliberately chooses Daniel Lee rather than Maya Chen and verifies Daniel/account ending 7184 remains consistent through the transfer flow, while search/no-results/clear behavior also remains functional.
+
+Status: `DONE_VERIFIED`
 
 ### P1.8 — Manual accessibility evidence
 
@@ -321,7 +354,7 @@ Automated checks are useful but not a conformance claim. Capture keyboard-only c
 
 `app.html` loads many historical CSS/JS passes. Collapse to one canonical current visual layer and one canonical interaction layer; archive experiments outside runtime.
 
-P1.4 confirmed this is not cosmetic debt: the final Cards UI is owned by `nova-system-v3.js`, which replaces the earlier base Cards renderer. P1.5 needs a focused Savings rule layer to override a legacy toast-only handler. P1.6 needs a focused Passcode recovery layer because the base dialog closes before inline validation can occur. P1.3 now also uses a focused transfer-impact owner so the live Horizon can stay consistent with the later submit/review rules. These P1 fixes make final rendered behavior truthful, but one canonical state/interaction owner is still required during P2 cleanup.
+P1.4 confirmed this is not cosmetic debt: the final Cards UI is owned by `nova-system-v3.js`, which replaces the earlier base Cards renderer. P1.5 needs a focused Savings rule layer to override a legacy toast-only handler. P1.6 needs a focused Passcode recovery layer because the base dialog closes before inline validation can occur. P1.3 uses a focused transfer-impact owner so the live Horizon can stay consistent with later submit/review rules. P1.7 again exposed the same ownership pattern: the visible Pay recipient surface belongs to `nova-system-v4.js`, not the stale base renderer. These P1 fixes make final rendered behavior truthful, but one canonical state/interaction owner is still required during P2 cleanup.
 
 ### P2.2 — Remove source-level Nova/Ledger identity drift
 
@@ -341,12 +374,12 @@ Recruiter-visible material should show trade-offs such as balance-first vs Money
 |---|---|---|
 | Product thinking | Strong hypothesis + coherent financial model; expert-evaluated, not user-validated | P1 |
 | UX states | Broad documented coverage; native ownership incomplete | P1 |
-| Edge cases | Transfer/recovery P0 repaired; live transfer impact, Activity, card-control, Savings and passcode integrity verified | P1 |
+| Edge cases | Transfer/recovery P0 repaired; live transfer impact, Activity, card-control, Savings, passcode and recipient continuity verified | P1 |
 | Validation | Expert walkthrough + adversarial QA complete; no external participant claims | Current scope complete |
 | Metrics | Canonical framework exists; outcomes remain `NOT_MEASURED` | P0 technical done |
-| Accessibility | Automated/render checks strong; manual evidence incomplete | P1 |
+| Accessibility | Automated/render checks strong, including recipient Pay surface; manual evidence incomplete | P1 |
 | Handoff | Source-backed contract exists; runtime layering remains difficult | P2 |
-| Prototype | Transfer amount/review/recovery, Activity, card controls, Savings preview and passcode recovery are regression-tested; recipient-search depth remains | P1 |
+| Prototype | Transfer amount/review/recovery, Activity, card controls, Savings, passcode recovery and recipient selection are regression-tested | P1 |
 
 ## Portfolio truth statement
 
