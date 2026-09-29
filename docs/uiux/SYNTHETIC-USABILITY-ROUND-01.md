@@ -56,24 +56,44 @@ Huy wants to find a specific payment and quickly check pending or unusual transa
 
 1. Opens Activity.
 2. Searches for a merchant.
-3. Presses Needs review, Pending and Income.
+3. Presses Needs review, Pending, Recurring and Income.
 4. Tries a search that should return nothing.
+5. Clears the search and filters.
 
-### Simulated comments
+### Before fix — simulated comments
 
 > “Mình gõ tên cửa hàng mà danh sách vẫn y nguyên. Mình tưởng ô tìm kiếm bị lỗi.”
 
 > “Mình bấm Pending rồi mà các giao dịch khác vẫn còn nguyên, nên mình không biết nút này có chạy không.”
 
-### Findings
+### Before fix — findings
 
-- Search is visible but does not change the list.
-- Filter buttons change their selected appearance but do not filter transactions.
-- There is no natural no-results state from these controls.
+- Search was visible but did not change the list.
+- Filter buttons changed their selected appearance but did not filter transactions.
+- There was no natural no-results state from these controls.
 
-### Fix
+### Implemented fix
 
-Implement real search, functional filters, combined search + filter behavior, updated result count and a clear no-results state.
+Activity now supports:
+
+- merchant/category/amount search;
+- Needs review / Recurring / Pending / Income filters;
+- combined search + filter behavior;
+- live visible-result count;
+- native no-results state;
+- one-click clear/reset back to all transactions.
+
+### After fix — simulated re-test
+
+> “Giờ mình gõ ByteMart là ra đúng giao dịch đó luôn. Bấm Pending thì chỉ còn giao dịch đang chờ, nhìn phát là hiểu.”
+
+> “Mình thử gõ linh tinh không có kết quả thì app báo rõ, rồi có nút xoá để quay lại hết danh sách. Vậy dễ dùng hơn nhiều.”
+
+### Re-test result
+
+`DONE_VERIFIED`
+
+The same SU-02 scenario is protected by browser regression coverage: ByteMart search, Pending, Income, Needs review, Recurring, no-results and full reset all passed after merge.
 
 ---
 
@@ -172,26 +192,28 @@ Recompute committed money and Safe to spend immediately, update Money Horizon vi
 
 ## Cross-user synthesis
 
-| Repeated problem | Users affected | Priority |
-|---|---|---:|
-| A control looks usable but does not actually change the result | SU-02, SU-03, SU-05 | P1 |
-| Important money consequences appear too late | SU-01, SU-05 | P1 |
-| A saved setting should still be there when the user returns | SU-03 | P1 |
-| Security steps must feel believable | SU-04 | P1 |
-| Search/filter controls should work or be removed | SU-02 | P1 |
-| Transfer consequences must stay consistent | SU-01, SU-04 | P0 — fixed |
+| Repeated problem | Users affected | Priority | Status |
+|---|---|---:|---|
+| Activity search/filter controls must change the result | SU-02 | P1 | Fixed / verified |
+| Other controls still look usable but do not fully change/persist the result | SU-03, SU-05 | P1 | Open |
+| Important money consequences appear too late | SU-01, SU-05 | P1 | Open |
+| A saved setting should still be there when the user returns | SU-03 | P1 | Open |
+| Security steps must feel believable | SU-04 | P1 | Open |
+| Transfer consequences must stay consistent | SU-01, SU-04 | P0 | Fixed / verified |
 
 ## Main conclusion
 
-Across the five simulated users, the biggest remaining weakness is not visual design. It is that several controls look like finished product features but still behave like demo controls.
+The first P1 iteration closed the Activity interaction-depth gap for SU-02: search, filters, result count, no-results and reset now behave like real product controls and are regression-tested.
+
+The biggest remaining weakness is still interaction depth in the other flows, especially card settings and savings planning.
 
 The next fixes should be:
 
-1. Activity search + filters + no-results state.
-2. Card settings persistence + daily-limit validation.
-3. Savings contribution that really updates Money Horizon.
-4. Passcode recovery without a prefilled code.
-5. Live transfer impact while entering the amount.
+1. Card settings persistence + daily-limit validation.
+2. Savings contribution that really updates Money Horizon.
+3. Passcode recovery without a prefilled code.
+4. Live transfer impact while entering the amount.
+5. Recipient-search dead affordance.
 
 ## Portfolio wording
 

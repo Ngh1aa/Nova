@@ -44,9 +44,24 @@ Instead Nova uses:
 
 This does **not** permit any claim that Nova has been validated with users. See `docs/uiux/EXPERT-WALKTHROUGH-2026-09-29.md`.
 
+### 2026-09-29 — P1.2 Activity interaction remediation
+
+PR #34 replaced presentation-only Activity controls with native prototype behavior.
+
+Verified on `main` commit `04c87a9cb8ba387808d6e4d4376c870fae86b3dc`:
+
+- merchant/category/amount search changes the visible ledger;
+- `Needs review`, `Recurring`, `Pending` and `Income` filters change the visible ledger;
+- search and filters can be combined;
+- transaction count updates with the result set;
+- a native zero-result state appears when nothing matches;
+- `Clear search and filters` returns to all 8 transactions;
+- Nova Visual QA passed after merge;
+- GitHub Pages build and deployment passed after merge.
+
 ## Executive result
 
-Nova has a coherent product thesis, IA, exception/recovery flows, state contracts, responsive QA, handoff documentation and technical product-integrity tests. The transfer P0s are repaired. The current work should be presented as an **expert-evaluated interactive prototype**, not a user-validated commercial product.
+Nova has a coherent product thesis, IA, exception/recovery flows, state contracts, responsive QA, handoff documentation and technical product-integrity tests. The transfer P0s are repaired, and Activity search/filter behavior is now a verified product interaction rather than a decorative prototype affordance. The current work should be presented as an **expert-evaluated interactive prototype**, not a user-validated commercial product.
 
 ## P0
 
@@ -117,14 +132,20 @@ The Recruiter State Lab has useful rendered QA, but some Empty/Loading/Edge beha
 
 ### P1.2 — Activity search and filters must change results
 
-`VERIFIED_GAP`: search is rendered but has no filtering behavior. Filter chips only toggle `aria-pressed` and emit a toast; transaction rows do not change.
+**Evidence:** `VERIFIED`
 
-Required:
+Implemented:
 
-- search merchant/category/amount;
-- implement Needs review, Pending and Income filters;
-- combine search + filters;
-- show native zero-result state and visible count updates.
+- search by merchant/category/amount;
+- functional `Needs review`, `Recurring`, `Pending` and `Income` filters;
+- combined search + filter behavior;
+- dynamic visible transaction count;
+- native no-results state;
+- clear/reset action returning to the full ledger.
+
+Regression coverage verifies ByteMart search, Pending → Northstar Books, Income → Merchant refund, Needs review → ByteMart, Recurring → Cloudbox + River Gym, zero-result behavior and full reset.
+
+Status: `DONE_VERIFIED`
 
 ### P1.3 — Transfer impact preview should react before submit
 
@@ -204,7 +225,7 @@ Recruiter-visible material should show trade-offs such as balance-first vs Money
 | Metrics | Canonical framework exists; outcomes remain `NOT_MEASURED` | P0 technical done |
 | Accessibility | Automated/render checks strong; manual evidence incomplete | P1 |
 | Handoff | Source-backed contract exists; runtime layering remains difficult | P2 |
-| Prototype | Core transfer integrity repaired and regression-tested; several secondary controls remain shallow | P1 |
+| Prototype | Transfer integrity + Activity search/filter behavior regression-tested; several secondary controls remain shallow | P1 |
 
 ## Portfolio truth statement
 
