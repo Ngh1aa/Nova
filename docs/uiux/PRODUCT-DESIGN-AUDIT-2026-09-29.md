@@ -99,9 +99,32 @@ Verified on `main` commit `d93abf44b06da1e3eaba921918d9265700750a77`:
 
 The focused P1 implementation uses a dedicated Savings preview rule module because the base renderer still owns a legacy toast handler. Consolidating these historical runtime layers into one canonical state/interaction owner remains part of P2.1 rather than being hidden by the P1 completion claim.
 
+### 2026-09-30 — P1.6 Passcode recovery remediation
+
+PR #40 replaced the prefilled biometric-fallback passcode with a truthful retryable recovery interaction.
+
+Verified on `main` commit `199a00eddbb65e90fe3789e9ce8b6302d12567a0`:
+
+- biometric failure continues to state that no transfer has been made;
+- the passcode field starts empty rather than prefilled;
+- the field is masked and constrained to a four-digit prototype format;
+- the demo hint is outside the credential value and explicitly says no credential is stored;
+- empty input is rejected inline;
+- invalid length/format is rejected inline;
+- a wrong four-digit code stays inside the recovery dialog instead of closing or completing the transfer;
+- the user can correct the code and retry in the same recovery task;
+- the correct prototype code completes only the simulated success path;
+- cancel closes the dialog while leaving the transfer incomplete;
+- `biometric-failed` was added to rendered QA routes;
+- dedicated Playwright regression coverage passed on the PR and again on merged `main`;
+- Nova Visual QA passed after merge;
+- GitHub Pages build and deployment passed after merge.
+
+The focused recovery module intentionally owns this P1 interaction after the legacy base listener because the base `openDialog()` closes before validation can occur. That temporary ownership is explicit technical debt for P2.1 runtime consolidation, not hidden from the completion claim.
+
 ## Executive result
 
-Nova has a coherent product thesis, IA, exception/recovery flows, state contracts, responsive QA, handoff documentation and technical product-integrity tests. Transfer P0s are repaired, Activity search/filter behavior is verified, card settings persist with authoritative freeze behavior and validated limits, and Savings now recomputes Money Horizon with truthful overcommitted states. The current work should be presented as an **expert-evaluated interactive prototype**, not a user-validated commercial product.
+Nova has a coherent product thesis, IA, exception/recovery flows, state contracts, responsive QA, handoff documentation and technical product-integrity tests. Transfer P0s are repaired, Activity search/filter behavior is verified, card settings persist with authoritative freeze behavior and validated limits, Savings recomputes Money Horizon with truthful overcommitted states, and biometric fallback now has a believable retryable passcode recovery path. The current work should be presented as an **expert-evaluated interactive prototype**, not a user-validated commercial product.
 
 ## P0
 
@@ -227,16 +250,23 @@ Regression coverage verifies the baseline €260 state, invalid inputs, €500 n
 
 Status: `DONE_VERIFIED`
 
-### P1.6 — Passcode recovery should not be prefilled
+### P1.6 — Passcode recovery is empty, masked and retryable
 
-`EXPERT_FINDING`: biometric fallback currently opens with prototype passcode `4821` already in the input.
+**Evidence:** `VERIFIED`
 
-Required:
+Implemented:
 
-- empty masked field;
-- format/length validation;
-- invalid attempt state;
-- keep any demo hint outside the credential value.
+- empty masked prototype passcode field;
+- four-digit format/length validation;
+- wrong-code state that stays inside the recovery dialog;
+- retry after a failed attempt without losing the recovery task;
+- prototype guidance outside the input value;
+- explicit no-credential-stored copy;
+- cancel path that leaves the transfer incomplete.
+
+Regression coverage verifies biometric failure → no-money-moved reassurance → empty passcode → invalid input → wrong code → retry → correct prototype code → simulated transfer success, plus a cancel path that never completes the transfer.
+
+Status: `DONE_VERIFIED`
 
 ### P1.7 — Recipient search is a dead affordance
 
@@ -256,7 +286,7 @@ Automated checks are useful but not a conformance claim. Capture keyboard-only c
 
 `app.html` loads many historical CSS/JS passes. Collapse to one canonical current visual layer and one canonical interaction layer; archive experiments outside runtime.
 
-P1.4 confirmed this is not cosmetic debt: the final Cards UI is owned by `nova-system-v3.js`, which replaces the earlier base Cards renderer. P1.5 also needs a focused Savings rule layer to override a legacy toast-only handler. These P1 fixes make the final rendered behavior truthful, but one canonical state/interaction owner is still required during P2 cleanup.
+P1.4 confirmed this is not cosmetic debt: the final Cards UI is owned by `nova-system-v3.js`, which replaces the earlier base Cards renderer. P1.5 needs a focused Savings rule layer to override a legacy toast-only handler. P1.6 needs a focused Passcode recovery layer because the base dialog closes before inline validation can occur. These P1 fixes make final rendered behavior truthful, but one canonical state/interaction owner is still required during P2 cleanup.
 
 ### P2.2 — Remove source-level Nova/Ledger identity drift
 
@@ -276,12 +306,12 @@ Recruiter-visible material should show trade-offs such as balance-first vs Money
 |---|---|---|
 | Product thinking | Strong hypothesis + coherent financial model; expert-evaluated, not user-validated | P1 |
 | UX states | Broad documented coverage; native ownership incomplete | P1 |
-| Edge cases | Transfer/recovery P0 repaired; Activity, card-control and Savings integrity verified; security gaps remain | P1 |
+| Edge cases | Transfer/recovery P0 repaired; Activity, card-control, Savings and passcode integrity verified | P1 |
 | Validation | Expert walkthrough + adversarial QA complete; no external participant claims | Current scope complete |
 | Metrics | Canonical framework exists; outcomes remain `NOT_MEASURED` | P0 technical done |
 | Accessibility | Automated/render checks strong; manual evidence incomplete | P1 |
 | Handoff | Source-backed contract exists; runtime layering remains difficult | P2 |
-| Prototype | Transfer, Activity, card controls and Savings preview are regression-tested; passcode/recipient depth remains | P1 |
+| Prototype | Transfer, Activity, card controls, Savings preview and passcode recovery are regression-tested; recipient-search depth remains | P1 |
 
 ## Portfolio truth statement
 
