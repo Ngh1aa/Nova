@@ -197,23 +197,53 @@ An wants to save more each month and understand how that changes the money avail
 
 1. Opens Emergency buffer.
 2. Changes the monthly contribution.
-3. Presses Preview change.
-4. Checks Money Horizon.
+3. Tries blank, text and negative values.
+4. Previews €500 per month.
+5. Previews €0 to see a paused contribution.
+6. Tries €1,600 to see what happens when the plan becomes too aggressive.
+7. Checks Money Horizon after each valid preview.
 
-### Simulated comments
+### Before fix — simulated comments
 
 > “Mình tăng tiền tiết kiệm nhưng số tiền còn lại không đổi, nên mình không biết tăng lên có làm mình thiếu tiền tiêu không.”
 
 > “Mình bấm xem trước mà chỉ thấy thông báo thôi. Mình muốn con số bên dưới đổi luôn để dễ hiểu.”
 
-### Findings
+### Before fix — findings
 
-- Preview change currently shows a message but does not recompute Money Horizon.
-- The user cannot see what happens if the new savings amount becomes too aggressive.
+- Preview change showed a message but did not recompute Money Horizon.
+- Invalid contribution values had no useful inline feedback.
+- The user could not see what happens if the new savings amount becomes too aggressive.
 
-### Fix
+### Implemented fix
 
-Recompute committed money and Safe to spend immediately, update Money Horizon visibly and show a clear shortfall state when needed.
+Savings preview now:
+
+- rejects blank, non-numeric, negative and >€10,000 values with inline feedback;
+- accepts €0 as a paused-contribution preview;
+- recomputes committed money from fixed commitments + the proposed savings contribution;
+- recomputes Safe to spend from the current balance, commitments and protected buffer;
+- updates the Money Horizon bar, legend and explanation together;
+- shows a negative Safe-to-spend / plan-shortfall state when the plan no longer fits;
+- states clearly that previewing the change does not move money.
+
+### After fix — simulated re-test
+
+> “Giờ mình đổi lên €500 là thấy ngay còn €1,060 để tiêu, nên mình hiểu tăng tiền tiết kiệm ảnh hưởng chỗ nào.”
+
+> “Nếu mình để €0 thì số tiền còn lại tăng lên, nhìn là biết đây giống như tạm dừng khoản tiết kiệm.”
+
+> “Mình thử €1,600 thì app báo âm €40 và nói kế hoạch đang thiếu €40. Vậy mình biết mức này hơi quá chứ không phải cứ bấm là xong.”
+
+> “Mình nhập linh tinh hay số âm thì app báo ngay, không làm mấy con số phía dưới nhảy theo.”
+
+### Re-test result
+
+`DONE_VERIFIED`
+
+The same SU-05 scenario is protected by dedicated browser regression coverage: baseline €260, invalid input, €500 normal recomposition, €0 pause preview and €1,600 overcommitted preview with a visible €40 shortfall. Nova Visual QA and GitHub Pages both passed after PR #38 merged.
+
+This remains a simulated re-test backed by browser regression and expert inspection, not evidence from a real participant.
 
 ---
 
@@ -223,24 +253,24 @@ Recompute committed money and Safe to spend immediately, update Money Horizon vi
 |---|---|---:|---|
 | Activity search/filter controls must change the result | SU-02 | P1 | Fixed / verified |
 | Card settings must persist and freeze must remain authoritative | SU-03 | P1 | Fixed / verified |
-| Savings controls still look usable without recomputing the result | SU-05 | P1 | Open |
-| Important money consequences appear too late | SU-01, SU-05 | P1 | Open |
+| Savings preview must recompute the money result | SU-05 | P1 | Fixed / verified |
+| Important money consequences appear too late | SU-01 | P1 | Open |
 | Security steps must feel believable | SU-04 | P1 | Open |
 | Transfer consequences must stay consistent | SU-01, SU-04 | P0 | Fixed / verified |
 
 ## Main conclusion
 
-Two P1 interaction-depth gaps are now closed and regression-tested: Activity for SU-02 and card settings for SU-03. Search/filter controls now change the ledger, and card preferences/limits now behave like persistent product state with an authoritative frozen-card hierarchy.
+Three P1 interaction-depth gaps are now closed and regression-tested: Activity for SU-02, card settings for SU-03 and Savings for SU-05. Search/filter controls change the ledger, card preferences/limits behave like persistent product state, and changing a savings contribution now recomputes Money Horizon instead of acknowledging the action with a toast.
 
-The biggest remaining interaction-depth gap is Savings: changing the contribution still needs to recompute Money Horizon rather than only acknowledge the action.
+The biggest remaining interaction-depth gaps are now security recovery and pre-submit transfer clarity rather than basic control functionality.
 
 The next fixes should be:
 
-1. Savings contribution that really updates Money Horizon.
-2. Passcode recovery without a prefilled code.
-3. Live transfer impact while entering the amount.
-4. Recipient-search dead affordance.
-5. Manual accessibility evidence for critical flows.
+1. Passcode recovery without a prefilled code.
+2. Live transfer impact while entering the amount.
+3. Recipient-search dead affordance.
+4. Manual accessibility evidence for critical flows.
+5. Runtime-layer consolidation during P2 cleanup.
 
 ## Portfolio wording
 
