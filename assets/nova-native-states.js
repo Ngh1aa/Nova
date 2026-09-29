@@ -27,9 +27,8 @@
       .nova-native-empty-mark{width:54px;height:54px;margin-bottom:20px;display:grid;place-items:center;border-radius:18px;background:#e9f4ff;color:#287bdb;font-size:28px;font-weight:500}
       .nova-native-empty-grid{margin-top:24px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
       .nova-native-empty-grid div{padding:14px;border-radius:18px;background:#f8fafc}
-      .nova-native-empty-grid small{display:block;color:#7b8799;font-size:10px}
+      .nova-native-empty-grid small{display:block;color:#556274;font-size:10px}
       .nova-native-empty-grid strong{display:block;margin-top:5px;color:#1d222a;font-size:13px}
-      .nova-native-loading{aria-busy:true}
       .nova-native-loading-row{margin-top:24px;display:grid;gap:12px}
       .nova-native-skeleton{height:18px;border-radius:10px;background:linear-gradient(90deg,#edf1f6 25%,#f8fafc 45%,#edf1f6 65%);background-size:220% 100%;animation:novaNativeShimmer 1.1s linear infinite}
       .nova-native-skeleton.amount{height:74px;width:min(420px,72%);border-radius:18px}
@@ -40,7 +39,7 @@
       .nova-native-edge .nova-edge-status{margin-top:13px;display:inline-flex;padding:8px 11px;border-radius:999px;background:#fff0f2;color:#8e2734;font-size:11px;font-weight:800}
       .nova-native-edge-grid{margin-top:24px;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
       .nova-native-edge-grid div{padding:14px;border-radius:18px;background:#f8fafc}
-      .nova-native-edge-grid small{display:block;color:#7b8799;font-size:9px;text-transform:uppercase;letter-spacing:.05em}
+      .nova-native-edge-grid small{display:block;color:#556274;font-size:9px;text-transform:uppercase;letter-spacing:.05em}
       .nova-native-edge-grid strong{display:block;margin-top:5px;color:#1d222a;font-size:14px;font-variant-numeric:tabular-nums}
       .nova-native-edge-alert{margin-top:18px;padding:16px 18px;border:1px solid #edc2c8;border-radius:20px;background:#fff6f7;color:#6f1f2a;line-height:1.55}
       .nova-native-edge-alert strong{display:block;margin-bottom:4px;font-size:13px}.nova-native-edge-alert span{font-size:12px}
