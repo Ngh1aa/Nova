@@ -10,34 +10,29 @@
   </style>
 </head>
 <body>
-  <header class="head"><div><p>Recruiter evidence · lifecycle coverage</p><h1>Nova state matrix</h1></div><a href="recruiter-state-lab.html?state=normal">Open interactive State Lab →</a></header>
+  <header class="head"><div><p>Recruiter evidence · native lifecycle coverage</p><h1>Nova state matrix</h1></div><a href="recruiter-state-lab.html?state=normal">Open interactive State Lab →</a></header>
   <main class="grid">
-    <section class="tile"><div class="tile-head"><strong>01 · EMPTY</strong><span>No linked accounts</span></div><div class="viewport"><iframe data-state="empty" title="Nova empty state" src="recruiter-state-lab.html?state=empty&pin=1&matrix=1"></iframe></div></section>
-    <section class="tile"><div class="tile-head"><strong>02 · LOADING</strong><span>Money Horizon calculation</span></div><div class="viewport"><iframe data-state="loading" title="Nova loading state" src="recruiter-state-lab.html?state=loading&pin=1&matrix=1"></iframe></div></section>
-    <section class="tile"><div class="tile-head"><strong>03 · ERROR</strong><span>Transfer recovery</span></div><div class="viewport"><iframe data-state="error" title="Nova error state" src="recruiter-state-lab.html?state=error&pin=1&matrix=1"></iframe></div></section>
-    <section class="tile"><div class="tile-head"><strong>04 · EDGE CASE</strong><span>Negative safe-to-spend</span></div><div class="viewport"><iframe data-state="edge" title="Nova edge-case state" src="recruiter-state-lab.html?state=edge&pin=1&matrix=1"></iframe></div></section>
+    <section class="tile"><div class="tile-head"><strong>01 · EMPTY</strong><span>No linked accounts</span></div><div class="viewport"><iframe data-state="empty" title="Nova empty state" src="app.html?screen=home&state=empty&pin=1&lab=1"></iframe></div></section>
+    <section class="tile"><div class="tile-head"><strong>02 · LOADING</strong><span>Money Horizon calculation</span></div><div class="viewport"><iframe data-state="loading" title="Nova loading state" src="app.html?screen=home&state=loading&pin=1&lab=1"></iframe></div></section>
+    <section class="tile"><div class="tile-head"><strong>03 · ERROR</strong><span>Transfer recovery</span></div><div class="viewport"><iframe data-state="error" title="Nova error state" src="app.html?screen=error&lab=1"></iframe></div></section>
+    <section class="tile"><div class="tile-head"><strong>04 · EDGE CASE</strong><span>Negative safe-to-spend</span></div><div class="viewport"><iframe data-state="edge" title="Nova edge-case state" src="app.html?screen=home&state=edge&pin=1&lab=1"></iframe></div></section>
   </main>
 <script>
-  const focusState = (outer) => {
-    try {
-      const lab=outer.contentDocument;
-      const bar=lab.querySelector('.labbar'); if(bar) bar.style.display='none';
-      const note=lab.querySelector('.corner-note'); if(note) note.style.display='none';
-      const wrap=lab.querySelector('.frame-wrap'); if(wrap) wrap.style.height='100%';
-      const product=lab.querySelector('#productFrame');
-      const state=outer.dataset.state;
-      const focus=()=>{
-        try{
-          const doc=product?.contentDocument;
-          const target=doc?.querySelector(`[data-state-lab-marker="${state}"]`);
-          if(target){target.scrollIntoView({block:'start'});product.contentWindow.scrollBy(0,-18);}
-        }catch{}
-      };
-      product?.addEventListener('load',()=>setTimeout(focus,760),{once:true});
-      setTimeout(focus,950);
-    } catch {}
-  };
-  document.querySelectorAll('iframe[data-state]').forEach(frame => frame.addEventListener('load', () => focusState(frame)));
+  function focusState(frame) {
+    const focus = () => {
+      try {
+        const doc = frame.contentDocument;
+        const target = doc?.querySelector(`[data-native-product-state="${frame.dataset.state}"]`);
+        if (target) {
+          target.scrollIntoView({block:'start'});
+          frame.contentWindow.scrollBy(0,-18);
+        }
+      } catch {}
+    };
+    frame.addEventListener('load', () => setTimeout(focus, 250), { once: true });
+    setTimeout(focus, 600);
+  }
+  document.querySelectorAll('iframe[data-state]').forEach(focusState);
 </script>
 </body>
 </html>
