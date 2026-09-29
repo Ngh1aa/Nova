@@ -44,6 +44,8 @@
       .nova-safe-shortfall small{font-weight:600;color:#8d3a47;text-align:right}
       .nova-safe-legend{width:100%;display:flex!important;justify-content:space-between;gap:14px;align-items:flex-start}
       .nova-safe-legend span{color:#657085}.nova-safe-legend strong{color:#741f2c}
+      .nova-recovery-reassurance{margin:16px 0;padding:14px 16px;border:1px solid #b8d6c5;border-radius:16px;background:#f1faf5;color:#234c35;line-height:1.5}
+      .nova-recovery-reassurance strong{display:block;margin-bottom:4px;color:#173925}
       .nova-safe-ack-backdrop{position:fixed;inset:0;z-index:10050;display:grid;place-items:center;padding:20px;background:rgba(14,23,38,.46);backdrop-filter:blur(8px)}
       .nova-safe-ack{width:min(520px,100%);border:1px solid rgba(20,32,51,.15);border-radius:24px;background:#fff;color:#142033;padding:24px;box-shadow:0 24px 70px rgba(14,23,38,.28)}
       .nova-safe-ack h2{margin:0 0 10px;font-size:1.45rem}.nova-safe-ack p{margin:0 0 14px;color:#566276;line-height:1.55}.nova-safe-ack strong{color:#142033}
@@ -192,12 +194,47 @@
     }
   }
 
+  function isRendered(element) {
+    if (!element) return false;
+    const style = getComputedStyle(element);
+    return style.display !== 'none' && style.visibility !== 'hidden' && element.getClientRects().length > 0;
+  }
+
+  function ensureRecoveryReassurance() {
+    if (screen !== 'biometric-failed' && screen !== 'offline') return;
+    if (document.querySelector('[data-nova-recovery-reassurance="true"]')) return;
+
+    const notice = document.createElement('div');
+    notice.className = 'nova-recovery-reassurance';
+    notice.dataset.novaRecoveryReassurance = 'true';
+    notice.setAttribute('role', 'status');
+    notice.setAttribute('aria-live', 'polite');
+
+    if (screen === 'offline') {
+      notice.innerHTML = '<strong>No transfer has been made.</strong>Nova is offline and cannot safely confirm money movement. Reconnect, then review the transfer again before confirming.';
+    } else {
+      notice.innerHTML = '<strong>No transfer has been made.</strong>Biometric authentication failed before money movement. Retry biometrics or use PIN only when you are ready to continue.';
+    }
+
+    const visibleImpact = [...document.querySelectorAll('.impact-panel')].find(isRendered);
+    const visibleActions = [...document.querySelectorAll('.action-stack')].find(isRendered);
+    const anchor = visibleImpact || visibleActions;
+
+    if (anchor) {
+      anchor.insertAdjacentElement('afterend', notice);
+      return;
+    }
+
+    const main = document.querySelector('#main') || document.querySelector('main') || document.body;
+    main.prepend(notice);
+  }
+
   function addReviewWarning() {
     const amount = Number(storageGet('nova_transfer_amount', '145')) || 145;
     const above = Math.max(0, amount - MODEL.safeToSpend);
     if (above <= 0) return;
 
-    const actions = document.querySelector('.task-panel .action-stack');
+    const actions = [...document.querySelectorAll('.action-stack')].find(isRendered) || document.querySelector('.task-panel .action-stack');
     if (actions && !document.querySelector('[data-nova-safe-review-warning]')) {
       const warning = document.createElement('div');
       warning.className = 'nova-safe-warning is-critical';
@@ -309,6 +346,7 @@
       addReviewWarning();
     }
 
+    if (screen === 'biometric-failed' || screen === 'offline') ensureRecoveryReassurance();
     if (screen === 'transfer-success') patchSuccessReceipt();
   }
 
