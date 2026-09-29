@@ -78,9 +78,30 @@ Verified on `main` commit `25279eeeb63bb1e409034e0e63b9113edf4cc70a`:
 
 A runtime ownership issue was also exposed during this work: `nova-system-v3.js` replaces the base Cards renderer later in the script chain. P1.4 therefore repairs the final rendered Cards owner rather than masking the problem with another override layer. The broader runtime-layer consolidation remains P2.1.
 
+### 2026-09-30 — P1.5 Savings Money Horizon remediation
+
+PR #38 replaced the Savings `Preview change` toast-only behavior with a real preview calculation tied to the Money Horizon model.
+
+Verified on `main` commit `d93abf44b06da1e3eaba921918d9265700750a77`:
+
+- blank, non-numeric, negative and >€10,000 contribution values are rejected with inline accessible feedback;
+- €0 is treated as an explicit paused-contribution preview rather than an error;
+- fixed commitments remain €780 while the proposed savings contribution is recomputed into the committed amount;
+- €500/month previews €1,280 committed and €1,060 Safe to spend;
+- €0/month previews €780 committed and €1,560 Safe to spend;
+- €1,600/month previews €2,380 committed, −€40 Safe to spend and an explicit €40 plan shortfall;
+- the Money Horizon bar, legend, accessible label and explanatory note update together;
+- the shortfall state says clearly that this is a preview and no money has moved;
+- Savings detail was added to the rendered QA route set;
+- dedicated Playwright regression coverage passed on the PR and again on merged `main`;
+- Nova Visual QA passed after merge;
+- GitHub Pages build and deployment passed after merge.
+
+The focused P1 implementation uses a dedicated Savings preview rule module because the base renderer still owns a legacy toast handler. Consolidating these historical runtime layers into one canonical state/interaction owner remains part of P2.1 rather than being hidden by the P1 completion claim.
+
 ## Executive result
 
-Nova has a coherent product thesis, IA, exception/recovery flows, state contracts, responsive QA, handoff documentation and technical product-integrity tests. The transfer P0s are repaired, Activity search/filter behavior is verified, and card settings now persist with authoritative freeze behavior and validated limits. The current work should be presented as an **expert-evaluated interactive prototype**, not a user-validated commercial product.
+Nova has a coherent product thesis, IA, exception/recovery flows, state contracts, responsive QA, handoff documentation and technical product-integrity tests. Transfer P0s are repaired, Activity search/filter behavior is verified, card settings persist with authoritative freeze behavior and validated limits, and Savings now recomputes Money Horizon with truthful overcommitted states. The current work should be presented as an **expert-evaluated interactive prototype**, not a user-validated commercial product.
 
 ## P0
 
@@ -188,16 +209,23 @@ Regression coverage verifies persistence through navigation/reload, all four cha
 
 Status: `DONE_VERIFIED`
 
-### P1.5 — Savings contribution preview should recompute Money Horizon
+### P1.5 — Savings contribution preview recomputes Money Horizon
 
-`VERIFIED_GAP`: “Preview change” currently shows a toast but does not alter the Horizon despite the UI promising that relationship.
+**Evidence:** `VERIFIED`
 
-Required:
+Implemented:
 
-- validate contribution input;
-- recompute committed amount and Safe to spend;
-- visibly update Horizon;
-- support overcommitted/negative-safe state.
+- contribution input validation for blank, non-numeric, negative and >€10,000 values;
+- €0 pause preview;
+- recomputed committed amount from fixed commitments + proposed goal contribution;
+- recomputed Safe to spend from balance − commitments − protected buffer;
+- synchronized Money Horizon bar, legend, accessible label and explanatory note;
+- explicit negative Safe-to-spend / overcommitted shortfall state;
+- preview-only wording that does not imply money movement.
+
+Regression coverage verifies the baseline €260 state, invalid inputs, €500 normal recomposition, €0 pause state and €1,600 overcommitted state with a €40 shortfall.
+
+Status: `DONE_VERIFIED`
 
 ### P1.6 — Passcode recovery should not be prefilled
 
@@ -228,7 +256,7 @@ Automated checks are useful but not a conformance claim. Capture keyboard-only c
 
 `app.html` loads many historical CSS/JS passes. Collapse to one canonical current visual layer and one canonical interaction layer; archive experiments outside runtime.
 
-P1.4 confirmed this is not cosmetic debt: the final Cards UI is owned by `nova-system-v3.js`, which replaces the earlier base Cards renderer. The current fix makes the final owner truthful, but the storage contract is still duplicated across runtime layers and should become one canonical state model during P2 cleanup.
+P1.4 confirmed this is not cosmetic debt: the final Cards UI is owned by `nova-system-v3.js`, which replaces the earlier base Cards renderer. P1.5 also needs a focused Savings rule layer to override a legacy toast-only handler. These P1 fixes make the final rendered behavior truthful, but one canonical state/interaction owner is still required during P2 cleanup.
 
 ### P2.2 — Remove source-level Nova/Ledger identity drift
 
@@ -248,12 +276,12 @@ Recruiter-visible material should show trade-offs such as balance-first vs Money
 |---|---|---|
 | Product thinking | Strong hypothesis + coherent financial model; expert-evaluated, not user-validated | P1 |
 | UX states | Broad documented coverage; native ownership incomplete | P1 |
-| Edge cases | Transfer/recovery P0 repaired; Activity and card-control integrity verified; savings/security gaps remain | P1 |
+| Edge cases | Transfer/recovery P0 repaired; Activity, card-control and Savings integrity verified; security gaps remain | P1 |
 | Validation | Expert walkthrough + adversarial QA complete; no external participant claims | Current scope complete |
 | Metrics | Canonical framework exists; outcomes remain `NOT_MEASURED` | P0 technical done |
 | Accessibility | Automated/render checks strong; manual evidence incomplete | P1 |
 | Handoff | Source-backed contract exists; runtime layering remains difficult | P2 |
-| Prototype | Transfer integrity, Activity search/filter and card controls are regression-tested; savings/passcode/recipient depth remains | P1 |
+| Prototype | Transfer, Activity, card controls and Savings preview are regression-tested; passcode/recipient depth remains | P1 |
 
 ## Portfolio truth statement
 
