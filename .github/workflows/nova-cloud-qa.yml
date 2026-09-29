@@ -87,6 +87,7 @@ jobs:
           cp qa/product-integrity.spec.mjs .factory/uiux-factory/qa/tests/product-integrity.spec.mjs
           cp qa/savings-integrity.spec.mjs .factory/uiux-factory/qa/tests/savings-integrity.spec.mjs
           cp qa/passcode-recovery.spec.mjs .factory/uiux-factory/qa/tests/passcode-recovery.spec.mjs
+          cp qa/transfer-impact.spec.mjs .factory/uiux-factory/qa/tests/transfer-impact.spec.mjs
 
       - name: Serve and visually audit Nova product and evidence screens
         working-directory: .factory/uiux-factory/qa
@@ -100,7 +101,7 @@ jobs:
           trap 'kill $SERVER_PID 2>/dev/null || true' EXIT
           node scripts/wait-ready.mjs
           npm test
-          npx playwright test tests/nova-flow.spec.mjs tests/product-integrity.spec.mjs tests/savings-integrity.spec.mjs tests/passcode-recovery.spec.mjs
+          npx playwright test tests/nova-flow.spec.mjs tests/product-integrity.spec.mjs tests/savings-integrity.spec.mjs tests/passcode-recovery.spec.mjs tests/transfer-impact.spec.mjs
 
       - name: Print target server log on failure
         if: failure()
