@@ -1,0 +1,186 @@
+/* Nova D-02 — sensitive-action truth boundary
+   Evidence-informed by Round 02 async self-report. This layer makes demo-only
+   consequences visually primary without implying validated comprehension. */
+
+.nova-d02-boundary{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:14px;
+  margin:0 0 16px;
+  padding:12px 14px;
+  border:1px solid rgba(17,19,24,.12);
+  border-radius:16px;
+  background:#111318;
+  color:#fff;
+}
+.nova-d02-boundary strong{
+  display:block;
+  color:inherit;
+  font-size:12px;
+  font-weight:800;
+  letter-spacing:.07em;
+  text-transform:uppercase;
+}
+.nova-d02-boundary span{
+  color:rgba(255,255,255,.78);
+  font-size:12px;
+  line-height:1.4;
+  text-align:right;
+}
+.nova-d02-boundary--result{
+  background:#1e6f42;
+  border-color:#1e6f42;
+}
+
+.nova-d02-intro{
+  margin:10px 0 0!important;
+  max-width:62ch;
+  color:#636366!important;
+  line-height:1.55;
+}
+
+body.product-body .protection-band .nova-d02-action-grid{
+  display:grid!important;
+  grid-template-columns:repeat(2,minmax(0,1fr))!important;
+  gap:12px!important;
+  margin-top:18px!important;
+}
+.nova-d02-action-card{
+  min-width:0;
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+  padding:16px;
+  border:1px solid rgba(60,60,67,.13);
+  border-radius:18px;
+  background:#f8f9fb;
+}
+.nova-d02-action-card--freeze{
+  background:#fff8f7;
+  border-color:rgba(255,59,48,.18);
+}
+.nova-d02-action-card--report{
+  background:#f6f9ff;
+  border-color:rgba(0,122,255,.16);
+}
+.nova-d02-action-label{
+  margin:0;
+  color:#1c1c1e;
+  font-size:15px;
+  font-weight:760;
+  line-height:1.25;
+}
+.nova-d02-action-copy{
+  margin:0!important;
+  color:#636366!important;
+  font-size:12px;
+  line-height:1.5;
+}
+.nova-d02-consequence{
+  display:grid;
+  gap:7px;
+  margin:0;
+  padding:11px 12px;
+  border-radius:14px;
+  background:rgba(255,255,255,.72);
+}
+.nova-d02-consequence div{
+  display:grid;
+  grid-template-columns:78px minmax(0,1fr);
+  gap:8px;
+  align-items:start;
+}
+.nova-d02-consequence dt{
+  margin:0;
+  color:#8e8e93;
+  font-size:10px;
+  font-weight:760;
+  letter-spacing:.05em;
+  text-transform:uppercase;
+}
+.nova-d02-consequence dd{
+  margin:0;
+  color:#3a3a3c;
+  font-size:11px;
+  font-weight:650;
+  line-height:1.4;
+}
+.nova-d02-action-card .btn{
+  width:100%;
+  min-height:46px;
+  margin-top:auto;
+  border-radius:14px!important;
+  white-space:normal;
+  text-align:center;
+  line-height:1.25;
+}
+.nova-d02-action-card--freeze .btn-risk{
+  border:1px solid rgba(255,59,48,.24)!important;
+  background:#fff!important;
+  color:#d92d20!important;
+}
+.nova-d02-action-card--freeze .btn-risk:hover{
+  background:#fff2f0!important;
+}
+.nova-d02-action-card--report .btn-secondary{
+  border-color:rgba(0,122,255,.2)!important;
+  background:#fff!important;
+  color:#0068d9!important;
+}
+.nova-d02-boundary-note{
+  margin:12px 0 0!important;
+  padding-top:12px;
+  border-top:1px solid rgba(60,60,67,.12);
+  color:#636366!important;
+  font-size:11px!important;
+  line-height:1.5!important;
+}
+.nova-d02-boundary-note strong{
+  color:#1c1c1e;
+}
+
+.nova-d02-dialog-boundary{
+  margin:-2px 0 14px;
+  padding:9px 11px;
+  border-radius:12px;
+  background:#111318;
+  color:#fff;
+  font-size:11px;
+  font-weight:800;
+  letter-spacing:.065em;
+  text-transform:uppercase;
+}
+.dialog[data-nova-d02-dialog] .dialog-actions [data-primary]{
+  white-space:normal;
+}
+
+.task-panel>.nova-d02-boundary{
+  margin-top:0;
+}
+.task-panel .nova-d02-report-note{
+  margin:14px 0 0;
+  padding:12px 14px;
+  border:1px solid rgba(0,122,255,.15);
+  border-radius:14px;
+  background:#f6f9ff;
+  color:#445064;
+  font-size:12px;
+  line-height:1.5;
+}
+.task-panel .nova-d02-report-note strong{
+  color:#1c1c1e;
+}
+
+@media(max-width:760px){
+  .nova-d02-boundary{
+    align-items:flex-start;
+    flex-direction:column;
+  }
+  .nova-d02-boundary span{
+    text-align:left;
+  }
+  body.product-body .protection-band .nova-d02-action-grid{
+    grid-template-columns:1fr!important;
+  }
+}
