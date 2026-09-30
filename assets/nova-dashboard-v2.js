@@ -62,7 +62,7 @@
             <div>
               <p class="nova-label">Available after bills, saving and buffer</p>
               <h1 id="nova-safe-title" class="money-amount">€1,300.00</h1>
-              <div class="nova-hero-status"><span>↗ €124 more available than last week</span><strong>Safe to spend</strong><button type="button" aria-label="About safe to spend">i</button></div>
+              <div class="nova-hero-status"><span>↗ €124 more available than last week</span><strong>Safe to spend · next 14 days</strong><button type="button" aria-label="About safe to spend">i</button></div>
             </div>
             <div class="nova-health-note"><span class="nova-icon mint">${svg('leaf')}</span><div><strong>You’re on track</strong><p>Your essentials, savings plan and €500 buffer are covered.</p></div></div>
           </div>
@@ -95,7 +95,7 @@
             <div class="nova-bill-row"><span class="nova-icon yellow">${svg('bolt')}</span><span><strong>Utilities estimate</strong><small>27 Sep · estimate</small></span><b>−€113.01</b></div>
             <div class="nova-bill-row"><span class="nova-icon mint">${svg('heart')}</span><span><strong>Emergency buffer</strong><small>28 Sep · planned saving</small></span><b>−€260.00</b></div>
           </div>
-          <div class="nova-protection-note"><span class="nova-icon mint">${svg('shield')}</span><div><strong>Your €500 buffer stays protected.</strong><p>Nova excludes it before showing today’s safe-to-spend amount.</p></div></div>
+          <div class="nova-protection-note"><span class="nova-icon mint">${svg('shield')}</span><div><strong>Your €500 buffer stays protected.</strong><p>Nova excludes it before showing the next-14-days safe-to-spend estimate.</p></div></div>
         </section>
 
         <section class="nova-card nova-flow-card" aria-labelledby="flow-title">

@@ -15,7 +15,9 @@ test('passcode fallback starts empty, validates errors, retries, and completes o
   await biometric.getByRole('button', { name: 'Simulate failure' }).click();
 
   await expect(page).toHaveURL(/screen=biometric-failed/);
-  await expect(page.locator('[data-nova-recovery-reassurance="true"]')).toContainText('No transfer has been made');
+  const recovery = page.locator('[data-nova-recovery-reassurance="true"]');
+  await expect(recovery).toContainText('Biometric verification failed — no money moved.');
+  await expect(recovery).toContainText('the transfer was not submitted and your balance is unchanged');
 
   await page.getByRole('button', { name: /Use passcode/ }).click();
   const dialog = page.getByRole('dialog', { name: 'Use passcode instead' });
@@ -64,5 +66,7 @@ test('passcode dialog can be cancelled without completing the transfer', async (
   await dialog.getByRole('button', { name: 'Cancel' }).click();
   await expect(dialog).toBeHidden();
   await expect(page).toHaveURL(/screen=biometric-failed/);
-  await expect(page.locator('[data-nova-recovery-reassurance="true"]')).toContainText('No transfer has been made');
+  const recovery = page.locator('[data-nova-recovery-reassurance="true"]');
+  await expect(recovery).toContainText('Biometric verification failed — no money moved.');
+  await expect(recovery).toContainText('the transfer was not submitted and your balance is unchanged');
 });

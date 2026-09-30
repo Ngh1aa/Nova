@@ -1,75 +1,76 @@
 # Nova Round 01 — Evidence Register
 
-**Current evidence state: INTAKE TARGET RECEIVED / VERIFICATION PENDING**  
-**Real participant intakes: 5 / 5**  
-**Verified sessions: 0 / 5 minimum**
+**Current evidence state: DIRECT_USER_SELF_REPORT / RETEST_REQUIRED**  
+**Verified direct-user records: 5 / 5**  
+**Verified moderated sessions: 0 / 5**
 
-This register is the only place that promotes participant evidence into portfolio-ready findings. Five real participant form intakes now exist, but none is a `VERIFIED_RECORD` yet.
+The executed evidence is a five-person **unmoderated task-based prototype evaluation with participant self-report**. The original moderated study protocol remains useful as a future retest method, but these five records are not retroactively labeled as moderated sessions.
 
-## Pending real-participant intakes
+See `DIRECT-USER-VERIFICATION.md` for the verification contract and `evidence-ledger.jsonl` for atomic evidence.
 
-| ID | Eligibility | Consent | Raw intake | Evidence state |
+## Direct-user record register
+
+| ID | Eligibility | Consent | Source | Record state |
 |---|---|---|---|---|
-| P01 | ELIGIBLE | Yes | `raw-intake/P01-PARTICIPANT-FORM.md` | VERIFICATION_PENDING |
-| P02 | ELIGIBLE | Yes | `raw-intake/P02-PARTICIPANT-FORM.md` | VERIFICATION_PENDING |
-| P03 | ELIGIBLE | Yes | `raw-intake/P03-PARTICIPANT-FORM.md` | VERIFICATION_PENDING |
-| P04 | ELIGIBLE | Yes | `raw-intake/P04-PARTICIPANT-FORM.md` | VERIFICATION_PENDING |
-| P05 | ELIGIBLE | Yes | `raw-intake/P05-PARTICIPANT-FORM.md` | VERIFICATION_PENDING |
-
-The provisional clustering of these self-reports lives in `REAL-INTAKE-PROVISIONAL-SYNTHESIS.md`. It is not the official finding register.
-
-A later supplied batch reused labels P01–P04 after P01 had already been assigned. To preserve audit history, those four records were remapped in arrival order to P02–P05.
-
-## Session ledger
-
-| Session | Date | Completed verified session | Consent for anonymized portfolio evidence | Prototype commit | Notes path |
-|---|---|---:|---:|---|---|
-| P01 | — | No — form intake only | Yes | — | `raw-intake/P01-PARTICIPANT-FORM.md` |
-| P02 | — | No — form intake only | Yes | — | `raw-intake/P02-PARTICIPANT-FORM.md` |
-| P03 | — | No — form intake only | Yes | — | `raw-intake/P03-PARTICIPANT-FORM.md` |
-| P04 | — | No — form intake only | Yes | — | `raw-intake/P04-PARTICIPANT-FORM.md` |
-| P05 | — | No — form intake only | Yes | — | `raw-intake/P05-PARTICIPANT-FORM.md` |
+| P01 | ELIGIBLE | Yes | `raw-intake/P01-PARTICIPANT-FORM.md` | VERIFIED_DIRECT_USER_SELF_REPORT |
+| P02 | ELIGIBLE | Yes | `raw-intake/P02-PARTICIPANT-FORM.md` | VERIFIED_DIRECT_USER_SELF_REPORT |
+| P03 | ELIGIBLE | Yes | `raw-intake/P03-PARTICIPANT-FORM.md` | VERIFIED_DIRECT_USER_SELF_REPORT |
+| P04 | ELIGIBLE | Yes | `raw-intake/P04-PARTICIPANT-FORM.md` | VERIFIED_DIRECT_USER_SELF_REPORT |
+| P05 | ELIGIBLE | Yes | `raw-intake/P05-PARTICIPANT-FORM.md` | VERIFIED_DIRECT_USER_SELF_REPORT |
 
 ## Finding register
 
-Add a finding only when it references verified real session evidence IDs from `evidence-ledger.jsonl`.
+| Finding ID | Severity | Pattern | Supporting records | Contradiction | State |
+|---|---|---|---|---|---|
+| F-01 | P1 | Sensitive-action demo/real boundary is unclear | P01–P05 | none in supplied self-report set | DIRECT_USER_PATTERN / RETEST_REQUIRED |
+| F-02 | P1 | Transfer-impact explanation is insufficient for most respondents | P01–P04 | P05 reports enough information | DIRECT_USER_PATTERN / RETEST_REQUIRED |
+| F-03 | P2 | Safe-to-spend meaning is understood more consistently than its time horizon | P01–P05 | horizon interpretations differ | DIRECT_USER_PATTERN / RETEST_REQUIRED |
+| F-04 | P2 | Recovery explains no-money-moved better than the failure cause | P01–P05 | P03/P05 report clear cause | DIRECT_USER_PATTERN / RETEST_REQUIRED |
 
-| Finding ID | Observation | Supporting sessions | Contradicting sessions | Interpretation | Design implication | State |
-|---|---|---|---|---|---|---|
-| — | No verified participant-session evidence yet | — | — | — | — | PLANNED |
+Detailed evidence IDs and limitations live in `FINDINGS.md`.
 
-Allowed states:
-- `OBSERVED` — raw behavior/quote exists in at least one verified session;
-- `PATTERN` — repeated across multiple verified sessions, contradictions retained;
-- `VERIFIED_FOR_ROUND` — synthesis gate passed for this small qualitative round;
-- `RETEST_REQUIRED` — design changed and the claim must not be presented as improved until retested.
+## What is measured vs not measured
 
-## Metrics register
+### Measured / directly submitted
+- 5 eligible real-user records with consent;
+- participant-selected confidence ratings;
+- participant-selected information-sufficiency answers;
+- participant-written descriptions, expectations and requested changes.
 
-Do not write usability percentages before actual verified session data exists.
+### Not measured
+- observed task success;
+- observed critical-error rate;
+- time-on-task;
+- moderator assistance;
+- exact build-specific numeric-answer accuracy;
+- post-iteration improvement.
 
-| Metric | Numerator | Denominator | Result | Evidence |
-|---|---:|---:|---:|---|
-| Task 1 success | — | — | NOT MEASURED | — |
-| Task 1 critical-error-free | — | — | NOT MEASURED | — |
-| Task 2 success | — | — | NOT MEASURED | — |
-| Task 3 impact interpretation correct | — | — | NOT MEASURED | — |
-| Task 4 recovery success | — | — | NOT MEASURED | — |
+## Direct-user self-report counts
 
-Counts inside the provisional synthesis describe **form self-report responses**, not moderated task-success metrics.
+These counts describe submitted responses only.
 
-## Portfolio promotion gate
+| Signal | Count | Denominator | Meaning |
+|---|---:|---:|---|
+| Sensitive-action boundary uncertainty / mistaken expectation / explicit clarity request | 5 | 5 | self-report pattern |
+| Transfer review answered `Một phần` or `Không` for information sufficiency | 4 | 5 | self-report sufficiency |
+| Distinct Safe-to-spend horizon interpretations | 3 interpretations | 5 participants | concept-boundary ambiguity |
+| Correctly reports that money did not move after recovery | 4 | 5 | self-reported state understanding |
 
-The Nova case study may move from **“Benchmark + hypothesis / no measured outcome yet”** to a user-evidence statement only when all are true:
+## Portfolio use now allowed
 
-- [ ] Minimum five completed anonymized verified session notes exist.
-- [ ] Every published finding cites session/evidence IDs.
-- [ ] Contradictory evidence is represented.
-- [ ] Raw observations are separated from researcher interpretation.
-- [ ] The exact prototype commit tested is recorded.
-- [ ] Any design change after Round 01 is labeled as an iteration, not an improvement, until retested.
-- [ ] Portfolio copy is updated from this register, never from memory or AI-generated synthesis alone.
+Portfolio copy may truthfully say:
+- Nova was evaluated with five eligible real users using an unmoderated task-based prototype form;
+- the round produced direct-user self-report patterns that informed a design iteration;
+- the strongest patterns concerned sensitive-action truth boundaries and transfer-impact explanation;
+- post-iteration usability improvement remains unverified until retest.
 
-## AI use rule
+Portfolio copy must **not** say:
+- five moderated sessions were run;
+- task success improved;
+- the redesign is validated;
+- a percentage is an observed usability success rate;
+- the iteration improved confidence or comprehension without a post-change retest.
 
-AI may cluster anonymized notes or draft synthesis. It may not invent quotes, participants, counts, task results, confidence scores or causal explanations. Human review decides the final evidence state.
+## Promotion / retest gate
+
+After the evidence-driven iteration, repeat the affected tasks on the exact new build. A later round may use the prepared moderated protocol or another explicitly documented method. Only post-change evidence can support an improvement claim.

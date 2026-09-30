@@ -64,8 +64,8 @@ test('above-safe transfer keeps truthful planning state through biometric failur
 
   const recovery = page.locator('[data-nova-recovery-reassurance="true"]');
   await expect(recovery).toBeVisible();
-  await expect(recovery).toContainText('No transfer has been made');
-  await expect(recovery).toContainText('failed before money movement');
+  await expect(recovery).toContainText('Biometric verification failed — no money moved.');
+  await expect(recovery).toContainText('the transfer was not submitted and your balance is unchanged');
 });
 
 test('amount above total balance remains blocked', async ({ page }) => {
