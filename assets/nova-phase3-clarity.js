@@ -33,7 +33,7 @@
 
     if (['transfer-amount', 'transfer-review', 'biometric-failed', 'offline'].includes(screen)) {
       const panel = document.querySelector('.impact-panel');
-      const heading = panel?.querySelector('h2');
+      const heading = panel?.querySelector(':scope > h2');
       if (heading && !/14 days/i.test(heading.textContent || '')) {
         heading.textContent = screen === 'transfer-amount'
           ? 'Money after sending · next 14 days'
@@ -66,33 +66,9 @@
     else horizon?.insertAdjacentElement('beforebegin', note);
   }
 
-  function patchRecoveryCauseCopy() {
-    if (screen === 'biometric-failed') {
-      const callout = document.querySelector('.callout-risk');
-      if (callout) {
-        const title = callout.querySelector('strong');
-        const copy = callout.querySelector('p');
-        if (title) title.textContent = 'Why it stopped: biometric verification failed';
-        if (copy) copy.textContent = 'The identity check did not complete before submission. Choose a recovery option only when you are ready to try again.';
-      }
-    }
-    if (screen === 'offline') {
-      const callout = document.querySelector('.callout-warning');
-      if (callout) {
-        const title = callout.querySelector('strong');
-        const copy = callout.querySelector('p');
-        if (title) title.textContent = 'Why it stopped: Nova is offline';
-        if (copy) copy.textContent = 'Confirmation is unavailable while disconnected. Reconnect, review the transfer again, then choose whether to confirm.';
-      }
-    }
-  }
-
   function ensureDominantRecoveryBanner() {
     if (!['biometric-failed', 'offline', 'error'].includes(screen)) return;
     if (document.querySelector('[data-nova-phase3-recovery]')) return;
-
-    document.querySelectorAll('.nova-recovery-reassurance').forEach((node) => node.remove());
-    patchRecoveryCauseCopy();
 
     const banner = document.createElement('section');
     banner.className = 'nova-phase3-recovery-banner';
@@ -111,19 +87,20 @@
     banner.innerHTML = `<span class="nova-phase3-status">Transfer stopped safely</span><strong>No money moved</strong><p>${cause}</p><p class="nova-phase3-balance">Balance unchanged · ${MONEY.balance}</p>`;
 
     if (screen === 'error') {
+      /* Preserve the canonical error heading/copy because those are established
+         recovery contracts. The new certainty block augments hierarchy instead
+         of replacing source-of-truth content. */
       const state = document.querySelector('#main .empty-state') || document.querySelector('#main');
-      const eyebrow = state?.querySelector('.eyebrow');
-      const heading = state?.querySelector('h1');
-      const copy = state?.querySelector('p:not(.eyebrow)');
-      if (eyebrow) eyebrow.textContent = 'Transfer stopped before submission';
-      if (heading) heading.textContent = 'No money moved';
-      if (copy) copy.textContent = `Balance revalidation failed before confirmation. The transfer was not submitted and the balance remains ${MONEY.balance}.`;
-      const primary = state?.querySelector('.action-stack .btn-primary');
-      if (primary) primary.textContent = 'Review transfer again';
-      state?.insertAdjacentElement('afterbegin', banner);
+      const actions = state?.querySelector('.action-stack');
+      if (actions) actions.insertAdjacentElement('beforebegin', banner);
+      else state?.appendChild(banner);
     } else {
+      /* Keep the existing data-nova-recovery-reassurance element intact for
+         continuity and regression evidence; this block adds stronger scan order. */
       const task = document.querySelector('.task-panel') || document.querySelector('#main');
-      task?.insertAdjacentElement('afterbegin', banner);
+      const existingReassurance = task?.querySelector('[data-nova-recovery-reassurance="true"]');
+      if (existingReassurance) existingReassurance.insertAdjacentElement('beforebegin', banner);
+      else task?.insertAdjacentElement('afterbegin', banner);
     }
 
     requestAnimationFrame(() => banner.focus({ preventScroll: false }));
