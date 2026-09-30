@@ -3,13 +3,21 @@
 **Current evidence state: PLANNED / RECRUITING**  
 **Verified sessions: 0 / 5 minimum**
 
-This register is the only place that promotes participant evidence into portfolio-ready findings. Until session files exist and are referenced here, the product thesis remains unvalidated.
+This register is the only place that promotes participant evidence into portfolio-ready findings. Until verified session files exist and are referenced here, the product thesis remains unvalidated.
+
+## Pending real-participant intake
+
+P01 has submitted a real participant form response and passed the submitted screener/consent questions. The raw intake is stored at:
+
+`raw-intake/P01-PARTICIPANT-FORM.md`
+
+This is currently `REAL_PARTICIPANT_SELF_REPORT / VERIFICATION_PENDING`, not a verified moderated session. Required session-integrity metadata is still missing, so it does not increment `verified_sessions`, does not populate the atomic ledger, and does not create a portfolio-ready finding yet.
 
 ## Session ledger
 
 | Session | Date | Completed | Consent for anonymized portfolio evidence | Prototype commit | Notes path |
 |---|---|---:|---:|---|---|
-| P01 | — | No | — | — | — |
+| P01 | — | No — form intake only | Yes | — | `raw-intake/P01-PARTICIPANT-FORM.md` |
 | P02 | — | No | — | — | — |
 | P03 | — | No | — | — | — |
 | P04 | — | No | — | — | — |
@@ -21,17 +29,17 @@ Add a finding only when it references raw session IDs.
 
 | Finding ID | Observation | Supporting sessions | Contradicting sessions | Interpretation | Design implication | State |
 |---|---|---|---|---|---|---|
-| — | No participant evidence yet | — | — | — | — | PLANNED |
+| — | No verified participant-session evidence yet | — | — | — | — | PLANNED |
 
 Allowed states:
-- `OBSERVED` — raw behavior/quote exists in at least one session;
+- `OBSERVED` — raw behavior/quote exists in at least one verified session;
 - `PATTERN` — repeated across multiple sessions, contradictions retained;
 - `VERIFIED_FOR_ROUND` — synthesis gate passed for this small qualitative round;
 - `RETEST_REQUIRED` — design changed and the claim must not be presented as improved until retested.
 
 ## Metrics register
 
-Do not write percentages before actual session data exists.
+Do not write percentages before actual verified session data exists.
 
 | Metric | Numerator | Denominator | Result | Evidence |
 |---|---:|---:|---:|---|
@@ -45,7 +53,7 @@ Do not write percentages before actual session data exists.
 
 The Nova case study may move from **“Benchmark + hypothesis / no measured outcome yet”** to a user-evidence statement only when all are true:
 
-- [ ] Minimum five completed anonymized session notes exist.
+- [ ] Minimum five completed anonymized verified session notes exist.
 - [ ] Every published finding cites session IDs.
 - [ ] Contradictory evidence is represented.
 - [ ] Raw observations are separated from researcher interpretation.
