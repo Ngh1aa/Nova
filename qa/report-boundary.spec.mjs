@@ -1,22 +1,24 @@
 import { test, expect } from '@playwright/test';
 
-test('report transaction flow is explicit, reversible and does not claim a bank case', async ({ page }) => {
+test('report transaction flow foregrounds that sensitive actions are simulated', async ({ page }) => {
   await page.goto('/app.html?screen=transaction-detail&lab=1');
 
-  const startReport = page.getByRole('link', { name: 'Start report' });
-  await expect(startReport).toBeVisible();
-  await expect(page.locator('[data-report-boundary]')).toContainText('Report flow is simulated');
-  await expect(page.locator('[data-report-boundary]')).toContainText('No bank case is created');
+  const reportPreview = page.getByRole('link', { name: 'Preview report steps' });
+  await expect(reportPreview).toBeVisible();
+  await expect(page.getByRole('button', { name: 'Freeze card in demo' })).toBeVisible();
+  await expect(page.getByText('Demo-only protection')).toBeVisible();
+  await expect(page.locator('[data-report-boundary]')).toContainText('report preview submits nothing');
+  await expect(page.locator('[data-report-boundary]')).toContainText('neither action contacts a bank');
 
-  await startReport.click();
+  await reportPreview.click();
   await expect(page).toHaveURL(/screen=report-transaction/);
-  await expect(page.getByRole('heading', { name: 'Report ByteMart Online?' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Preview reporting ByteMart Online' })).toBeVisible();
   await expect(page.getByText('Nothing has been reported')).toBeVisible();
   await expect(page.getByText('cannot contact a bank, create a dispute, or request a refund')).toBeVisible();
   await expect(page.locator('.review-list')).toContainText('ByteMart Online');
   await expect(page.locator('.review-list')).toContainText('−€189.40');
 
-  await page.getByRole('link', { name: 'Preview report handoff' }).click();
+  await page.getByRole('link', { name: 'Preview bank handoff requirements' }).click();
   await expect(page).toHaveURL(/screen=report-transaction&state=handoff/);
   await expect(page.getByText('Simulated support handoff', { exact: true })).toBeVisible();
   await expect(page.getByRole('heading', { name: 'No bank case created' })).toBeVisible();
@@ -45,16 +47,16 @@ test('report boundary remains clear and operable at 390px without reviewer tooli
   await page.goto('/app.html?screen=transaction-detail&lab=1');
 
   await expect(page.locator('[data-nova-state-lab-launcher]')).toHaveCount(0);
-  await expect(page.getByRole('link', { name: 'Start report' })).toBeVisible();
+  await expect(page.getByRole('link', { name: 'Preview report steps' })).toBeVisible();
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth + 1)).toBe(true);
 
-  await page.getByRole('link', { name: 'Start report' }).click();
-  await expect(page.getByRole('heading', { name: 'Report ByteMart Online?' })).toBeVisible();
+  await page.getByRole('link', { name: 'Preview report steps' }).click();
+  await expect(page.getByRole('heading', { name: 'Preview reporting ByteMart Online' })).toBeVisible();
   await expect(page.getByText('Nothing has been reported')).toBeVisible();
-  await expect(page.getByRole('link', { name: 'Preview report handoff' })).toBeVisible();
+  await expect(page.getByRole('link', { name: 'Preview bank handoff requirements' })).toBeVisible();
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth + 1)).toBe(true);
 
-  await page.getByRole('link', { name: 'Preview report handoff' }).click();
+  await page.getByRole('link', { name: 'Preview bank handoff requirements' }).click();
   await expect(page.getByRole('heading', { name: 'No bank case created' })).toBeVisible();
   await expect(page.getByText('Nothing was submitted')).toBeVisible();
   await expect(page.getByText('Not requested or promised', { exact: true })).toBeVisible();
