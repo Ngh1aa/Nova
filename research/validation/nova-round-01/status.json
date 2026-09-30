@@ -9,7 +9,11 @@
   "verified_sessions": 0,
   "participant_profile": "18–30, uses at least one digital banking app weekly; no real financial data required",
   "primary_question": "Can people correctly interpret Money Horizon and decide what is safe to spend without confusing forecasted or committed money with immediately spendable funds?",
-  "prototype_url": "https://nova-gamma-eosin.vercel.app/",
+  "prototype_url": "https://ngh1aa.github.io/Nova/app.html?screen=home",
+  "alternate_prototype_url": "https://nova-gamma-eosin.vercel.app/",
+  "prototype_commit": "487c0d768c9c1aa58c45d10f57cab6c6a126b90c",
+  "prototype_baseline": "research/validation/nova-round-01/BASELINE-BUILD.md",
+  "architecture_status": "P2.1A_DONE_VERIFIED / P2.1B_DONE_VERIFIED",
   "recruitment_assets": {
     "operations": "research/validation/nova-round-01/RECRUITMENT-OPS.md",
     "screener_and_consent": "research/validation/nova-round-01/SCREENER-AND-CONSENT.md",
@@ -24,11 +28,12 @@
     "decision_log": "research/validation/nova-round-01/DECISION-LOG.md"
   },
   "figma_handoff_contract": "docs/FIGMA-HANDOFF-SPEC.md",
-  "next_valid_transition": "Recruit a real eligible participant, obtain consent, run the moderated study, commit an anonymized session record, append traceable atomic observations to evidence-ledger.jsonl, and update findings/decisions only from those records.",
+  "next_valid_transition": "Recruit a real eligible participant, obtain consent, run the moderated study against prototype_commit 487c0d768c9c1aa58c45d10f57cab6c6a126b90c, commit an anonymized session record, append traceable atomic observations to evidence-ledger.jsonl, and update findings/decisions only from those records.",
   "allowed_claims": [
     "A moderated usability study has been designed",
     "Participant recruitment is open",
     "The study is operationally ready to recruit",
+    "The Round 01 baseline implementation is pinned to a QA-verified commit",
     "The current product thesis remains a hypothesis",
     "A traceable evidence ingestion and decision-log pipeline exists"
   ],
