@@ -53,6 +53,21 @@ test('F-04 makes no-money-moved status dominant after biometric failure while pr
   await expect(existingRecovery).toBeVisible();
   await expect(existingRecovery).toContainText('Biometric verification failed — no money moved.');
   await expect(existingRecovery).toContainText('the transfer was not submitted and your balance is unchanged');
+  await expect(existingRecovery).toHaveClass(/nova-phase3-recovery-support/);
+  await expect(existingRecovery.locator('xpath=..')).toHaveClass(/task-panel/);
+});
+
+test('F-04 keeps offline reassurance inside the decision card', async ({ page }) => {
+  await reset(page);
+  await page.goto('/app.html?screen=offline');
+
+  const banner = page.locator('[data-nova-phase3-recovery]');
+  const existingRecovery = page.locator('[data-nova-recovery-reassurance="true"]');
+  await expect(banner).toBeVisible();
+  await expect(banner).toContainText('No money moved');
+  await expect(existingRecovery).toBeVisible();
+  await expect(existingRecovery).toHaveClass(/nova-phase3-recovery-support/);
+  await expect(existingRecovery.locator('xpath=..')).toHaveClass(/task-panel/);
 });
 
 test('F-04 augments generic revalidation failure without replacing its recovery contract', async ({ page }) => {
