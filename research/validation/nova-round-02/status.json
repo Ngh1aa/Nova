@@ -1,14 +1,16 @@
 {
   "study_id": "nova-round-02",
   "purpose": "post-change human retest of Round 01 evidence-driven iteration",
-  "status": "RESPONSES_RECEIVED / VERIFICATION_PENDING",
+  "status": "VERIFIED_ASYNC_RETEST / SYNTHESIS_READY",
   "target_participants_min": 3,
   "target_participants_max": 5,
   "responses_received": 5,
-  "completed_records": 0,
-  "verified_records": 0,
+  "completed_records": 5,
+  "verified_records": 5,
   "preferred_method": "moderated usability retest",
-  "executed_method_for_received_records": "asynchronous structured self-report retest",
+  "executed_method": "asynchronous structured self-report retest",
+  "participant_type": "all five NEW",
+  "test_date": "2026-09-30",
   "priority_tasks": [
     "Task 2 — sensitive action boundary",
     "Task 3 — transfer impact"
@@ -19,10 +21,11 @@
     "state_lab_hidden": true,
     "pages_verified": true,
     "visual_qa_verified": true,
-    "participant_side_confirmation": "NOT_CAPTURED_IN_RESPONSE_EXPORT"
+    "tested_url_confirmation": "RESEARCHER_CONFIRMED_FOR_ALL_FIVE"
   },
   "participant_profile": "18–30, uses digital banking at least weekly, no real financial data required",
-  "provisional_round02_signals": {
+  "atomic_ledger": "research/validation/nova-round-02/evidence-ledger.jsonl",
+  "verified_round02_signals": {
     "safe_to_spend_displayed_amount_correct": "3/5",
     "fourteen_day_horizon_understood": "2/5",
     "sensitive_action_understood_as_demo_preview": "2/5",
@@ -39,23 +42,32 @@
     "overall_ease": 3.6,
     "overall_clarity": 3.0
   },
-  "verification_blockers": [
-    "participant type NEW vs RETURNING_FROM_ROUND_01 not captured",
-    "actual test/session date not captured",
-    "participant-side confirmation of frozen Round 02 build not captured"
+  "finding_status": {
+    "F-01": "IMPROVED_SELF_REPORT_SIGNAL / UNRESOLVED",
+    "F-02": "PARTIAL_IMPROVEMENT / UNRESOLVED",
+    "F-03": "UNRESOLVED",
+    "F-04": "REGRESSED_SELF_REPORT_SIGNAL"
+  },
+  "method_limits": [
+    "Round 02 records are async self-report, not observed moderated sessions",
+    "Round 01 and Round 02 used different participants, so cross-round changes are cross-sectional signals rather than within-subject causal effects",
+    "Do not claim observed task-success or time-on-task improvement from these records",
+    "F-04 regression is a verified self-report signal, not proof that the UI change caused the regression"
   ],
-  "allowed_claims_before_verification": [
-    "Five eligible consented Round 02 async self-report responses were received",
-    "The response set contains all four task sections",
-    "Provisional self-report signals may be summarized as verification-pending",
-    "The exact Round 02 protocol build is frozen and documented"
+  "allowed_claims": [
+    "Five NEW eligible participants completed a verified async Round 02 retest on 2026-09-30 using the frozen post-iteration URL",
+    "Twenty atomic Round 02 self-report evidence entries are traceable to the five anonymized records",
+    "F-01 shows a better self-report signal than Round 01 but remains unresolved",
+    "F-02 transfer arithmetic is understood by all five Round 02 respondents while Protected-buffer behavior remains poorly understood",
+    "F-03 remains unresolved with only two of five identifying the intended 14-day horizon",
+    "F-04 shows a cross-sectional regression signal in no-money-moved clarity: 2/5 in Round 02 versus 4/5 in Round 01"
   ],
-  "forbidden_claims_before_verification": [
-    "Five verified Round 02 records were completed",
-    "The iteration improved usability",
-    "Task success improved",
-    "Trust or comprehension improved",
-    "The Round 02 regression candidate is confirmed"
+  "forbidden_claims": [
+    "Five moderated usability sessions were completed",
+    "Observed task success improved",
+    "The iteration caused an improvement or regression",
+    "Nova is validated as improved overall",
+    "Any conversion, retention, adoption or business-impact claim"
   ],
-  "next_valid_transition": "Capture participant type, test date and frozen-build confirmation for R02-P01 through R02-P05; then run record-integrity review, assign atomic post-change evidence IDs, compare compatible Round 01 vs Round 02 self-report measures, and decide resolved / improved / unchanged / regressed per finding."
+  "next_valid_transition": "Use the verified Round 02 findings to define the next product iteration: keep the transfer arithmetic, strengthen Protected-buffer explanation, make demo/no-bank-contact consequences primary in sensitive actions, reinforce the 14-day horizon, and repair no-money-moved recovery clarity. Then QA and retest the affected tasks again before closing findings."
 }
