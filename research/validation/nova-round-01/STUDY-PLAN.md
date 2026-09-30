@@ -3,8 +3,9 @@
 **Evidence state:** PLANNED / RECRUITING  
 **Study type:** Moderated usability test  
 **Target:** 5 participants  
+**Verified sessions:** 0  
 **Prototype:** https://ngh1aa.github.io/Nova/app.html?screen=home&lab=1  
-**Pinned baseline commit:** `487c0d768c9c1aa58c45d10f57cab6c6a126b90c`  
+**Pinned baseline commit:** `1bf3a6f786052ab37c74523ef9828a02d4f11f85`  
 **Baseline evidence:** `BASELINE-BUILD.md`
 
 ## Research question
@@ -25,11 +26,13 @@ Do **not** ask participants to reveal real balances, account numbers, credential
 
 Use the pinned baseline commit above for P01–P05 unless a prototype defect makes a task impossible. Every session record must repeat the exact prototype commit actually tested.
 
+The previous pre-human baseline `487c0d768c9c1aa58c45d10f57cab6c6a126b90c` was retired before any real session existed. The study was repinned after synthetic SD-01/SD-02 iterations while `verified_sessions = 0`, so no direct-user observations are mixed across those builds.
+
 The research URL includes `lab=1`. This intentionally hides the recruiter-only State Lab launcher so a participant never sees or interacts with reviewer tooling during a product task. Removing reviewer tooling does not change the tested banking state or product logic.
 
 Synthetic-user dogfooding lives separately under `research/synthetic/nova-round-01/`. It may trigger prototype fixes before human sessions, but it never increments `verified_sessions` and is never entered into the direct-user evidence ledger.
 
-If a blocking implementation change is unavoidable during the round:
+If a blocking implementation change is unavoidable after Human P01 begins:
 - record the replacement commit in the affected session;
 - document the reason in `DECISION-LOG.md`;
 - do not pool old/new-build observations as though all participants saw the same product state;
@@ -44,16 +47,22 @@ Observe:
 - whether Money Horizon is noticed;
 - whether upcoming commitments are included in the answer;
 - whether the protected buffer is understood;
-- whether forecast values are mistaken for guaranteed balance.
+- whether forecast values are mistaken for guaranteed balance;
+- whether the time horizon attached to “safe to spend” is clear without prompting.
 
 ### Task 2 — Suspicious transaction and protection
 Prompt: “You notice a transaction you do not recognize. Show me what you would do next.”
 
-Observe:
+Observe without teaching the synthetic finding:
 - whether the participant finds the transaction detail;
-- what evidence they inspect before freezing;
-- whether the consequence of freeze is understood;
-- whether recovery/unfreeze is discoverable.
+- what evidence they inspect before taking action;
+- whether they choose card protection, reporting, or another path and why;
+- whether `Freeze card` is understood as a reversible protective action;
+- whether `Start report` is interpreted as beginning a process rather than a completed bank submission;
+- after entering the report preview, whether they believe a bank case has been created or money/refund handling has started;
+- whether recovery/unfreeze remains discoverable if the card is frozen.
+
+Do **not** tell the participant that synthetic dogfood previously found report-scope ambiguity. Let their interpretation emerge naturally.
 
 ### Task 3 — Transfer with impact review
 Prompt: “Send money to a saved recipient. Before confirming, tell me what you think will happen to your available money.”
@@ -83,7 +92,7 @@ For each task record:
 - **moderator assistance:** none / light / direct;
 - **observable evidence:** quote or behavior, not inferred motive.
 
-A critical error is an action or interpretation that could cause a materially wrong financial decision in a real product, such as treating committed money as freely spendable or confirming a transfer while misunderstanding its impact.
+A critical error is an action or interpretation that could cause a materially wrong financial decision in a real product, such as treating committed money as freely spendable, believing a simulated report created a real bank case, or confirming a transfer while misunderstanding its impact.
 
 ## Moderator rules
 
@@ -92,6 +101,7 @@ A critical error is an action or interpretation that could cause a materially wr
 - Do not praise an answer during the task.
 - Do not rescue the participant until the defined stop condition is reached.
 - Record what happened before interpreting why.
+- Do not disclose synthetic findings before or during the affected task.
 - AI may help transcribe/summarize anonymized notes, but the raw observation remains the source evidence and the human researcher approves synthesis.
 
 ## Stop conditions
@@ -114,4 +124,4 @@ Do not promote the study to `VERIFIED` until:
 
 ## Claim boundary
 
-Before sessions are complete, the only valid portfolio statement is: **“Usability validation is planned/recruiting.”**
+Before real sessions are complete, the valid portfolio state remains: **“Usability validation is planned/recruiting; AI-assisted synthetic dogfooding informed pre-human prototype iteration.”**
