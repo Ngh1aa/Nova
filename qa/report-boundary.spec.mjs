@@ -39,3 +39,24 @@ test('report preview does not change card freeze state', async ({ page }) => {
   await expect(page.getByText('Not changed by this preview', { exact: true })).toBeVisible();
   await expect(page.getByText(/report submitted/i)).toHaveCount(0);
 });
+
+test('report boundary remains clear and operable at 390px without reviewer tooling', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto('/app.html?screen=transaction-detail&lab=1');
+
+  await expect(page.locator('[data-nova-state-lab-launcher]')).toHaveCount(0);
+  await expect(page.getByRole('link', { name: 'Start report' })).toBeVisible();
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth + 1)).toBe(true);
+
+  await page.getByRole('link', { name: 'Start report' }).click();
+  await expect(page.getByRole('heading', { name: 'Report ByteMart Online?' })).toBeVisible();
+  await expect(page.getByText('Nothing has been reported')).toBeVisible();
+  await expect(page.getByRole('link', { name: 'Preview report handoff' })).toBeVisible();
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth + 1)).toBe(true);
+
+  await page.getByRole('link', { name: 'Preview report handoff' }).click();
+  await expect(page.getByRole('heading', { name: 'No bank case created' })).toBeVisible();
+  await expect(page.getByText('Nothing was submitted')).toBeVisible();
+  await expect(page.getByText('Not requested or promised', { exact: true })).toBeVisible();
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth + 1)).toBe(true);
+});
