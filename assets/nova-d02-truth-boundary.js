@@ -111,13 +111,15 @@
     if (!freeze) return;
 
     if (freeze.id === 'freeze-card') {
-      freeze.textContent = 'Demo freeze card — no bank contact';
+      freeze.textContent = 'Freeze card in demo — no bank contact';
+      freeze.setAttribute('aria-label', 'Freeze card in demo — no bank contact');
       freeze.addEventListener('click', patchFreezeDialog);
     } else {
       freeze.textContent = 'Review demo-frozen card';
     }
 
     report.textContent = 'Preview report — no bank case created';
+    report.setAttribute('aria-label', 'Preview report steps — no bank case created and no bank contact');
 
     const freezeCard = actionCard({
       kind: 'freeze',
@@ -184,7 +186,7 @@
     const primary = actions?.querySelector('.btn-primary');
     if (!isHandoff && primary) {
       primary.textContent = 'Preview bank handoff — no bank contact';
-      primary.setAttribute('aria-label', 'Preview bank handoff — no bank contact');
+      primary.setAttribute('aria-label', 'Preview bank handoff requirements — no bank contact');
     }
 
     const note = document.createElement('div');
