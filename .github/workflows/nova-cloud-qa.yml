@@ -38,6 +38,12 @@ jobs:
         with:
           node-version: "22"
 
+      - name: Verify generated canonical runtime is in sync
+        run: |
+          node scripts/p2-1b-consolidate-runtime.mjs
+          git diff --check
+          git diff --exit-code -- app.html assets/nova-current-renderer.js assets/nova-current.css docs/uiux/runtime-manifest.p2-1b.json
+
       - name: Install Factory runtime dependencies
         run: python -m pip install "pydantic>=2.5.3,<3" "python-dotenv>=1,<2"
 
