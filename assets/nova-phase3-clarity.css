@@ -24,7 +24,7 @@
 }
 .nova-phase3-buffer-note strong{color:#173925}
 .nova-phase3-recovery-banner{
-  margin:0 0 18px;
+  margin:0 0 12px;
   padding:18px 20px;
   border:2px solid #a72f42;
   border-radius:18px;
@@ -62,6 +62,31 @@
 .nova-phase3-recovery-banner .nova-phase3-balance{
   margin-top:9px;
   font-weight:760;
+}
+.task-panel > .nova-recovery-reassurance.nova-phase3-recovery-support{
+  width:auto!important;
+  max-width:none!important;
+  margin:0 0 16px!important;
+  padding:11px 14px!important;
+  border:1px solid #c8ddd0!important;
+  border-radius:14px!important;
+  background:#f4faf6!important;
+  color:#2b5038!important;
+  box-shadow:none!important;
+  font-size:11px!important;
+  line-height:1.45!important;
+}
+.task-panel > .nova-recovery-reassurance.nova-phase3-recovery-support strong{
+  display:block!important;
+  margin-bottom:3px!important;
+  color:#173925!important;
+  font-size:11px!important;
+}
+.task-panel > .nova-recovery-reassurance.nova-phase3-recovery-support p{
+  margin:0!important;
+  color:#365c43!important;
+  font-size:11px!important;
+  line-height:1.45!important;
 }
 .nova-phase3-horizon-label{
   display:inline-flex;
