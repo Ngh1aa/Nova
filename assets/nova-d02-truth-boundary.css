@@ -23,7 +23,7 @@
   text-transform:uppercase;
 }
 .nova-d02-boundary span{
-  color:rgba(255,255,255,.78);
+  color:rgba(255,255,255,.88);
   font-size:12px;
   line-height:1.4;
   text-align:right;
@@ -32,6 +32,7 @@
   background:#1e6f42;
   border-color:#1e6f42;
 }
+.nova-d02-boundary--result span{color:#fff}
 
 .nova-d02-intro{
   margin:10px 0 0!important;
@@ -93,7 +94,7 @@ body.product-body .protection-band .nova-d02-action-grid{
 }
 .nova-d02-consequence dt{
   margin:0;
-  color:#8e8e93;
+  color:#636366;
   font-size:10px;
   font-weight:760;
   letter-spacing:.05em;
