@@ -17,6 +17,25 @@
   "baseline_change_reason": "Repinned before the first real participant after synthetic SD-01/SD-02 pre-human iterations. verified_sessions was 0 and no direct-user session existed at the time of the change.",
   "research_environment": "State Lab reviewer tooling hidden with lab=1 during moderated usability sessions",
   "architecture_status": "P2.1A_DONE_VERIFIED / P2.1B_DONE_VERIFIED",
+  "real_participant_intake": {
+    "P01": {
+      "state": "FORM_COMPLETE / VERIFICATION_PENDING",
+      "eligibility": "ELIGIBLE",
+      "consent_to_continue": true,
+      "consent_to_anonymized_research_note_use": true,
+      "raw_intake": "research/validation/nova-round-01/raw-intake/P01-PARTICIPANT-FORM.md",
+      "counts_toward_verified_sessions": false,
+      "verification_gaps": [
+        "session date",
+        "session mode",
+        "exact prototype commit tested",
+        "per-task moderator assistance",
+        "per-task observable behavior separate from self-report",
+        "approximate task timing if captured",
+        "confirmation that submitted text is verbatim or marking of paraphrases"
+      ]
+    }
+  },
   "recruitment_assets": {
     "operations": "research/validation/nova-round-01/RECRUITMENT-OPS.md",
     "screener_and_consent": "research/validation/nova-round-01/SCREENER-AND-CONSENT.md",
@@ -37,11 +56,12 @@
     "sd_02_status": "RESOLVED_FOR_SYNTHETIC_ROUND / PENDING_HUMAN"
   },
   "figma_handoff_contract": "docs/FIGMA-HANDOFF-SPEC.md",
-  "next_valid_transition": "Recruit a real eligible participant, obtain consent, run the moderated study against prototype_commit 1bf3a6f786052ab37c74523ef9828a02d4f11f85 using the lab-hidden research URL, commit an anonymized session record, append traceable atomic observations to evidence-ledger.jsonl, and update findings/decisions only from those records.",
+  "next_valid_transition": "Complete P01 integrity gaps without inventing missing data. Once exact tested build, mode/date, observable behavior and moderator assistance are documented, create sessions/P01.md, append atomic real observations to evidence-ledger.jsonl, update EVIDENCE-REGISTER.md and only then increment verified_sessions if the record passes integrity review.",
   "allowed_claims": [
     "A moderated usability study has been designed",
     "Participant recruitment is open",
     "The study is operationally ready to recruit",
+    "One eligible real participant form intake (P01) has been received with consent and is awaiting session-record verification",
     "The Human Round 01 baseline was repinned before the first real session to a QA-verified post-dogfood build",
     "AI-assisted synthetic-user dogfooding is used to find and regression-test prototype issues before human testing",
     "The current product thesis remains a hypothesis",
@@ -52,6 +72,7 @@
     "Money Horizon improves financial confidence",
     "Task success improved",
     "Users prefer Nova",
+    "P01 is a VERIFIED_RECORD",
     "Synthetic users are real participants",
     "SD-02 is validated by real users",
     "Any conversion, retention, adoption or business impact claim"
