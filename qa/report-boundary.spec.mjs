@@ -49,7 +49,7 @@ test('D-02 makes demo-only consequences primary and separates Freeze from Report
   await expect(page.locator('.task-panel .nova-d02-boundary')).toContainText(/DEMO RESULT.*NO BANK CASE CREATED/i);
   await expect(page.getByText(/Demo result.*simulated support handoff/i)).toBeVisible();
   await expect(page.getByRole('heading', { name: 'No bank case created' })).toBeVisible();
-  await expect(page.getByText('Nothing was submitted')).toBeVisible();
+  await expect(page.getByText('Nothing was submitted', { exact: true })).toBeVisible();
   await expect(page.locator('.nova-d02-report-note')).toContainText('This report preview did not freeze or unfreeze the card');
   await expect(page.locator('.review-list')).toContainText('Bank case');
   await expect(page.locator('.review-list')).toContainText('Not created');
