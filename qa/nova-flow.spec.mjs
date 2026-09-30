@@ -25,9 +25,11 @@ test('core protection flow works', async ({ page }) => {
   await expect(page.getByText('€1,300.00').first()).toBeVisible();
   await page.getByRole('link', { name: /Unusual card activity/ }).click();
   await expect(page.getByText('ByteMart Online').first()).toBeVisible();
-  await page.getByRole('button', { name: 'Freeze card' }).click();
-  await expect(page.getByRole('dialog')).toContainText('Already-authorized or offline payments can still settle');
-  await page.getByRole('dialog').getByRole('button', { name: 'Freeze card' }).click();
+  await page.getByRole('button', { name: /Freeze card in demo.*no bank contact/i }).click();
+  const dialog = page.getByRole('dialog', { name: /Freeze demo card only.*no bank contact/i });
+  await expect(dialog).toContainText('Already-authorized or offline payments can still settle');
+  await expect(dialog).toContainText('does not report ByteMart, reverse the payment, or contact a bank');
+  await dialog.getByRole('button', { name: /Freeze demo card only.*no bank contact/i }).click();
   await expect(page.getByText('Card frozen').first()).toBeVisible();
 });
 

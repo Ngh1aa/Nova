@@ -9,10 +9,13 @@ test('D-01 Safe to spend exposes its time horizon at the primary decision number
 
 test('D-02 sensitive actions state simulated consequences before interaction', async ({ page }) => {
   await page.goto('/app.html?screen=transaction-detail&lab=1');
-  await expect(page.getByText('Demo-only protection', { exact: true })).toBeVisible();
-  await expect(page.getByRole('button', { name: 'Freeze card in demo' })).toBeVisible();
-  await expect(page.getByRole('link', { name: 'Preview report steps' })).toBeVisible();
-  await expect(page.locator('[data-report-boundary]')).toContainText('neither action contacts a bank');
+  await expect(page.locator('.protection-band .nova-d02-boundary')).toContainText(/DEMO ONLY.*NO BANK CONTACT/i);
+  await expect(page.getByText('No bank contact', { exact: true })).toBeVisible();
+  await expect(page.getByRole('button', { name: /Freeze card in demo.*no bank contact/i })).toBeVisible();
+  await expect(page.getByRole('link', { name: /Preview report steps.*no bank case created.*no bank contact/i })).toBeVisible();
+  await expect(page.locator('[data-report-boundary]')).toContainText('Neither action contacts a bank');
+  await expect(page.locator('[data-report-boundary]')).toContainText('Freeze does not report the transaction');
+  await expect(page.locator('[data-report-boundary]')).toContainText('Report preview does not freeze the card');
 });
 
 test('D-03 transfer review explains the projected amount as a calculation', async ({ page }) => {

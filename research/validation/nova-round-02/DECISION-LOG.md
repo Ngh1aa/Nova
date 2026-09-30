@@ -20,7 +20,7 @@ This log records what changed after the verified Round 02 async retest. It exten
 - **Why:** 2/5 now understand the state as demo/preview and distinguish Freeze from Report, but 3/5 still report a real-bank consequence, uncertainty or action conflation.
 - **Next decision:** place `DEMO ONLY · NO BANK CONTACT` on the primary action/result surface and increase visual/semantic separation between Freeze and Report.
 - **Severity:** remain `P1`.
-- **Implementation status:** `OPEN`. Not changed in this Phase 3 slice because the user explicitly prioritized skipping the moderated Round 03 path and moving to the next F-02/F-03/F-04 clarity implementation.
+- **Implementation status:** `ITERATED / NOT RETESTED` on `fix/nova-d02-sensitive-action-boundary`. Transaction Detail now separates Freeze and Report into distinct consequence cards, places `DEMO ONLY · NO BANK CONTACT` beside the decision, makes the Freeze confirmation explicitly demo-only, and carries the same truth boundary into Report preview/handoff result states.
 
 ## D-03 — Transfer impact + Protected buffer
 
@@ -46,17 +46,23 @@ This log records what changed after the verified Round 02 async retest. It exten
 
 The planned moderated Round 03 was explicitly skipped by the user on `2026-10-01`. It remains `0 moderated sessions` and must not be represented as validation evidence.
 
-The next implementation instead uses existing Round 02 evidence plus UIUX Factory state-feedback, microcopy and accessibility guidance. Runtime QA may verify that the intended copy/state behavior is implemented; it cannot close F-02/F-03/F-04 as human-validated findings.
+The D-01/D-03/D-04 implementation uses existing Round 02 evidence plus UIUX Factory state-feedback, microcopy and accessibility guidance. Runtime QA may verify that the intended copy/state behavior is implemented; it cannot close those findings as human-validated findings.
 
-## Next implementation priority
+## D-02 execution note
 
-1. **D-04** — implementation complete, retest still open.
-2. **D-02** — remains the next unresolved P1 design decision.
-3. **D-03** — implementation complete, retest still open.
-4. **D-01** — implementation complete, retest still open.
+The D-02 iteration also uses only the verified Round 02 async self-report evidence plus UIUX Factory product-state guidance. Runtime and rendered QA can verify that Freeze and Report are now visibly separated and truthfully labeled; they cannot establish that participant comprehension improved.
+
+## Current implementation priority
+
+1. **D-02** — implementation complete; human comprehension retest remains open.
+2. **D-04** — implementation complete; retest remains open.
+3. **D-03** — implementation complete; retest remains open.
+4. **D-01** — implementation complete; retest remains open.
+
+No new human-validation round is implied by this status. The user explicitly skipped moderated Round 03.
 
 ## Claim boundary
 
-Allowed: Round 02 changed product priorities because it produced verified self-report evidence on the frozen post-iteration build. The following implementation is evidence-informed and can be described as an iteration after Round 02.
+Allowed: Round 02 changed product priorities because it produced verified self-report evidence on the frozen post-iteration build. The following implementations are evidence-informed iterations after Round 02.
 
-Not allowed: claiming observed task-success improvement, causality, F-02/F-03/F-04 as validated fixes, moderated Round 03 evidence, or overall validated usability improvement.
+Not allowed: claiming observed task-success improvement, causality, D-01/D-02/D-03/D-04 as validated fixes, moderated Round 03 evidence, or overall validated usability improvement.
