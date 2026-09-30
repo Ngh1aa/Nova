@@ -1,0 +1,40 @@
+name: Round 01 visual owner regenerate
+
+on:
+  push:
+    branches:
+      - research/direct-user-round01-iteration
+
+permissions:
+  contents: write
+
+jobs:
+  regenerate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: research/direct-user-round01-iteration
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: "22"
+
+      - name: Patch visual owners and regenerate canonical runtime
+        run: |
+          node scripts/fix-round01-visual-owner.mjs
+          node scripts/p2-1b-consolidate-runtime.mjs
+          git diff --check
+
+      - name: Commit visual-owner iteration
+        run: |
+          if git diff --quiet; then
+            echo "No visual-owner diff to commit."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add assets/nova-dashboard-v2.js assets/nova-current-state.js app.html assets/nova-current-renderer.js assets/nova-current.css docs/uiux/runtime-manifest.p2-1b.json
+          git commit -m "fix: align Round 01 iteration with visual owners"
+          git push origin HEAD:research/direct-user-round01-iteration
