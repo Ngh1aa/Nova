@@ -38,6 +38,12 @@ jobs:
         with:
           node-version: "22"
 
+      - name: Verify generated canonical runtime is in sync
+        run: |
+          node scripts/p2-1b-consolidate-runtime.mjs
+          git diff --check
+          git diff --exit-code -- app.html assets/nova-current-renderer.js assets/nova-current.css docs/uiux/runtime-manifest.p2-1b.json
+
       - name: Install Factory runtime dependencies
         run: python -m pip install "pydantic>=2.5.3,<3" "python-dotenv>=1,<2"
 
@@ -92,6 +98,7 @@ jobs:
           cp qa/accessibility-evidence.spec.mjs .factory/uiux-factory/qa/tests/accessibility-evidence.spec.mjs
           cp qa/native-states.spec.mjs .factory/uiux-factory/qa/tests/native-states.spec.mjs
           cp qa/runtime-consolidation.spec.mjs .factory/uiux-factory/qa/tests/runtime-consolidation.spec.mjs
+          cp qa/foundation-consolidation.spec.mjs .factory/uiux-factory/qa/tests/foundation-consolidation.spec.mjs
 
       - name: Serve and visually audit Nova product and evidence screens
         working-directory: .factory/uiux-factory/qa
@@ -105,7 +112,7 @@ jobs:
           trap 'kill $SERVER_PID 2>/dev/null || true' EXIT
           node scripts/wait-ready.mjs
           npm test
-          npx playwright test tests/nova-flow.spec.mjs tests/product-integrity.spec.mjs tests/savings-integrity.spec.mjs tests/passcode-recovery.spec.mjs tests/transfer-impact.spec.mjs tests/recipient-continuity.spec.mjs tests/accessibility-evidence.spec.mjs tests/native-states.spec.mjs tests/runtime-consolidation.spec.mjs
+          npx playwright test tests/nova-flow.spec.mjs tests/product-integrity.spec.mjs tests/savings-integrity.spec.mjs tests/passcode-recovery.spec.mjs tests/transfer-impact.spec.mjs tests/recipient-continuity.spec.mjs tests/accessibility-evidence.spec.mjs tests/native-states.spec.mjs tests/runtime-consolidation.spec.mjs tests/foundation-consolidation.spec.mjs
 
       - name: Print target server log on failure
         if: failure()
