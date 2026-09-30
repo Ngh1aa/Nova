@@ -1,5 +1,6 @@
 import { test, expect } from '@playwright/test';
 
+// Assert user-visible meaning rather than punctuation differences introduced by visual owners.
 test('D-01 Safe to spend exposes its time horizon at the primary decision number', async ({ page }) => {
   await page.goto('/app.html?screen=home&lab=1');
   await expect(page.getByText(/Safe to spend.*next 14 days/i)).toBeVisible();
