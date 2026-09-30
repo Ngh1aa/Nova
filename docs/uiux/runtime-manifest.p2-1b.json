@@ -1,0 +1,82 @@
+{
+  "status": "P2.1B_GENERATED",
+  "canonical_renderer": "assets/nova-current-renderer.js",
+  "canonical_stylesheet": "assets/nova-current.css",
+  "separate_runtime_concerns": [
+    "assets/nova-motion.js",
+    "assets/nova-motion.css",
+    "assets/nova-current-state.js",
+    "assets/state-lab-launcher.js"
+  ],
+  "bundled_js_sources": [
+    "assets/nova.js",
+    "assets/nova-redesign.js",
+    "assets/nova-financial-intelligence.js",
+    "assets/accessibility.js",
+    "assets/nova-brand-fixes.js",
+    "assets/nova-ios26.js",
+    "assets/nova-pastel-dashboard.js",
+    "assets/nova-dashboard-v2.js",
+    "assets/legacy/p2-1a-canonical/nova-current-renderer.p2-1a.js"
+  ],
+  "bundled_css_sources": [
+    "assets/nova.css",
+    "assets/accessibility.css",
+    "assets/ledger.css",
+    "assets/ledger-v2.css",
+    "assets/ledger-final.css",
+    "assets/nova-redesign.css",
+    "assets/nova-financial-intelligence.css",
+    "assets/nova-floating-dock.css",
+    "assets/nova-a11y.css",
+    "assets/nova-polish.css",
+    "assets/nova-logo.css",
+    "assets/nova-ios26.css",
+    "assets/nova-ios26-final.css",
+    "assets/nova-ios26-critique.css",
+    "assets/nova-ios26-release.css",
+    "assets/nova-pastel-dashboard.css",
+    "assets/nova-pastel-contrast.css",
+    "assets/nova-dashboard-v2.css",
+    "assets/nova-dashboard-v2-responsive.css",
+    "assets/nova-dashboard-v2-contrast.css",
+    "assets/legacy/p2-1a-canonical/nova-current.p2-1a.css"
+  ],
+  "runtime_absorbed_scripts": [
+    "assets/nova.js",
+    "assets/nova-redesign.js",
+    "assets/nova-financial-intelligence.js",
+    "assets/accessibility.js",
+    "assets/nova-brand-fixes.js",
+    "assets/nova-ios26.js",
+    "assets/nova-pastel-dashboard.js",
+    "assets/nova-dashboard-v2.js"
+  ],
+  "runtime_absorbed_styles": [
+    "assets/nova.css",
+    "assets/accessibility.css",
+    "assets/ledger.css",
+    "assets/ledger-v2.css",
+    "assets/ledger-final.css",
+    "assets/nova-redesign.css",
+    "assets/nova-financial-intelligence.css",
+    "assets/nova-floating-dock.css",
+    "assets/nova-a11y.css",
+    "assets/nova-polish.css",
+    "assets/nova-logo.css",
+    "assets/nova-ios26.css",
+    "assets/nova-ios26-final.css",
+    "assets/nova-ios26-critique.css",
+    "assets/nova-ios26-release.css",
+    "assets/nova-pastel-dashboard.css",
+    "assets/nova-pastel-contrast.css",
+    "assets/nova-dashboard-v2.css",
+    "assets/nova-dashboard-v2-responsive.css",
+    "assets/nova-dashboard-v2-contrast.css"
+  ],
+  "archive_snapshots": [
+    "assets/legacy/p2-1a-canonical/nova-current-renderer.p2-1a.js",
+    "assets/legacy/p2-1a-canonical/nova-current.p2-1a.css"
+  ],
+  "truth_boundary": "Physical bundling preserves historical source order; behavior parity must still be proven by browser/QA gates before P2.1B is DONE_VERIFIED."
+}
