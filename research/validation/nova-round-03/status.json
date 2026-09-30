@@ -1,0 +1,36 @@
+{
+  "study_id": "nova-round-03",
+  "phase": "Nova Phase 3",
+  "purpose": "moderated qualitative usability validation of unresolved Round 02 findings and financial-action input assistance",
+  "status": "PLANNED_VALIDATION / BLOCKED_USER_EVIDENCE",
+  "target_participants": 5,
+  "verified_moderated_sessions": 0,
+  "participant_class": "DIRECT_USER",
+  "method": "moderated qualitative usability testing",
+  "priority_findings": ["F-02", "F-03", "F-04"],
+  "accessibility_scope": ["WCAG 2.2 3.3.1", "WCAG 2.2 3.3.3", "WCAG 2.2 3.3.4"],
+  "frozen_build": {
+    "status": "AWAITING_PHASE_3_BUILD",
+    "commit": null,
+    "url": null,
+    "qa_verified": false,
+    "reviewer_tooling_hidden": null
+  },
+  "product_targets_file": "research/validation/nova-round-03/PRODUCT-TARGETS.md",
+  "evidence_ledger": "research/validation/nova-round-03/evidence-ledger.jsonl",
+  "allowed_claims_now": [
+    "Nova Round 03 moderated usability research is planned and operationalized",
+    "The study targets five direct users and focuses on F-02, F-03 and F-04",
+    "Product thresholds are defined as TARGETS only",
+    "A targeted WCAG input-assistance review exists with explicit manual/AT gaps"
+  ],
+  "forbidden_claims_now": [
+    "Five moderated sessions were completed",
+    "Observed task success improved",
+    "F-02, F-03 or F-04 is fixed or validated",
+    "Nova is WCAG conformant or fully accessible",
+    "Any business, conversion, retention, adoption or production-impact claim"
+  ],
+  "recruiter_card_gate": "BLOCKED until traceable moderated Round 03 evidence is synthesized",
+  "next_valid_transition": "Freeze a QA-verified Phase 3 research build, recruit eligible participants, run moderated sessions, ingest traceable atomic evidence, synthesize F-02/F-03/F-04, update accessibility manual/AT evidence, then decide whether recruiter-facing evidence can change."
+}
