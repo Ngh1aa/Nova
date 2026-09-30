@@ -99,20 +99,21 @@ jobs:
           cp qa/native-states.spec.mjs .factory/uiux-factory/qa/tests/native-states.spec.mjs
           cp qa/runtime-consolidation.spec.mjs .factory/uiux-factory/qa/tests/runtime-consolidation.spec.mjs
           cp qa/foundation-consolidation.spec.mjs .factory/uiux-factory/qa/tests/foundation-consolidation.spec.mjs
+          cp qa/report-boundary.spec.mjs .factory/uiux-factory/qa/tests/report-boundary.spec.mjs
 
       - name: Serve and visually audit Nova product and evidence screens
         working-directory: .factory/uiux-factory/qa
         env:
           QA_TARGET_DIR: ${{ github.workspace }}
           QA_BASE_URL: http://127.0.0.1:4173
-          QA_ROUTES: /app.html?screen=home,/app.html?screen=home&state=empty&pin=1,/app.html?screen=home&state=loading&pin=1,/app.html?screen=home&state=edge&pin=1,/app.html?screen=error,/app.html?screen=activity,/app.html?screen=transaction-detail,/app.html?screen=cards,/app.html?screen=transfer-recipient,/app.html?screen=transfer-amount,/app.html?screen=transfer-review,/app.html?screen=biometric-failed,/app.html?screen=transfer-success,/app.html?screen=savings,/app.html?screen=savings-detail,/app.html?screen=kyc,/recruiter-state-lab.html?state=empty,/state-matrix.html,/prototype.html,/design-system.html,/component-states.html,/sitemap.html,/user-flows.html
+          QA_ROUTES: /app.html?screen=home,/app.html?screen=home&state=empty&pin=1,/app.html?screen=home&state=loading&pin=1,/app.html?screen=home&state=edge&pin=1,/app.html?screen=error,/app.html?screen=activity,/app.html?screen=transaction-detail,/app.html?screen=report-transaction,/app.html?screen=report-transaction&state=handoff,/app.html?screen=cards,/app.html?screen=transfer-recipient,/app.html?screen=transfer-amount,/app.html?screen=transfer-review,/app.html?screen=biometric-failed,/app.html?screen=transfer-success,/app.html?screen=savings,/app.html?screen=savings-detail,/app.html?screen=kyc,/recruiter-state-lab.html?state=empty,/state-matrix.html,/prototype.html,/design-system.html,/component-states.html,/sitemap.html,/user-flows.html
         run: |
           node scripts/serve-target.mjs > /tmp/nova-qa-server.log 2>&1 &
           SERVER_PID=$!
           trap 'kill $SERVER_PID 2>/dev/null || true' EXIT
           node scripts/wait-ready.mjs
           npm test
-          npx playwright test tests/nova-flow.spec.mjs tests/product-integrity.spec.mjs tests/savings-integrity.spec.mjs tests/passcode-recovery.spec.mjs tests/transfer-impact.spec.mjs tests/recipient-continuity.spec.mjs tests/accessibility-evidence.spec.mjs tests/native-states.spec.mjs tests/runtime-consolidation.spec.mjs tests/foundation-consolidation.spec.mjs
+          npx playwright test tests/nova-flow.spec.mjs tests/product-integrity.spec.mjs tests/savings-integrity.spec.mjs tests/passcode-recovery.spec.mjs tests/transfer-impact.spec.mjs tests/recipient-continuity.spec.mjs tests/accessibility-evidence.spec.mjs tests/native-states.spec.mjs tests/runtime-consolidation.spec.mjs tests/foundation-consolidation.spec.mjs tests/report-boundary.spec.mjs
 
       - name: Print target server log on failure
         if: failure()
