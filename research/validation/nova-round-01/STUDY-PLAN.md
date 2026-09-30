@@ -3,7 +3,7 @@
 **Evidence state:** PLANNED / RECRUITING  
 **Study type:** Moderated usability test  
 **Target:** 5 participants  
-**Prototype:** https://ngh1aa.github.io/Nova/app.html?screen=home  
+**Prototype:** https://ngh1aa.github.io/Nova/app.html?screen=home&lab=1  
 **Pinned baseline commit:** `487c0d768c9c1aa58c45d10f57cab6c6a126b90c`  
 **Baseline evidence:** `BASELINE-BUILD.md`
 
@@ -24,6 +24,10 @@ Do **not** ask participants to reveal real balances, account numbers, credential
 ## Baseline discipline
 
 Use the pinned baseline commit above for P01–P05 unless a prototype defect makes a task impossible. Every session record must repeat the exact prototype commit actually tested.
+
+The research URL includes `lab=1`. This intentionally hides the recruiter-only State Lab launcher so a participant never sees or interacts with reviewer tooling during a product task. Removing reviewer tooling does not change the tested banking state or product logic.
+
+Synthetic-user dogfooding lives separately under `research/synthetic/nova-round-01/`. It may trigger prototype fixes before human sessions, but it never increments `verified_sessions` and is never entered into the direct-user evidence ledger.
 
 If a blocking implementation change is unavoidable during the round:
 - record the replacement commit in the affected session;
@@ -101,8 +105,8 @@ End or skip a task if the participant:
 ## Synthesis threshold
 
 Do not promote the study to `VERIFIED` until:
-1. at least 5 completed anonymized session records exist;
-2. every finding references one or more session IDs;
+1. at least 5 completed anonymized real session records exist;
+2. every finding references one or more real session IDs;
 3. contradictory observations are retained;
 4. findings distinguish observation → interpretation → design implication;
 5. no usability percentage is reported from fewer than 5 sessions without showing the raw numerator/denominator;
