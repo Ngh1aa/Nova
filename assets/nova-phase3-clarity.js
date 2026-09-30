@@ -66,9 +66,38 @@
     else horizon?.insertAdjacentElement('beforebegin', note);
   }
 
+  function reconcileExistingRecoverySupport() {
+    if (!['biometric-failed', 'offline'].includes(screen)) return false;
+    const banner = document.querySelector('[data-nova-phase3-recovery]');
+    const recovery = document.querySelector('[data-nova-recovery-reassurance="true"]');
+    const task = document.querySelector('.task-panel');
+    if (!banner || !recovery || !task) return false;
+
+    recovery.classList.add('nova-phase3-recovery-support');
+    if (recovery.parentElement !== task || recovery.previousElementSibling !== banner) {
+      banner.insertAdjacentElement('afterend', recovery);
+    }
+    return true;
+  }
+
+  function watchForRecoverySupport() {
+    if (!['biometric-failed', 'offline'].includes(screen)) return;
+    if (reconcileExistingRecoverySupport()) return;
+
+    const observer = new MutationObserver(() => {
+      if (reconcileExistingRecoverySupport()) observer.disconnect();
+    });
+    observer.observe(document.body, { childList: true, subtree: true });
+    window.setTimeout(() => observer.disconnect(), 2000);
+  }
+
   function ensureDominantRecoveryBanner() {
     if (!['biometric-failed', 'offline', 'error'].includes(screen)) return;
-    if (document.querySelector('[data-nova-phase3-recovery]')) return;
+    const existingBanner = document.querySelector('[data-nova-phase3-recovery]');
+    if (existingBanner) {
+      reconcileExistingRecoverySupport();
+      return;
+    }
 
     const banner = document.createElement('section');
     banner.className = 'nova-phase3-recovery-banner';
@@ -95,12 +124,11 @@
       if (actions) actions.insertAdjacentElement('beforebegin', banner);
       else state?.appendChild(banner);
     } else {
-      /* Keep the existing data-nova-recovery-reassurance element intact for
-         continuity and regression evidence; this block adds stronger scan order. */
+      /* Preserve the established recovery evidence and move it into the same
+         decision card once the current-state owner has rendered it. */
       const task = document.querySelector('.task-panel') || document.querySelector('#main');
-      const existingReassurance = task?.querySelector('[data-nova-recovery-reassurance="true"]');
-      if (existingReassurance) existingReassurance.insertAdjacentElement('beforebegin', banner);
-      else task?.insertAdjacentElement('afterbegin', banner);
+      task?.insertAdjacentElement('afterbegin', banner);
+      watchForRecoverySupport();
     }
 
     requestAnimationFrame(() => banner.focus({ preventScroll: false }));
@@ -115,9 +143,13 @@
     patchFourteenDayLanguage();
     ensureBufferDecisionNote();
     ensureDominantRecoveryBanner();
+    reconcileExistingRecoverySupport();
     markEvidenceBoundary();
   }
 
   applyPhase3Clarity();
-  requestAnimationFrame(applyPhase3Clarity);
+  requestAnimationFrame(() => {
+    applyPhase3Clarity();
+    requestAnimationFrame(applyPhase3Clarity);
+  });
 })();
