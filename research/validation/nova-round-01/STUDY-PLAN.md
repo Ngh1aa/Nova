@@ -3,7 +3,9 @@
 **Evidence state:** PLANNED / RECRUITING  
 **Study type:** Moderated usability test  
 **Target:** 5 participants  
-**Prototype:** https://nova-gamma-eosin.vercel.app/
+**Prototype:** https://ngh1aa.github.io/Nova/app.html?screen=home  
+**Pinned baseline commit:** `487c0d768c9c1aa58c45d10f57cab6c6a126b90c`  
+**Baseline evidence:** `BASELINE-BUILD.md`
 
 ## Research question
 
@@ -18,6 +20,16 @@ Recruit people who:
 - can complete a 25–35 minute remote or in-person session.
 
 Do **not** ask participants to reveal real balances, account numbers, credentials, transaction history or other sensitive financial data. Nova uses simulated data only.
+
+## Baseline discipline
+
+Use the pinned baseline commit above for P01–P05 unless a prototype defect makes a task impossible. Every session record must repeat the exact prototype commit actually tested.
+
+If a blocking implementation change is unavoidable during the round:
+- record the replacement commit in the affected session;
+- document the reason in `DECISION-LOG.md`;
+- do not pool old/new-build observations as though all participants saw the same product state;
+- retest an affected design change on the same task before claiming improvement.
 
 ## Tasks
 
