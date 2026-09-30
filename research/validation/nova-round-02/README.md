@@ -1,48 +1,46 @@
 # Nova Round 02 — Post-change human retest
 
-**Status:** `5 RESPONSES RECEIVED / VERIFICATION_PENDING`  
+**Status:** `5 VERIFIED ASYNC RETEST RECORDS`  
 **Target:** 3–5 real participants  
-**Received method:** asynchronous structured self-report retest  
+**Executed method:** asynchronous structured self-report retest  
 **Priority tasks:** Task 2 (sensitive-action boundary) and Task 3 (transfer impact)  
-**Evidence state:** `RETEST_REQUIRED / VERIFICATION_PENDING`
+**Evidence state:** `DIRECT_USER_ASYNC_RETEST_SELF_REPORT / SYNTHESIZED`
 
 ## Frozen build
 
-Every participant is intended to use the same post-iteration build unless a session record explicitly documents an exception.
+All five participants used the same post-iteration build.
 
 - **Commit:** `5c457075510359703a41966aaa3f0a1cecf8ca44`
 - **Research URL:** https://ngh1aa.github.io/Nova/app.html?screen=home&lab=1
 - **Environment contract:** `lab=1` hides reviewer-only State Lab tooling.
 - **Verified before recruitment:** GitHub Pages deployment and Nova Visual QA both passed on the frozen commit.
-
-The supplied response export did not include participant-side build confirmation, so the five records remain verification-pending even though the protocol build is frozen.
+- **Execution confirmation:** researcher confirmed all five Round 02 participants used this URL.
 
 ## Participant profile
 
-The five received responses meet the captured screener criteria:
-- age 18–30;
-- digital banking at least weekly;
-- can complete a 15–25 minute prototype session;
-- simulated data only;
-- participation consent and anonymized research-use consent captured.
+All five records:
+- are `NEW` participants, not returning from Round 01;
+- were tested on `2026-09-30`;
+- are age 18–30;
+- use digital banking at least weekly;
+- completed the test with simulated data only;
+- include participation consent and anonymized research-use consent.
 
-The export did **not** capture whether each participant is `NEW` or `RETURNING_FROM_ROUND_01`; that must be resolved before verification.
+No participant names or other PII are stored in the repository.
 
 ## Evidence method
 
 ### Preferred — moderated retest
 
-The moderator reads prompts exactly, does not teach the interface, observes behavior, then asks follow-up questions. Record observation before interpretation.
+Moderated testing remains the stronger future method when observed behavior/time-on-task is needed.
 
-Evidence class: `DIRECT_USER_MODERATED_RETEST`.
+### Executed — asynchronous retest
 
-### Received — asynchronous retest
+The five Round 02 records are structured participant responses without moderator observation.
 
-The current five records were supplied as structured participant responses without moderator observation.
+Evidence class: `DIRECT_USER_ASYNC_RETEST_SELF_REPORT / VERIFIED_RECORD`.
 
-Evidence class: `DIRECT_USER_ASYNC_RETEST_SELF_REPORT / VERIFICATION_PENDING`.
-
-Do not pool these records with observed task-success/time metrics.
+They may support self-report comprehension comparison, but must not be reported as observed task-success/time metrics.
 
 ## Task order
 
@@ -51,31 +49,36 @@ Do not pool these records with observed task-success/time metrics.
 3. Task 1 — Safe-to-spend horizon
 4. Task 4 — Recovery diagnosis
 
-All five supplied responses contain all four task sections.
+All five verified records contain all four task sections.
 
-## Current provisional synthesis
+## Current synthesis
 
-See `PROVISIONAL-SYNTHESIS.md`.
+Use `RETEST-SYNTHESIS.md` and `evidence-ledger.jsonl` as the current source of truth.
 
-Key verification-pending signals:
-- 2/5 understand the intended 14-day Safe-to-spend horizon;
-- 2/5 understand the sensitive-action result as demo/preview;
+Round 02 signals:
+- 3/5 report the displayed Safe-to-spend amount of €1,300;
+- 2/5 identify the intended 14-day horizon;
+- 2/5 understand the sensitive-action state as demo/preview;
 - 2/5 distinguish Freeze from Report;
-- 5/5 land around €1,155 after a €145 transfer, but only 1/5 understands that Protected buffer is not automatically consumed;
-- 2/5 explicitly understand that no money moved after the failed transfer.
+- 5/5 land around €1,155 after a €145 transfer;
+- only 1/5 understands that Protected buffer is not automatically consumed;
+- 2/5 explicitly understand that no money moved after failed transfer.
 
-These are self-report signals, not observed task-success metrics.
+## Finding status
 
-## Verification gate
+- `F-01 / P1` — improved self-report signal, still unresolved.
+- `F-02 / P1` — arithmetic clearer, Protected-buffer rule unresolved.
+- `F-03 / P2` — unresolved.
+- `F-04 / P2` — verified cross-sectional regression signal for no-money-moved clarity; do not claim causality.
 
-Before any record becomes `VERIFIED_RECORD`, capture for each `R02-P0X`:
-- participant type: `NEW` or `RETURNING_FROM_ROUND_01`;
-- actual test/session date;
-- confirmation that the participant used the frozen Round 02 prototype URL/build;
-- integrity review with no PII committed.
+## Evidence boundary
 
-Names from the source export are intentionally not stored in the repository.
+Round 01 and Round 02 use different participants. Cross-round differences are therefore **cross-sectional self-report signals**, not within-subject causal effects.
 
-## Improvement-claim gate
+Do not claim:
+- five moderated sessions;
+- observed task-success improvement;
+- that the UI iteration caused any improvement or regression;
+- overall validated usability improvement.
 
-Do not claim that Nova improved until verified post-change evidence supports that statement. Preserve unresolved findings, regressions and contradictory results.
+The next valid step is a second evidence-driven product iteration followed by another retest of the affected tasks.
