@@ -28,15 +28,19 @@ The walkthroughs were performed from rendered browser evidence/screens first. So
 - **Severity:** P0 for research/recruiter sessions; P1 for normal prototype use.
 - **Evidence:** On the 390px transfer-review render, the fixed State Lab launcher occupies the same lower interaction zone as the primary confirmation controls. The mobile home render also shows the reviewer tool floating above product content.
 - **Why it matters:** A usability participant can attend to or accidentally target reviewer tooling that is not part of the product. That contaminates task evidence.
-- **Iteration:** research URLs must hide State Lab with `lab=1`; normal mobile prototype should collapse the launcher to a compact icon-only control.
-- **Retest:** rerender 390px transfer review and confirm the primary action remains unobstructed.
+- **Iteration:** research URLs hide State Lab with `lab=1`; normal mobile prototype collapses the launcher to a compact icon-only control.
+- **Status:** iterated and regression-protected in the synthetic pre-human pass.
 
-### SD-02 — “Report transaction” looks like a product action but is only a prototype entry point
-- **Severity:** P1 candidate.
-- **Evidence:** Transaction detail presents `Freeze card` and `Report transaction` as peer protective actions. The current prototype boundary explains simulated risk, but the report path does not represent a completed dispute/case flow.
-- **Why it matters:** A risk-averse user can reasonably choose Report first and expect a case/recovery flow. A prototype-only toast can feel like a dead end during Task 2.
-- **Iteration candidate:** label/report boundary should be explicit at the decision point, or provide a small simulated next-step state rather than an apparently production-complete action.
-- **Status:** not changed in this pass; requires a deliberate product-scope decision.
+### SD-02 — “Report transaction” looked product-complete although the old path ended at a prototype entry point
+- **Original severity:** P1.
+- **Original evidence:** SU-P01, SU-P03 and SU-P05 independently reached the same synthetic expectation mismatch: `Report transaction` looked like a formal product action, but the old prototype did not expose enough next-step state to explain what happened.
+- **Iteration:** the suspicious-transaction screen now uses `Start report`, states at the decision point that the flow is simulated and no bank case is created, then exposes a report-review state and a report-handoff preview.
+- **Truth preserved:** the handoff explicitly says `Nothing was submitted`, `No bank case created`, card protection is unchanged, and refund / provisional credit is `Not requested or promised`.
+- **Synthetic retest:** SU-P01, SU-P03 and SU-P05 were retested against PR #58; the 390px SU-P05 path also verifies reviewer tooling is absent in research mode and no horizontal overflow is introduced.
+- **Evidence record:** `SD-02-REPORT-RETEST.md`.
+- **QA:** Nova Visual QA run `36682877726` — `SUCCESS`.
+- **Status:** `RESOLVED_FOR_SYNTHETIC_ROUND / PENDING_HUMAN`.
+- **Next evidence:** do not iterate this path again from synthetic preference alone; observe real Human P01 Task 2 before making another scope/copy change.
 
 ### SD-03 — Safe-to-spend is visually strong, but the time horizon is less explicit at the first decision moment
 - **Severity:** P2.
@@ -57,16 +61,16 @@ The walkthroughs were performed from rendered browser evidence/screens first. So
 
 ## Synthetic severity summary
 
-- **P0:** 1 — reviewer tooling contaminates mobile research task.
-- **P1:** 1 candidate — report-transaction scope/dead-end ambiguity.
-- **P2:** 1 candidate — first-glance time-horizon ambiguity.
+- **P0:** SD-01 — iterated/regression-protected for the synthetic pre-human pass.
+- **P1:** SD-02 — `RESOLVED_FOR_SYNTHETIC_ROUND / PENDING_HUMAN` after focused retest.
+- **P2:** SD-03 — hold for Human Round 01 unless new evidence repeats it.
 - **Preserve:** transfer consequence/recovery truth; signed negative edge state.
 
 ## Truth boundary
 
 This round may be described as:
 
-> “AI-assisted synthetic-user dogfooding was used to identify and prioritize prototype issues before human usability testing.”
+> “AI-assisted synthetic-user dogfooding was used to identify, prioritize, iterate and regression-test prototype issues before human usability testing.”
 
 It may **not** be described as:
 - user validation;
