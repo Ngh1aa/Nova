@@ -7,18 +7,20 @@ Do **not** put names, emails, phone numbers, social handles, banking information
 | Slot | Recruitment status | Screener | Scheduled | Session record | Evidence state |
 |---|---|---|---|---|---|
 | P01 | COMPLETED | ELIGIBLE | — | `raw-intake/P01-PARTICIPANT-FORM.md` | VERIFICATION_PENDING |
-| P02 | OPEN | NOT_RUN | — | — | NONE |
-| P03 | OPEN | NOT_RUN | — | — | NONE |
-| P04 | OPEN | NOT_RUN | — | — | NONE |
-| P05 | OPEN | NOT_RUN | — | — | NONE |
+| P02 | COMPLETED | ELIGIBLE | — | `raw-intake/P02-PARTICIPANT-FORM.md` | VERIFICATION_PENDING |
+| P03 | COMPLETED | ELIGIBLE | — | `raw-intake/P03-PARTICIPANT-FORM.md` | VERIFICATION_PENDING |
+| P04 | COMPLETED | ELIGIBLE | — | `raw-intake/P04-PARTICIPANT-FORM.md` | VERIFICATION_PENDING |
+| P05 | COMPLETED | ELIGIBLE | — | `raw-intake/P05-PARTICIPANT-FORM.md` | VERIFICATION_PENDING |
 
-## P01 integrity note
+## Current intake state
 
-P01 is a **real participant form intake**: screener passed, consent was granted and responses were supplied for all four tasks plus debrief questions.
+Five **real participant form intakes** have been supplied. Each submitted screener is eligible, consent was granted, and all four task sections plus debrief answers were provided.
 
-`COMPLETED` here means the participant form/task response was completed. It does **not** mean `VERIFIED_RECORD`.
+`COMPLETED` means the participant form/task response was completed. It does **not** mean `VERIFIED_RECORD`.
 
-P01 remains `VERIFICATION_PENDING` because the supplied dataset does not yet include all fields required by `sessions/README.md`, including session date/mode, exact tested prototype commit, per-task moderator assistance and observable behavior separate from self-report. Do not increment `verified_sessions` until those gaps are resolved and `sessions/P01.md` passes integrity review.
+All five remain `VERIFICATION_PENDING` because the supplied datasets do not yet include all fields required by `sessions/README.md`, including session date/mode, exact tested prototype commit, per-task moderator assistance, and observable behavior separate from self-report.
+
+A later supplied batch reused labels P01–P04 after study ID P01 already existed. To preserve audit history, those four records were remapped in arrival order to P02–P05. See `REAL-INTAKE-PROVISIONAL-SYNTHESIS.md`.
 
 ## Allowed recruitment statuses
 
