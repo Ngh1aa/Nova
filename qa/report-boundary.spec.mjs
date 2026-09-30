@@ -10,7 +10,7 @@ test('report transaction flow is explicit, reversible and does not claim a bank 
 
   await startReport.click();
   await expect(page).toHaveURL(/screen=report-transaction/);
-  await expect(page.getByRole('heading', { name: 'Report this transaction' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Report ByteMart Online?' })).toBeVisible();
   await expect(page.getByText('Nothing has been reported')).toBeVisible();
   await expect(page.getByText('cannot contact a bank, create a dispute, or request a refund')).toBeVisible();
   await expect(page.locator('.review-list')).toContainText('ByteMart Online');
@@ -18,7 +18,7 @@ test('report transaction flow is explicit, reversible and does not claim a bank 
 
   await page.getByRole('link', { name: 'Preview report handoff' }).click();
   await expect(page).toHaveURL(/screen=report-transaction&state=handoff/);
-  await expect(page.getByRole('heading', { name: 'Report handoff preview' })).toBeVisible();
+  await expect(page.getByText('Simulated support handoff', { exact: true })).toBeVisible();
   await expect(page.getByRole('heading', { name: 'No bank case created' })).toBeVisible();
   await expect(page.getByText('Nothing was submitted')).toBeVisible();
   await expect(page.locator('.review-list')).toContainText('Bank case');
@@ -35,7 +35,7 @@ test('report preview does not change card freeze state', async ({ page }) => {
   const frozen = await page.evaluate(() => localStorage.getItem('nova_card_frozen'));
   expect(frozen).toBeNull();
 
-  await expect(page.getByText('Card protection')).toBeVisible();
-  await expect(page.getByText('Not changed by this preview')).toBeVisible();
+  await expect(page.locator('.review-list').getByText('Card protection', { exact: true })).toBeVisible();
+  await expect(page.getByText('Not changed by this preview', { exact: true })).toBeVisible();
   await expect(page.getByText(/report submitted/i)).toHaveCount(0);
 });
