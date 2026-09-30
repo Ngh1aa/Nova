@@ -2,42 +2,63 @@
 
 ## Status
 
-`P2.1A — DONE_VERIFIED`
+- **P2.1A — current/versioned renderer + P0/P1 state ownership: `DONE_VERIFIED`**
+- **P2.1B — older foundation dependency cleanup: `DONE_VERIFIED`**
 
-This pass consolidates Nova's **current/versioned renderer stack and the focused P0/P1 product-rule stack** without claiming that every historical foundation file in the repository has been deleted or that Nova is a production banking application.
+Nova now has explicit canonical runtime ownership for the implemented prototype without claiming production banking connectivity, direct-user validation, or production impact.
+
+## Verification summary
+
+### P2.1A
 
 Implementation PR: `#50 — refactor: consolidate Nova current renderer and product state runtime`
 
-Verified on merged `main` commit:
+Verified merged commit:
 
 `52419150cacbffbcc72d6ab2f80f0c01760586f7`
 
+P2.1A consolidated the fragmented v3 → v4 → v5 renderer stack and the focused P0/P1 product-rule modules into:
+
+- `assets/nova-current-renderer.js` — canonical current renderer;
+- `assets/nova-current-state.js` — canonical product interaction/state owner;
+- `assets/nova-current.css` — canonical current stylesheet.
+
+### P2.1B
+
+Implementation PR: `#52 — refactor: complete P2.1B foundation runtime consolidation`
+
+Verified merged commit:
+
+`487c0d768c9c1aa58c45d10f57cab6c6a126b90c`
+
 Verification chain:
 
+- PR-head Nova Visual QA run `36676946777` — `SUCCESS`;
+- merged-main Nova Visual QA run `36677133725` — `SUCCESS`;
+- GitHub Pages build/deployment run `36677132720` — `SUCCESS`;
 - UIUX Factory Flow OS passed using pinned Factory commit `11003bf36909b08c3def617023dc8ecd9c3964fd`;
-- generic rendered visual/Axe QA passed on PR #50;
+- deterministic runtime-generation drift check passed;
+- generic rendered visual/Axe QA passed;
 - all existing transfer, Activity, Cards, Savings, passcode, recipient, accessibility and native-state regressions passed without weakening assertions;
-- the new runtime-architecture regression passed;
-- the full Nova Visual QA suite passed again on the merged `main` commit;
-- GitHub Pages build and deployment passed on the same merged `main` commit.
+- P2.1A runtime-architecture regression passed;
+- P2.1B foundation-consolidation regression passed.
 
-## Problem before consolidation
+## Problem before P2 consolidation
 
-The final visible/interactive Nova product was not owned by one clear current architecture. `app.html` loaded later files whose purpose was to override earlier runtime behavior:
+Nova had accumulated multiple historical runtime passes. The final product behavior depended on their load/execution order:
 
-- `nova-system-v3.js` replaced final Cards, Savings, Security and Settings surfaces;
-- `nova-system-v4.js` replaced Pay / recipient selection and desktop sidebar behavior;
-- `nova-system-v5.js` refined the already-replaced sidebar;
-- `nova-product-rules.js` owned transfer integrity, Activity and detailed Card rules;
-- `nova-transfer-impact.js` added live transfer consequences;
-- `nova-passcode-recovery.js` repaired authentication recovery;
-- `nova-savings-preview.js` replaced a toast-only savings action with real preview behavior;
-- `nova-recipient-flow.js` made the v4 recipient UI functional and preserved recipient identity;
-- `nova-native-states.js` owned native Empty / Loading / Edge lifecycle states.
+- base `nova.js` data/rendering foundation;
+- redesign and financial-intelligence transformations;
+- brand repair;
+- iOS26 navigation/chrome;
+- pastel/dashboard passes;
+- v3/v4/v5 renderer replacements;
+- focused P0/P1 product-rule modules;
+- a long stylesheet override chain.
 
-The product worked because those files executed in the correct order. That is a fragile ownership model: changing script order or adding another patch could silently return stale behavior.
+The prototype worked, but runtime ownership was fragile. A stale script/style tag or a new override could silently return old behavior.
 
-## Architecture after P2.1A
+## Architecture after P2.1A + P2.1B
 
 ### Canonical renderer
 
@@ -45,17 +66,15 @@ Runtime owner:
 
 `assets/nova-current-renderer.js`
 
-It owns the verified current rendering/chrome work previously distributed across v3 → v4 → v5:
+P2.1B physically bundles the verified historical foundation/rendering passes in their existing execution order, including the already-consolidated P2.1A renderer snapshot. This preserves visual/behavior parity while removing those historical files as independent `app.html` dependencies.
 
-- Cards;
-- Savings overview;
-- Security;
-- Settings;
-- Pay / recipient surface;
-- final desktop rail/chrome;
-- renderer-level UI actions tied to those surfaces.
+The deterministic source-to-bundle contract lives in:
 
-The current file intentionally preserves the previous v3 → v4 → v5 execution semantics internally so this architecture change does not become an unrequested visual redesign.
+`scripts/p2-1b-consolidate-runtime.mjs`
+
+The generated ownership manifest lives in:
+
+`docs/uiux/runtime-manifest.p2-1b.json`
 
 ### Canonical interaction/state owner
 
@@ -63,161 +82,127 @@ Runtime owner:
 
 `assets/nova-current-state.js`
 
-It centralizes the verified product state/model and the P0/P1 interaction rules for:
+It remains a separate semantic owner for verified product state and P0/P1 rules, including:
 
 - Safe-to-spend transfer validation;
 - amount/reference persistence;
 - above-Safe-to-spend acknowledgement;
 - live transfer-impact preview;
 - recovery/no-money-moved truth;
-- Activity search, filters and empty results;
-- Card payment preferences, authoritative freeze and Daily limit validation;
+- Activity search/filter/no-result behavior;
+- Card preferences, freeze hierarchy and Daily limit validation;
 - Savings Money Horizon recomputation and shortfall states;
 - passcode retry/recovery;
 - recipient search/selection/continuity;
-- native Empty / Loading / Error / Edge lifecycle-state ownership.
+- native Empty / Loading / Error / Edge lifecycle states.
 
-The current state owner exposes a runtime marker through `window.NovaCurrentRuntime.state` so architecture tests can verify which file actually owns the product state layer.
-
-### Canonical current stylesheet
+### Canonical stylesheet
 
 Runtime owner:
 
 `assets/nova-current.css`
 
-The prior `nova-system-v3.css` → `nova-system-v4.css` → `nova-system-v5.css` cascade is preserved inside one current stylesheet in the same order. This deliberately optimizes for **visual parity first** rather than using cleanup as an excuse to redesign or silently change component geometry.
+The verified historical style cascade is physically bundled in its prior order. This is a parity-first architecture cleanup, not a hidden redesign.
 
-## Retired from `app.html` runtime
+### Separate cross-cutting runtime concern
 
-The source files remain in Git history/repository for traceability, but `app.html` no longer loads these as independent runtime layers:
+Motion remains separate:
 
-### JavaScript
+- `assets/nova-motion.js`;
+- `assets/nova-motion.css`.
 
-- `nova-system-v3.js`
-- `nova-system-v4.js`
-- `nova-system-v5.js`
-- `nova-product-rules.js`
-- `nova-transfer-impact.js`
-- `nova-passcode-recovery.js`
-- `nova-savings-preview.js`
-- `nova-recipient-flow.js`
-- `nova-native-states.js`
+The State Lab launcher also remains separate because it is evidence/reviewer tooling rather than product-state ownership:
+
+- `assets/state-lab-launcher.js`.
+
+## `app.html` runtime after P2.1B
+
+The live application now loads only:
 
 ### CSS
 
-- `nova-system-v3.css`
-- `nova-system-v4.css`
-- `nova-system-v5.css`
+- `assets/nova-current.css`;
+- `assets/nova-motion.css`.
 
-## Architecture regression
+### JavaScript
 
-`qa/runtime-consolidation.spec.mjs` prevents the cleanup from silently regressing.
+- `assets/nova-current-renderer.js`;
+- `assets/nova-motion.js`;
+- `assets/nova-current-state.js`;
+- `assets/state-lab-launcher.js`.
 
-It verifies that:
+The inline card-frozen bootstrap remains intentionally scoped to the direct frozen-card evidence route.
 
-- `nova-current-renderer.js` loads exactly once;
-- `nova-current-state.js` loads exactly once;
-- `nova-current.css` loads exactly once;
-- all retired v3/v4/v5 and focused P1 script owners above are absent from the live runtime;
-- retired v3/v4/v5 stylesheets are absent from the live runtime;
-- the runtime owner markers identify the canonical renderer and canonical interaction/state layer;
-- the final Cards surface still renders;
-- the final v5-refined desktop rail still renders from the canonical renderer;
-- the final Pay surface still renders;
-- the verified saved-recipient behavior remains present.
+## Historical sources retained for provenance, not runtime ownership
 
-This architecture test runs beside the existing behavior regressions rather than replacing them.
+P2.1B does **not** delete the earlier source files from repository history. They remain inspectable inputs/provenance, but `app.html` no longer loads them independently.
 
-## Behavior preservation evidence
+Absorbed foundation JavaScript includes:
 
-The consolidation was accepted only because the existing regression suite remained green without reducing assertions.
+- `assets/nova.js`;
+- `assets/nova-redesign.js`;
+- `assets/nova-financial-intelligence.js`;
+- `assets/accessibility.js`;
+- `assets/nova-brand-fixes.js`;
+- `assets/nova-ios26.js`;
+- `assets/nova-pastel-dashboard.js`;
+- `assets/nova-dashboard-v2.js`;
+- the archived P2.1A canonical renderer snapshot.
 
-The protected scenarios include:
+The older CSS foundation/override chain is likewise bundled into `assets/nova-current.css`. Exact inputs are recorded in `docs/uiux/runtime-manifest.p2-1b.json` rather than duplicated here.
+
+## Regression protection
+
+### `qa/runtime-consolidation.spec.mjs`
+
+Protects P2.1A ownership and verified current product surfaces.
+
+### `qa/foundation-consolidation.spec.mjs`
+
+Protects P2.1B by verifying that:
+
+- historical foundation scripts are not direct runtime dependencies;
+- historical stylesheets are not direct runtime dependencies;
+- canonical renderer/state/style owners load exactly once;
+- runtime ownership markers identify the canonical bundle/state owners;
+- representative Home, Onboarding, Cards and Pay surfaces still render with their verified final behavior.
+
+### Deterministic drift gate
+
+Nova Visual QA reruns:
+
+`node scripts/p2-1b-consolidate-runtime.mjs`
+
+and fails if the committed canonical output differs. This prevents someone from editing historical inputs or the generated bundle without regenerating and reviewing the architecture change.
+
+## Behavior-preservation boundary
+
+The consolidation was accepted only because protected behavior remained green. It does not convert browser regression into user research.
+
+Protected scenarios include:
 
 - transfer amount/reference continuity and Safe-to-spend integrity;
 - live transfer consequences at normal, boundary, over-plan and above-balance values;
 - Activity search/filter/no-result/reset behavior;
 - Card preference persistence, Daily limit validation and freeze hierarchy;
 - Savings preview recomputation, including negative Safe-to-spend;
-- biometric fallback / passcode retry;
-- recipient selection continuity through recovery and receipt;
+- biometric fallback/passcode retry;
+- recipient identity continuity through recovery and receipt;
 - keyboard, focus, scaling, reduced-motion and accessibility-tree browser evidence;
 - direct native Empty / Loading / Error / Edge state routes.
 
-No visual or product-behavior regression was accepted as part of this cleanup.
+## Human-research boundary
 
-## Five simulated-user re-tests after the architecture change
+Architecture status is now complete for the current Nova prototype, but product validation is not.
 
-These are **simulated users**, not external participants. Their scenarios reuse the already-defined regression-sensitive product tasks to confirm that an internal refactor did not alter customer-facing behavior.
+Round 01 remains:
 
-### SU-01 — Mai, 23 — transfer planning
+- `RECRUITING`;
+- `0 verified sessions`;
+- no direct-user evidence;
+- no measured usability improvement;
+- no measured business/production impact.
 
-Scenario: enters €500, €1,400 and an above-balance transfer after consolidation.
+The QA-verified P2.1B `main` commit `487c0d768c9c1aa58c45d10f57cab6c6a126b90c` is pinned as the Round 01 baseline in `research/validation/nova-round-01/BASELINE-BUILD.md`.
 
-Simulated comment:
-
-> “Mình vẫn thấy ngay gửi xong còn bao nhiêu, vượt mức an toàn thì được báo trước, còn vượt luôn số dư thì app chặn.”
-
-Result: `PASS — regression-backed`.
-
-### SU-02 — Huy, 29 — Activity lookup
-
-Scenario: searches ByteMart and uses Pending / Recurring filters.
-
-Simulated comment:
-
-> “Tìm giao dịch với lọc vẫn ra đúng như trước, không có kết quả thì vẫn có nút xoá để quay lại.”
-
-Result: `PASS — regression-backed`.
-
-### SU-03 — Lan, 35 — Card controls
-
-Scenario: changes payment preferences, reloads, freezes/unfreezes and saves a Daily limit.
-
-Simulated comment:
-
-> “Mấy cài đặt thẻ mình đổi vẫn được nhớ, khoá thẻ thì các cách thanh toán bị chặn, mở lại thì lựa chọn cũ vẫn còn.”
-
-Result: `PASS — regression-backed`.
-
-### SU-04 — Minh, 27 — security recovery
-
-Scenario: biometric failure → wrong prototype passcode → retry → success path.
-
-Simulated comment:
-
-> “Nhập sai thì mình vẫn ở bước xác nhận để nhập lại, và app vẫn nói rõ tiền chưa chuyển trước khi xác nhận xong.”
-
-Result: `PASS — regression-backed`.
-
-### SU-05 — An, 21 — savings planning
-
-Scenario: previews €500 and an aggressive €1,600 monthly contribution.
-
-Simulated comment:
-
-> “Tăng tiền tiết kiệm thì số tiền còn lại vẫn đổi theo, nếu kế hoạch bị âm thì app vẫn hiện số âm chứ không giấu.”
-
-Result: `PASS — regression-backed`.
-
-## Remaining P2.1B boundary
-
-P2.1A does **not** claim that every older foundation pass has been eliminated from `app.html`.
-
-The following earlier foundations remain runtime dependencies and need a separate dependency/parity pass before removal or absorption:
-
-- base `nova.js` renderer/data foundation;
-- redesign / financial-intelligence transformations;
-- iOS26 navigation foundation;
-- pastel/dashboard foundations;
-- brand repair layer;
-- older foundational CSS chain used by screens that have not yet been rebuilt into the canonical current stylesheet.
-
-Cross-cutting accessibility and motion layers should be evaluated separately rather than mechanically folded into product state just to reduce file count.
-
-Therefore the accurate architecture status is:
-
-- **P2.1A — current/versioned renderer + P0/P1 state ownership: `DONE_VERIFIED`**
-- **P2.1B — older foundation dependency cleanup: `OPEN`**
-
-This distinction keeps the portfolio evidence honest: Nova now has one canonical owner for the previously fragmented current/P1 stack, while deeper historical foundations still require a separate safe consolidation pass.
+The next valid product-design step is therefore **real participant fieldwork**, not another architecture/UI claim.
