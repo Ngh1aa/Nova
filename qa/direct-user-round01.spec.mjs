@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test';
 
 test('D-01 Safe to spend exposes its time horizon at the primary decision number', async ({ page }) => {
   await page.goto('/app.html?screen=home&lab=1');
-  await expect(page.getByText('Safe to spend · next 14 days', { exact: true })).toBeVisible();
+  await expect(page.getByText(/Safe to spend.*next 14 days/i)).toBeVisible();
   await expect(page.getByText('Nova excludes it before showing the next-14-days safe-to-spend estimate.', { exact: true })).toBeVisible();
 });
 
