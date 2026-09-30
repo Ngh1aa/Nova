@@ -1,31 +1,61 @@
 {
   "study_id": "nova-round-02",
   "purpose": "post-change human retest of Round 01 evidence-driven iteration",
-  "status": "RECRUITING",
+  "status": "RESPONSES_RECEIVED / VERIFICATION_PENDING",
   "target_participants_min": 3,
   "target_participants_max": 5,
+  "responses_received": 5,
   "completed_records": 0,
   "verified_records": 0,
   "preferred_method": "moderated usability retest",
-  "fallback_method": "asynchronous structured self-report retest",
-  "priority_tasks": ["Task 2 — sensitive action boundary", "Task 3 — transfer impact"],
+  "executed_method_for_received_records": "asynchronous structured self-report retest",
+  "priority_tasks": [
+    "Task 2 — sensitive action boundary",
+    "Task 3 — transfer impact"
+  ],
   "frozen_build": {
     "commit": "5c457075510359703a41966aaa3f0a1cecf8ca44",
     "url": "https://ngh1aa.github.io/Nova/app.html?screen=home&lab=1",
     "state_lab_hidden": true,
     "pages_verified": true,
-    "visual_qa_verified": true
+    "visual_qa_verified": true,
+    "participant_side_confirmation": "NOT_CAPTURED_IN_RESPONSE_EXPORT"
   },
   "participant_profile": "18–30, uses digital banking at least weekly, no real financial data required",
-  "allowed_claims_before_completion": [
-    "Round 02 post-change retest is recruiting",
-    "The exact post-iteration build is frozen and documented",
-    "Task 2 and Task 3 are prioritized because Round 01 produced P1 findings on those flows"
+  "provisional_round02_signals": {
+    "safe_to_spend_displayed_amount_correct": "3/5",
+    "fourteen_day_horizon_understood": "2/5",
+    "sensitive_action_understood_as_demo_preview": "2/5",
+    "freeze_distinguished_from_report": "2/5",
+    "transfer_arithmetic_approximately_1155": "5/5",
+    "protected_buffer_not_auto_consumed": "1/5",
+    "understands_no_money_moved_after_failure": "2/5",
+    "mean_confidence": {
+      "task_1": 3.6,
+      "task_2": 3.6,
+      "task_3": 3.6,
+      "task_4": 3.4
+    },
+    "overall_ease": 3.6,
+    "overall_clarity": 3.0
+  },
+  "verification_blockers": [
+    "participant type NEW vs RETURNING_FROM_ROUND_01 not captured",
+    "actual test/session date not captured",
+    "participant-side confirmation of frozen Round 02 build not captured"
   ],
-  "forbidden_claims_before_completion": [
+  "allowed_claims_before_verification": [
+    "Five eligible consented Round 02 async self-report responses were received",
+    "The response set contains all four task sections",
+    "Provisional self-report signals may be summarized as verification-pending",
+    "The exact Round 02 protocol build is frozen and documented"
+  ],
+  "forbidden_claims_before_verification": [
+    "Five verified Round 02 records were completed",
     "The iteration improved usability",
     "Task success improved",
     "Trust or comprehension improved",
-    "Any Round 02 participant count above completed verified records"
-  ]
+    "The Round 02 regression candidate is confirmed"
+  ],
+  "next_valid_transition": "Capture participant type, test date and frozen-build confirmation for R02-P01 through R02-P05; then run record-integrity review, assign atomic post-change evidence IDs, compare compatible Round 01 vs Round 02 self-report measures, and decide resolved / improved / unchanged / regressed per finding."
 }
