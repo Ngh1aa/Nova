@@ -11,7 +11,8 @@ Include:
 - primary review task: **interpret safe-to-spend → inspect suspicious activity → recover/freeze → transfer with impact review**;
 - live prototype link;
 - case-study link;
-- evidence status: `RECRUITING / 0 VERIFIED SESSIONS` until real research exists.
+- evidence status: **5 verified direct-user self-report records · unmoderated task-based evaluation · post-iteration retest required**;
+- explicit note: this was not five moderated sessions and no improvement claim exists yet.
 
 ## 01 — Product Context
 
@@ -27,16 +28,28 @@ Show:
 Separate visually:
 - `DESK_EVIDENCE` — benchmark/reference patterns;
 - `HYPOTHESIS` — Nova-specific beliefs;
-- `PLANNED_VALIDATION` — Round 01 protocol;
-- `DIRECT_USER` — empty until real session evidence exists.
+- `DIRECT_USER_SELF_REPORT` — five consented real-user records from an unmoderated task-based prototype evaluation;
+- `ITERATION` — design changes driven by traceable evidence IDs;
+- `RETEST_REQUIRED` — post-change human evidence not yet collected.
 
-Link or reference the Round 01 research package. Never paste invented quotes, success rates, or confidence improvements.
+Show the evidence-method boundary prominently:
+- 5 real users / 5 verified self-report records;
+- 0 verified moderated sessions;
+- no observed task-success/time-on-task claim;
+- exact participant-tested build was not captured;
+- no post-change improvement claim.
+
+Reference:
+- `research/validation/nova-round-01/DIRECT-USER-VERIFICATION.md`;
+- `research/validation/nova-round-01/evidence-ledger.jsonl`;
+- `research/validation/nova-round-01/FINDINGS.md`;
+- `research/validation/nova-round-01/DECISION-LOG.md`.
 
 ## 03 — User Flows
 
 Minimum flows:
 1. Balance → Money Horizon → interpret safe-to-spend.
-2. Transaction → suspicious evidence → freeze → unfreeze/recovery.
+2. Transaction → suspicious evidence → freeze/report-preview → recovery.
 3. Recipient → amount → impact review → simulated authentication → result.
 4. Transfer failure → diagnosis → correction/retry.
 
@@ -74,7 +87,13 @@ Document at least these trade-offs:
 - protection vs recovery friction;
 - confidence vs false certainty.
 
-Every selected direction should show at least one rejected alternative and the reason.
+Add the Round 01 evidence-driven decisions:
+- **D-01 / P2:** attach `next 14 days` to the primary Safe-to-spend decision number;
+- **D-02 / P1:** put simulated consequences directly in Freeze/Report action labels and boundary copy;
+- **D-03 / P1:** show transfer impact as a before − transfer − fee = after calculation and preserve protected buffer explicitly;
+- **D-04 / P2:** pair failure cause with `No money moved` reassurance.
+
+Every selected direction should show the evidence IDs that motivated it and mark the result `RETEST_REQUIRED` until post-change human evidence exists.
 
 ## 07 — Design System
 
@@ -109,19 +128,23 @@ State meaning must not rely on color alone.
 ## 08 — Final Screens
 
 Group by task, not by random screen count:
-- understand money state;
-- inspect/act on risk;
-- move money;
-- recover from failure;
+- understand money state — show horizon attached to Safe to spend;
+- inspect/act on risk — show demo-only Freeze and report-preview consequences before interaction;
+- move money — show impact calculation and protected-buffer treatment;
+- recover from failure — show failure cause + no-money-moved reassurance together;
 - returning-user/account controls.
 
 For each task include desktop and mobile representatives where behavior changes.
 
-## 09 — Prototype
+## 09 — Prototype / Retest
 
-Prototype the exact Round 01 tasks. Make the start point obvious and label the tested version/commit if possible.
+Prototype the same affected tasks on the exact post-iteration build.
 
 Must include:
+- Task 1: ask what period Safe to spend applies to without teaching the answer;
+- Task 2: before/after Freeze or Report Preview, ask what the participant believes has actually happened;
+- Task 3: ask the participant to predict the Safe-to-spend impact and explain the calculation;
+- Task 4: ask what failed, whether money moved and what action they would take next;
 - happy path;
 - alternative path;
 - failure + retry;
@@ -129,6 +152,8 @@ Must include:
 - confirmation/success;
 - keyboard/focus behavior for desktop-critical controls;
 - reduced-motion behavior where motion conveys state.
+
+Record the exact tested commit/build for every retest participant. Do not write `improved` until post-change evidence supports it.
 
 ## 10 — Handoff / Specs
 
@@ -149,7 +174,9 @@ Document:
 
 The Figma file is reviewer-ready only when a reviewer can answer:
 1. what problem is being solved;
-2. what was considered and rejected;
-3. how the system behaves outside the happy path;
-4. how the design maps to implementation;
-5. what is validated, planned, simulated, or unknown.
+2. what direct-user evidence exists and what method produced it;
+3. what was changed because of that evidence;
+4. what still requires retest;
+5. how the system behaves outside the happy path;
+6. how the design maps to implementation;
+7. what is validated, self-reported, simulated, planned, or unknown.
