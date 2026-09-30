@@ -1,0 +1,71 @@
+name: Bootstrap report boundary
+
+on:
+  push:
+    branches:
+      - fix/report-transaction-boundary
+
+permissions:
+  contents: write
+
+jobs:
+  patch-and-regenerate:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: fix/report-transaction-boundary
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: "22"
+
+      - name: Patch source owner and regenerate canonical runtime
+        run: |
+          node <<'NODE'
+          const fs = require('fs');
+          const path = 'assets/nova.js';
+          let source = fs.readFileSync(path, 'utf8');
+
+          function replaceOnce(from, to, label) {
+            if (!source.includes(from)) throw new Error(`Missing expected source for ${label}`);
+            source = source.replace(from, to);
+          }
+
+          replaceOnce(
+            "    'transaction-detail': renderTransactionDetail,\n",
+            "    'transaction-detail': renderTransactionDetail,\n    'report-transaction': renderReportTransaction,\n",
+            'screen registry'
+          );
+
+          replaceOnce(
+            "    if (['activity', 'transaction-detail'].includes(screen)) return 'activity';",
+            "    if (['activity', 'transaction-detail', 'report-transaction'].includes(screen)) return 'activity';",
+            'activity navigation ownership'
+          );
+
+          replaceOnce(
+            '<button class="btn btn-secondary" data-toast="Reporting is a prototype entry point. No bank case is created.">Report transaction</button></div></section>',
+            '<a class="btn btn-secondary" id="report-transaction" href="app.html?screen=report-transaction">Start report</a></div><p class="meta" data-report-boundary style="margin:10px 0 0">Report flow is simulated. No bank case is created in this portfolio prototype.</p></section>',
+            'transaction report action'
+          );
+
+          const insertionPoint = '  function renderCards(forceFrozen = false) {';
+          if (!source.includes(insertionPoint)) throw new Error('Missing renderCards insertion point');
+          const reportRenderer = `  function renderReportTransaction() {\n    const t = DATA.suspicious;\n    const state = new URLSearchParams(location.search).get('state') || 'review';\n    if (state === 'handoff') {\n      const main = \`<main id="main" class="main-wrap task-shell" tabindex="-1">\${pageHeader('Report handoff preview', 'This prototype stops before any bank case is created.', 'app.html?screen=transaction-detail')}<section class="task-panel"><p class="eyebrow">Simulated support handoff</p><h2>No bank case created</h2><div class="callout callout-warning"><strong>Nothing was submitted</strong><p>Nova is not connected to a bank dispute system. This state only previews what a production handoff would need to communicate after a user chooses to report a transaction.</p></div><div class="review-list" style="margin-top:18px"><div class="review-row"><span>Transaction</span><strong>\${t.merchant}</strong></div><div class="review-row"><span>Amount</span><strong>\${euro(-t.amount, true)}</strong></div><div class="review-row"><span>Card protection</span><strong>Not changed by this preview</strong></div><div class="review-row"><span>Bank case</span><strong>Not created</strong></div><div class="review-row"><span>Refund / provisional credit</span><strong>Not requested or promised</strong></div></div><section class="section" style="margin-top:18px"><div class="section-head"><h2>What a real bank flow would do next</h2></div><ul class="dialog-list"><li>Confirm the transaction and reason for reporting.</li><li>Check whether the card should remain active or be frozen.</li><li>Collect any bank-specific dispute details and consent.</li><li>Create a case/reference only after a real submission succeeds.</li><li>Explain review timing and any refund rules without promising an outcome.</li></ul></section><div class="action-stack"><a class="btn btn-primary" href="app.html?screen=transaction-detail">Return to transaction</a><a class="btn btn-secondary" href="app.html?screen=cards">Review card protection</a></div></section></main>\`;\n      return shell(main);\n    }\n    const main = \`<main id="main" class="main-wrap task-shell" tabindex="-1">\${pageHeader('Report this transaction', 'Review the transaction and prototype boundary before continuing.', 'app.html?screen=transaction-detail')}<section class="task-panel"><p class="eyebrow">Report preview</p><h2>Report \${t.merchant}?</h2><div class="callout callout-warning"><strong>Nothing has been reported</strong><p>This portfolio prototype can preview the reporting decision, but it cannot contact a bank, create a dispute, or request a refund.</p></div><div class="review-list" style="margin-top:18px"><div class="review-row"><span>Merchant</span><strong>\${t.merchant}</strong></div><div class="review-row"><span>Amount</span><strong>\${euro(-t.amount, true)}</strong></div><div class="review-row"><span>Card</span><strong>\${t.card}</strong></div><div class="review-row"><span>Location</span><strong>\${t.location}</strong></div><div class="review-row"><span>Reference</span><strong class="mono">\${t.id}</strong></div></div><section class="section" style="margin-top:18px"><div class="section-head"><h2>Before a real report is submitted</h2></div><p class="meta" style="max-width:62ch">A production bank flow would verify the report reason, card-protection choice and any required dispute details before creating a case. Nova stops before that submission boundary.</p></section><div class="action-stack"><a class="btn btn-primary" href="app.html?screen=report-transaction&state=handoff">Preview report handoff</a><a class="btn btn-secondary" href="app.html?screen=transaction-detail">Cancel and go back</a></div></section></main>\`;\n    return shell(main);\n  }\n\n`;
+          source = source.replace(insertionPoint, reportRenderer + insertionPoint);
+          fs.writeFileSync(path, source);
+          NODE
+
+          node scripts/p2-1b-consolidate-runtime.mjs
+          git diff --check
+
+      - name: Commit generated iteration
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add assets/nova.js assets/nova-current-renderer.js docs/uiux/runtime-manifest.p2-1b.json app.html assets/nova-current.css
+          git commit -m "fix: clarify report transaction prototype boundary" || exit 0
+          git push origin HEAD:fix/report-transaction-boundary
