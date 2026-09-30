@@ -5,12 +5,14 @@
 **Verified sessions:** `0`  
 **Baseline commit:** `487c0d768c9c1aa58c45d10f57cab6c6a126b90c`  
 **Baseline branch:** `main`  
-**Primary prototype:** https://ngh1aa.github.io/Nova/app.html?screen=home  
-**Alternate prototype:** https://nova-gamma-eosin.vercel.app/
+**Primary prototype:** https://ngh1aa.github.io/Nova/app.html?screen=home&lab=1  
+**Alternate prototype:** https://nova-gamma-eosin.vercel.app/?lab=1
 
 ## Why this build is pinned
 
 Round 01 needs one traceable product version so observations from P01–P05 are comparable. The baseline above is the first `main` build after P2.1B foundation-runtime consolidation was merged and re-verified.
+
+The `lab=1` query parameter is part of the research environment contract: it hides the recruiter-only State Lab launcher so participant behavior is not contaminated by reviewer tooling that is not part of the Nova product.
 
 Do not silently switch participants to a newer implementation. If a blocking defect requires a build change during the round, record the new commit in the affected session artifact and describe the change in `DECISION-LOG.md` before comparing results.
 
