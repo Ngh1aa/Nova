@@ -28,7 +28,7 @@ Status model: `DONE_VERIFIED | N/A_JUSTIFIED | NEXT_PLANNED | BLOCKED`
 | R20 | Evidence-informed Round 02 follow-up implementation | Research/Product | DONE_VERIFIED | D-01 through D-04 implementation complete; human retest remains open |
 | R21 | Consolidate canonical runtime ownership | P2.1 | DONE_VERIFIED | `RUNTIME-ARCHITECTURE-2026-09-30.md` |
 | R22 | Remove source-level Nova/Ledger identity drift | P2.2 | DONE_VERIFIED | `IDENTITY-SOURCE-2026-10-01.md`, identity regression gate |
-| R23 | Refresh stale current-status/phase language | P2.3 | DONE_VERIFIED* | implementation complete on P2.3 branch; `*` promotion remains contingent on PR/main QA before merge |
+| R23 | Refresh stale current-status/phase language | P2.3 | DONE_VERIFIED | PR #70 head passed Nova Visual QA #314 / Actions `36826923527`, including pinned Factory Flow OS and `qa/status-ledger.spec.mjs` |
 | R24 | Explicit rejected alternatives / trade-off evidence for recruiter review | P2.4 | NEXT_PLANNED | preserve balance-vs-horizon, speed-vs-safety, protection-vs-recovery and confidence-vs-certainty decisions |
 
 ## Current open work
