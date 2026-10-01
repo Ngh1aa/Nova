@@ -1,308 +1,254 @@
 # Nova P2.4 — Design Decisions, Rejected Alternatives & Trade-offs
 
-Status: `IMPLEMENTED / RECRUITER_VISIBLE / QA_PENDING`
+Status: `DONE_VERIFIED`
 
-> This is a portfolio-facing decision record, not a claim that every decision has been validated with moderated users or production data. Current research and impact boundaries remain governed by `docs/uiux/Phase-State.md`.
+> Internal deep-evidence record. The recruiter-facing page intentionally exposes only three stories; this file keeps seven consequential decisions for interview depth and provenance.
 
-## Why this artifact exists
+## Public vs internal contract
 
-Nova already exposes polished UI, product states, research records and QA evidence. P2.4 makes the **reasoning between those artifacts explicit** so a reviewer can see what was chosen, what was deliberately rejected, what each choice costs, and which claims remain open.
+**Public recruiter cut (`design-decisions.html`)**
 
-A decision only appears here when it is traceable to the current product contract, implementation, research evidence or verified QA history. This file does not invent business outcomes, preference claims or retrospective certainty.
+1. Protected money / Safe-to-spend mental model.
+2. Freeze vs Report consequence boundary.
+3. Failure recovery — `NO MONEY MOVED` before retry speed.
+
+Each public story uses: **Problem / constraint → Decision → Rejected alternative → Trade-off → Evidence → Remaining uncertainty**.
+
+**Internal record**
+
+Seven decisions remain traceable here. This record is not a claim that every decision was proven with moderated users or production data.
 
 ## Recruiter scan
 
-| ID | Decision | Chosen direction | Rejected alternative | Core trade-off | Current evidence state |
+| ID | Decision | Chosen direction | Rejected alternative | Core trade-off | Evidence state |
 |---|---|---|---|---|---|
-| P24-D01 | Money model | Safe-to-spend + 14-day Money Horizon leads; raw balance is supporting context | Raw-balance hero, interchangeable KPI dashboard, unexplained health score | More explanation in exchange for a more decision-useful model | Implemented; 14-day clarity iteration QA-verified, not human-retested |
-| P24-D02 | Transfer guardrail | Allow transfers above Safe to spend only with explicit plan-shortfall consequence + acknowledgement; block above total balance | Hard-block everything above Safe to spend, or silently allow it | User autonomy vs. protective friction | Product-integrity behavior verified in regression QA |
-| P24-D03 | Protected buffer | Keep the buffer reserved by default and state the rule at the transfer decision point | Automatically consume the buffer or hide the rule inside a formula | Conservative planning vs. maximum immediately spendable amount | Round 02-informed iteration implemented; not human-retested |
-| P24-D04 | Sensitive actions | Separate Freeze and Report with distinct consequences and `DEMO ONLY · NO BANK CONTACT` truth boundary | One combined protection action or bank-contact implication | More UI/copy vs. lower consequence ambiguity | Round 02-informed iteration implemented; not human-retested |
-| P24-D05 | Failure recovery | Lead with `NO MONEY MOVED`, concrete cause and unchanged balance; keep retry/passcode secondary | Generic error + primary retry, silent resend, or completion ambiguity | Slightly slower recovery vs. stronger money-movement certainty | Round 02-informed iteration implemented; not human-retested |
-| P24-D06 | Prototype scope | Saved recipients only; preserve selected identity end-to-end | Fake/nonfunctional Add recipient or silently default every transfer to Maya | Narrower scope vs. higher prototype credibility | Recipient continuity and scope boundary regression-verified |
-| P24-D07 | Visual direction | iOS 26 Financial Workspace: content-first, calm, precise, responsive, restrained glass chrome | Warm ledger/editorial theme, generic SaaS sidebar/dashboard-card grid | Less decorative distinctiveness vs. modern platform familiarity and spacious responsiveness | Active visual contract + rendered QA baseline |
+| P24-D01 | Money model | Safe to spend + 14-day Money Horizon leads | Raw-balance hero; generic KPI dashboard; unexplained health score | More explanation for a more decision-useful model | Implemented; latest clarity pass not human-retested |
+| P24-D02 | Transfer guardrail | Friction above Safe to spend; hard block only above total balance | Block all over-plan transfers; silently allow them | Agency vs protective friction | Prototype/technical regression evidence |
+| P24-D03 | Protected buffer | Buffer stays reserved unless the rule is deliberately changed | Auto-consume it; hide rule in arithmetic | Conservative planning vs maximum spendability | Round-02-informed; not human-retested |
+| P24-D04 | Sensitive actions | Freeze and Report remain distinct with explicit demo truth boundary | Combined action; implied bank contact; footer-only disclaimer | More UI/copy vs lower consequence ambiguity | Round-02-informed; not human-retested |
+| P24-D05 | Failure recovery | `NO MONEY MOVED` + cause + unchanged balance before retry | Generic error; silent resend; ambiguous completion | Slightly slower recovery vs stronger certainty | Round-02-informed; not human-retested |
+| P24-D06 | Prototype scope | Saved recipients only; preserve identity end-to-end | Fake Add recipient; default every transfer to Maya; invented metadata | Narrower scope vs higher credibility | Prototype/technical regression evidence |
+| P24-D07 | Art direction | iOS 26 Financial Workspace | Warm ledger; generic SaaS; narrow phone-like desktop; nested glass | Less decorative novelty vs platform familiarity and responsive credibility | Active visual contract + rendered QA |
 
 ---
 
 ## P24-D01 — Lead with Safe to spend, not raw balance
 
-### Product question
+**Product question**  
+Should Home answer “How much money exists?” or “How much is actually safe after near-term commitments?”
 
-What should Nova answer first when the user opens the app: **“How much money do I have?”** or **“How much is actually safe to spend after near-term commitments?”**
+**Chosen direction**  
+Safe to spend leads. Money Horizon explains the next 14 days, commitments, planned savings and protected reserve. Raw balance remains supporting context.
 
-### Chosen direction
+**Rejected alternatives**
 
-- Safe to spend is the primary home decision.
-- Money Horizon makes the next 14 days, known commitments, planned savings and protected buffer visible around that number.
-- Raw account balance remains available as supporting context rather than the product thesis.
+- Raw balance as the hero.
+- Interchangeable KPI dashboard.
+- Unexplained financial-health score.
 
-### Rejected alternatives
+**Trade-off accepted**  
+The model needs more explanation and visible horizon language in exchange for being more useful to a spending decision.
 
-1. **Raw balance as the hero.** Rejected because balance alone does not account for money already allocated to bills, goals or reserve.
-2. **A 4-up KPI dashboard.** Rejected because it fragments the decision into interchangeable fintech cards and weakens the single product question.
-3. **An unexplained financial-health score.** Rejected because a score without transparent inputs creates false authority.
+**Evidence**
 
-### Trade-off accepted
+- `PROJECT-CONTEXT.md`
+- `docs/uiux/Nova-iOS26-Design-Contract-2026.md`
+- `research/validation/nova-round-02/DECISION-LOG.md`
+- `docs/uiux/NOVA-PHASE3-CLARITY-ITERATION.md`
 
-Safe-to-spend is more useful only if the horizon and calculation remain understandable. The product therefore accepts extra explanatory work: visible horizon language, commitment context and explicit estimate boundaries.
-
-### Evidence
-
-- `PROJECT-CONTEXT.md` — current product thesis and five core user problems.
-- `docs/uiux/Nova-iOS26-Design-Contract-2026.md` — Safe-to-spend hero + 14-day Money Horizon as current signature.
-- `research/validation/nova-round-02/DECISION-LOG.md` — D-01 remained unresolved after Round 02; the exact `next 14 days` language was promoted.
-- `docs/uiux/NOVA-PHASE3-CLARITY-ITERATION.md` — the latest 14-day language is implemented and QA-verified, not human-retested.
-
-### What remains open
-
-Do not claim that the 14-day model is now understood better by users without a compatible human retest.
+**What remains open**  
+The latest 14-day clarity pass is implemented and QA-verified, but post-Round-02 comprehension has not been human-retested.
 
 ---
 
-## P24-D02 — Guardrail above Safe to spend; hard block only above total balance
+## P24-D02 — Agency with friction above Safe to spend
 
-### Product question
+**Product question**  
+Should a planning amount behave like a legal account-balance hard limit?
 
-Should Nova prevent a user from sending money simply because the transfer exceeds the planning amount, even when the account balance can cover it?
+**Chosen direction**  
+Amounts above total balance are blocked. Amounts above Safe to spend remain possible only after the plan shortfall is shown and explicitly acknowledged.
 
-### Chosen direction
+**Rejected alternatives**
 
-- Amounts above total balance are invalid and blocked.
-- Amounts above Safe to spend remain possible in the prototype.
-- Before confirmation, Nova exposes the plan shortfall and requires explicit acknowledgement that the transfer uses money allocated to the plan.
-- Review and recovery preserve the same consequence state.
+- Hard-block every amount above Safe to spend.
+- Allow the transfer with no consequence disclosure.
 
-### Rejected alternatives
+**Trade-off accepted**  
+One extra decision step preserves user agency without making the planning model decorative.
 
-1. **Hard-block every transfer above Safe to spend.** Rejected because Safe to spend is a planning model, not the user's legal account balance.
-2. **Allow the transfer with no additional consequence.** Rejected because it would turn the planning model into decorative UI exactly when it matters.
+**Evidence**
 
-### Trade-off accepted
+- `docs/uiux/PRODUCT-DESIGN-AUDIT-2026-09-29.md`
+- `qa/product-integrity.spec.mjs`
+- `qa/transfer-impact.spec.mjs`
 
-Nova chooses **agency with friction** over either paternalistic blocking or consequence-free speed. That adds one decision step, but keeps the difference between liquidity and planned affordability visible.
-
-### Evidence
-
-- `docs/uiux/PRODUCT-DESIGN-AUDIT-2026-09-29.md` — P0.1 transfer integrity and plan-shortfall behavior.
-- `qa/product-integrity.spec.mjs` and `qa/transfer-impact.spec.mjs` — protected transfer rules and live consequence regression.
-
-### What remains open
-
-This is prototype policy logic. It is not a validated real-bank risk policy and has no production loss/fraud evidence.
+**What remains open**  
+This is prototype policy logic, not a validated banking-risk policy.
 
 ---
 
-## P24-D03 — Keep Protected buffer reserved by default
+## P24-D03 — Keep the Protected buffer reserved
 
-### Product question
+**Product question**  
+Should a protected reserve silently become ordinary spendable money when a transfer exceeds the plan?
 
-When a transfer pushes planned spending, should Nova quietly treat the protected reserve as available money?
+**Chosen direction**  
+At the transfer decision point Nova states: `Protected buffer stays reserved — this transfer does not use it.`
 
-### Chosen direction
+**Rejected alternatives**
 
-At amount and review decision surfaces Nova states:
+- Automatically consume the buffer.
+- Leave the rule implicit inside arithmetic.
 
-> `Protected buffer stays reserved — this transfer does not use it.`
+**Trade-off accepted**  
+The model is more conservative, but “protected” keeps one stable meaning.
 
-The buffer remains a deliberate reserve unless the product explicitly introduces a separate rule for changing it.
+**Evidence**  
+Round 02 D-03: 5/5 participants reached the transfer arithmetic, while only 1/5 correctly described buffer behavior. The clarity repair is implemented and technically verified.
 
-### Rejected alternatives
-
-1. **Automatically consume the buffer.** Rejected because it would make a supposedly protected amount behave like ordinary spendable balance.
-2. **Leave the rule implicit inside arithmetic.** Rejected because Round 02 participants could reach the correct remaining Safe-to-spend amount while still misunderstanding the buffer behavior.
-
-### Trade-off accepted
-
-The model may feel conservative because it does not maximize immediately spendable money. In exchange, the meaning of “protected” stays stable across planning and transfers.
-
-### Evidence
-
-- `research/validation/nova-round-02/DECISION-LOG.md` — D-03: 5/5 landed around the transfer arithmetic, but only 1/5 correctly understood the buffer rule.
-- `docs/uiux/NOVA-PHASE3-CLARITY-ITERATION.md` — decision-point buffer copy implemented and QA-verified.
-
-### What remains open
-
-The post-Round-02 change is `ITERATED / NOT HUMAN-RETESTED`; comprehension improvement is unknown.
+**What remains open**  
+The post-Round-02 change is `ITERATED / NOT HUMAN-RETESTED`; improved comprehension is unknown.
 
 ---
 
-## P24-D04 — Split Freeze and Report; make simulation truth impossible to miss
+## P24-D04 — Split Freeze and Report
 
-### Product question
+**Product question**  
+Should a high-consequence suspicious-payment surface optimize for fewer controls or clearer consequences?
 
-Should a suspicious-payment surface optimize for the fewest taps, or for clear distinction between two high-consequence actions?
+**Chosen direction**  
+Freeze and Report are separate. Their consequences are separate. `DEMO ONLY · NO BANK CONTACT` sits beside the sensitive decision/result instead of only in a global disclaimer.
 
-### Chosen direction
+**Rejected alternatives**
 
-- Freeze and Report are separate actions with separate consequence copy.
-- Primary decision/result surfaces carry `DEMO ONLY · NO BANK CONTACT`.
-- Report preview/handoff remains distinct from card freeze state.
+- Combined “Freeze / Report” action.
+- UI that implies a real bank submission.
+- Footer-only simulation disclaimer.
 
-### Rejected alternatives
+**Trade-off accepted**  
+More UI and copy in exchange for less ambiguity at a high-risk moment.
 
-1. **One combined “Freeze / Report” action.** Rejected because the actions have different consequences and recovery paths.
-2. **UI that implies a real bank report was submitted.** Rejected because Nova has no connected banking service.
-3. **Only a footer-level prototype disclaimer.** Rejected because the truth boundary must appear where the sensitive action is decided.
+**Evidence**  
+Round 02 D-02 remained mixed; 3/5 responses still indicated real-bank consequence, uncertainty or action conflation. The follow-up truth boundary is regression-protected.
 
-### Trade-off accepted
-
-The surface is denser and asks the user to read more before acting. Nova accepts that cost because consequence clarity matters more than action compression in a high-risk moment.
-
-### Evidence
-
-- `research/validation/nova-round-02/DECISION-LOG.md` — D-02 remained mixed; 3/5 still reported a real-bank consequence, uncertainty or action conflation.
-- commit `b5f0c8b5375857eb6b2ecc283336d82cb14f514a` — sensitive-action truth-boundary iteration.
-- `qa/report-boundary.spec.mjs` — distinct action/result boundaries regression-protected.
-
-### What remains open
-
-The latest D-02 surface has not been human-retested. Do not claim improved comprehension.
+**What remains open**  
+The latest surface has not been human-retested.
 
 ---
 
 ## P24-D05 — Recovery certainty before retry speed
 
-### Product question
+**Product question**  
+After biometric, network or revalidation failure, what must be answered before another action is offered?
 
-After biometric, network or revalidation failure, what must the interface make unambiguous before asking the user to try again?
+**Chosen direction**
 
-### Chosen direction
+- `NO MONEY MOVED` is dominant.
+- Concrete failure cause stays adjacent.
+- Balance is described as unchanged.
+- Retry/passcode/reconnect remain secondary.
+- Reconnect never silently sends.
 
-- `NO MONEY MOVED` is the dominant recovery status.
-- The concrete failure cause sits beside it.
-- The current balance is described as unchanged.
-- Retry/passcode/reconnect actions remain available but secondary.
-- Offline recovery never silently auto-sends when connection returns.
+**Rejected alternatives**
 
-### Rejected alternatives
+- Generic error + primary Retry.
+- Silent resend after reconnect.
+- Ambiguous completion state.
 
-1. **Generic error + Retry as the first message.** Rejected because it leaves money-movement status uncertain.
-2. **Silent resend / automatic completion after reconnect.** Rejected because a high-consequence action should not occur without renewed user confirmation.
-3. **Treating recovery as an implementation detail.** Rejected because the user's primary question is whether money moved, not why a request failed technically.
+**Trade-off accepted**  
+Recovery takes another moment, but transaction-state certainty comes first.
 
-### Trade-off accepted
+**Evidence**  
+Round 02 D-04 produced a negative cross-sectional self-report signal. That signal changed the hierarchy; it is not treated as causal proof.
 
-The path may take one more moment before resuming the task. Nova accepts that delay to protect state certainty and avoid duplicate-send assumptions.
-
-### Evidence
-
-- `research/validation/nova-round-02/DECISION-LOG.md` — D-04 produced a negative cross-sectional self-report signal; certainty became a priority.
-- `docs/uiux/NOVA-PHASE3-CLARITY-ITERATION.md` — `NO MONEY MOVED`, cause and unchanged-balance hierarchy implemented.
-- `docs/uiux/PRODUCT-DESIGN-AUDIT-2026-09-29.md` — recovery truth and no-auto-send product integrity.
-
-### What remains open
-
-Round 02 and Round 01 used different participant sets. The signal is not proof that the old design caused a regression, and the latest repair is not human-retested.
+**What remains open**  
+The revised hierarchy is implemented and QA-verified but not human-retested.
 
 ---
 
-## P24-D06 — Narrow prototype scope instead of fake recipient completeness
+## P24-D06 — Smaller credible scope beats fake completeness
 
-### Product question
+**Product question**  
+Should the prototype advertise recipient creation simply to look feature-complete?
 
-Should the prototype pretend to support creating recipients just to look feature-complete?
+**Chosen direction**  
+Saved recipients only; search what actually exists; preserve selected identity through Amount → Review → recovery → Receipt.
 
-### Chosen direction
+**Rejected alternatives**
 
-- The Pay surface is explicitly `Saved recipients only`.
-- Search filters the saved recipients that really exist in the rendered product.
-- Selecting a person preserves that identity through Amount → Review → recovery → Receipt.
+- Nonfunctional Add recipient affordance.
+- Silently default every transfer to Maya.
+- Invent missing bank metadata.
 
-### Rejected alternatives
+**Trade-off accepted**  
+Less feature breadth in exchange for a prototype whose visible capabilities are internally honest.
 
-1. **A nonfunctional “Add new recipient” affordance.** Rejected because it advertises a capability the prototype does not own.
-2. **Silently assuming Maya for every transfer.** Rejected because it breaks the relationship between user choice and later transaction evidence.
-3. **Inventing missing bank metadata.** Rejected because source data exists for some recipients but not all.
+**Evidence**
 
-### Trade-off accepted
+- `docs/uiux/PRODUCT-DESIGN-AUDIT-2026-09-29.md`
+- `qa/recipient-continuity.spec.mjs`
 
-The demo exposes a smaller feature boundary, but the interactions inside that boundary are credible and internally consistent.
-
-### Evidence
-
-- `docs/uiux/PRODUCT-DESIGN-AUDIT-2026-09-29.md` — P1.7 recipient-source correction and continuity evidence.
-- `qa/recipient-continuity.spec.mjs` — deliberately selects Daniel Lee and verifies identity continuity through the transfer flow.
-
-### What remains open
-
-Adding recipients remains out of scope until a complete flow, data contract and recovery behavior can be implemented rather than mocked.
+**What remains open**  
+Recipient creation stays out of scope until its data, recovery and end-to-end behavior can be implemented rather than mocked.
 
 ---
 
-## P24-D07 — Reset the art direction instead of patching the old theme
+## P24-D07 — Reset the visual contract instead of polishing the old theme
 
-### Product question
+**Product question**  
+When the warm ledger direction felt dated and too narrow on desktop, should Nova keep patching the theme or reset the art direction?
 
-When the warm ledger/editorial direction made Nova feel visually dated and narrow on desktop, should the project keep polishing that theme or reset the visual contract?
+**Chosen direction**  
+iOS 26 Financial Workspace: content-first, cool neutral, system typography, restrained glass chrome and responsive desktop composition.
 
-### Chosen direction
+**Rejected alternatives**
 
-Nova moved to an **iOS 26 Financial Workspace** direction:
+- Beige/paper-first ledger theme.
+- Serif money UI.
+- Generic SaaS sidebar/card grid.
+- Narrow phone-like desktop column.
+- Nested glass surfaces.
 
-- native / calm / precise / fluid / premium;
-- cool neutral canvas and white content surfaces;
-- system typography and tabular numerals;
-- content-first financial surfaces;
-- Liquid Glass limited to functional chrome;
-- responsive desktop composition instead of a stretched phone column.
+**Trade-off accepted**  
+Less editorial novelty in exchange for platform familiarity, clearer financial hierarchy and more credible responsiveness.
 
-### Rejected alternatives
+**Evidence**
 
-- beige/paper-first banking theme;
-- faux ledger rules and serif money typography;
-- generic SaaS sidebar;
-- narrow ~760px desktop content column;
-- nested glass everywhere;
-- interchangeable card-grid dashboard.
+- `docs/uiux/Nova-iOS26-Design-Contract-2026.md`
+- `PROJECT-CONTEXT.md`
+- rendered/browser QA in `.github/workflows/nova-cloud-qa.yml`
 
-### Trade-off accepted
-
-The redesign gives up some editorial novelty in exchange for stronger platform familiarity, clearer financial hierarchy and more credible responsive behavior. Distinctiveness now comes from the product model and Money Horizon, not theme decoration.
-
-### Evidence
-
-- `docs/uiux/Nova-iOS26-Design-Contract-2026.md` — active art-direction source of truth and rejected visual patterns.
-- `PROJECT-CONTEXT.md` — active visual signature and responsive contract.
-- current rendered QA routes in `.github/workflows/nova-cloud-qa.yml`.
-
-### What remains open
-
-Rendered QA supports visual integrity and responsiveness; it does not prove user preference for this direction.
+**What remains open**  
+Rendered QA proves visual integrity and responsiveness, not user preference.
 
 ---
-
-## What these decisions demonstrate
-
-The portfolio claim is intentionally narrower than “I made the right design.” The supported claim is:
-
-> Nova documents consequential product/design choices as explicit hypotheses and constraints. Each decision records the alternative that was rejected, the cost that was accepted, the evidence used, and the uncertainty that remains.
-
-That is the P2.4 evidence standard.
 
 ## Claim boundary
 
-Allowed:
+Supported:
 
-- these decisions are traceable to current product contracts, implementation history, QA and retained research evidence;
-- Round 02 changed the priority of D-01 through D-04;
-- the latest post-Round-02 changes are implemented and QA-verified;
-- the prototype intentionally chooses scope honesty over fake capability.
+- all seven decisions are traceable to product contracts, implementation, QA or retained research evidence;
+- the public page intentionally exposes only three decision stories;
+- Round 02 changed priorities for D-01 through D-04;
+- latest post-Round-02 changes are implemented and technically verified.
 
 Not allowed without new compatible evidence:
 
-- that all decisions are objectively optimal;
-- that post-Round-02 comprehension improved;
-- moderated usability success;
-- user preference for the current visual direction;
-- production banking safety, fraud reduction, conversion, retention or business impact.
+- every decision is objectively optimal;
+- post-Round-02 comprehension improved;
+- moderated task-success or time-on-task improvement;
+- user preference for the visual reset;
+- production conversion, retention, fraud reduction or banking impact.
 
-## P2.4 acceptance checklist
+## P2.4 verification
 
-- [x] At least five consequential decisions are explicit.
-- [x] Every decision names one or more rejected alternatives.
-- [x] Every decision states the cost/trade-off accepted.
-- [x] Evidence provenance is linked to existing repository artifacts.
-- [x] Human-research and production/business-impact boundaries remain explicit.
-- [x] Recruiter-facing web surface is planned as `design-decisions.html`.
-- [ ] `design-decisions.html` is rendered and regression-verified.
-- [ ] Canonical ledgers promote P2.4 to `DONE_VERIFIED` after branch QA succeeds.
+- Public surface: 3 recruiter stories; internal record: 7 decisions.
+- Public evidence labels stay within the lean four-label vocabulary; Nova currently uses only labels it can support.
+- `design-decisions.html` is part of the normal Nova Visual QA route set.
+- Responsive section evidence is captured at 1440 / 768 / 390.
+- Mobile evidence navigation remains one row after the six-link responsive repair.
+- PR-head Nova Visual QA: Actions run `36840448193` — `SUCCESS`.
+- Pinned UIUX Factory Flow OS, generated-runtime sync, browser/render/accessibility/product regressions: `SUCCESS` in the same gate.
+
+P2.4 is `DONE_VERIFIED`. New human observation remains a separate future evidence task and is not implied by this completion state.
