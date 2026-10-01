@@ -3,9 +3,7 @@
 
   const screen = new URLSearchParams(location.search).get('screen') || 'home';
   const replacements = [
-    [/\bLedger\b/g, 'Nova'],
-    [/ \u00b7 /g, ' – '],
-    [/LDG_/g, 'NVA_']
+    [/ \u00b7 /g, ' – ']
   ];
 
   function rewriteText(root = document.body) {
@@ -31,7 +29,7 @@
       }
     });
 
-    document.title = document.title.replace(/\bLedger\b/g, 'Nova').replace(/ \u00b7 /g, ' – ');
+    document.title = document.title.replace(/ \u00b7 /g, ' – ');
   }
 
   function refineScreenCopy() {
