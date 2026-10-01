@@ -3,8 +3,8 @@
   "product": "Nova",
   "planned_method": "moderated usability test",
   "executed_method": "unmoderated task-based prototype evaluation with participant self-report",
-  "status": "DIRECT_USER_RECORDS_VERIFIED / ITERATION_IN_PROGRESS",
-  "evidence_state": "DIRECT_USER_SELF_REPORT / RETEST_REQUIRED",
+  "status": "VERIFIED_DIRECT_USER_ROUND / SUPERSEDED_BY_ROUND_02",
+  "evidence_state": "DIRECT_USER_SELF_REPORT / FOLLOW_UP_RETEST_COMPLETE",
   "target_participants": 5,
   "real_participant_intakes": 5,
   "verified_direct_user_records": 5,
@@ -19,9 +19,10 @@
   "atomic_ledger": "research/validation/nova-round-01/evidence-ledger.jsonl",
   "findings": "research/validation/nova-round-01/FINDINGS.md",
   "decision_log": "research/validation/nova-round-01/DECISION-LOG.md",
-  "iteration_branch": "research/direct-user-round01-iteration",
-  "iteration_state": "P1/P2 evidence-driven iteration; post-change human retest not yet run",
-  "severity_summary": {
+  "follow_up_round": "research/validation/nova-round-02/status.json",
+  "follow_up_state": "Round 02 completed with five NEW verified async self-report retest records on 2026-09-30",
+  "iteration_state": "Round 01-informed iteration completed; Round 02 async retest completed; Round 02-informed D-01 through D-04 implementation completed and remains not human-retested",
+  "severity_summary_at_round_01": {
     "P0": 0,
     "P1": [
       "F-01 sensitive-action demo/real boundary",
@@ -65,28 +66,29 @@
     }
   },
   "limitations": [
-    "The five records are verified as complete consented self-report research records, not moderated sessions",
-    "Exact prototype build and currency context used by each participant were not captured",
-    "No moderator observation, task timing or assistance data exists for this executed round",
+    "The five Round 01 records are verified as complete consented self-report research records, not moderated sessions",
+    "Exact prototype build and currency context used by each Round 01 participant were not captured",
+    "No moderator observation, task timing or assistance data exists for Round 01",
     "Numeric Safe-to-spend answers are not scored against the current Euro prototype baseline",
-    "No post-iteration improvement claim is allowed until a new retest is completed"
+    "Round 02 used NEW participants, so cross-round changes are cross-sectional self-report signals rather than within-subject causal effects",
+    "The latest post-Round-02 D-01 through D-04 implementation has not been human-retested"
   ],
   "allowed_claims": [
-    "Five eligible real users completed an unmoderated task-based Nova prototype evaluation with consented self-report",
-    "Five direct-user self-report records passed the documented record-integrity verification contract",
-    "Direct-user patterns informed a P1/P2 design iteration",
-    "All five records raised a sensitive-action truth-boundary signal; this is a self-report pattern, not an observed task-failure rate",
-    "Four of five records reported partial or insufficient transfer-impact information; this is a self-report sufficiency count",
-    "Post-change retest is required before claiming improved usability"
+    "Five eligible real users completed an unmoderated task-based Nova prototype evaluation with consented self-report in Round 01",
+    "Five Round 01 direct-user self-report records passed the documented record-integrity verification contract",
+    "Round 01 direct-user patterns informed a P1/P2 design iteration",
+    "All five Round 01 records raised a sensitive-action truth-boundary signal; this is a self-report pattern, not an observed task-failure rate",
+    "Four of five Round 01 records reported partial or insufficient transfer-impact information; this is a self-report sufficiency count",
+    "A separate Round 02 async self-report retest was later completed with five NEW participants"
   ],
-  "forbidden_claims_until_retest": [
-    "Five moderated usability sessions were completed",
+  "forbidden_claims": [
+    "Five moderated usability sessions were completed in Round 01",
     "Observed task success improved",
     "Observed error rate improved",
-    "Nova has been validated as improved",
+    "The latest Nova iteration has been validated as improved",
     "Money Horizon improves financial confidence",
-    "The iteration improved comprehension or trust",
+    "Cross-round changes prove causality",
     "Any conversion, retention, adoption or business impact claim"
   ],
-  "next_valid_transition": "Complete QA on the evidence-driven iteration, merge the exact iteration build, then run a post-change retest with the build captured. Use the same affected task definitions for F-01 through F-04 and compare only evidence classes that are methodologically compatible."
+  "next_valid_transition": "Round 01 itself is closed as a verified self-report evidence round. Current research state continues in Round 02 and its decision log. If human validation resumes, retest the latest D-01 through D-04 implementation; prefer moderated observation if observed task-success or time-on-task evidence is required."
 }

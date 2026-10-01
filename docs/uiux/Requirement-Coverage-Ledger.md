@@ -1,32 +1,44 @@
 # NOVA — Requirement Coverage Ledger
 
-Status model: `DONE_VERIFIED | N/A_JUSTIFIED | PENDING_FUTURE_PHASE | BLOCKED`
+Status model: `DONE_VERIFIED | N/A_JUSTIFIED | NEXT_PLANNED | BLOCKED`
+
+> This is a **current coverage ledger**, not a historical phase snapshot. Dated evidence files may describe earlier states that were true when captured; `docs/uiux/Phase-State.md` is the canonical current-status source.
 
 | ID | Requirement | Owner phase | Status | Verification / evidence |
 |---|---|---|---|---|
-| R01 | Read UIUX Factory operating contract/source of truth | Phase 0/1 | DONE_VERIFIED | AGENTS/README/context/checklist/delivery/gating/QA docs inspected |
-| R02 | Benchmark at least 5 real products | Phase 1 | DONE_VERIFIED | 6 products, primarily official sources |
+| R01 | Read UIUX Factory operating contract/source of truth | Phase 0/1 | DONE_VERIFIED | `Ngh1aa/uiux-ai-workspace` AGENTS/Factory/skills contracts used throughout Nova work |
+| R02 | Benchmark at least 5 real products | Phase 1 | DONE_VERIFIED | Research synthesis contains benchmark/reference evidence |
 | R03 | Competitor matrix + pattern inventory + opportunity | Phase 1 | DONE_VERIFIED | `Research-Synthesis.md` |
-| R04 | Product thesis + users + JTBD + risks | Phase 1 | DONE_VERIFIED | `Design-Contract.md` |
-| R05 | IA and five flow classes | Phase 1 | DONE_VERIFIED | `IA-and-Flows.md`; admin N/A, security permission flow substituted appropriately |
-| R06 | 3 visual adjectives + visual signature | Phase 1 | DONE_VERIFIED | calm/clear/human + Money Horizon |
-| R07 | Responsive strategy 1440/1024/768/390 | Phase 1 | DONE_VERIFIED | Design Contract + QA plan |
-| R08 | Motion/accessibility contract | Phase 1 | DONE_VERIFIED | Design Contract |
-| R09 | Realistic prototype data | Phase 1 | DONE_VERIFIED | `Content-Data-Model.md`; clearly prototype/simulated |
-| R10 | Target repository + stack audit | Phase 0/2 | DONE_VERIFIED | `Ngh1aa/Nova`; greenfield repo with initial README/.gitattributes; static HTML/CSS/JS selected |
-| R11 | Create `feat/nova-portfolio-grade` branch | Phase 2 | DONE_VERIFIED | Branch created from `main` |
-| R12 | Implement required product screens | Phase 2 | DONE_VERIFIED | `app.html?screen=...` interactive state machine covers onboarding/KYC/home/activity/detail/cards/controls/transfer/savings/subscriptions/security/notifications/success/error |
-| R13 | Implement design-system/component-states/sitemap/user-flows/prototype pages | Phase 2 | DONE_VERIFIED | All five required evidence pages exist and local-link integrity check passes |
-| R14 | Cloud Playwright/axe/Lighthouse on target repo | Phase 3 | PENDING_FUTURE_PHASE | `QA-Plan.md` |
-| R15 | Rendered screenshot inspection + visual critique | Phase 3 | PENDING_FUTURE_PHASE | Requires implementation evidence |
-| R16 | Repair loop / re-QA | Phase 3 | PENDING_FUTURE_PHASE | Triggered by findings |
-| R17 | PR | Phase 3/4 | PENDING_FUTURE_PHASE | Target repo + passing gates required |
-| R18 | Merge/deploy | Phase 4 | PENDING_FUTURE_PHASE | Authorization + passing gates required |
+| R04 | Product thesis + users + JTBD + risks | Phase 1 | DONE_VERIFIED | `Design-Contract.md`, `PROJECT-CONTEXT.md` |
+| R05 | IA and five flow classes | Phase 1 | DONE_VERIFIED | `IA-and-Flows.md` |
+| R06 | Visual adjectives + visual signature | Phase 1 | DONE_VERIFIED | active iOS26 contract + Money Horizon signature |
+| R07 | Responsive strategy 1440/1024/768/390 | Phase 1 | DONE_VERIFIED | project context + rendered QA |
+| R08 | Motion/accessibility contract | Phase 1 | DONE_VERIFIED | design contract + browser evidence |
+| R09 | Realistic prototype data | Phase 1 | DONE_VERIFIED | simulated/prototype boundary retained |
+| R10 | Target repository + stack audit | Phase 0/2 | DONE_VERIFIED | `Ngh1aa/Nova`; static HTML/CSS/JS |
+| R11 | Implement product screens and critical flows | Phase 2 | DONE_VERIFIED | direct product routes + regression suite |
+| R12 | Implement design-system/component-states/sitemap/user-flows/prototype evidence | Phase 2 | DONE_VERIFIED | all evidence pages exist and are exercised in QA |
+| R13 | Native Empty / Loading / Error / Edge states | P1.1 | DONE_VERIFIED | `NATIVE-STATE-EVIDENCE-2026-09-30.md`, `qa/native-states.spec.mjs` |
+| R14 | Cloud Playwright / Axe / rendered target QA | Phase 3 / continuous | DONE_VERIFIED | `Nova Visual QA`; current workflow remains a merge gate |
+| R15 | Rendered screenshot inspection + visual critique | Phase 3 / continuous | DONE_VERIFIED | representative product/evidence routes captured and inspected after material UI changes |
+| R16 | Repair loop / re-QA | Phase 3 / continuous | DONE_VERIFIED | multiple P0/P1 fixes were repaired at owning layer and rerun to green |
+| R17 | PR workflow | Phase 3/4 | DONE_VERIFIED | feature-branch → QA → PR → merge is established operating path |
+| R18 | Merge/deploy | Phase 4 / continuous | DONE_VERIFIED | `main` has verified GitHub Pages and Vercel deployment paths; deployment does not imply production banking |
+| R19 | Direct-user evidence with explicit method boundaries | Research | DONE_VERIFIED | Round 01 = 5 verified unmoderated self-report records; Round 02 = 5 NEW verified async self-report retest records; both 0 moderated sessions |
+| R20 | Evidence-informed Round 02 follow-up implementation | Research/Product | DONE_VERIFIED | D-01 through D-04 implementation complete; human retest remains open |
+| R21 | Consolidate canonical runtime ownership | P2.1 | DONE_VERIFIED | `RUNTIME-ARCHITECTURE-2026-09-30.md` |
+| R22 | Remove source-level Nova/Ledger identity drift | P2.2 | DONE_VERIFIED | `IDENTITY-SOURCE-2026-10-01.md`, identity regression gate |
+| R23 | Refresh stale current-status/phase language | P2.3 | DONE_VERIFIED | PR #70 head passed Nova Visual QA #314 / Actions `36826923527`, including pinned Factory Flow OS and `qa/status-ledger.spec.mjs` |
+| R24 | Explicit rejected alternatives / trade-off evidence for recruiter review | P2.4 | NEXT_PLANNED | preserve balance-vs-horizon, speed-vs-safety, protection-vs-recovery and confidence-vs-certainty decisions |
 
-## Current blockers
+## Current open work
 
-- **Phase 2 source/implementation blockers:** 0
-- **Phase 2 unaccounted:** 0
-- **Representative rendered inspection:** still due after cloud CI creates evidence.
+- **Release blockers:** 0 known for the existing prototype scope.
+- **Human-validation closure:** open by choice; post-Round-02 D-01…D-04 changes are implemented but not human-retested.
+- **Moderated usability evidence:** 0 sessions; do not infer observed task success/time-on-task.
+- **Business/production impact:** not measured.
+- **Next portfolio-clarity task:** P2.4 design decisions / rejected alternatives.
 
-Do not promote R14–R18 until their owner phase evidence exists.
+## Promotion rule
+
+`DONE_VERIFIED` means the requirement has direct repository/runtime/evidence support appropriate to the claim. It does not upgrade self-report research into moderated observation, browser accessibility evidence into WCAG certification, or prototype deployment into production product evidence.

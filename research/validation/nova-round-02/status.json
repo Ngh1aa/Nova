@@ -1,12 +1,14 @@
 {
   "study_id": "nova-round-02",
   "purpose": "post-change human retest of Round 01 evidence-driven iteration",
-  "status": "VERIFIED_ASYNC_RETEST / SYNTHESIS_READY",
+  "status": "VERIFIED_ASYNC_RETEST / ITERATION_IMPLEMENTED_NOT_RETESTED",
+  "evidence_state": "DIRECT_USER_ASYNC_RETEST_SELF_REPORT / POST_ROUND02_ITERATION_OPEN",
   "target_participants_min": 3,
   "target_participants_max": 5,
   "responses_received": 5,
   "completed_records": 5,
   "verified_records": 5,
+  "moderated_sessions": 0,
   "preferred_method": "moderated usability retest",
   "executed_method": "asynchronous structured self-report retest",
   "participant_type": "all five NEW",
@@ -25,6 +27,7 @@
   },
   "participant_profile": "18–30, uses digital banking at least weekly, no real financial data required",
   "atomic_ledger": "research/validation/nova-round-02/evidence-ledger.jsonl",
+  "decision_log": "research/validation/nova-round-02/DECISION-LOG.md",
   "verified_round02_signals": {
     "safe_to_spend_displayed_amount_correct": "3/5",
     "fourteen_day_horizon_understood": "2/5",
@@ -42,17 +45,25 @@
     "overall_ease": 3.6,
     "overall_clarity": 3.0
   },
-  "finding_status": {
+  "round02_finding_status": {
     "F-01": "IMPROVED_SELF_REPORT_SIGNAL / UNRESOLVED",
     "F-02": "PARTIAL_IMPROVEMENT / UNRESOLVED",
     "F-03": "UNRESOLVED",
     "F-04": "REGRESSED_SELF_REPORT_SIGNAL"
   },
+  "post_round02_implementation_status": {
+    "D-01": "ITERATED / NOT HUMAN-RETESTED",
+    "D-02": "ITERATED / NOT HUMAN-RETESTED",
+    "D-03": "ITERATED / NOT HUMAN-RETESTED",
+    "D-04": "ITERATED / NOT HUMAN-RETESTED",
+    "moderated_round_03": "SKIPPED / 0 SESSIONS"
+  },
   "method_limits": [
     "Round 02 records are async self-report, not observed moderated sessions",
     "Round 01 and Round 02 used different participants, so cross-round changes are cross-sectional signals rather than within-subject causal effects",
     "Do not claim observed task-success or time-on-task improvement from these records",
-    "F-04 regression is a verified self-report signal, not proof that the UI change caused the regression"
+    "F-04 regression is a verified self-report signal, not proof that the UI change caused the regression",
+    "The post-Round-02 D-01 through D-04 implementation has not been tested with participants"
   ],
   "allowed_claims": [
     "Five NEW eligible participants completed a verified async Round 02 retest on 2026-09-30 using the frozen post-iteration URL",
@@ -60,14 +71,16 @@
     "F-01 shows a better self-report signal than Round 01 but remains unresolved",
     "F-02 transfer arithmetic is understood by all five Round 02 respondents while Protected-buffer behavior remains poorly understood",
     "F-03 remains unresolved with only two of five identifying the intended 14-day horizon",
-    "F-04 shows a cross-sectional regression signal in no-money-moved clarity: 2/5 in Round 02 versus 4/5 in Round 01"
+    "F-04 shows a cross-sectional regression signal in no-money-moved clarity: 2/5 in Round 02 versus 4/5 in Round 01",
+    "D-01 through D-04 received an evidence-informed implementation pass after Round 02 and remain not human-retested"
   ],
   "forbidden_claims": [
     "Five moderated usability sessions were completed",
     "Observed task success improved",
     "The iteration caused an improvement or regression",
+    "The post-Round-02 implementation is validated as improved",
     "Nova is validated as improved overall",
     "Any conversion, retention, adoption or business-impact claim"
   ],
-  "next_valid_transition": "Use the verified Round 02 findings to define the next product iteration: keep the transfer arithmetic, strengthen Protected-buffer explanation, make demo/no-bank-contact consequences primary in sensitive actions, reinforce the 14-day horizon, and repair no-money-moved recovery clarity. Then QA and retest the affected tasks again before closing findings."
+  "next_valid_transition": "If human research resumes, retest the latest D-01 through D-04 implementation on an explicitly frozen build. Prefer moderated observation if observed task-success, assistance, error or time-on-task evidence is required. If no new human round is run, keep the findings open and describe the latest changes only as evidence-informed iterations."
 }
