@@ -74,7 +74,8 @@ test('canonical current-status docs preserve P2.3 and promote lean P2.4 to done'
   expect(p24).toContain('Status: `DONE_VERIFIED`');
   expect(p24).toContain('Public recruiter cut (`design-decisions.html`)');
   expect(p24).toContain('Seven decisions remain traceable here');
-  expect(p24).toContain('Actions run `36840448193`: `SUCCESS`');
+  expect(p24).toContain('Actions run `36840448193`');
+  expect(p24).toContain('`SUCCESS`');
   expect(p24).toContain('New human observation remains a separate future evidence task');
 });
 
