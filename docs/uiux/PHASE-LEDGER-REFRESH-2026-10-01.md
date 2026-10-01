@@ -111,7 +111,7 @@ Instead:
 - P1: `DONE_VERIFIED`.
 - P2.1 runtime consolidation: `DONE_VERIFIED`.
 - P2.2 canonical Nova identity: `DONE_VERIFIED`.
-- P2.3 current-status refresh: `DONE_VERIFIED` on the PR head.
+- P2.3 current-status refresh: `DONE_VERIFIED` and release-confirmed on canonical `main`.
 - P2.4 design-decision / rejected-alternative evidence: next planned task.
 - Round 01: 5 verified direct-user self-report records / 0 moderated sessions.
 - Round 02: 5 NEW verified async retest records / 0 moderated sessions.
@@ -130,19 +130,26 @@ Verified PR-head state:
 - GitHub Actions run: `36826923527`;
 - conclusion: `SUCCESS`.
 
-The passing gate includes:
+Merged-main release confirmation:
+
+- merge commit: `710e2cb6857f790de42f217021143a3e4a71ec34`;
+- Nova Visual QA run: `#319` / Actions run `36827703104` — `SUCCESS`;
+- GitHub Pages build/deploy run `36827702047` — `SUCCESS`;
+- Vercel commit status — `SUCCESS`.
+
+The passing gates include:
 
 - deterministic generated-runtime sync;
 - pinned UIUX Factory Flow OS dogfood on `11003bf36909b08c3def617023dc8ecd9c3964fd`;
 - full rendered/browser/accessibility Nova QA;
 - existing product/research/architecture regressions;
-- new `qa/status-ledger.spec.mjs` current-status contradiction guard.
+- `qa/status-ledger.spec.mjs` current-status contradiction guard.
 
-The merged-main workflow/deployment run remains a release confirmation after merge and must be checked before the task is reported as fully landed on `main`.
+P2.3 is therefore fully landed and release-confirmed on canonical `main`.
 
 ## Acceptance criteria
 
-Branch implementation/verification criteria are satisfied:
+All criteria are satisfied:
 
 1. canonical current-status docs agree on P0/P1/P2.1/P2.2 completion;
 2. no canonical current-status doc describes Round 01 as still recruiting or Round 02 as merely awaiting iteration;
@@ -150,11 +157,8 @@ Branch implementation/verification criteria are satisfied:
 4. post-Round-02 D-01…D-04 is described as implemented but not human-retested;
 5. old Phase 2 pending QA/PR/deploy language is absent from canonical live ledgers;
 6. historical dated/raw evidence remains preserved rather than rewritten;
-7. UIUX Factory Flow OS and Nova regression/QA passed on the P2.3 PR head.
-
-Release confirmation criterion:
-
-8. after merge, `main` must rerun the same QA and deployment gates successfully before the final completion report says P2.3 is landed and released on canonical `main`.
+7. UIUX Factory Flow OS and Nova regression/QA passed on the P2.3 PR head;
+8. merged `main` reran the same QA/deployment gates successfully.
 
 ## Claim boundary
 
