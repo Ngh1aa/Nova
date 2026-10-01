@@ -16,10 +16,14 @@ test('P2.3 canonical current-status docs do not regress to superseded phase lang
   const clarity = read('docs/uiux/NOVA-PHASE3-CLARITY-ITERATION.md');
   const handoff = read('docs/FIGMA-HANDOFF-SPEC.md');
   const index = read('docs/uiux/STATUS-INDEX.md');
+  const p23 = read('docs/uiux/PHASE-LEDGER-REFRESH-2026-10-01.md');
 
   expect(phase).toContain('current_workstream: P2.3_phase_ledger_refresh');
+  expect(phase).toContain('result: DONE_VERIFIED');
   expect(phase).toContain('p2_1_runtime_consolidation: DONE_VERIFIED');
   expect(phase).toContain('p2_2_identity_source: DONE_VERIFIED');
+  expect(phase).toContain('p2_3_phase_ledger_refresh: DONE_VERIFIED');
+  expect(phase).toContain('p2_4_decision_tradeoff_evidence: NEXT_PLANNED');
   expect(phase).toContain('verified_direct_user_records_round_01: 5');
   expect(phase).toContain('verified_async_retest_records_round_02: 5');
   expect(phase).toContain('post_round_02_iteration_human_retested: false');
@@ -31,6 +35,7 @@ test('P2.3 canonical current-status docs do not regress to superseded phase lang
   expect(readme).not.toContain('RECRUITING / PLANNED — 0 verified sessions');
 
   expect(coverage).not.toContain('PENDING_FUTURE_PHASE');
+  expect(coverage).toContain('P2.3 | DONE_VERIFIED');
   expect(coverage).toContain('P2.4 | NEXT_PLANNED');
 
   expect(qa).not.toContain('Cloud checks remain due');
@@ -50,6 +55,9 @@ test('P2.3 canonical current-status docs do not regress to superseded phase lang
 
   expect(index).toContain('Canonical current status');
   expect(index).toContain('PRODUCT-DESIGN-AUDIT-2026-09-29.md');
+
+  expect(p23).toContain('P2.3 — DONE_VERIFIED');
+  expect(p23).toContain('Actions run: `36826923527`');
 });
 
 test('P2.3 machine-readable research rollups preserve method and latest iteration truth', async () => {
