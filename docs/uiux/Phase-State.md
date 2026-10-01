@@ -72,15 +72,16 @@ Canonical current-status documents and machine-readable research rollups now agr
 
 Verification evidence:
 
-- PR `#70 — Nova P2.3: refresh canonical phase and evidence ledgers`;
-- PR-head commit `a0697bd50c97c44db634ac2975a4810c3efaafff`;
-- Nova Visual QA run `#314` / Actions run `36826923527`: `SUCCESS`;
+- PR `#70 — Nova P2.3: refresh canonical phase and evidence ledgers` merged to `main`;
+- merge commit `710e2cb6857f790de42f217021143a3e4a71ec34`;
+- final PR-head Nova Visual QA run `#318` / Actions run `36827420994`: `SUCCESS`;
+- merged-main Nova Visual QA run `#319` / Actions run `36827703104`: `SUCCESS`;
+- merged-main GitHub Pages run `36827702047`: build + deploy `SUCCESS`;
+- Vercel status on merge commit: `SUCCESS`;
 - generated canonical-runtime sync: `SUCCESS`;
 - pinned UIUX Factory Flow OS dogfood: `SUCCESS`;
 - full rendered/browser/accessibility/product regression suite: `SUCCESS`;
 - `qa/status-ledger.spec.mjs`: `SUCCESS` as part of the full gate.
-
-Merged-main QA remains the release confirmation step after merge; it does not change the branch-verified P2.3 evidence state.
 
 ### P2.4 — design decisions / rejected alternatives
 
@@ -101,9 +102,9 @@ Allowed language is method-specific: verified direct-user/self-report records an
 
 ## QA / deployment state
 
-The canonical Nova Visual QA workflow runs the pinned UIUX Factory Flow OS plus generated-runtime drift checks, rendered/browser QA, accessibility checks and Nova regression suites. P2.3 passed that complete gate on PR #70. After merge, the same workflow and deployment surfaces must be checked again before reporting merged-main release confirmation.
+P2.3 is landed and release-verified on canonical `main`. The canonical Nova Visual QA workflow runs the pinned UIUX Factory Flow OS plus generated-runtime drift checks, rendered/browser QA, accessibility checks and Nova regression suites. GitHub Pages and Vercel both reported success for the P2.3 merge commit.
 
-GitHub Pages and Vercel are deployment surfaces for the prototype; they do not change the simulated-banking or research-method boundaries.
+These deployment surfaces prove prototype delivery only; they do not change the simulated-banking or research-method boundaries.
 
 ## Historical-document rule
 
