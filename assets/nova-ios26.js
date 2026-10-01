@@ -95,9 +95,6 @@
     document.querySelectorAll('.card-brand').forEach((node) => {
       node.textContent = 'Nova / DEBIT';
     });
-    document.querySelectorAll('[aria-label*="Ledger debit card"]').forEach((node) => {
-      node.setAttribute('aria-label', node.getAttribute('aria-label').replace(/Ledger/g, 'Nova'));
-    });
 
     const activityEyebrow = document.querySelector('.activity-header .eyebrow');
     if (activityEyebrow) activityEyebrow.textContent = 'Cash flow';
