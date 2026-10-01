@@ -6,7 +6,7 @@ const targetRoot = process.env.QA_TARGET_DIR || process.cwd();
 const read = (file) => fs.readFileSync(path.join(targetRoot, file), 'utf8');
 const json = (file) => JSON.parse(read(file));
 
-test('P2.3 canonical current-status docs do not regress to superseded phase language', async () => {
+test('canonical current-status docs preserve completed P2.3 and advance to P2.4 without stale phase language', async () => {
   const phase = read('docs/uiux/Phase-State.md');
   const readme = read('README.md');
   const coverage = read('docs/uiux/Requirement-Coverage-Ledger.md');
@@ -18,17 +18,20 @@ test('P2.3 canonical current-status docs do not regress to superseded phase lang
   const index = read('docs/uiux/STATUS-INDEX.md');
   const p23 = read('docs/uiux/PHASE-LEDGER-REFRESH-2026-10-01.md');
 
-  expect(phase).toContain('current_workstream: P2.3_phase_ledger_refresh');
+  expect(phase).toContain('current_workstream: P2.4_decision_tradeoff_evidence');
   expect(phase).toContain('result: DONE_VERIFIED');
   expect(phase).toContain('p2_1_runtime_consolidation: DONE_VERIFIED');
   expect(phase).toContain('p2_2_identity_source: DONE_VERIFIED');
   expect(phase).toContain('p2_3_phase_ledger_refresh: DONE_VERIFIED');
+  expect(phase).toContain('p2_3_main_release_confirmation: DONE_VERIFIED');
   expect(phase).toContain('p2_4_decision_tradeoff_evidence: NEXT_PLANNED');
+  expect(phase).toContain('next_workstream: P2.4_decision_tradeoff_evidence');
   expect(phase).toContain('verified_direct_user_records_round_01: 5');
   expect(phase).toContain('verified_async_retest_records_round_02: 5');
   expect(phase).toContain('post_round_02_iteration_human_retested: false');
   expect(phase).not.toContain('feature_branch: feat/nova-portfolio-grade');
   expect(phase).not.toMatch(/\nphase:\s*2\b/);
+  expect(phase).not.toContain('current_workstream: P2.3_phase_ledger_refresh');
 
   expect(readme).toContain('10 verified direct-user/self-report records across two rounds');
   expect(readme).toContain('implemented but not human-retested');
@@ -58,6 +61,9 @@ test('P2.3 canonical current-status docs do not regress to superseded phase lang
 
   expect(p23).toContain('P2.3 — DONE_VERIFIED');
   expect(p23).toContain('Actions run: `36826923527`');
+  expect(p23).toContain('merge commit: `710e2cb6857f790de42f217021143a3e4a71ec34`');
+  expect(p23).toContain('Nova Visual QA run: `#319` / Actions run `36827703104` — `SUCCESS`');
+  expect(p23).toContain('P2.3 is therefore fully landed and release-confirmed on canonical `main`.');
 });
 
 test('P2.3 machine-readable research rollups preserve method and latest iteration truth', async () => {
