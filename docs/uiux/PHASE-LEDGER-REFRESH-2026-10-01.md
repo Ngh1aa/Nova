@@ -2,7 +2,7 @@
 
 ## Status
 
-`P2.3 — IMPLEMENTED_AWAITING_VERIFICATION`
+`P2.3 — DONE_VERIFIED`
 
 ## Goal
 
@@ -61,7 +61,7 @@ Current Nova QA continues to dogfood the pinned Factory Flow OS successfully, so
 
 ### 7. Phase 3 clarity evidence still said rendered QA was pending
 
-The implementation has long since passed QA and continued to pass later full regression runs. The truthful remaining gap is **human retest**, not implementation QA.
+The implementation has passed QA and continued to pass later full regression runs. The truthful remaining gap is **human retest**, not implementation QA.
 
 ### 8. Reviewer/Figma handoff described the next iteration as future
 
@@ -111,7 +111,7 @@ Instead:
 - P1: `DONE_VERIFIED`.
 - P2.1 runtime consolidation: `DONE_VERIFIED`.
 - P2.2 canonical Nova identity: `DONE_VERIFIED`.
-- P2.3 current-status refresh: implemented, awaiting branch/main verification.
+- P2.3 current-status refresh: `DONE_VERIFIED` on the PR head.
 - P2.4 design-decision / rejected-alternative evidence: next planned task.
 - Round 01: 5 verified direct-user self-report records / 0 moderated sessions.
 - Round 02: 5 NEW verified async retest records / 0 moderated sessions.
@@ -119,22 +119,46 @@ Instead:
 - moderated Round 03: skipped / 0 sessions.
 - business / production impact: not measured.
 
+## Verification evidence
+
+PR: `#70 — Nova P2.3: refresh canonical phase and evidence ledgers`.
+
+Verified PR-head state:
+
+- commit: `a0697bd50c97c44db634ac2975a4810c3efaafff`;
+- Nova Visual QA run: `#314`;
+- GitHub Actions run: `36826923527`;
+- conclusion: `SUCCESS`.
+
+The passing gate includes:
+
+- deterministic generated-runtime sync;
+- pinned UIUX Factory Flow OS dogfood on `11003bf36909b08c3def617023dc8ecd9c3964fd`;
+- full rendered/browser/accessibility Nova QA;
+- existing product/research/architecture regressions;
+- new `qa/status-ledger.spec.mjs` current-status contradiction guard.
+
+The merged-main workflow/deployment run remains a release confirmation after merge and must be checked before the task is reported as fully landed on `main`.
+
 ## Acceptance criteria
 
-P2.3 may be promoted to `DONE_VERIFIED` only when:
+Branch implementation/verification criteria are satisfied:
 
 1. canonical current-status docs agree on P0/P1/P2.1/P2.2 completion;
-2. no current-status doc describes Round 01 as still recruiting or Round 02 as merely awaiting iteration;
-3. all current research rollups preserve the 5 + 5 direct-user/self-report record counts and 0 moderated-session boundary;
+2. no canonical current-status doc describes Round 01 as still recruiting or Round 02 as merely awaiting iteration;
+3. current research rollups preserve the 5 + 5 direct-user/self-report record counts and 0 moderated-session boundary;
 4. post-Round-02 D-01…D-04 is described as implemented but not human-retested;
 5. old Phase 2 pending QA/PR/deploy language is absent from canonical live ledgers;
 6. historical dated/raw evidence remains preserved rather than rewritten;
-7. UIUX Factory Flow OS and Nova regression/QA remain green on the P2.3 branch;
-8. merged `main` reruns the same gate successfully.
+7. UIUX Factory Flow OS and Nova regression/QA passed on the P2.3 PR head.
+
+Release confirmation criterion:
+
+8. after merge, `main` must rerun the same QA and deployment gates successfully before the final completion report says P2.3 is landed and released on canonical `main`.
 
 ## Claim boundary
 
-Allowed after verification:
+Allowed:
 
 > Nova's canonical status and research rollups now agree with the actual repository evidence, while dated/raw records remain preserved as historical provenance.
 
