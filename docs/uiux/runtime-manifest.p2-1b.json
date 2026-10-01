@@ -2,6 +2,16 @@
   "status": "P2.1B_GENERATED",
   "canonical_renderer": "assets/nova-current-renderer.js",
   "canonical_stylesheet": "assets/nova-current.css",
+  "canonical_identity": {
+    "brand": "Nova",
+    "transaction_prefix": "NVA_",
+    "generation_owner": "scripts/p2-1b-consolidate-runtime.mjs",
+    "runtime_identity_rewrite": false,
+    "historical_provenance_only": [
+      "assets/nova.js",
+      "assets/nova-brand-fixes.js"
+    ]
+  },
   "separate_runtime_concerns": [
     "assets/nova-motion.js",
     "assets/nova-motion.css",
@@ -13,7 +23,6 @@
     "assets/nova-redesign.js",
     "assets/nova-financial-intelligence.js",
     "assets/accessibility.js",
-    "assets/nova-brand-fixes.js",
     "assets/nova-ios26.js",
     "assets/nova-pastel-dashboard.js",
     "assets/nova-dashboard-v2.js",
@@ -47,7 +56,6 @@
     "assets/nova-redesign.js",
     "assets/nova-financial-intelligence.js",
     "assets/accessibility.js",
-    "assets/nova-brand-fixes.js",
     "assets/nova-ios26.js",
     "assets/nova-pastel-dashboard.js",
     "assets/nova-dashboard-v2.js"
@@ -78,5 +86,5 @@
     "assets/legacy/p2-1a-canonical/nova-current-renderer.p2-1a.js",
     "assets/legacy/p2-1a-canonical/nova-current.p2-1a.css"
   ],
-  "truth_boundary": "Physical bundling preserves historical source order; behavior parity must still be proven by browser/QA gates before P2.1B is DONE_VERIFIED."
+  "truth_boundary": "Physical bundling preserves historical source order; canonical Nova identity is normalized at generation time. Behavior parity must still be proven by browser/QA gates before P2.2 is DONE_VERIFIED."
 }
