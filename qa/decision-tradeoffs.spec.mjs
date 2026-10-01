@@ -66,6 +66,16 @@ test('P2.4 recruiter evidence renders responsively without document overflow', a
     const overflow = await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth + 1);
     expect(overflow, `document overflow at ${width}px`).toBe(false);
 
+    await page.evaluate(async () => {
+      const step = Math.max(500, window.innerHeight * 0.8);
+      for (let y = 0; y < document.documentElement.scrollHeight; y += step) {
+        window.scrollTo(0, y);
+        await new Promise((resolve) => setTimeout(resolve, 24));
+      }
+      window.scrollTo(0, 0);
+      await new Promise((resolve) => setTimeout(resolve, 40));
+    });
+
     await page.screenshot({
       path: path.join(artifactDir, `decision-tradeoffs-${width}.png`),
       fullPage: true,
