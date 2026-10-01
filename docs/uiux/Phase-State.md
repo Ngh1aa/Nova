@@ -10,13 +10,14 @@ target_repository: Ngh1aa/Nova
 factory_repository: Ngh1aa/uiux-ai-workspace
 factory_pin: 11003bf36909b08c3def617023dc8ecd9c3964fd
 canonical_branch: main
-current_workstream: P2.3_phase_ledger_refresh
+current_workstream: P2.4_decision_tradeoff_evidence
 result: DONE_VERIFIED
 p0: DONE_VERIFIED
 p1: DONE_VERIFIED
 p2_1_runtime_consolidation: DONE_VERIFIED
 p2_2_identity_source: DONE_VERIFIED
 p2_3_phase_ledger_refresh: DONE_VERIFIED
+p2_3_main_release_confirmation: DONE_VERIFIED
 p2_4_decision_tradeoff_evidence: NEXT_PLANNED
 next_workstream: P2.4_decision_tradeoff_evidence
 production_banking_connected: false
@@ -73,14 +74,17 @@ Canonical current-status documents and machine-readable research rollups now agr
 Verification evidence:
 
 - PR `#70 — Nova P2.3: refresh canonical phase and evidence ledgers`;
-- PR-head commit `a0697bd50c97c44db634ac2975a4810c3efaafff`;
-- Nova Visual QA run `#314` / Actions run `36826923527`: `SUCCESS`;
+- merged-main commit `710e2cb6857f790de42f217021143a3e4a71ec34`;
+- PR-head Nova Visual QA run `#314` / Actions run `36826923527`: `SUCCESS`;
+- merged-main Nova Visual QA run `#319` / Actions run `36827703104`: `SUCCESS`;
+- merged-main GitHub Pages build/deploy run `36827702047`: `SUCCESS`;
+- merged-main Vercel status for `710e2cb6857f790de42f217021143a3e4a71ec34`: `SUCCESS`;
 - generated canonical-runtime sync: `SUCCESS`;
 - pinned UIUX Factory Flow OS dogfood: `SUCCESS`;
 - full rendered/browser/accessibility/product regression suite: `SUCCESS`;
 - `qa/status-ledger.spec.mjs`: `SUCCESS` as part of the full gate.
 
-Merged-main QA remains the release confirmation step after merge; it does not change the branch-verified P2.3 evidence state.
+P2.3 is therefore both branch-verified and release-confirmed on canonical `main`.
 
 ### P2.4 — design decisions / rejected alternatives
 
@@ -101,9 +105,9 @@ Allowed language is method-specific: verified direct-user/self-report records an
 
 ## QA / deployment state
 
-The canonical Nova Visual QA workflow runs the pinned UIUX Factory Flow OS plus generated-runtime drift checks, rendered/browser QA, accessibility checks and Nova regression suites. P2.3 passed that complete gate on PR #70. After merge, the same workflow and deployment surfaces must be checked again before reporting merged-main release confirmation.
+The canonical Nova Visual QA workflow runs the pinned UIUX Factory Flow OS plus generated-runtime drift checks, rendered/browser QA, accessibility checks and Nova regression suites. P2.3 passed the complete gate on PR #70 and again on merged `main` at commit `710e2cb6857f790de42f217021143a3e4a71ec34`.
 
-GitHub Pages and Vercel are deployment surfaces for the prototype; they do not change the simulated-banking or research-method boundaries.
+GitHub Pages and Vercel also reported successful deployment state for that merged P2.3 commit. These are deployment surfaces for the prototype; they do not change the simulated-banking or research-method boundaries.
 
 ## Historical-document rule
 
