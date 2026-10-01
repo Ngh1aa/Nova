@@ -38,9 +38,9 @@ test('P2.2 rendered product identity is Nova-native across representative routes
     await page.goto(route);
     await expect(page.locator('#main')).toBeVisible();
     await expect(page).toHaveTitle(/^Nova\b/);
-    await expect(page.locator('.brand img[alt="Nova"]').first()).toBeVisible();
+    await expect(page.locator('[aria-label="Nova home"]').first()).toBeVisible();
     await expect(page.getByText(/\bLedger\b/)).toHaveCount(0);
-    expect(await page.locator('body').getAttribute('innerText')).not.toMatch(/\bLedger\b/);
+    expect(await page.locator('body').innerText()).not.toMatch(/\bLedger\b/);
   }
 
   await page.goto('/app.html?screen=transaction-detail');
