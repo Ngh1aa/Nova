@@ -10,7 +10,6 @@ permissions:
 
 jobs:
   regenerate:
-    if: ${{ !contains(github.event.head_commit.message, 'chore: regenerate P2.2 canonical runtime') }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout branch
@@ -26,7 +25,7 @@ jobs:
       - name: Regenerate canonical runtime
         run: node scripts/p2-1b-consolidate-runtime.mjs
 
-      - name: Commit generated outputs
+      - name: Commit generated outputs when needed
         run: |
           git diff --check
           if git diff --quiet -- app.html assets/nova-current-renderer.js assets/nova-current.css docs/uiux/runtime-manifest.p2-1b.json; then
