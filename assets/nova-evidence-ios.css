@@ -551,7 +551,7 @@ body.evidence-body .skip-link:focus{border-radius:12px!important;background:#111
   body.evidence-body .evidence-nav-links{
     height:100%!important;
     display:grid!important;
-    grid-template-columns:repeat(5,minmax(0,1fr))!important;
+    grid-template-columns:repeat(6,minmax(0,1fr))!important;
     gap:5px!important;
     align-items:stretch!important;
   }

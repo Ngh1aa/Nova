@@ -1,29 +1,28 @@
 # NOVA — QA Contract & Current Evidence
 
-Nova has an active cloud QA pipeline on `Ngh1aa/Nova`; the old “cloud checks remain due” phase is complete. This file now describes the continuing verification contract rather than a future-only plan.
+Nova has an active cloud QA pipeline on `Ngh1aa/Nova`. This document describes the continuing verification contract; it is not a future-only plan.
 
 ## Canonical toolchain
 
-`.github/workflows/nova-cloud-qa.yml` checks out the pinned `Ngh1aa/uiux-ai-workspace` revision and runs the canonical Flow OS against the **actual Nova repository**, not a Factory fixture.
+`.github/workflows/nova-cloud-qa.yml` checks out the pinned `Ngh1aa/uiux-ai-workspace` revision and runs the canonical Flow OS against the actual Nova repository.
 
-Current Factory pin:
+Factory pin: `11003bf36909b08c3def617023dc8ecd9c3964fd`
 
-`11003bf36909b08c3def617023dc8ecd9c3964fd`
-
-The workflow also verifies deterministic canonical-runtime generation before browser QA.
+Before browser QA the workflow also verifies deterministic canonical-runtime generation.
 
 ## Current evidence baseline
 
-Before P2.3 began:
+P2.4 recruiter-evidence work passed the full branch gate before canonical ledger promotion:
 
-- P2.2 merged-main Nova Visual QA run `#313` / Actions run `36825048721`: `SUCCESS`.
-- generated-runtime sync gate: `SUCCESS`.
-- UIUX Factory Flow OS dogfood: `SUCCESS`.
-- Nova product/regression/accessibility/rendered QA: `SUCCESS`.
-- GitHub Pages build/deploy for the same merged main state: `SUCCESS`.
-- Vercel commit status for the P2.2 merge: `SUCCESS`.
+- PR `#73`;
+- Nova Visual QA / Actions run `36840448193`: `SUCCESS`;
+- generated-runtime sync: `SUCCESS`;
+- pinned UIUX Factory Flow OS dogfood: `SUCCESS`;
+- rendered/browser/accessibility/product regression suite: `SUCCESS`;
+- responsive P2.4 section screenshots captured at 1440 / 768 / 390;
+- mobile/tablet six-link evidence navigation repaired to remain on one row.
 
-P2.3 is documentation/status work, so it does not create a new visual-quality claim. It must still rerun the normal PR/main workflow to prove that current-status cleanup did not break repository contracts or regression coverage.
+A final branch run is still required after current-status ledger updates, followed by canonical-main release confirmation after merge.
 
 ## Representative routes
 
@@ -37,6 +36,7 @@ The cloud workflow covers primary product, lifecycle and evidence surfaces inclu
 - `/app.html?screen=activity`
 - `/app.html?screen=transaction-detail`
 - `/app.html?screen=report-transaction`
+- `/app.html?screen=report-transaction&state=handoff`
 - `/app.html?screen=cards`
 - `/app.html?screen=transfer-recipient`
 - `/app.html?screen=transfer-amount`
@@ -50,6 +50,7 @@ The cloud workflow covers primary product, lifecycle and evidence surfaces inclu
 - `/recruiter-state-lab.html?state=empty`
 - `/state-matrix.html`
 - `/prototype.html`
+- `/design-decisions.html`
 - `/design-system.html`
 - `/component-states.html`
 - `/sitemap.html`
@@ -59,21 +60,19 @@ The cloud workflow covers primary product, lifecycle and evidence surfaces inclu
 
 ### Suspicious transaction / protection
 
-1. Open Home.
-2. Inspect unusual transaction.
-3. Open Transaction Detail.
-4. Verify Freeze and Report are distinct actions with explicit simulated/no-bank-contact boundaries.
-5. Verify freeze state and recovery remain consistent across relevant card surfaces.
+1. Open Home and inspect an unusual transaction.
+2. Open Transaction Detail.
+3. Verify Freeze and Report remain distinct actions with explicit simulated/no-bank-contact boundaries.
+4. Verify freeze/recovery state remains consistent across relevant card surfaces.
 
 ### Transfer
 
 1. Search/select recipient.
-2. Enter amount.
-3. Verify live Safe-to-spend / balance impact.
-4. Review recipient, amount, reference and protected-buffer rule.
-5. Exercise biometric/passcode recovery or offline/revalidation path.
-6. Verify no-money-moved truth until simulated confirmation.
-7. Verify receipt preserves the reviewed identity and amount.
+2. Enter amount and inspect live Safe-to-spend / balance impact.
+3. Review recipient, amount, reference and protected-buffer rule.
+4. Exercise biometric/passcode or offline/revalidation recovery.
+5. Verify `NO MONEY MOVED` truth until simulated confirmation.
+6. Verify receipt preserves reviewed identity and amount.
 
 ### Savings / Money Horizon
 
@@ -88,24 +87,27 @@ The cloud workflow covers primary product, lifecycle and evidence surfaces inclu
 - Empty and Loading recovery behavior;
 - KYC capture retry/manual-review behavior.
 
+### Recruiter decision surface
+
+- public page exposes exactly 3 decision stories;
+- internal record retains 7 decisions;
+- each public story includes problem/constraint, decision, rejected alternative, trade-off, evidence and remaining uncertainty;
+- public evidence labels are restricted to the lean vocabulary and only used when supported;
+- optional deep evidence remains secondary to the three-story recruiter scan.
+
 ## Accessibility evidence
 
-The regression suite protects representative browser-assisted evidence for:
-
-- Axe findings on configured routes;
-- keyboard reachability through a critical transfer task;
-- visible focus treatment;
-- 200%-zoom-equivalent and root-text scaling reflow checks;
-- reduced-motion behavior;
-- representative Chromium Accessibility Tree semantics.
+Regression protects representative browser-assisted evidence for Axe findings, keyboard reachability, visible focus, enlarged-content reflow, reduced motion and representative Chromium Accessibility Tree semantics.
 
 This is **not** a WCAG conformance certification and does not substitute for hands-on NVDA/JAWS/VoiceOver/TalkBack testing.
 
 ## Responsive / visual review rule
 
-After a **material visual change**, inspect rendered evidence at representative desktop/tablet/mobile widths for hierarchy, overflow, clipping, media, state differentiation and interaction quality.
+After a material visual change, inspect rendered evidence at representative desktop/tablet/mobile widths for hierarchy, overflow, clipping, state differentiation and interaction quality.
 
-Documentation-only changes such as P2.3 do not require inventing new pixel claims, but the existing rendered QA still runs as a regression guard.
+P2.4 rendered evidence was inspected at 1440 / 768 / 390. The inspection caught a real mobile/tablet navigation layout defect; the owning shared evidence stylesheet was repaired before the gate was rerun.
+
+Documentation-only ledger changes do not create a new pixel-quality claim, but the normal rendered QA still reruns as a regression guard.
 
 ## Runtime / integrity gates
 
@@ -115,31 +117,34 @@ Documentation-only changes such as P2.3 do not require inventing new pixel claim
 - critical controls remain reachable and named;
 - canonical renderer/state/style owners remain unique;
 - P2.2 Nova identity regression stays green;
-- P2.3 current-status documents remain internally consistent.
+- P2.3 historical/current-status contracts remain consistent;
+- P2.4 lean recruiter surface and completed status remain regression-protected.
 
 ## Research-truth gate
 
-QA may verify that intended wording, states and evidence labels are implemented. QA must **not** promote research method or outcome claims.
+QA may verify wording, states and evidence labels. QA must **not** promote research method or outcome claims.
 
-Current research boundary:
+Current boundary:
 
 - Round 01: 5 verified direct-user self-report records / 0 moderated sessions.
 - Round 02: 5 NEW verified async retest self-report records / 0 moderated sessions.
 - latest D-01…D-04 changes: implemented / not human-retested.
 - no observed task-success/time-on-task improvement claim.
 - no causal, conversion, retention or production-impact claim.
+- QA/CI is **prototype / technical evidence**, not usability validation.
 
 ## Human visual veto
 
-For material UI changes, review as Design Director / Senior Product Designer / recruiter / end user:
+For material UI changes, review as Design Director / Product Designer / recruiter / end user:
 
 - Is Safe to spend the first decision visible?
 - Does Money Horizon read as finance information rather than decoration?
 - Is the suspicious-transaction flow urgent but calm?
-- Are Freeze/Report consequences and simulated boundaries impossible to miss?
+- Are Freeze/Report consequences and simulated boundaries clear?
 - Does transfer impact explain protected-buffer behavior without false certainty?
 - Does desktop remain a consumer product rather than a generic dashboard?
 - Are states visibly different without relying on color alone?
-- Are text and controls readable on every representative surface/state?
+- Are text and controls readable on representative surfaces/states?
+- Can a recruiter understand the three P2.4 stories without reading the seven-decision deep record?
 
 Material REVISE/REMOVE findings return to the owning layer and require new evidence.

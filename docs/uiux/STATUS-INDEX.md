@@ -16,6 +16,14 @@ Read in this order:
 
 If these sources conflict, `Phase-State.md` wins for current status while raw/atomic research evidence remains authoritative for what actually happened in a research round.
 
+## Current recruiter / decision evidence
+
+- `design-decisions.html` — lean public recruiter surface with **3 decision stories**.
+- `docs/uiux/DESIGN-DECISIONS-TRADEOFFS-2026-10-01.md` — **7-decision internal record** for optional interview depth and provenance.
+- P2.4 state: `DONE_VERIFIED`.
+- Public claim contract: problem/constraint → decision → rejected alternative → trade-off → evidence → remaining uncertainty.
+- QA/CI is prototype/technical evidence; it is not user validation.
+
 ## Current architecture evidence
 
 - `docs/uiux/RUNTIME-ARCHITECTURE-2026-09-30.md` — P2.1 + P2.2 architecture status, with a 2026-10-01 current-state addendum.
@@ -55,3 +63,4 @@ Do not update raw participant responses or atomic evidence to make them match la
 - Latest D-01 through D-04 changes are implemented / QA-verified / not human-retested.
 - No production banking, conversion, retention, fraud-reduction or business-impact evidence exists.
 - Browser accessibility evidence is not a WCAG conformance certification.
+- The next meaningful evidence upgrade is a new observed human session when a real participant is available; it is not a prerequisite for the current portfolio handoff.

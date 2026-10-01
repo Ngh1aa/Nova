@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Three Nova product decisions, their rejected alternatives, trade-offs, evidence and remaining uncertainty.">
+<meta name="theme-color" content="#f3f6fa">
+<title>Nova — Design Decisions & Trade-offs</title>
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/prototype.css">
+<link rel="stylesheet" href="assets/accessibility.css">
+<link rel="stylesheet" href="assets/nova-evidence-ios.css">
+<link rel="stylesheet" href="assets/decision-tradeoffs.css">
+</head>
+<body class="evidence-body">
+<a class="skip-link" href="#main">Skip to main content</a>
+<div class="evidence-shell">
+<header class="evidence-nav">
+  <a class="brand" href="prototype.html"><span class="brand-mark" aria-hidden="true">N</span><span>Nova</span></a>
+  <nav class="evidence-nav-links" aria-label="Portfolio evidence">
+    <a href="prototype.html">Prototype</a>
+    <a href="design-decisions.html" aria-current="page">Decisions</a>
+    <a href="design-system.html">Design system</a>
+    <a href="component-states.html">Component states</a>
+    <a href="sitemap.html">Sitemap</a>
+    <a href="user-flows.html">User flows</a>
+  </nav>
+</header>
+<main id="main" tabindex="-1">
+<section class="evidence-hero">
+  <div>
+    <p class="evidence-kicker">Product judgment — recruiter cut</p>
+    <h1>Three decisions worth discussing.</h1>
+    <p class="decision-hero-copy">Instead of exposing every artifact, this page keeps the three decisions that best explain how Nova handles money, consequence and recovery. The full seven-decision record stays available as optional deep evidence.</p>
+    <div class="decision-summary" aria-label="Decision evidence summary">
+      <div class="decision-stat"><strong>3</strong><span>public decision stories</span></div>
+      <div class="decision-stat"><strong>7</strong><span>traceable deep-evidence records</span></div>
+      <div class="decision-stat"><strong>10</strong><span>self-report records across two rounds</span></div>
+      <div class="decision-stat"><strong>0</strong><span>moderated sessions or business-impact claims</span></div>
+    </div>
+  </div>
+  <aside class="specimen decision-standard">
+    <p class="eyebrow">Reading rule</p>
+    <h2>Evidence before certainty.</h2>
+    <p>Research signals and implementation proof are kept separate. QA shows that the prototype behaves as intended; it does not prove that people understand it better.</p>
+    <a class="btn btn-primary btn-wide" href="app.html?screen=home">Open the product</a>
+  </aside>
+</section>
+
+<section class="evidence-section" aria-labelledby="decision-stories">
+  <div class="decision-section-head">
+    <div>
+      <p class="evidence-kicker">Show fewer things with stronger judgment</p>
+      <h2 id="decision-stories">The three stories</h2>
+    </div>
+    <p>Each story follows the same scan: problem → decision → rejected alternative → trade-off → evidence → remaining uncertainty.</p>
+  </div>
+  <div class="decision-list">
+
+    <article class="decision-card" data-story-id="protected-money">
+      <div class="decision-lead">
+        <span class="decision-id">01 · Protected money</span>
+        <h3>Safe to spend only works if “protected” keeps one meaning.</h3>
+        <p class="decision-question"><strong>Problem / constraint.</strong> A raw balance answers how much money exists, but not how much is safe after near-term commitments. Round 02 also showed that users could follow transfer arithmetic while still misunderstanding what the protected buffer did.</p>
+        <div class="evidence-labels" aria-label="Evidence types">
+          <span class="evidence-label" data-evidence-label="User self-report">User self-report</span>
+          <span class="evidence-label" data-evidence-label="Prototype / technical">Prototype / technical</span>
+        </div>
+        <div class="decision-links">
+          <a href="app.html?screen=home">See Home</a>
+          <a href="app.html?screen=transfer-amount">See transfer decision</a>
+        </div>
+      </div>
+      <div class="decision-columns">
+        <div class="decision-box chosen"><h4>Decision</h4><p>Lead with Safe to spend + a 14-day Money Horizon, then state at the transfer decision point that the protected buffer stays reserved and is not used by the transfer.</p></div>
+        <div class="decision-box rejected"><h4>Rejected alternative</h4><ul><li>Raw balance as the hero</li><li>Automatically consume the buffer</li><li>Hide the reserve rule inside arithmetic</li></ul></div>
+        <div class="decision-box tradeoff"><h4>Trade-off</h4><p>The model is more conservative and needs more explanation, but “protected” keeps a stable meaning across planning and payment.</p></div>
+        <div class="decision-box evidence"><h4>Evidence</h4><p>Round 02 D-03: 5/5 reached the transfer arithmetic, while only 1/5 correctly described buffer behavior. The follow-up copy and 14-day clarity changes are implemented and regression-checked.</p></div>
+        <div class="decision-box uncertainty"><h4>Remaining uncertainty</h4><p>The post-Round-02 clarity changes have not been human-retested, so Nova does not claim comprehension improved.</p></div>
+      </div>
+    </article>
+
+    <article class="decision-card" data-story-id="freeze-report">
+      <div class="decision-lead">
+        <span class="decision-id">02 · Sensitive actions</span>
+        <h3>Freeze and Report should not collapse into one vague “protect me” action.</h3>
+        <p class="decision-question"><strong>Problem / constraint.</strong> In a suspicious-payment flow, speed matters, but the two actions create different consequences. The prototype also cannot imply that a real bank case was created.</p>
+        <div class="evidence-labels" aria-label="Evidence types">
+          <span class="evidence-label" data-evidence-label="User self-report">User self-report</span>
+          <span class="evidence-label" data-evidence-label="Prototype / technical">Prototype / technical</span>
+        </div>
+        <div class="decision-links">
+          <a href="app.html?screen=transaction-detail">See transaction detail</a>
+          <a href="app.html?screen=report-transaction">See report preview</a>
+        </div>
+      </div>
+      <div class="decision-columns">
+        <div class="decision-box chosen"><h4>Decision</h4><p>Separate Freeze and Report, explain each consequence beside the action, and place <code>DEMO ONLY · NO BANK CONTACT</code> at the decision/result surface.</p></div>
+        <div class="decision-box rejected"><h4>Rejected alternative</h4><ul><li>Combined “Freeze / Report” control</li><li>Bank-contact implication</li><li>Footer-only prototype disclaimer</li></ul></div>
+        <div class="decision-box tradeoff"><h4>Trade-off</h4><p>The surface is denser and asks for a little more reading, in exchange for clearer consequences at a high-risk moment.</p></div>
+        <div class="decision-box evidence"><h4>Evidence</h4><p>Round 02 D-02 stayed mixed: 3/5 responses still indicated real-bank consequence, uncertainty or action conflation. The follow-up truth boundary is now regression-protected.</p></div>
+        <div class="decision-box uncertainty"><h4>Remaining uncertainty</h4><p>The latest Freeze/Report version has not been human-retested. Implementation correctness is not evidence of improved understanding.</p></div>
+      </div>
+    </article>
+
+    <article class="decision-card" data-story-id="recovery-certainty">
+      <div class="decision-lead">
+        <span class="decision-id">03 · Failure recovery</span>
+        <h3>Before “Try again”, answer the scarier question: did my money move?</h3>
+        <p class="decision-question"><strong>Problem / constraint.</strong> After biometric, network or revalidation failure, a generic error leaves transaction state ambiguous. Recovery must restore certainty before optimizing speed.</p>
+        <div class="evidence-labels" aria-label="Evidence types">
+          <span class="evidence-label" data-evidence-label="User self-report">User self-report</span>
+          <span class="evidence-label" data-evidence-label="Prototype / technical">Prototype / technical</span>
+        </div>
+        <div class="decision-links">
+          <a href="app.html?screen=biometric-failed">See biometric recovery</a>
+          <a href="app.html?screen=offline">See offline recovery</a>
+        </div>
+      </div>
+      <div class="decision-columns">
+        <div class="decision-box chosen"><h4>Decision</h4><p>Make <code>NO MONEY MOVED</code> dominant, keep the concrete failure cause adjacent, state that balance is unchanged, and make retry/passcode actions secondary.</p></div>
+        <div class="decision-box rejected"><h4>Rejected alternative</h4><ul><li>Generic error + Retry first</li><li>Silent resend after reconnect</li><li>Ambiguous completion state</li></ul></div>
+        <div class="decision-box tradeoff"><h4>Trade-off</h4><p>Recovery is slightly slower, but transaction-state certainty is established before another high-consequence action can happen.</p></div>
+        <div class="decision-box evidence"><h4>Evidence</h4><p>Round 02 D-04 produced a negative cross-sectional self-report signal. That signal changed the hierarchy; it is not treated as causal proof.</p></div>
+        <div class="decision-box uncertainty"><h4>Remaining uncertainty</h4><p>The revised recovery hierarchy is implemented and QA-verified but not human-retested, so task-success or confidence improvement is unknown.</p></div>
+      </div>
+    </article>
+
+  </div>
+</section>
+
+<section class="evidence-section" aria-labelledby="boundary">
+  <h2 id="boundary">Evidence boundary</h2>
+  <div class="claim-boundary">
+    <div class="allowed"><h3>Supported</h3><ul><li>The three stories are traceable to retained self-report evidence, implementation and QA history.</li><li>Round 02 changed the priority of the money-model, sensitive-action and recovery problems.</li><li>The latest prototype changes are implemented and technically verified.</li></ul></div>
+    <div class="not-allowed"><h3>Not supported yet</h3><ul><li>Improved post-Round-02 comprehension or task success.</li><li>Moderated usability findings.</li><li>Conversion, retention, fraud reduction or production banking impact.</li></ul></div>
+  </div>
+</section>
+
+<section class="evidence-section deep-evidence" aria-labelledby="deep-evidence-title">
+  <div class="decision-section-head">
+    <div><p class="evidence-kicker">Optional depth</p><h2 id="deep-evidence-title">Need the other four decisions?</h2></div>
+    <p>The public cut stops here. Prototype scope, transfer guardrails, art direction and the full provenance trail stay in the internal record for interview deep dives.</p>
+  </div>
+  <div class="prototype-grid">
+    <a class="launch-card" href="https://github.com/Ngh1aa/Nova/blob/main/docs/uiux/DESIGN-DECISIONS-TRADEOFFS-2026-10-01.md"><strong>Seven-decision record</strong><p>All decisions, rejected alternatives, evidence provenance and open questions.</p><span class="launch-link">Open deep evidence →</span></a>
+    <a class="launch-card" href="https://github.com/Ngh1aa/Nova/blob/main/research/validation/nova-round-02/DECISION-LOG.md"><strong>Round 02 decision log</strong><p>Method-specific self-report signals without causal or moderated-usability claims.</p><span class="launch-link">Open research trail →</span></a>
+    <a class="launch-card" href="prototype.html"><strong>Prototype index</strong><p>Inspect the decisions in working flows, states and responsive product surfaces.</p><span class="launch-link">Back to prototype →</span></a>
+  </div>
+</section>
+</main>
+<footer class="evidence-section"><p class="meta">Nova — Personal Banking & Money Planning. All financial data and operations are fictional or simulated. Current human evidence is self-report, not moderated observation.</p></footer>
+</div>
+</body>
+</html>
