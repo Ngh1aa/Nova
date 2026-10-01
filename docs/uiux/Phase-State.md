@@ -11,13 +11,14 @@ factory_repository: Ngh1aa/uiux-ai-workspace
 factory_pin: 11003bf36909b08c3def617023dc8ecd9c3964fd
 canonical_branch: main
 current_workstream: P2.3_phase_ledger_refresh
-result: IMPLEMENTED_AWAITING_VERIFICATION
+result: DONE_VERIFIED
 p0: DONE_VERIFIED
 p1: DONE_VERIFIED
 p2_1_runtime_consolidation: DONE_VERIFIED
 p2_2_identity_source: DONE_VERIFIED
-p2_3_phase_ledger_refresh: IMPLEMENTED_AWAITING_VERIFICATION
+p2_3_phase_ledger_refresh: DONE_VERIFIED
 p2_4_decision_tradeoff_evidence: NEXT_PLANNED
+next_workstream: P2.4_decision_tradeoff_evidence
 production_banking_connected: false
 business_impact_measured: false
 moderated_sessions_round_01: 0
@@ -65,19 +66,31 @@ Canonical generated runtime is Nova-native; legacy Ledger identity remains histo
 
 ### P2.3 — stale phase-ledger refresh
 
-`IMPLEMENTED_AWAITING_VERIFICATION`
+`DONE_VERIFIED`
 
-This workstream makes current-status documents agree on the same evidence state without rewriting historical research records. It updates the README/project context, phase and requirement ledgers, QA/runtime status, research rollups and reviewer handoff language, then protects those states with regression checks.
+Canonical current-status documents and machine-readable research rollups now agree on delivery/research state while dated/raw evidence remains historical provenance. A dedicated regression test prevents the known stale contradictions from returning.
+
+Verification evidence:
+
+- PR `#70 — Nova P2.3: refresh canonical phase and evidence ledgers`;
+- PR-head commit `a0697bd50c97c44db634ac2975a4810c3efaafff`;
+- Nova Visual QA run `#314` / Actions run `36826923527`: `SUCCESS`;
+- generated canonical-runtime sync: `SUCCESS`;
+- pinned UIUX Factory Flow OS dogfood: `SUCCESS`;
+- full rendered/browser/accessibility/product regression suite: `SUCCESS`;
+- `qa/status-ledger.spec.mjs`: `SUCCESS` as part of the full gate.
+
+Merged-main QA remains the release confirmation step after merge; it does not change the branch-verified P2.3 evidence state.
 
 ### P2.4 — design decisions / rejected alternatives
 
 `NEXT_PLANNED`
 
-Recruiter-visible trade-off evidence remains the next P2 portfolio-clarity task after P2.3 is verified.
+Recruiter-visible trade-off evidence remains the next P2 portfolio-clarity task. It has not started in this workstream.
 
 ## Human-research state
 
-Nova now has **direct-user evidence**, but not moderated usability evidence:
+Nova has **direct-user evidence**, but not moderated usability evidence:
 
 - **Round 01:** 5 eligible real users; unmoderated task-based prototype evaluation with consented self-report; 0 moderated sessions.
 - **Round 02:** 5 NEW eligible participants; verified asynchronous structured self-report retest on the frozen post-iteration build; 0 moderated sessions.
@@ -88,7 +101,7 @@ Allowed language is method-specific: verified direct-user/self-report records an
 
 ## QA / deployment state
 
-The canonical Nova Visual QA workflow runs the pinned UIUX Factory Flow OS plus generated-runtime drift checks, rendered/browser QA, accessibility checks and Nova regression suites. The P2.2 merged-main run `#313` passed before P2.3 began; P2.3 must pass its own PR and merged-main gates before this ledger is promoted to `DONE_VERIFIED`.
+The canonical Nova Visual QA workflow runs the pinned UIUX Factory Flow OS plus generated-runtime drift checks, rendered/browser QA, accessibility checks and Nova regression suites. P2.3 passed that complete gate on PR #70. After merge, the same workflow and deployment surfaces must be checked again before reporting merged-main release confirmation.
 
 GitHub Pages and Vercel are deployment surfaces for the prototype; they do not change the simulated-banking or research-method boundaries.
 
