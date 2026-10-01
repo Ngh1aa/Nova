@@ -40,7 +40,7 @@ test('P2.4 recruiter evidence renders responsively without document overflow', a
     await expect(page).toHaveTitle('Nova — Design Decisions & Trade-offs');
     await expect(page.getByRole('heading', { name: 'What I chose. What I rejected. What it cost.' })).toBeVisible();
     await expect(page.locator('.decision-card')).toHaveCount(7);
-    await expect(page.getByRole('link', { name: 'Prototype' })).toBeVisible();
+    await expect(page.getByRole('link', { name: 'Prototype', exact: true })).toBeVisible();
     await expect(page.getByRole('link', { name: 'Decisions' })).toHaveAttribute('aria-current', 'page');
 
     const overflow = await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth + 1);
