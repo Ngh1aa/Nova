@@ -3,6 +3,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 
 const targetRoot = process.env.QA_TARGET_DIR || process.cwd();
+const artifactDir = path.resolve(process.cwd(), 'artifacts');
 const read = (file) => fs.readFileSync(path.join(targetRoot, file), 'utf8');
 
 const internalDecisionIds = ['P24-D01','P24-D02','P24-D03','P24-D04','P24-D05','P24-D06','P24-D07'];
@@ -50,6 +51,7 @@ test('P2.4 keeps seven internal decisions but exposes only three recruiter stori
 
 test('P2.4 recruiter evidence renders responsively without document overflow', async ({ page }) => {
   const widths = [1440, 768, 390];
+  fs.mkdirSync(artifactDir, { recursive: true });
 
   for (const width of widths) {
     await page.setViewportSize({ width, height: 1000 });
@@ -63,5 +65,10 @@ test('P2.4 recruiter evidence renders responsively without document overflow', a
 
     const overflow = await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth + 1);
     expect(overflow, `document overflow at ${width}px`).toBe(false);
+
+    await page.screenshot({
+      path: path.join(artifactDir, `decision-tradeoffs-${width}.png`),
+      fullPage: true,
+    });
   }
 });
