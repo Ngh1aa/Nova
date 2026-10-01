@@ -2,16 +2,17 @@
 
 **Status:** source-backed implementation contract; this file does **not** claim the linked Figma file already contains every item below.
 
-This spec translates the current Nova source (`design-system.html`, `component-states.html`, `user-flows.html`, `prototype.html`, and the implemented app) into a reviewer-ready Figma structure.
+This spec translates the current Nova source (`design-system.html`, `component-states.html`, `user-flows.html`, `prototype.html`, and the implemented app) into a reviewer-ready Figma structure. `docs/uiux/Phase-State.md` is the canonical current-status source.
 
 ## 00 — Cover / Prototype Guide
 
 Include:
 - project title + independent concept boundary;
-- primary review task: **interpret safe-to-spend → inspect suspicious activity → recover/freeze → transfer with impact review**;
+- primary review task: **interpret safe-to-spend → inspect suspicious activity → recover/freeze/report → transfer with impact review**;
 - live prototype link;
 - case-study link;
 - evidence status: **Round 01: 5 verified direct-user self-report records · Round 02: 5 verified async retest records on the frozen post-iteration build**;
+- latest product state: **post-Round-02 D-01…D-04 iteration implemented / QA-verified / not human-retested**;
 - explicit note: neither round was five moderated sessions; Round 02 supports self-report comparison, not observed task-success/time claims.
 
 ## 01 — Product Context
@@ -31,15 +32,17 @@ Separate visually:
 - `ROUND_01_DIRECT_USER_SELF_REPORT` — five consented real-user records from an unmoderated task-based prototype evaluation;
 - `ITERATION_01` — D-01…D-04 changes driven by Round 01 evidence IDs;
 - `ROUND_02_ASYNC_RETEST_SELF_REPORT` — five NEW users, tested 2026-09-30 on the frozen post-iteration build;
-- `NEXT_ITERATION_REQUIRED` — unresolved/negative Round 02 signals that drive the next product change.
+- `ITERATION_02_IMPLEMENTED_NOT_RETESTED` — latest D-01…D-04 product changes driven by unresolved/mixed Round 02 signals;
+- `FUTURE_RETEST_OPTIONAL` — human validation remains open; no moderated Round 03 occurred.
 
 Show the evidence-method boundary prominently:
 - Round 01: 5 verified self-report records / 0 moderated sessions;
 - Round 02: 5 verified async retest self-report records / 0 moderated sessions;
-- Round 02 build: `5c457075510359703a41966aaa3f0a1cecf8ca44`;
+- Round 02 tested build: `5c457075510359703a41966aaa3f0a1cecf8ca44`;
 - no observed task-success/time-on-task claim;
 - cross-round deltas are cross-sectional because Round 02 used NEW participants;
-- do not claim that the iteration caused an improvement or regression.
+- do not claim that either iteration caused an improvement or regression;
+- latest post-Round-02 implementation is not human-retested.
 
 Reference:
 - `research/validation/nova-round-01/evidence-ledger.jsonl`;
@@ -47,7 +50,8 @@ Reference:
 - `research/validation/nova-round-01/DECISION-LOG.md`;
 - `research/validation/nova-round-02/evidence-ledger.jsonl`;
 - `research/validation/nova-round-02/RETEST-SYNTHESIS.md`;
-- `research/validation/nova-round-02/DECISION-LOG.md`.
+- `research/validation/nova-round-02/DECISION-LOG.md`;
+- `docs/uiux/NOVA-PHASE3-CLARITY-ITERATION.md`.
 
 ## 03 — User Flows
 
@@ -105,6 +109,15 @@ Document at least these trade-offs:
 - **D-03 / F-02:** `PARTIAL_IMPROVEMENT / UNRESOLVED` — 5/5 understand the €1,155 arithmetic, only 1/5 correctly understands that Protected buffer is not automatically consumed.
 - **D-04 / F-04:** `REGRESSED_SELF_REPORT_SIGNAL` — only 2/5 Round 02 participants clearly understand that no money moved, versus 4/5 in Round 01 self-report.
 
+### Post-Round-02 implementation
+
+- **D-01:** promote explicit `Next 14 days` language across Safe-to-spend, Money Horizon and transfer surfaces.
+- **D-02:** separate Freeze and Report into distinct consequence paths and place `DEMO ONLY · NO BANK CONTACT` beside the primary decision/result.
+- **D-03:** preserve the successful arithmetic explanation and add `Protected buffer stays reserved — this transfer does not use it.` at the decision point.
+- **D-04:** foreground `NO MONEY MOVED`, concrete failure cause and unchanged balance before recovery actions.
+
+Status for all four: **implemented / QA-verified / not human-retested**.
+
 For every direction show Round 01 and Round 02 atomic evidence IDs separately. Mark cross-round deltas as **self-report signals**, not causal observed usability effects.
 
 ## 07 — Design System
@@ -148,11 +161,15 @@ Group by task, not by random screen count:
 
 For each task include desktop and mobile representatives where behavior changes.
 
-## 09 — Prototype / Retest
+Annotate the post-Round-02 screens as **evidence-informed iteration / not human-retested**, so a recruiter does not mistake implementation polish for validated improvement.
+
+## 09 — Prototype / Research State
 
 Round 02 was executed on frozen build `5c457075510359703a41966aaa3f0a1cecf8ca44` with five NEW participants on 2026-09-30 using async structured self-report.
 
-The next prototype iteration must retest the same affected concepts:
+After Round 02, the D-01…D-04 implementation pass was completed and QA-verified. The planned moderated Round 03 was explicitly skipped, so there is no post-change participant evidence for the latest build.
+
+If human research resumes, freeze the exact latest build and retest the same affected concepts:
 - Task 1: ask what period Safe to spend applies to without teaching the answer;
 - Task 2: before/after Freeze or Report Preview, ask what the participant believes has actually happened;
 - Task 3: ask the participant to predict the Safe-to-spend impact **and** state whether Protected buffer is used automatically;
@@ -165,7 +182,7 @@ The next prototype iteration must retest the same affected concepts:
 - keyboard/focus behavior for desktop-critical controls;
 - reduced-motion behavior where motion conveys state.
 
-Record the exact tested commit/build for every future participant. Prefer moderated observation for the next round if task-success/time evidence is needed.
+Record the exact tested commit/build for every future participant. Prefer moderated observation if observed task-success/time evidence is needed.
 
 ## 10 — Handoff / Specs
 
@@ -189,6 +206,7 @@ The Figma file is reviewer-ready only when a reviewer can answer:
 2. what direct-user evidence exists and what method produced it;
 3. what changed after Round 01;
 4. what Round 02 showed as improved signal, unresolved or regressed signal;
-5. how the system behaves outside the happy path;
-6. how the design maps to implementation;
-7. what is observed, self-reported, simulated, planned, cross-sectional or unknown.
+5. what changed after Round 02 and why those changes are still not human-retested;
+6. how the system behaves outside the happy path;
+7. how the design maps to implementation;
+8. what is observed, self-reported, simulated, planned, cross-sectional or unknown.
