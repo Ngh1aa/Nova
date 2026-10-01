@@ -17,21 +17,34 @@
     "notifications": "SIMULATED"
   },
   "source_of_truth": [
+    "docs/uiux/Phase-State.md",
     "PROJECT-CONTEXT.md",
     "docs/uiux/Nova-iOS26-Design-Contract-2026.md",
     "docs/uiux/IA-and-Flows.md",
     "docs/uiux/Component-State-Contract.md",
+    "research/validation/nova-round-01/status.json",
+    "research/validation/nova-round-02/status.json",
     "Ngh1aa/uiux-ai-workspace"
   ],
   "visual_direction": ["native", "calm", "precise", "fluid", "premium"],
   "visual_signature": "Nova Financial Workspace — cool neutral content surfaces with a restrained iOS 26 Liquid Glass navigation layer and a blue Money Horizon forecast",
   "composition_families": ["Financial Overview", "Grouped Activity", "Focused Money Task", "Protection Detail"],
-  "hero_flow": "Home -> unusual transaction -> transaction detail -> freeze card -> confirmation",
-  "secondary_flow": "Home -> transfer -> recipient -> amount -> review -> biometric confirmation -> success",
+  "hero_flow": "Home -> unusual transaction -> transaction detail -> freeze/report decision -> truthful simulated result",
+  "secondary_flow": "Home -> transfer -> recipient -> amount -> review -> simulated authentication/recovery -> success",
   "target_repository": "Ngh1aa/Nova",
   "implementation": {
     "stack": "static HTML/CSS/JavaScript",
     "entry_points": ["index.html", "app.html", "prototype.html"],
-    "branch": "feat/nova-ios26-redesign"
+    "canonical_branch": "main",
+    "canonical_renderer": "assets/nova-current-renderer.js",
+    "canonical_state_owner": "assets/nova-current-state.js",
+    "canonical_stylesheet": "assets/nova-current.css"
+  },
+  "evidence_state": {
+    "round_01_verified_direct_user_self_report_records": 5,
+    "round_02_verified_async_retest_records": 5,
+    "moderated_sessions_total": 0,
+    "post_round_02_iteration": "IMPLEMENTED_NOT_HUMAN_RETESTED",
+    "business_impact": "NOT_MEASURED"
   }
 }
