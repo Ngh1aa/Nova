@@ -51,6 +51,8 @@ Run `qa/figma-export.spec.mjs` through the existing Factory QA workspace, with `
 
 The expected production origin is `https://nova-gamma-eosin.vercel.app`. These are expected production URLs until main is merged/deployed. A branch preview can be deployed and verified independently. The source manifest does not infer deployment from local QA. Actual public URLs, provider SHA/status and anonymous observations belong to deployment evidence. No merge to main is required for preview delivery.
 
+When a preview is protected, the handoff can include a temporary Vercel share link. The index accepts `#capture_share=<share parameter>` so Open and Copy URL preserve the temporary access for a fresh converter browser. The parameter stays in document memory and is never committed or persisted. A generated HTML snapshot package provides an alternative after the share link expires.
+
 ## Inventory
 
 | # | Screen | Export path | Baseline route | Before audit | Export state | Local ready |

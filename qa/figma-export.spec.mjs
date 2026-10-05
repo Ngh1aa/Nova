@@ -121,3 +121,13 @@ test('native mobile dock stays fully inside the viewport after responsive positi
   expect(dock.x+dock.width).toBeLessThanOrEqual(390);
   await expect(page.locator('.bottom-nav a')).toHaveCount(5);
 });
+
+test('shared index keeps temporary access in converter links without persisting it',async({page})=>{
+  await page.goto('/figma-export/#capture_share=qa-temporary-access');
+  await expect(page.locator('#deployment')).toContainText('Temporary share access');
+  await expect(page.locator('#screens a').first()).toHaveAttribute('href',/01-home-default\?_vercel_share=qa-temporary-access$/);
+  await page.evaluate(()=>Object.defineProperty(navigator,'clipboard',{value:{writeText:async value=>{window.copiedCaptureURL=value;}}}));
+  await page.locator('[data-copy]').first().click();
+  expect(await page.evaluate(()=>window.copiedCaptureURL)).toContain('_vercel_share=qa-temporary-access');
+  expect(await page.evaluate(()=>Object.values(localStorage).includes('qa-temporary-access'))).toBe(false);
+});
