@@ -70,6 +70,7 @@
     const style = document.createElement('style');
     style.dataset.novaCurrentState = 'true';
     style.textContent = `
+      body.product-body [hidden]{display:none!important}
       .nova-safe-warning{margin-top:12px;padding:12px 14px;border:1px solid #e8bd76;border-radius:14px;background:#fff8e8;color:#5f4314;line-height:1.45}.nova-safe-warning[hidden]{display:none}.nova-safe-warning strong{display:block;margin-bottom:4px}.nova-safe-warning.is-critical{border-color:#e1a1aa;background:#fff3f5;color:#741f2c}
       .nova-safe-shortfall,.nova-savings-shortfall{width:100%;min-height:58px;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 14px;border-radius:14px;background:#fff3f5;color:#741f2c;border:1px solid #e1a1aa;font-weight:750}.nova-safe-shortfall small,.nova-savings-shortfall small{font-weight:600;color:#8d3a47;text-align:right}
       .nova-safe-legend,.nova-transfer-impact-legend{width:100%;display:flex!important;justify-content:space-between;gap:14px;align-items:flex-start}.nova-safe-legend span,.nova-transfer-impact-legend span{color:#657085}.nova-safe-legend strong,.nova-transfer-impact-legend.is-critical strong{color:#741f2c}.nova-transfer-impact-legend strong{color:#142033}

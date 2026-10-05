@@ -323,6 +323,12 @@ window.NovaCurrentRuntime.foundation = Object.freeze({
     const renderScreen = screens[currentScreen] || screens.home; app.innerHTML = renderScreen(); document.title = `Nova — ${currentScreen.replaceAll('-', ' ')} · Personal Banking`; bindInteractions();
   }
 
+  // Shared product data/composition seam for deterministic capture surfaces.
+  // Export pages consume these owners; they never copy the financial model.
+  window.NovaProduct = Object.freeze({
+    data: DATA,
+    components: Object.freeze({ icon, euro, horizon, commitmentRows, transactionRows, pageHeader, stepper })
+  });
   render();
 })();
 /* ===== END P2.1B JS SOURCE: assets/nova.js ===== */

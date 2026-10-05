@@ -105,6 +105,18 @@ jobs:
           cp qa/identity-source.spec.mjs .factory/uiux-factory/qa/tests/identity-source.spec.mjs
           cp qa/status-ledger.spec.mjs .factory/uiux-factory/qa/tests/status-ledger.spec.mjs
           cp qa/decision-tradeoffs.spec.mjs .factory/uiux-factory/qa/tests/decision-tradeoffs.spec.mjs
+          cp qa/figma-export.spec.mjs .factory/uiux-factory/qa/tests/figma-export.spec.mjs
+
+      - name: Verify deterministic HTML to Figma export
+        run: |
+          node scripts/build-figma-export.mjs
+          git diff --exit-code -- figma-export.html assets/nova-figma-export-catalog.js
+          node scripts/serve-figma-export.mjs > /tmp/nova-export-server.log 2>&1 &
+          SERVER_PID=$!
+          trap 'kill $SERVER_PID 2>/dev/null || true' EXIT
+          cd .factory/uiux-factory/qa
+          node scripts/wait-ready.mjs
+          npx playwright test tests/figma-export.spec.mjs
 
       - name: Serve and visually audit Nova product and evidence screens
         working-directory: .factory/uiux-factory/qa

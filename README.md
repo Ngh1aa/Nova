@@ -4,6 +4,10 @@ Nova is a portfolio-grade consumer fintech prototype focused on **safe-to-spend 
 
 ## Prototype
 
+### HTML to Figma captures
+
+Open `/figma-export/` for the agreed 70-screen catalogue, copy URLs and set the converter viewport to 1440 / 1024 / 768 / 390. Numbered capture routes reuse the canonical Nova renderer with deterministic, isolated state. See `docs/FIGMA-EXPORT-70.md` and `figma-export/manifest.json` for the source audit, states, viewport coverage and expected production URLs. Local readiness and public deployment are recorded separately; Figma import quality remains unverified until the converter output is inspected.
+
 Open `prototype.html` for the guided recruiter demo, or `app.html?screen=home` for the product.
 
 ### Core demo flows

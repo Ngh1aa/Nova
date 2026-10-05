@@ -1,0 +1,2455 @@
+{
+  "schema_version": 1,
+  "audited_source_sha": "a9d1a53da61b38db423250d6d02629ca593932b2",
+  "repository": "Ngh1aa/Nova",
+  "source_of_inventory": "Chat 6ac344e5-67f8-83ec-ac9a-c0d08065b7c2, agreed 70-screen inventory",
+  "public_base_url": null,
+  "deployment_status": "NOT_DEPLOYED",
+  "capture_ready": true,
+  "canonical_renderer": "assets/nova-current-renderer.js",
+  "canonical_state_owner": "assets/nova-current-state.js",
+  "export_state_owner": "assets/nova-figma-export-states.js",
+  "viewports": [
+    {
+      "width": 1440,
+      "height": 1000
+    },
+    {
+      "width": 1024,
+      "height": 1000
+    },
+    {
+      "width": 768,
+      "height": 1024
+    },
+    {
+      "width": 390,
+      "height": 844
+    }
+  ],
+  "screens": [
+    {
+      "number": 1,
+      "id": "home-default",
+      "name": "Home — Default / populated",
+      "group": "Money overview",
+      "path": "/figma-export/01-home-default",
+      "expected_public_url": "https://nova-gamma-eosin.vercel.app/figma-export/01-home-default",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "responsive_proof": [
+        1440,
+        1024,
+        768,
+        390
+      ],
+      "canonical_state": {
+        "screen": "home",
+        "state": "normal",
+        "pin": "1",
+        "storage": {
+          "nova_card_frozen": "false",
+          "nova_transfer_amount": "145",
+          "nova_transfer_reference": "September utilities",
+          "nova_card_daily_limit": "1200"
+        }
+      },
+      "audit": {
+        "status": "EXISTING_URL",
+        "existing_route": "app.html?screen=home",
+        "owner": "assets/nova-current-renderer.js + assets/nova-current-state.js",
+        "query_state_supported": true
+      },
+      "ready": true,
+      "render_status": "LOCAL_RENDER_VERIFIED",
+      "public_status": "NOT_DEPLOYED",
+      "public_url": null
+    },
+    {
+      "number": 2,
+      "id": "home-empty",
+      "name": "Home — Empty / chưa liên kết account",
+      "group": "Money overview",
+      "path": "/figma-export/02-home-empty",
+      "expected_public_url": "https://nova-gamma-eosin.vercel.app/figma-export/02-home-empty",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "responsive_proof": [],
+      "canonical_state": {
+        "screen": "home",
+        "state": "empty",
+        "pin": "1",
+        "storage": {
+          "nova_card_frozen": "false",
+          "nova_transfer_amount": "145",
+          "nova_transfer_reference": "September utilities",
+          "nova_card_daily_limit": "1200"
+        }
+      },
+      "audit": {
+        "status": "EXISTING_URL",
+        "existing_route": "app.html?screen=home&state=empty",
+        "owner": "assets/nova-current-renderer.js + assets/nova-current-state.js",
+        "query_state_supported": true
+      },
+      "ready": true,
+      "render_status": "LOCAL_RENDER_VERIFIED",
+      "public_status": "NOT_DEPLOYED",
+      "public_url": null
+    },
+    {
+      "number": 3,
+      "id": "home-loading",
+      "name": "Home — Loading / Money Horizon calculating",
+      "group": "Money overview",
+      "path": "/figma-export/03-home-loading",
+      "expected_public_url": "https://nova-gamma-eosin.vercel.app/figma-export/03-home-loading",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "responsive_proof": [],
+      "canonical_state": {
+        "screen": "home",
+        "state": "loading",
+        "pin": "1",
+        "storage": {
+          "nova_card_frozen": "false",
+          "nova_transfer_amount": "145",
+          "nova_transfer_reference": "September utilities",
+          "nova_card_daily_limit": "1200"
+        }
+      },
+      "audit": {
+        "status": "EXISTING_URL",
+        "existing_route": "app.html?screen=home&state=loading",
+        "owner": "assets/nova-current-renderer.js + assets/nova-current-state.js",
+        "query_state_supported": true
+      },
+      "ready": true,
+      "render_status": "LOCAL_RENDER_VERIFIED",
+      "public_status": "NOT_DEPLOYED",
+      "public_url": null
+    },
+    {
+      "number": 4,
+      "id": "home-negative",
+      "name": "Home — Negative safe-to-spend / edge case",
+      "group": "Money overview",
+      "path": "/figma-export/04-home-negative",
+      "expected_public_url": "https://nova-gamma-eosin.vercel.app/figma-export/04-home-negative",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "responsive_proof": [],
+      "canonical_state": {
+        "screen": "home",
+        "state": "edge",
+        "pin": "1",
+        "storage": {
+          "nova_card_frozen": "false",
+          "nova_transfer_amount": "145",
+          "nova_transfer_reference": "September utilities",
+          "nova_card_daily_limit": "1200"
+        }
+      },
+      "audit": {
+        "status": "EXISTING_URL",
+        "existing_route": "app.html?screen=home&state=edge",
+        "owner": "assets/nova-current-renderer.js + assets/nova-current-state.js",
+        "query_state_supported": true
+      },
+      "ready": true,
+      "render_status": "LOCAL_RENDER_VERIFIED",
+      "public_status": "NOT_DEPLOYED",
+      "public_url": null
+    },
+    {
+      "number": 5,
+      "id": "home-stale",
+      "name": "Home — Stale data / offline",
+      "group": "Money overview",
+      "path": "/figma-export/05-home-stale",
+      "expected_public_url": "https://nova-gamma-eosin.vercel.app/figma-export/05-home-stale",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "responsive_proof": [],
+      "canonical_state": {
+        "screen": "home",
+        "state": "stale",
+        "pin": "1",
+        "storage": {
+          "nova_card_frozen": "false",
+          "nova_transfer_amount": "145",
+          "nova_transfer_reference": "September utilities",
+          "nova_card_daily_limit": "1200"
+        }
+      },
+      "audit": {
+        "status": "MISSING_SCREEN_OR_STATE",
+        "existing_route": null,
+        "owner": "assets/nova-current-renderer.js + assets/nova-current-state.js",
+        "query_state_supported": false
+      },
+      "ready": true,
+      "render_status": "LOCAL_RENDER_VERIFIED",
+      "public_status": "NOT_DEPLOYED",
+      "public_url": null
+    },
+    {
+      "number": 6,
+      "id": "money-horizon",
+      "name": "Money Horizon — Detail",
+      "group": "Money overview",
+      "path": "/figma-export/06-money-horizon",
+      "expected_public_url": "https://nova-gamma-eosin.vercel.app/figma-export/06-money-horizon",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "responsive_proof": [],
+      "canonical_state": {
+        "screen": "home",
+        "state": "horizon",
+        "pin": "1",
+        "storage": {
+          "nova_card_frozen": "false",
+          "nova_transfer_amount": "145",
+          "nova_transfer_reference": "September utilities",
+          "nova_card_daily_limit": "1200"
+        }
+      },
+      "audit": {
+        "status": "MISSING_SCREEN_OR_STATE",
+        "existing_route": null,
+        "owner": "assets/nova-current-renderer.js + assets/nova-current-state.js",
+        "query_state_supported": false
+      },
+      "ready": true,
+      "render_status": "LOCAL_RENDER_VERIFIED",
+      "public_status": "NOT_DEPLOYED",
+      "public_url": null
+    },
+    {
+      "number": 7,
+      "id": "upcoming-commitments",
+      "name": "Upcoming Commitments",
+      "group": "Money overview",
+      "path": "/figma-export/07-upcoming-commitments",
+      "expected_public_url": "https://nova-gamma-eosin.vercel.app/figma-export/07-upcoming-commitments",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "responsive_proof": [],
+      "canonical_state": {
+        "screen": "subscriptions",
+        "state": "commitments",
+        "pin": "1",
+        "storage": {
+          "nova_card_frozen": "false",
+          "nova_transfer_amount": "145",
+          "nova_transfer_reference": "September utilities",
+          "nova_card_daily_limit": "1200"
+        }
+      },
+      "audit": {
+        "status": "MISSING_SCREEN_OR_STATE",
+        "existing_route": null,
+        "owner": "assets/nova-current-renderer.js + assets/nova-current-state.js",
+        "query_state_supported": false
+      },
+      "ready": true,
+      "render_status": "LOCAL_RENDER_VERIFIED",
+      "public_status": "NOT_DEPLOYED",
+      "public_url": null
+    },
+    {
+      "number": 8,
+      "id": "insight-detail",
+      "name": "Insight Detail",
+      "group": "Money overview",
+      "path": "/figma-export/08-insight-detail",
+      "expected_public_url": "https://nova-gamma-eosin.vercel.app/figma-export/08-insight-detail",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "responsive_proof": [],
+      "canonical_state": {
+        "screen": "home",
+        "state": "insight-detail",
+        "pin": "1",
+        "storage": {
+          "nova_card_frozen": "false",
+          "nova_transfer_amount": "145",
+          "nova_transfer_reference": "September utilities",
+          "nova_card_daily_limit": "1200"
+        }
+      },
+      "audit": {
+        "status": "MISSING_SCREEN_OR_STATE",
+        "existing_route": null,
+        "owner": "assets/nova-current-renderer.js + assets/nova-current-state.js",
+        "query_state_supported": false
+      },
+      "ready": true,
+      "render_status": "LOCAL_RENDER_VERIFIED",
+      "public_status": "NOT_DEPLOYED",
+      "public_url": null
+    },
+    {
+      "number": 9,
+      "id": "notifications",
+      "name": "Notifications / Unusual Activity",
+      "group": "Money overview",
+      "path": "/figma-export/09-notifications",
+      "expected_public_url": "https://nova-gamma-eosin.vercel.app/figma-export/09-notifications",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "responsive_proof": [],
+      "canonical_state": {
+        "screen": "notifications",
+        "state": "normal",
+        "pin": "1",
+        "storage": {
+          "nova_card_frozen": "false",
+          "nova_transfer_amount": "145",
+          "nova_transfer_reference": "September utilities",
+          "nova_card_daily_limit": "1200"
+        }
+      },
+      "audit": {
+        "status": "EXISTING_URL",
+        "existing_route": "app.html?screen=notifications",
+        "owner": "assets/nova-current-renderer.js + assets/nova-current-state.js",
+        "query_state_supported": true
+      },
+      "ready": true,
+      "render_status": "LOCAL_RENDER_VERIFIED",
+      "public_status": "NOT_DEPLOYED",
+      "public_url": null
+    },
+    {
+      "number": 10,
+      "id": "activity-list",
+      "name": "Activity — Transaction List",
+      "group": "Activity & protection",
+      "path": "/figma-export/10-activity-list",
+      "expected_public_url": "https://nova-gamma-eosin.vercel.app/figma-export/10-activity-list",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "responsive_proof": [
+        1440,
+        1024,
+        768,
+        390
+      ],
+      "canonical_state": {
+        "screen": "activity",
+        "state": "normal",
+        "pin": "1",
+        "storage": {
+          "nova_card_frozen": "false",
+          "nova_transfer_amount": "145",
+          "nova_transfer_reference": "September utilities",
+          "nova_card_daily_limit": "1200"
+        }
+      },
+      "audit": {
+        "status": "EXISTING_URL",
+        "existing_route": "app.html?screen=activity",
+        "owner": "assets/nova-current-renderer.js + assets/nova-current-state.js",
+        "query_state_supported": true
+      },
+      "ready": true,
+      "render_status": "LOCAL_RENDER_VERIFIED",
+      "public_status": "NOT_DEPLOYED",
+      "public_url": null
+    },
+    {
+      "number": 11,
+      "id": "activity-search",
+      "name": "Activity — Search",
+      "group": "Activity & protection",
+      "path": "/figma-export/11-activity-search",
+      "expected_public_url": "https://nova-gamma-eosin.vercel.app/figma-export/11-activity-search",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "responsive_proof": [],
+      "canonical_state": {
+        "screen": "activity",
+        "state": "search",
+        "pin": "1",
+        "storage": {
+          "nova_card_frozen": "false",
+          "nova_transfer_amount": "145",
+          "nova_transfer_reference": "September utilities",
+          "nova_card_daily_limit": "1200"
+        }
+      },
+      "audit": {
+        "status": "EXISTING_INTERACTION_ONLY",
+        "existing_route": null,
+        "owner": "assets/nova-current-renderer.js + assets/nova-current-state.js",
+        "query_state_supported": false
+      },
+      "ready": true,
+      "render_status": "LOCAL_RENDER_VERIFIED",
+      "public_status": "NOT_DEPLOYED",
+      "public_url": null
+    },
+    {
+      "number": 12,
+      "id": "activity-filters",
+      "name": "Activity — Filters",
+      "group": "Activity & protection",
+      "path": "/figma-export/12-activity-filters",
+      "expected_public_url": "https://nova-gamma-eosin.vercel.app/figma-export/12-activity-filters",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "responsive_proof": [],
+      "canonical_state": {
+        "screen": "activity",
+        "state": "filters",
+        "pin": "1",
+        "storage": {
+          "nova_card_frozen": "false",
+          "nova_transfer_amount": "145",
+          "nova_transfer_reference": "September utilities",
+          "nova_card_daily_limit": "1200"
+        }
+      },
+      "audit": {
+        "status": "EXISTING_INTERACTION_ONLY",
+        "existing_route": null,
+        "owner": "assets/nova-current-renderer.js + assets/nova-current-state.js",
+        "query_state_supported": false
+      },
+      "ready": true,
+      "render_status": "LOCAL_RENDER_VERIFIED",
+      "public_status": "NOT_DEPLOYED",
+      "public_url": null
+    },
+    {
+      "number": 13,
+      "id": "transaction-normal",
+      "name": "Transaction Detail — Normal",
+      "group": "Activity & protection",
+      "path": "/figma-export/13-transaction-normal",
+      "expected_public_url": "https://nova-gamma-eosin.vercel.app/figma-export/13-transaction-normal",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "responsive_proof": [],
+      "canonical_state": {
+        "screen": "transaction-detail",
+        "state": "normal-payment",
+        "pin": "1",
+        "storage": {
+          "nova_card_frozen": "false",
+          "nova_transfer_amount": "145",
+          "nova_transfer_reference": "September utilities",
+          "nova_card_daily_limit": "1200"
+        }
+      },
+      "audit": {
+        "status": "MISSING_SCREEN_OR_STATE",
+        "existing_route": null,
+        "owner": "assets/nova-current-renderer.js + assets/nova-current-state.js",
+        "query_state_supported": false
+      },
+      "ready": true,
+      "render_status": "LOCAL_RENDER_VERIFIED",
+      "public_status": "NOT_DEPLOYED",
+      "public_url": null
+    },
+    {
+      "number": 14,
+      "id": "transaction-suspicious",
+      "name": "Transaction Detail — Suspicious / needs review",
+      "group": "Activity & protection",
+      "path": "/figma-export/14-transaction-suspicious",
+      "expected_public_url": "https://nova-gamma-eosin.vercel.app/figma-export/14-transaction-suspicious",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "responsive_proof": [
+        1440,
+        1024,
+        768,
+        390
+      ],
+      "canonical_state": {
+        "screen": "transaction-detail",
+        "state": "normal",
+        "pin": "1",
+        "storage": {
+          "nova_card_frozen": "false",
+          "nova_transfer_amount": "145",
+          "nova_transfer_reference": "September utilities",
+          "nova_card_daily_limit": "1200"
+        }
+      },
+      "audit": {
+        "status": "EXISTING_URL",
+        "existing_route": "app.html?screen=transaction-detail",
+        "owner": "assets/nova-current-renderer.js + assets/nova-current-state.js",
+        "query_state_supported": true
+      },
+      "ready": true,
+      "render_status": "LOCAL_RENDER_VERIFIED",
+      "public_status": "NOT_DEPLOYED",
+      "public_url": null
+    },
+    {
+      "number": 15,
+      "id": "transaction-recognition",
+      "name": "Transaction Recognition Decision",
+      "group": "Activity & protection",
+      "path": "/figma-export/15-transaction-recognition",
+      "expected_public_url": "https://nova-gamma-eosin.vercel.app/figma-export/15-transaction-recognition",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "responsive_proof": [],
+      "canonical_state": {
+        "screen": "transaction-detail",
+        "state": "recognition",
+        "pin": "1",
+        "storage": {
+          "nova_card_frozen": "false",
+          "nova_transfer_amount": "145",
+          "nova_transfer_reference": "September utilities",
+          "nova_card_daily_limit": "1200"
+        }
+      },
+      "audit": {
+        "status": "MISSING_SCREEN_OR_STATE",
+        "existing_route": null,
+        "owner": "assets/nova-current-renderer.js + assets/nova-current-state.js",
+        "query_state_supported": false
+      },
+      "ready": true,
+      "render_status": "LOCAL_RENDER_VERIFIED",
+      "public_status": "NOT_DEPLOYED",
+      "public_url": null
+    },
+    {
+      "number": 16,
+      "id": "freeze-confirmation",
+      "name": "Freeze Card — Impact Confirmation",
+      "group": "Activity & protection",
+      "path": "/figma-export/16-freeze-confirmation",
+      "expected_public_url": "https://nova-gamma-eosin.vercel.app/figma-export/16-freeze-confirmation",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "responsive_proof": [],
+      "canonical_state": {
+        "screen": "transaction-detail",
+        "state": "freeze-confirmation",
+        "pin": "1",
+        "storage": {
+          "nova_card_frozen": "false",
+          "nova_transfer_amount": "145",
+          "nova_transfer_reference": "September utilities",
+          "nova_card_daily_limit": "1200"
+        }
+      },
+      "audit": {
+        "status": "EXISTING_INTERACTION_ONLY",
+        "existing_route": null,
+        "owner": "assets/nova-current-renderer.js + assets/nova-current-state.js",
+        "query_state_supported": false
+      },
+      "ready": true,
+      "render_status": "LOCAL_RENDER_VERIFIED",
+      "public_status": "NOT_DEPLOYED",
+      "public_url": null
+    },
+    {
+      "number": 17,
+      "id": "card-frozen-result",
+      "name": "Card Frozen — Result",
+      "group": "Activity & protection",
+      "path": "/figma-export/17-card-frozen-result",
+      "expected_public_url": "https://nova-gamma-eosin.vercel.app/figma-export/17-card-frozen-result",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "responsive_proof": [],
+      "canonical_state": {
+        "screen": "cards",
+        "state": "frozen-result",
+        "pin": "1",
+        "storage": {
+          "nova_card_frozen": "true",
+          "nova_transfer_amount": "145",
+          "nova_transfer_reference": "September utilities",
+          "nova_card_daily_limit": "1200"
+        }
+      },
+      "audit": {
+        "status": "EXISTING_INTERACTION_ONLY",
+        "existing_route": null,
+        "owner": "assets/nova-current-renderer.js + assets/nova-current-state.js",
+        "query_state_supported": false
+      },
+      "ready": true,
+      "render_status": "LOCAL_RENDER_VERIFIED",
+      "public_status": "NOT_DEPLOYED",
+      "public_url": null
+    },
+    {
+      "number": 18,
+      "id": "report-transaction",
+      "name": "Report Transaction / Issue",
+      "group": "Activity & protection",
+      "path": "/figma-export/18-report-transaction",
+      "expected_public_url": "https://nova-gamma-eosin.vercel.app/figma-export/18-report-transaction",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "responsive_proof": [],
+      "canonical_state": {
+        "screen": "report-transaction",
+        "state": "review",
+        "pin": "1",
+        "storage": {
+          "nova_card_frozen": "false",
+          "nova_transfer_amount": "145",
+          "nova_transfer_reference": "September utilities",
+          "nova_card_daily_limit": "1200"
+        }
+      },
+      "audit": {
+        "status": "EXISTING_URL",
+        "existing_route": "app.html?screen=report-transaction&state=review",
+        "owner": "assets/nova-current-renderer.js + assets/nova-current-state.js",
+        "query_state_supported": true
+      },
+      "ready": true,
+      "render_status": "LOCAL_RENDER_VERIFIED",
+      "public_status": "NOT_DEPLOYED",
+      "public_url": null
+    },
+    {
+      "number": 19,
+      "id": "unfreeze-auth",
+      "name": "Unfreeze — Authentication",
+      "group": "Activity & protection",
+      "path": "/figma-export/19-unfreeze-auth",
+      "expected_public_url": "https://nova-gamma-eosin.vercel.app/figma-export/19-unfreeze-auth",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "responsive_proof": [],
+      "canonical_state": {
+        "screen": "cards",
+        "state": "unfreeze-auth",
+        "pin": "1",
+        "storage": {
+          "nova_card_frozen": "true",
+          "nova_transfer_amount": "145",
+          "nova_transfer_reference": "September utilities",
+          "nova_card_daily_limit": "1200"
+        }
+      },
+      "audit": {
+        "status": "EXISTING_INTERACTION_ONLY",
+        "existing_route": null,
+        "owner": "assets/nova-current-renderer.js + assets/nova-current-state.js",
+        "query_state_supported": false
+      },
+      "ready": true,
+      "render_status": "LOCAL_RENDER_VERIFIED",
+      "public_status": "NOT_DEPLOYED",
+      "public_url": null
+    },
+    {
+      "number": 20,
+      "id": "unfreeze-success",
+      "name": "Unfreeze — Successful recovery",
+      "group": "Activity & protection",
+      "path": "/figma-export/20-unfreeze-success",
+      "expected_public_url": "https://nova-gamma-eosin.vercel.app/figma-export/20-unfreeze-success",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "responsive_proof": [],
+      "canonical_state": {
+        "screen": "cards",
+        "state": "unfreeze-success",
+        "pin": "1",
+        "storage": {
+          "nova_card_frozen": "false",
+          "nova_transfer_amount": "145",
+          "nova_transfer_reference": "September utilities",
+          "nova_card_daily_limit": "1200"
+        }
+      },
+      "audit": {
+        "status": "EXISTING_INTERACTION_ONLY",
+        "existing_route": null,
+        "owner": "assets/nova-current-renderer.js + assets/nova-current-state.js",
+        "query_state_supported": false
+      },
+      "ready": true,
+      "render_status": "LOCAL_RENDER_VERIFIED",
+      "public_status": "NOT_DEPLOYED",
+      "public_url": null
+    },
+    {
+      "number": 21,
+      "id": "transaction-already-frozen",
+      "name": "Transaction — Already frozen edge state",
+      "group": "Activity & protection",
+      "path": "/figma-export/21-transaction-already-frozen",
+      "expected_public_url": "https://nova-gamma-eosin.vercel.app/figma-export/21-transaction-already-frozen",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "responsive_proof": [],
+      "canonical_state": {
+        "screen": "transaction-detail",
+        "state": "already-frozen",
+        "pin": "1",
+        "storage": {
+          "nova_card_frozen": "true",
+          "nova_transfer_amount": "145",
+          "nova_transfer_reference": "September utilities",
+          "nova_card_daily_limit": "1200"
+        }
+      },
+      "audit": {
+        "status": "EXISTING_INTERACTION_ONLY",
+        "existing_route": null,
+        "owner": "assets/nova-current-renderer.js + assets/nova-current-state.js",
+        "query_state_supported": false
+      },
+      "ready": true,
+      "render_status": "LOCAL_RENDER_VERIFIED",
+      "public_status": "NOT_DEPLOYED",
+      "public_url": null
+    },
+    {
+      "number": 22,
+      "id": "transaction-restricted",
+      "name": "Transaction — Restricted card / cannot self-unfreeze",
+      "group": "Activity & protection",
+      "path": "/figma-export/22-transaction-restricted",
+      "expected_public_url": "https://nova-gamma-eosin.vercel.app/figma-export/22-transaction-restricted",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "responsive_proof": [],
+      "canonical_state": {
+        "screen": "transaction-detail",
+        "state": "restricted",
+        "pin": "1",
+        "storage": {
+          "nova_card_frozen": "false",
+          "nova_transfer_amount": "145",
+          "nova_transfer_reference": "September utilities",
+          "nova_card_daily_limit": "1200"
+        }
+      },
+      "audit": {
+        "status": "MISSING_SCREEN_OR_STATE",
+        "existing_route": null,
+        "owner": "assets/nova-current-renderer.js + assets/nova-current-state.js",
+        "query_state_supported": false
+      },
+      "ready": true,
+      "render_status": "LOCAL_RENDER_VERIFIED",
+      "public_status": "NOT_DEPLOYED",
+      "public_url": null
+    },
+    {
+      "number": 23,
+      "id": "subscriptions",
+      "name": "Subscriptions / Recurring Payments",
+      "group": "Activity & protection",
+      "path": "/figma-export/23-subscriptions",
+      "expected_public_url": "https://nova-gamma-eosin.vercel.app/figma-export/23-subscriptions",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "responsive_proof": [],
+      "canonical_state": {
+        "screen": "subscriptions",
+        "state": "normal",
+        "pin": "1",
+        "storage": {
+          "nova_card_frozen": "false",
+          "nova_transfer_amount": "145",
+          "nova_transfer_reference": "September utilities",
+          "nova_card_daily_limit": "1200"
+        }
+      },
+      "audit": {
+        "status": "EXISTING_URL",
+        "existing_route": "app.html?screen=subscriptions",
+        "owner": "assets/nova-current-renderer.js + assets/nova-current-state.js",
+        "query_state_supported": true
+      },
+      "ready": true,
+      "render_status": "LOCAL_RENDER_VERIFIED",
+      "public_status": "NOT_DEPLOYED",
+      "public_url": null
+    },
+    {
+      "number": 24,
+      "id": "pay-start",
+      "name": "Pay — Transfer Start / Recent Recipients",
+      "group": "Payments",
+      "path": "/figma-export/24-pay-start",
+      "expected_public_url": "https://nova-gamma-eosin.vercel.app/figma-export/24-pay-start",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "responsive_proof": [],
+      "canonical_state": {
+        "screen": "transfer-recipient",
+        "state": "normal",
+        "pin": "1",
+        "storage": {
+          "nova_card_frozen": "false",
+          "nova_transfer_amount": "145",
+          "nova_transfer_reference": "September utilities",
+          "nova_card_daily_limit": "1200"
+        }
+      },
+      "audit": {
+        "status": "EXISTING_URL",
+        "existing_route": "app.html?screen=transfer-recipient",
+        "owner": "assets/nova-current-renderer.js + assets/nova-current-state.js",
+        "query_state_supported": true
+      },
+      "ready": true,
+      "render_status": "LOCAL_RENDER_VERIFIED",
+      "public_status": "NOT_DEPLOYED",
+      "public_url": null
+    },
+    {
+      "number": 25,
+      "id": "recipient-selection",
+      "name": "Recipient Selection",
+      "group": "Payments",
+      "path": "/figma-export/25-recipient-selection",
+      "expected_public_url": "https://nova-gamma-eosin.vercel.app/figma-export/25-recipient-selection",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "responsive_proof": [],
+      "canonical_state": {
+        "screen": "transfer-recipient",
+        "state": "selection",
+        "pin": "1",
+        "storage": {
+          "nova_card_frozen": "false",
+          "nova_transfer_amount": "145",
+          "nova_transfer_reference": "September utilities",
+          "nova_card_daily_limit": "1200"
+        }
+      },
+      "audit": {
+        "status": "EXISTING_URL",
+        "existing_route": "app.html?screen=transfer-recipient",
+        "owner": "assets/nova-current-renderer.js + assets/nova-current-state.js",
+        "query_state_supported": false
+      },
+      "ready": true,
+      "render_status": "LOCAL_RENDER_VERIFIED",
+      "public_status": "NOT_DEPLOYED",
+      "public_url": null
+    },
+    {
+      "number": 26,
+      "id": "add-recipient",
+      "name": "Add New Recipient",
+      "group": "Payments",
+      "path": "/figma-export/26-add-recipient",
+      "expected_public_url": "https://nova-gamma-eosin.vercel.app/figma-export/26-add-recipient",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "responsive_proof": [],
+      "canonical_state": {
+        "screen": "transfer-recipient",
+        "state": "add-recipient",
+        "pin": "1",
+        "storage": {
+          "nova_card_frozen": "false",
+          "nova_transfer_amount": "145",
+          "nova_transfer_reference": "September utilities",
+          "nova_card_daily_limit": "1200"
+        }
+      },
+      "audit": {
+        "status": "MISSING_SCREEN_OR_STATE",
+        "existing_route": null,
+        "owner": "assets/nova-current-renderer.js + assets/nova-current-state.js",
+        "query_state_supported": false
+      },
+      "ready": true,
+      "render_status": "LOCAL_RENDER_VERIFIED",
+      "public_status": "NOT_DEPLOYED",
+      "public_url": null
+    },
+    {
+      "number": 27,
+      "id": "transfer-amount",
+      "name": "Transfer — Amount",
+      "group": "Payments",
+      "path": "/figma-export/27-transfer-amount",
+      "expected_public_url": "https://nova-gamma-eosin.vercel.app/figma-export/27-transfer-amount",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "responsive_proof": [],
+      "canonical_state": {
+        "screen": "transfer-amount",
+        "state": "normal",
+        "pin": "1",
+        "storage": {
+          "nova_card_frozen": "false",
+          "nova_transfer_amount": "145",
+          "nova_transfer_reference": "September utilities",
+          "nova_card_daily_limit": "1200"
+        }
+      },
+      "audit": {
+        "status": "EXISTING_URL",
+        "existing_route": "app.html?screen=transfer-amount",
+        "owner": "assets/nova-current-renderer.js + assets/nova-current-state.js",
+        "query_state_supported": true
+      },
+      "ready": true,
+      "render_status": "LOCAL_RENDER_VERIFIED",
+      "public_status": "NOT_DEPLOYED",
+      "public_url": null
+    },
+    {
+      "number": 28,
+      "id": "transfer-insufficient",
+      "name": "Transfer — Insufficient Balance Error",
+      "group": "Payments",
+      "path": "/figma-export/28-transfer-insufficient",
+      "expected_public_url": "https://nova-gamma-eosin.vercel.app/figma-export/28-transfer-insufficient",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "responsive_proof": [],
+      "canonical_state": {
+        "screen": "transfer-amount",
+        "state": "insufficient",
+        "pin": "1",
+        "storage": {
+          "nova_card_frozen": "false",
+          "nova_transfer_amount": "3000",
+          "nova_transfer_reference": "September utilities",
+          "nova_card_daily_limit": "1200"
+        }
+      },
+      "audit": {
+        "status": "EXISTING_INTERACTION_ONLY",
+        "existing_route": null,
+        "owner": "assets/nova-current-renderer.js + assets/nova-current-state.js",
+        "query_state_supported": false
+      },
+      "ready": true,
+      "render_status": "LOCAL_RENDER_VERIFIED",
+      "public_status": "NOT_DEPLOYED",
+      "public_url": null
+    },
+    {
+      "number": 29,
+      "id": "transfer-review",
+      "name": "Transfer — Impact / Review",
+      "group": "Payments",
+      "path": "/figma-export/29-transfer-review",
+      "expected_public_url": "https://nova-gamma-eosin.vercel.app/figma-export/29-transfer-review",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "responsive_proof": [
+        1440,
+        1024,
+        768,
+        390
+      ],
+      "canonical_state": {
+        "screen": "transfer-review",
+        "state": "normal",
+        "pin": "1",
+        "storage": {
+          "nova_card_frozen": "false",
+          "nova_transfer_amount": "145",
+          "nova_transfer_reference": "September utilities",
+          "nova_card_daily_limit": "1200"
+        }
+      },
+      "audit": {
+        "status": "EXISTING_URL",
+        "existing_route": "app.html?screen=transfer-review",
+        "owner": "assets/nova-current-renderer.js + assets/nova-current-state.js",
+        "query_state_supported": true
+      },
+      "ready": true,
+      "render_status": "LOCAL_RENDER_VERIFIED",
+      "public_status": "NOT_DEPLOYED",
+      "public_url": null
+    },
+    {
+      "number": 30,
+      "id": "biometric-auth",
+      "name": "Authentication — Biometric",
+      "group": "Payments",
+      "path": "/figma-export/30-biometric-auth",
+      "expected_public_url": "https://nova-gamma-eosin.vercel.app/figma-export/30-biometric-auth",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "responsive_proof": [],
+      "canonical_state": {
+        "screen": "transfer-review",
+        "state": "biometric",
+        "pin": "1",
+        "storage": {
+          "nova_card_frozen": "false",
+          "nova_transfer_amount": "145",
+          "nova_transfer_reference": "September utilities",
+          "nova_card_daily_limit": "1200"
+        }
+      },
+      "audit": {
+        "status": "EXISTING_INTERACTION_ONLY",
+        "existing_route": null,
+        "owner": "assets/nova-current-renderer.js + assets/nova-current-state.js",
+        "query_state_supported": false
+      },
+      "ready": true,
+      "render_status": "LOCAL_RENDER_VERIFIED",
+      "public_status": "NOT_DEPLOYED",
+      "public_url": null
+    },
+    {
+      "number": 31,
+      "id": "biometric-failed",
+      "name": "Authentication — Biometric Failed",
+      "group": "Payments",
+      "path": "/figma-export/31-biometric-failed",
+      "expected_public_url": "https://nova-gamma-eosin.vercel.app/figma-export/31-biometric-failed",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "responsive_proof": [],
+      "canonical_state": {
+        "screen": "biometric-failed",
+        "state": "normal",
+        "pin": "1",
+        "storage": {
+          "nova_card_frozen": "false",
+          "nova_transfer_amount": "145",
+          "nova_transfer_reference": "September utilities",
+          "nova_card_daily_limit": "1200"
+        }
+      },
+      "audit": {
+        "status": "EXISTING_URL",
+        "existing_route": "app.html?screen=biometric-failed",
+        "owner": "assets/nova-current-renderer.js + assets/nova-current-state.js",
+        "query_state_supported": true
+      },
+      "ready": true,
+      "render_status": "LOCAL_RENDER_VERIFIED",
+      "public_status": "NOT_DEPLOYED",
+      "public_url": null
+    },
+    {
+      "number": 32,
+      "id": "passcode-fallback",
+      "name": "Authentication — Passcode Fallback",
+      "group": "Payments",
+      "path": "/figma-export/32-passcode-fallback",
+      "expected_public_url": "https://nova-gamma-eosin.vercel.app/figma-export/32-passcode-fallback",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "responsive_proof": [],
+      "canonical_state": {
+        "screen": "biometric-failed",
+        "state": "passcode",
+        "pin": "1",
+        "storage": {
+          "nova_card_frozen": "false",
+          "nova_transfer_amount": "145",
+          "nova_transfer_reference": "September utilities",
+          "nova_card_daily_limit": "1200"
+        }
+      },
+      "audit": {
+        "status": "EXISTING_INTERACTION_ONLY",
+        "existing_route": null,
+        "owner": "assets/nova-current-renderer.js + assets/nova-current-state.js",
+        "query_state_supported": false
+      },
+      "ready": true,
+      "render_status": "LOCAL_RENDER_VERIFIED",
+      "public_status": "NOT_DEPLOYED",
+      "public_url": null
+    },
+    {
+      "number": 33,
+      "id": "transfer-offline",
+      "name": "Transfer — Offline / confirmation disabled",
+      "group": "Payments",
+      "path": "/figma-export/33-transfer-offline",
+      "expected_public_url": "https://nova-gamma-eosin.vercel.app/figma-export/33-transfer-offline",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "responsive_proof": [],
+      "canonical_state": {
+        "screen": "offline",
+        "state": "normal",
+        "pin": "1",
+        "storage": {
+          "nova_card_frozen": "false",
+          "nova_transfer_amount": "145",
+          "nova_transfer_reference": "September utilities",
+          "nova_card_daily_limit": "1200"
+        }
+      },
+      "audit": {
+        "status": "EXISTING_URL",
+        "existing_route": "app.html?screen=offline",
+        "owner": "assets/nova-current-renderer.js + assets/nova-current-state.js",
+        "query_state_supported": true
+      },
+      "ready": true,
+      "render_status": "LOCAL_RENDER_VERIFIED",
+      "public_status": "NOT_DEPLOYED",
+      "public_url": null
+    },
+    {
+      "number": 34,
+      "id": "transfer-revalidated",
+      "name": "Transfer — Reconnected / revalidation",
+      "group": "Payments",
+      "path": "/figma-export/34-transfer-revalidated",
+      "expected_public_url": "https://nova-gamma-eosin.vercel.app/figma-export/34-transfer-revalidated",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "responsive_proof": [],
+      "canonical_state": {
+        "screen": "transfer-review",
+        "state": "revalidated",
+        "pin": "1",
+        "storage": {
+          "nova_card_frozen": "false",
+          "nova_transfer_amount": "145",
+          "nova_transfer_reference": "September utilities",
+          "nova_card_daily_limit": "1200"
+        }
+      },
+      "audit": {
+        "status": "MISSING_SCREEN_OR_STATE",
+        "existing_route": null,
+        "owner": "assets/nova-current-renderer.js + assets/nova-current-state.js",
+        "query_state_supported": false
+      },
+      "ready": true,
+      "render_status": "LOCAL_RENDER_VERIFIED",
+      "public_status": "NOT_DEPLOYED",
+      "public_url": null
+    },
+    {
+      "number": 35,
+      "id": "transfer-processing",
+      "name": "Transfer — Processing",
+      "group": "Payments",
+      "path": "/figma-export/35-transfer-processing",
+      "expected_public_url": "https://nova-gamma-eosin.vercel.app/figma-export/35-transfer-processing",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "responsive_proof": [],
+      "canonical_state": {
+        "screen": "transfer-review",
+        "state": "processing",
+        "pin": "1",
+        "storage": {
+          "nova_card_frozen": "false",
+          "nova_transfer_amount": "145",
+          "nova_transfer_reference": "September utilities",
+          "nova_card_daily_limit": "1200"
+        }
+      },
+      "audit": {
+        "status": "MISSING_SCREEN_OR_STATE",
+        "existing_route": null,
+        "owner": "assets/nova-current-renderer.js + assets/nova-current-state.js",
+        "query_state_supported": false
+      },
+      "ready": true,
+      "render_status": "LOCAL_RENDER_VERIFIED",
+      "public_status": "NOT_DEPLOYED",
+      "public_url": null
+    },
+    {
+      "number": 36,
+      "id": "transfer-success",
+      "name": "Transfer — Success Receipt",
+      "group": "Payments",
+      "path": "/figma-export/36-transfer-success",
+      "expected_public_url": "https://nova-gamma-eosin.vercel.app/figma-export/36-transfer-success",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "responsive_proof": [],
+      "canonical_state": {
+        "screen": "transfer-success",
+        "state": "normal",
+        "pin": "1",
+        "storage": {
+          "nova_card_frozen": "false",
+          "nova_transfer_amount": "145",
+          "nova_transfer_reference": "September utilities",
+          "nova_card_daily_limit": "1200"
+        }
+      },
+      "audit": {
+        "status": "EXISTING_URL",
+        "existing_route": "app.html?screen=transfer-success",
+        "owner": "assets/nova-current-renderer.js + assets/nova-current-state.js",
+        "query_state_supported": true
+      },
+      "ready": true,
+      "render_status": "LOCAL_RENDER_VERIFIED",
+      "public_status": "NOT_DEPLOYED",
+      "public_url": null
+    },
+    {
+      "number": 37,
+      "id": "transfer-cancelled",
+      "name": "Transfer — Failure / cancelled, no money moved",
+      "group": "Payments",
+      "path": "/figma-export/37-transfer-cancelled",
+      "expected_public_url": "https://nova-gamma-eosin.vercel.app/figma-export/37-transfer-cancelled",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "responsive_proof": [],
+      "canonical_state": {
+        "screen": "transfer-review",
+        "state": "cancelled",
+        "pin": "1",
+        "storage": {
+          "nova_card_frozen": "false",
+          "nova_transfer_amount": "145",
+          "nova_transfer_reference": "September utilities",
+          "nova_card_daily_limit": "1200"
+        }
+      },
+      "audit": {
+        "status": "MISSING_SCREEN_OR_STATE",
+        "existing_route": null,
+        "owner": "assets/nova-current-renderer.js + assets/nova-current-state.js",
+        "query_state_supported": false
+      },
+      "ready": true,
+      "render_status": "LOCAL_RENDER_VERIFIED",
+      "public_status": "NOT_DEPLOYED",
+      "public_url": null
+    },
+    {
+      "number": 38,
+      "id": "cards-overview",
+      "name": "Cards — Overview",
+      "group": "Cards",
+      "path": "/figma-export/38-cards-overview",
+      "expected_public_url": "https://nova-gamma-eosin.vercel.app/figma-export/38-cards-overview",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "responsive_proof": [
+        1440,
+        1024,
+        768,
+        390
+      ],
+      "canonical_state": {
+        "screen": "cards",
+        "state": "normal",
+        "pin": "1",
+        "storage": {
+          "nova_card_frozen": "false",
+          "nova_transfer_amount": "145",
+          "nova_transfer_reference": "September utilities",
+          "nova_card_daily_limit": "1200"
+        }
+      },
+      "audit": {
+        "status": "EXISTING_URL",
+        "existing_route": "app.html?screen=cards",
+        "owner": "assets/nova-current-renderer.js + assets/nova-current-state.js",
+        "query_state_supported": true
+      },
+      "ready": true,
+      "render_status": "LOCAL_RENDER_VERIFIED",
+      "public_status": "NOT_DEPLOYED",
+      "public_url": null
+    },
+    {
+      "number": 39,
+      "id": "card-active",
+      "name": "Card Detail — Active",
+      "group": "Cards",
+      "path": "/figma-export/39-card-active",
+      "expected_public_url": "https://nova-gamma-eosin.vercel.app/figma-export/39-card-active",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "responsive_proof": [],
+      "canonical_state": {
+        "screen": "cards",
+        "state": "active-detail",
+        "pin": "1",
+        "storage": {
+          "nova_card_frozen": "false",
+          "nova_transfer_amount": "145",
+          "nova_transfer_reference": "September utilities",
+          "nova_card_daily_limit": "1200"
+        }
+      },
+      "audit": {
+        "status": "MISSING_SCREEN_OR_STATE",
+        "existing_route": null,
+        "owner": "assets/nova-current-renderer.js + assets/nova-current-state.js",
+        "query_state_supported": false
+      },
+      "ready": true,
+      "render_status": "LOCAL_RENDER_VERIFIED",
+      "public_status": "NOT_DEPLOYED",
+      "public_url": null
+    },
+    {
+      "number": 40,
+      "id": "card-frozen",
+      "name": "Card Detail — Frozen",
+      "group": "Cards",
+      "path": "/figma-export/40-card-frozen",
+      "expected_public_url": "https://nova-gamma-eosin.vercel.app/figma-export/40-card-frozen",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "responsive_proof": [],
+      "canonical_state": {
+        "screen": "cards",
+        "state": "frozen-detail",
+        "pin": "1",
+        "storage": {
+          "nova_card_frozen": "true",
+          "nova_transfer_amount": "145",
+          "nova_transfer_reference": "September utilities",
+          "nova_card_daily_limit": "1200"
+        }
+      },
+      "audit": {
+        "status": "EXISTING_INTERACTION_ONLY",
+        "existing_route": null,
+        "owner": "assets/nova-current-renderer.js + assets/nova-current-state.js",
+        "query_state_supported": false
+      },
+      "ready": true,
+      "render_status": "LOCAL_RENDER_VERIFIED",
+      "public_status": "NOT_DEPLOYED",
+      "public_url": null
+    },
+    {
+      "number": 41,
+      "id": "card-restricted",
+      "name": "Card Detail — Restricted",
+      "group": "Cards",
+      "path": "/figma-export/41-card-restricted",
+      "expected_public_url": "https://nova-gamma-eosin.vercel.app/figma-export/41-card-restricted",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "responsive_proof": [],
+      "canonical_state": {
+        "screen": "cards",
+        "state": "restricted",
+        "pin": "1",
+        "storage": {
+          "nova_card_frozen": "false",
+          "nova_transfer_amount": "145",
+          "nova_transfer_reference": "September utilities",
+          "nova_card_daily_limit": "1200"
+        }
+      },
+      "audit": {
+        "status": "MISSING_SCREEN_OR_STATE",
+        "existing_route": null,
+        "owner": "assets/nova-current-renderer.js + assets/nova-current-state.js",
+        "query_state_supported": false
+      },
+      "ready": true,
+      "render_status": "LOCAL_RENDER_VERIFIED",
+      "public_status": "NOT_DEPLOYED",
+      "public_url": null
+    },
+    {
+      "number": 42,
+      "id": "spending-controls",
+      "name": "Spending Controls",
+      "group": "Cards",
+      "path": "/figma-export/42-spending-controls",
+      "expected_public_url": "https://nova-gamma-eosin.vercel.app/figma-export/42-spending-controls",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "responsive_proof": [],
+      "canonical_state": {
+        "screen": "card-controls",
+        "state": "normal",
+        "pin": "1",
+        "storage": {
+          "nova_card_frozen": "false",
+          "nova_transfer_amount": "145",
+          "nova_transfer_reference": "September utilities",
+          "nova_card_daily_limit": "1200"
+        }
+      },
+      "audit": {
+        "status": "EXISTING_URL",
+        "existing_route": "app.html?screen=card-controls",
+        "owner": "assets/nova-current-renderer.js + assets/nova-current-state.js",
+        "query_state_supported": true
+      },
+      "ready": true,
+      "render_status": "LOCAL_RENDER_VERIFIED",
+      "public_status": "NOT_DEPLOYED",
+      "public_url": null
+    },
+    {
+      "number": 43,
+      "id": "card-limits",
+      "name": "Card Limits",
+      "group": "Cards",
+      "path": "/figma-export/43-card-limits",
+      "expected_public_url": "https://nova-gamma-eosin.vercel.app/figma-export/43-card-limits",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "responsive_proof": [],
+      "canonical_state": {
+        "screen": "card-controls",
+        "state": "limits",
+        "pin": "1",
+        "storage": {
+          "nova_card_frozen": "false",
+          "nova_transfer_amount": "145",
+          "nova_transfer_reference": "September utilities",
+          "nova_card_daily_limit": "1200"
+        }
+      },
+      "audit": {
+        "status": "EXISTING_URL",
+        "existing_route": "app.html?screen=card-controls",
+        "owner": "assets/nova-current-renderer.js + assets/nova-current-state.js",
+        "query_state_supported": false
+      },
+      "ready": true,
+      "render_status": "LOCAL_RENDER_VERIFIED",
+      "public_status": "NOT_DEPLOYED",
+      "public_url": null
+    },
+    {
+      "number": 44,
+      "id": "card-activity",
+      "name": "Card Activity",
+      "group": "Cards",
+      "path": "/figma-export/44-card-activity",
+      "expected_public_url": "https://nova-gamma-eosin.vercel.app/figma-export/44-card-activity",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "responsive_proof": [],
+      "canonical_state": {
+        "screen": "activity",
+        "state": "card-activity",
+        "pin": "1",
+        "storage": {
+          "nova_card_frozen": "false",
+          "nova_transfer_amount": "145",
+          "nova_transfer_reference": "September utilities",
+          "nova_card_daily_limit": "1200"
+        }
+      },
+      "audit": {
+        "status": "MISSING_SCREEN_OR_STATE",
+        "existing_route": null,
+        "owner": "assets/nova-current-renderer.js + assets/nova-current-state.js",
+        "query_state_supported": false
+      },
+      "ready": true,
+      "render_status": "LOCAL_RENDER_VERIFIED",
+      "public_status": "NOT_DEPLOYED",
+      "public_url": null
+    },
+    {
+      "number": 45,
+      "id": "savings-overview",
+      "name": "Save — Goals Overview",
+      "group": "Savings",
+      "path": "/figma-export/45-savings-overview",
+      "expected_public_url": "https://nova-gamma-eosin.vercel.app/figma-export/45-savings-overview",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "responsive_proof": [
+        1440,
+        1024,
+        768,
+        390
+      ],
+      "canonical_state": {
+        "screen": "savings",
+        "state": "normal",
+        "pin": "1",
+        "storage": {
+          "nova_card_frozen": "false",
+          "nova_transfer_amount": "145",
+          "nova_transfer_reference": "September utilities",
+          "nova_card_daily_limit": "1200"
+        }
+      },
+      "audit": {
+        "status": "EXISTING_URL",
+        "existing_route": "app.html?screen=savings",
+        "owner": "assets/nova-current-renderer.js + assets/nova-current-state.js",
+        "query_state_supported": true
+      },
+      "ready": true,
+      "render_status": "LOCAL_RENDER_VERIFIED",
+      "public_status": "NOT_DEPLOYED",
+      "public_url": null
+    },
+    {
+      "number": 46,
+      "id": "goal-detail",
+      "name": "Save — Goal Detail",
+      "group": "Savings",
+      "path": "/figma-export/46-goal-detail",
+      "expected_public_url": "https://nova-gamma-eosin.vercel.app/figma-export/46-goal-detail",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "responsive_proof": [],
+      "canonical_state": {
+        "screen": "savings-detail",
+        "state": "goal-detail",
+        "pin": "1",
+        "storage": {
+          "nova_card_frozen": "false",
+          "nova_transfer_amount": "145",
+          "nova_transfer_reference": "September utilities",
+          "nova_card_daily_limit": "1200"
+        }
+      },
+      "audit": {
+        "status": "EXISTING_URL",
+        "existing_route": "app.html?screen=savings-detail",
+        "owner": "assets/nova-current-renderer.js + assets/nova-current-state.js",
+        "query_state_supported": false
+      },
+      "ready": true,
+      "render_status": "LOCAL_RENDER_VERIFIED",
+      "public_status": "NOT_DEPLOYED",
+      "public_url": null
+    },
+    {
+      "number": 47,
+      "id": "contribution-settings",
+      "name": "Contribution Settings",
+      "group": "Savings",
+      "path": "/figma-export/47-contribution-settings",
+      "expected_public_url": "https://nova-gamma-eosin.vercel.app/figma-export/47-contribution-settings",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "responsive_proof": [],
+      "canonical_state": {
+        "screen": "savings-detail",
+        "state": "contribution",
+        "pin": "1",
+        "storage": {
+          "nova_card_frozen": "false",
+          "nova_transfer_amount": "145",
+          "nova_transfer_reference": "September utilities",
+          "nova_card_daily_limit": "1200"
+        }
+      },
+      "audit": {
+        "status": "EXISTING_URL",
+        "existing_route": "app.html?screen=savings-detail",
+        "owner": "assets/nova-current-renderer.js + assets/nova-current-state.js",
+        "query_state_supported": false
+      },
+      "ready": true,
+      "render_status": "LOCAL_RENDER_VERIFIED",
+      "public_status": "NOT_DEPLOYED",
+      "public_url": null
+    },
+    {
+      "number": 48,
+      "id": "goal-activity",
+      "name": "Goal Activity",
+      "group": "Savings",
+      "path": "/figma-export/48-goal-activity",
+      "expected_public_url": "https://nova-gamma-eosin.vercel.app/figma-export/48-goal-activity",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "responsive_proof": [],
+      "canonical_state": {
+        "screen": "savings",
+        "state": "goal-activity",
+        "pin": "1",
+        "storage": {
+          "nova_card_frozen": "false",
+          "nova_transfer_amount": "145",
+          "nova_transfer_reference": "September utilities",
+          "nova_card_daily_limit": "1200"
+        }
+      },
+      "audit": {
+        "status": "MISSING_SCREEN_OR_STATE",
+        "existing_route": null,
+        "owner": "assets/nova-current-renderer.js + assets/nova-current-state.js",
+        "query_state_supported": false
+      },
+      "ready": true,
+      "render_status": "LOCAL_RENDER_VERIFIED",
+      "public_status": "NOT_DEPLOYED",
+      "public_url": null
+    },
+    {
+      "number": 49,
+      "id": "insights-spending",
+      "name": "Insights — Spending",
+      "group": "Insights",
+      "path": "/figma-export/49-insights-spending",
+      "expected_public_url": "https://nova-gamma-eosin.vercel.app/figma-export/49-insights-spending",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "responsive_proof": [],
+      "canonical_state": {
+        "screen": "activity",
+        "state": "spending",
+        "pin": "1",
+        "storage": {
+          "nova_card_frozen": "false",
+          "nova_transfer_amount": "145",
+          "nova_transfer_reference": "September utilities",
+          "nova_card_daily_limit": "1200"
+        }
+      },
+      "audit": {
+        "status": "MISSING_SCREEN_OR_STATE",
+        "existing_route": null,
+        "owner": "assets/nova-current-renderer.js + assets/nova-current-state.js",
+        "query_state_supported": false
+      },
+      "ready": true,
+      "render_status": "LOCAL_RENDER_VERIFIED",
+      "public_status": "NOT_DEPLOYED",
+      "public_url": null
+    },
+    {
+      "number": 50,
+      "id": "insights-categories",
+      "name": "Insights — Categories / Merchants",
+      "group": "Insights",
+      "path": "/figma-export/50-insights-categories",
+      "expected_public_url": "https://nova-gamma-eosin.vercel.app/figma-export/50-insights-categories",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "responsive_proof": [],
+      "canonical_state": {
+        "screen": "activity",
+        "state": "categories",
+        "pin": "1",
+        "storage": {
+          "nova_card_frozen": "false",
+          "nova_transfer_amount": "145",
+          "nova_transfer_reference": "September utilities",
+          "nova_card_daily_limit": "1200"
+        }
+      },
+      "audit": {
+        "status": "MISSING_SCREEN_OR_STATE",
+        "existing_route": null,
+        "owner": "assets/nova-current-renderer.js + assets/nova-current-state.js",
+        "query_state_supported": false
+      },
+      "ready": true,
+      "render_status": "LOCAL_RENDER_VERIFIED",
+      "public_status": "NOT_DEPLOYED",
+      "public_url": null
+    },
+    {
+      "number": 51,
+      "id": "insights-comparison",
+      "name": "Insights — Month Comparison",
+      "group": "Insights",
+      "path": "/figma-export/51-insights-comparison",
+      "expected_public_url": "https://nova-gamma-eosin.vercel.app/figma-export/51-insights-comparison",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "responsive_proof": [],
+      "canonical_state": {
+        "screen": "activity",
+        "state": "comparison",
+        "pin": "1",
+        "storage": {
+          "nova_card_frozen": "false",
+          "nova_transfer_amount": "145",
+          "nova_transfer_reference": "September utilities",
+          "nova_card_daily_limit": "1200"
+        }
+      },
+      "audit": {
+        "status": "MISSING_SCREEN_OR_STATE",
+        "existing_route": null,
+        "owner": "assets/nova-current-renderer.js + assets/nova-current-state.js",
+        "query_state_supported": false
+      },
+      "ready": true,
+      "render_status": "LOCAL_RENDER_VERIFIED",
+      "public_status": "NOT_DEPLOYED",
+      "public_url": null
+    },
+    {
+      "number": 52,
+      "id": "personal-details",
+      "name": "Profile — Personal Details",
+      "group": "Profile & security",
+      "path": "/figma-export/52-personal-details",
+      "expected_public_url": "https://nova-gamma-eosin.vercel.app/figma-export/52-personal-details",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "responsive_proof": [],
+      "canonical_state": {
+        "screen": "settings",
+        "state": "personal",
+        "pin": "1",
+        "storage": {
+          "nova_card_frozen": "false",
+          "nova_transfer_amount": "145",
+          "nova_transfer_reference": "September utilities",
+          "nova_card_daily_limit": "1200"
+        }
+      },
+      "audit": {
+        "status": "MISSING_SCREEN_OR_STATE",
+        "existing_route": null,
+        "owner": "assets/legacy/p2-1a-canonical/nova-current-renderer.p2-1a.js",
+        "query_state_supported": false
+      },
+      "ready": true,
+      "render_status": "LOCAL_RENDER_VERIFIED",
+      "public_status": "NOT_DEPLOYED",
+      "public_url": null
+    },
+    {
+      "number": 53,
+      "id": "security-center",
+      "name": "Security Center",
+      "group": "Profile & security",
+      "path": "/figma-export/53-security-center",
+      "expected_public_url": "https://nova-gamma-eosin.vercel.app/figma-export/53-security-center",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "responsive_proof": [],
+      "canonical_state": {
+        "screen": "security",
+        "state": "normal",
+        "pin": "1",
+        "storage": {
+          "nova_card_frozen": "false",
+          "nova_transfer_amount": "145",
+          "nova_transfer_reference": "September utilities",
+          "nova_card_daily_limit": "1200"
+        }
+      },
+      "audit": {
+        "status": "EXISTING_URL",
+        "existing_route": "app.html?screen=security",
+        "owner": "assets/nova-current-renderer.js + assets/nova-current-state.js",
+        "query_state_supported": true
+      },
+      "ready": true,
+      "render_status": "LOCAL_RENDER_VERIFIED",
+      "public_status": "NOT_DEPLOYED",
+      "public_url": null
+    },
+    {
+      "number": 54,
+      "id": "security-credentials",
+      "name": "Security — Biometrics / Passcode",
+      "group": "Profile & security",
+      "path": "/figma-export/54-security-credentials",
+      "expected_public_url": "https://nova-gamma-eosin.vercel.app/figma-export/54-security-credentials",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "responsive_proof": [],
+      "canonical_state": {
+        "screen": "security",
+        "state": "credentials",
+        "pin": "1",
+        "storage": {
+          "nova_card_frozen": "false",
+          "nova_transfer_amount": "145",
+          "nova_transfer_reference": "September utilities",
+          "nova_card_daily_limit": "1200"
+        }
+      },
+      "audit": {
+        "status": "MISSING_SCREEN_OR_STATE",
+        "existing_route": null,
+        "owner": "assets/nova-current-renderer.js + assets/nova-current-state.js",
+        "query_state_supported": false
+      },
+      "ready": true,
+      "render_status": "LOCAL_RENDER_VERIFIED",
+      "public_status": "NOT_DEPLOYED",
+      "public_url": null
+    },
+    {
+      "number": 55,
+      "id": "security-devices",
+      "name": "Security — Devices / Sessions",
+      "group": "Profile & security",
+      "path": "/figma-export/55-security-devices",
+      "expected_public_url": "https://nova-gamma-eosin.vercel.app/figma-export/55-security-devices",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "responsive_proof": [],
+      "canonical_state": {
+        "screen": "security",
+        "state": "devices",
+        "pin": "1",
+        "storage": {
+          "nova_card_frozen": "false",
+          "nova_transfer_amount": "145",
+          "nova_transfer_reference": "September utilities",
+          "nova_card_daily_limit": "1200"
+        }
+      },
+      "audit": {
+        "status": "MISSING_SCREEN_OR_STATE",
+        "existing_route": null,
+        "owner": "assets/nova-current-renderer.js + assets/nova-current-state.js",
+        "query_state_supported": false
+      },
+      "ready": true,
+      "render_status": "LOCAL_RENDER_VERIFIED",
+      "public_status": "NOT_DEPLOYED",
+      "public_url": null
+    },
+    {
+      "number": 56,
+      "id": "notification-privacy",
+      "name": "Notification Privacy",
+      "group": "Profile & security",
+      "path": "/figma-export/56-notification-privacy",
+      "expected_public_url": "https://nova-gamma-eosin.vercel.app/figma-export/56-notification-privacy",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "responsive_proof": [],
+      "canonical_state": {
+        "screen": "security",
+        "state": "notification-privacy",
+        "pin": "1",
+        "storage": {
+          "nova_card_frozen": "false",
+          "nova_transfer_amount": "145",
+          "nova_transfer_reference": "September utilities",
+          "nova_card_daily_limit": "1200"
+        }
+      },
+      "audit": {
+        "status": "MISSING_SCREEN_OR_STATE",
+        "existing_route": null,
+        "owner": "assets/nova-current-renderer.js + assets/nova-current-state.js",
+        "query_state_supported": false
+      },
+      "ready": true,
+      "render_status": "LOCAL_RENDER_VERIFIED",
+      "public_status": "NOT_DEPLOYED",
+      "public_url": null
+    },
+    {
+      "number": 57,
+      "id": "secure-account",
+      "name": "Secure Account / Emergency Actions",
+      "group": "Profile & security",
+      "path": "/figma-export/57-secure-account",
+      "expected_public_url": "https://nova-gamma-eosin.vercel.app/figma-export/57-secure-account",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "responsive_proof": [],
+      "canonical_state": {
+        "screen": "security",
+        "state": "emergency",
+        "pin": "1",
+        "storage": {
+          "nova_card_frozen": "false",
+          "nova_transfer_amount": "145",
+          "nova_transfer_reference": "September utilities",
+          "nova_card_daily_limit": "1200"
+        }
+      },
+      "audit": {
+        "status": "MISSING_SCREEN_OR_STATE",
+        "existing_route": null,
+        "owner": "assets/nova-current-renderer.js + assets/nova-current-state.js",
+        "query_state_supported": false
+      },
+      "ready": true,
+      "render_status": "LOCAL_RENDER_VERIFIED",
+      "public_status": "NOT_DEPLOYED",
+      "public_url": null
+    },
+    {
+      "number": 58,
+      "id": "help-support",
+      "name": "Help / Support",
+      "group": "Profile & security",
+      "path": "/figma-export/58-help-support",
+      "expected_public_url": "https://nova-gamma-eosin.vercel.app/figma-export/58-help-support",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "responsive_proof": [],
+      "canonical_state": {
+        "screen": "security",
+        "state": "support",
+        "pin": "1",
+        "storage": {
+          "nova_card_frozen": "false",
+          "nova_transfer_amount": "145",
+          "nova_transfer_reference": "September utilities",
+          "nova_card_daily_limit": "1200"
+        }
+      },
+      "audit": {
+        "status": "MISSING_SCREEN_OR_STATE",
+        "existing_route": null,
+        "owner": "assets/nova-current-renderer.js + assets/nova-current-state.js",
+        "query_state_supported": false
+      },
+      "ready": true,
+      "render_status": "LOCAL_RENDER_VERIFIED",
+      "public_status": "NOT_DEPLOYED",
+      "public_url": null
+    },
+    {
+      "number": 59,
+      "id": "kyc-welcome",
+      "name": "KYC — Welcome",
+      "group": "Identity verification",
+      "path": "/figma-export/59-kyc-welcome",
+      "expected_public_url": "https://nova-gamma-eosin.vercel.app/figma-export/59-kyc-welcome",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "responsive_proof": [],
+      "canonical_state": {
+        "screen": "onboarding",
+        "state": "normal",
+        "pin": "1",
+        "storage": {
+          "nova_card_frozen": "false",
+          "nova_transfer_amount": "145",
+          "nova_transfer_reference": "September utilities",
+          "nova_card_daily_limit": "1200"
+        }
+      },
+      "audit": {
+        "status": "EXISTING_URL",
+        "existing_route": "app.html?screen=onboarding",
+        "owner": "assets/nova-current-renderer.js + assets/nova-current-state.js",
+        "query_state_supported": true
+      },
+      "ready": true,
+      "render_status": "LOCAL_RENDER_VERIFIED",
+      "public_status": "NOT_DEPLOYED",
+      "public_url": null
+    },
+    {
+      "number": 60,
+      "id": "kyc-requirements",
+      "name": "KYC — What you'll need / why",
+      "group": "Identity verification",
+      "path": "/figma-export/60-kyc-requirements",
+      "expected_public_url": "https://nova-gamma-eosin.vercel.app/figma-export/60-kyc-requirements",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "responsive_proof": [
+        1440,
+        1024,
+        768,
+        390
+      ],
+      "canonical_state": {
+        "screen": "kyc",
+        "state": "intro",
+        "pin": "1",
+        "storage": {
+          "nova_card_frozen": "false",
+          "nova_transfer_amount": "145",
+          "nova_transfer_reference": "September utilities",
+          "nova_card_daily_limit": "1200"
+        }
+      },
+      "audit": {
+        "status": "EXISTING_URL",
+        "existing_route": "app.html?screen=kyc&state=intro",
+        "owner": "assets/nova-current-renderer.js + assets/nova-current-state.js",
+        "query_state_supported": true
+      },
+      "ready": true,
+      "render_status": "LOCAL_RENDER_VERIFIED",
+      "public_status": "NOT_DEPLOYED",
+      "public_url": null
+    },
+    {
+      "number": 61,
+      "id": "kyc-verification",
+      "name": "KYC — Phone / Email Verification",
+      "group": "Identity verification",
+      "path": "/figma-export/61-kyc-verification",
+      "expected_public_url": "https://nova-gamma-eosin.vercel.app/figma-export/61-kyc-verification",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "responsive_proof": [],
+      "canonical_state": {
+        "screen": "kyc",
+        "state": "verification",
+        "pin": "1",
+        "storage": {
+          "nova_card_frozen": "false",
+          "nova_transfer_amount": "145",
+          "nova_transfer_reference": "September utilities",
+          "nova_card_daily_limit": "1200"
+        }
+      },
+      "audit": {
+        "status": "MISSING_SCREEN_OR_STATE",
+        "existing_route": null,
+        "owner": "assets/nova-current-renderer.js + assets/nova-current-state.js",
+        "query_state_supported": false
+      },
+      "ready": true,
+      "render_status": "LOCAL_RENDER_VERIFIED",
+      "public_status": "NOT_DEPLOYED",
+      "public_url": null
+    },
+    {
+      "number": 62,
+      "id": "kyc-personal-details",
+      "name": "KYC — Personal / Legal Details",
+      "group": "Identity verification",
+      "path": "/figma-export/62-kyc-personal-details",
+      "expected_public_url": "https://nova-gamma-eosin.vercel.app/figma-export/62-kyc-personal-details",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "responsive_proof": [],
+      "canonical_state": {
+        "screen": "kyc",
+        "state": "personal",
+        "pin": "1",
+        "storage": {
+          "nova_card_frozen": "false",
+          "nova_transfer_amount": "145",
+          "nova_transfer_reference": "September utilities",
+          "nova_card_daily_limit": "1200"
+        }
+      },
+      "audit": {
+        "status": "MISSING_SCREEN_OR_STATE",
+        "existing_route": null,
+        "owner": "assets/nova-current-renderer.js + assets/nova-current-state.js",
+        "query_state_supported": false
+      },
+      "ready": true,
+      "render_status": "LOCAL_RENDER_VERIFIED",
+      "public_status": "NOT_DEPLOYED",
+      "public_url": null
+    },
+    {
+      "number": 63,
+      "id": "kyc-id-type",
+      "name": "KYC — Choose ID Type",
+      "group": "Identity verification",
+      "path": "/figma-export/63-kyc-id-type",
+      "expected_public_url": "https://nova-gamma-eosin.vercel.app/figma-export/63-kyc-id-type",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "responsive_proof": [],
+      "canonical_state": {
+        "screen": "kyc",
+        "state": "id-type",
+        "pin": "1",
+        "storage": {
+          "nova_card_frozen": "false",
+          "nova_transfer_amount": "145",
+          "nova_transfer_reference": "September utilities",
+          "nova_card_daily_limit": "1200"
+        }
+      },
+      "audit": {
+        "status": "MISSING_SCREEN_OR_STATE",
+        "existing_route": null,
+        "owner": "assets/nova-current-renderer.js + assets/nova-current-state.js",
+        "query_state_supported": false
+      },
+      "ready": true,
+      "render_status": "LOCAL_RENDER_VERIFIED",
+      "public_status": "NOT_DEPLOYED",
+      "public_url": null
+    },
+    {
+      "number": 64,
+      "id": "kyc-id-capture",
+      "name": "KYC — ID Capture Guidance",
+      "group": "Identity verification",
+      "path": "/figma-export/64-kyc-id-capture",
+      "expected_public_url": "https://nova-gamma-eosin.vercel.app/figma-export/64-kyc-id-capture",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "responsive_proof": [],
+      "canonical_state": {
+        "screen": "kyc",
+        "state": "capture",
+        "pin": "1",
+        "storage": {
+          "nova_card_frozen": "false",
+          "nova_transfer_amount": "145",
+          "nova_transfer_reference": "September utilities",
+          "nova_card_daily_limit": "1200"
+        }
+      },
+      "audit": {
+        "status": "EXISTING_URL",
+        "existing_route": "app.html?screen=kyc&state=capture",
+        "owner": "assets/nova-current-renderer.js + assets/nova-current-state.js",
+        "query_state_supported": true
+      },
+      "ready": true,
+      "render_status": "LOCAL_RENDER_VERIFIED",
+      "public_status": "NOT_DEPLOYED",
+      "public_url": null
+    },
+    {
+      "number": 65,
+      "id": "kyc-selfie",
+      "name": "KYC — Selfie / Liveness Guidance",
+      "group": "Identity verification",
+      "path": "/figma-export/65-kyc-selfie",
+      "expected_public_url": "https://nova-gamma-eosin.vercel.app/figma-export/65-kyc-selfie",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "responsive_proof": [],
+      "canonical_state": {
+        "screen": "kyc",
+        "state": "selfie",
+        "pin": "1",
+        "storage": {
+          "nova_card_frozen": "false",
+          "nova_transfer_amount": "145",
+          "nova_transfer_reference": "September utilities",
+          "nova_card_daily_limit": "1200"
+        }
+      },
+      "audit": {
+        "status": "MISSING_SCREEN_OR_STATE",
+        "existing_route": null,
+        "owner": "assets/nova-current-renderer.js + assets/nova-current-state.js",
+        "query_state_supported": false
+      },
+      "ready": true,
+      "render_status": "LOCAL_RENDER_VERIFIED",
+      "public_status": "NOT_DEPLOYED",
+      "public_url": null
+    },
+    {
+      "number": 66,
+      "id": "kyc-review",
+      "name": "KYC — Review Submitted Data",
+      "group": "Identity verification",
+      "path": "/figma-export/66-kyc-review",
+      "expected_public_url": "https://nova-gamma-eosin.vercel.app/figma-export/66-kyc-review",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "responsive_proof": [],
+      "canonical_state": {
+        "screen": "kyc",
+        "state": "submitted",
+        "pin": "1",
+        "storage": {
+          "nova_card_frozen": "false",
+          "nova_transfer_amount": "145",
+          "nova_transfer_reference": "September utilities",
+          "nova_card_daily_limit": "1200"
+        }
+      },
+      "audit": {
+        "status": "MISSING_SCREEN_OR_STATE",
+        "existing_route": null,
+        "owner": "assets/nova-current-renderer.js + assets/nova-current-state.js",
+        "query_state_supported": false
+      },
+      "ready": true,
+      "render_status": "LOCAL_RENDER_VERIFIED",
+      "public_status": "NOT_DEPLOYED",
+      "public_url": null
+    },
+    {
+      "number": 67,
+      "id": "kyc-approved",
+      "name": "KYC — Approved",
+      "group": "Identity verification",
+      "path": "/figma-export/67-kyc-approved",
+      "expected_public_url": "https://nova-gamma-eosin.vercel.app/figma-export/67-kyc-approved",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "responsive_proof": [],
+      "canonical_state": {
+        "screen": "kyc",
+        "state": "approved",
+        "pin": "1",
+        "storage": {
+          "nova_card_frozen": "false",
+          "nova_transfer_amount": "145",
+          "nova_transfer_reference": "September utilities",
+          "nova_card_daily_limit": "1200"
+        }
+      },
+      "audit": {
+        "status": "MISSING_SCREEN_OR_STATE",
+        "existing_route": null,
+        "owner": "assets/nova-current-renderer.js + assets/nova-current-state.js",
+        "query_state_supported": false
+      },
+      "ready": true,
+      "render_status": "LOCAL_RENDER_VERIFIED",
+      "public_status": "NOT_DEPLOYED",
+      "public_url": null
+    },
+    {
+      "number": 68,
+      "id": "kyc-capture-failed",
+      "name": "KYC — Capture Quality Failed",
+      "group": "Identity verification",
+      "path": "/figma-export/68-kyc-capture-failed",
+      "expected_public_url": "https://nova-gamma-eosin.vercel.app/figma-export/68-kyc-capture-failed",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "responsive_proof": [],
+      "canonical_state": {
+        "screen": "kyc",
+        "state": "failed",
+        "pin": "1",
+        "storage": {
+          "nova_card_frozen": "false",
+          "nova_transfer_amount": "145",
+          "nova_transfer_reference": "September utilities",
+          "nova_card_daily_limit": "1200"
+        }
+      },
+      "audit": {
+        "status": "EXISTING_URL",
+        "existing_route": "app.html?screen=kyc&state=failed",
+        "owner": "assets/nova-current-renderer.js + assets/nova-current-state.js",
+        "query_state_supported": true
+      },
+      "ready": true,
+      "render_status": "LOCAL_RENDER_VERIFIED",
+      "public_status": "NOT_DEPLOYED",
+      "public_url": null
+    },
+    {
+      "number": 69,
+      "id": "kyc-more-information",
+      "name": "KYC — More Information Required",
+      "group": "Identity verification",
+      "path": "/figma-export/69-kyc-more-information",
+      "expected_public_url": "https://nova-gamma-eosin.vercel.app/figma-export/69-kyc-more-information",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "responsive_proof": [],
+      "canonical_state": {
+        "screen": "kyc",
+        "state": "more-information",
+        "pin": "1",
+        "storage": {
+          "nova_card_frozen": "false",
+          "nova_transfer_amount": "145",
+          "nova_transfer_reference": "September utilities",
+          "nova_card_daily_limit": "1200"
+        }
+      },
+      "audit": {
+        "status": "MISSING_SCREEN_OR_STATE",
+        "existing_route": null,
+        "owner": "assets/nova-current-renderer.js + assets/nova-current-state.js",
+        "query_state_supported": false
+      },
+      "ready": true,
+      "render_status": "LOCAL_RENDER_VERIFIED",
+      "public_status": "NOT_DEPLOYED",
+      "public_url": null
+    },
+    {
+      "number": 70,
+      "id": "kyc-manual-review",
+      "name": "KYC — Manual Review / Support Path",
+      "group": "Identity verification",
+      "path": "/figma-export/70-kyc-manual-review",
+      "expected_public_url": "https://nova-gamma-eosin.vercel.app/figma-export/70-kyc-manual-review",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "responsive_proof": [],
+      "canonical_state": {
+        "screen": "kyc",
+        "state": "manual",
+        "pin": "1",
+        "storage": {
+          "nova_card_frozen": "false",
+          "nova_transfer_amount": "145",
+          "nova_transfer_reference": "September utilities",
+          "nova_card_daily_limit": "1200"
+        }
+      },
+      "audit": {
+        "status": "EXISTING_URL",
+        "existing_route": "app.html?screen=kyc&state=manual",
+        "owner": "assets/nova-current-renderer.js + assets/nova-current-state.js",
+        "query_state_supported": true
+      },
+      "ready": true,
+      "render_status": "LOCAL_RENDER_VERIFIED",
+      "public_status": "NOT_DEPLOYED",
+      "public_url": null
+    }
+  ],
+  "qa": {
+    "all_70_desktop": "PASS",
+    "all_70_mobile": "PASS",
+    "representative_28_viewports": "PASS",
+    "native_suite_before_dock_fix": "61 passed",
+    "affected_regression_after_dock_fix": "24 passed",
+    "import_quality": "UNVERIFIED"
+  }
+}
