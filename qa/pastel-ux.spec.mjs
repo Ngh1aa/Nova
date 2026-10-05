@@ -74,7 +74,8 @@ test('Settings and Security added to accessibility coverage at desktop and mobil
  }
 });
 test('light savings surfaces keep text readable and reviewer tools never overlay the normal product',async({page})=>{
- for(const route of ['/app.html?screen=savings-detail','/figma-export/47-contribution-settings']){
+ // Native CI uses the generic static QA server; the canonical wrapper query works there too.
+ for(const route of ['/app.html?screen=savings-detail','/figma-export.html?capture=contribution-settings']){
   await page.goto(route);const meta=page.locator('#main .money-sub');await expect(meta).toBeVisible();
   await expect(meta).toContainText('Target €4,000.00');
   expect(await meta.evaluate(x=>getComputedStyle(x).color)).not.toMatch(/255, 255, 255/);
