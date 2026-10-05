@@ -1,6 +1,7 @@
 (() => {
   'use strict';
-  if (new URLSearchParams(location.search).get('lab') === '1') return;
+  const params = new URLSearchParams(location.search);
+  if (params.get('lab') === '1' || params.get('reviewer') !== '1') return;
   if (document.querySelector('[data-nova-state-lab-launcher]')) return;
 
   const style = document.createElement('style');

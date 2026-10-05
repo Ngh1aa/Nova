@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="robots" content="noindex"><title>Nova — 70 HTML to Figma captures</title>
+  <link rel="icon" href="/assets/nova-mark.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/assets/nova-current.css">
+  <style>
+    body{padding:clamp(20px,4vw,56px);background:#f3f6fa;color:#142033;font-family:var(--sans)}
+    main{max-width:1240px;margin:auto}header{max-width:780px;margin-bottom:32px}header h1{font-size:clamp(32px,5vw,52px);line-height:1.08;letter-spacing:-.04em;margin:16px 0}header p{color:#566276;line-height:1.65}
+    .export-brand{display:flex;align-items:center;gap:10px;font-weight:750}.export-brand img{width:34px;height:34px}.controls{display:flex;gap:16px;flex-wrap:wrap;align-items:end;margin-bottom:24px}.controls label{display:grid;gap:8px;font-size:13px;font-weight:650}.controls input,.controls select{min-height:44px;border:1px solid #cdd5df;border-radius:12px;padding:10px;background:#fff;color:#142033}.controls input{min-width:280px}table{width:100%;border-collapse:collapse;background:#fff;border-radius:20px;overflow:hidden}th,td{text-align:left;padding:16px;border-bottom:1px solid #e5eaf0;font-size:13px;vertical-align:top}th{background:#eaf0f7;font-weight:750}td small{display:block;color:#667085;margin:4px 0}td a{color:#185eae;font-weight:650;word-break:break-word}.capture-actions{display:flex;gap:12px;align-items:center}.capture-actions button{padding:8px 12px;border-radius:10px;background:#f3f6fa;border:1px solid #d7dfe9;color:#142033;cursor:pointer}.status{white-space:normal}.table-wrap{overflow:auto}#feedback{min-height:24px;color:#315847;font-size:13px}footer{margin:24px 0;color:#667085;font-size:13px}
+    @media(max-width:650px){.controls input{min-width:0;width:100%}.controls label:first-child{width:100%}th,td{padding:12px}.state-column{display:none}}
+  </style>
+  <script src="/assets/nova-figma-export-catalog.js" defer></script>
+  <script src="/assets/nova-figma-export-index.js" defer></script>
+</head>
+<body><main>
+  <header><div class="export-brand"><img src="/assets/nova-mark.svg" alt="">Nova · HTML → Figma</div><h1>70 screens.<br>One product system.</h1><p>Choose a capture, copy its URL into <a href="https://dmaya.ai/html-to-figma" target="_blank" rel="noreferrer">dMaya</a>, and set the converter to the viewport shown below. Each screen opens in a fixed fictional state. Banking, identity checks and authentication are simulated.</p><p><a href="/prototype.html">Try the interactive prototype</a> · <a href="/figma-export/manifest.json">Download manifest</a></p><p id="deployment">Loading capture status…</p></header>
+  <div class="controls"><label>Find a screen<input id="search" type="search" placeholder="Search name, group or screen number"></label><label>Viewport<select id="viewport"><option value="1440">Desktop · 1440 × 1000</option><option value="1024">Landscape tablet · 1024 × 1000</option><option value="768">Tablet · 768 × 1024</option><option value="390">Mobile · 390 × 844</option></select></label><label>Group<select id="group"><option value="">All screens</option></select></label><span id="count" aria-live="polite"></span></div>
+  <p id="feedback" role="status"></p>
+  <div class="table-wrap"><table><thead><tr><th scope="col">#</th><th scope="col">Screen</th><th scope="col" class="state-column">Canonical state</th><th scope="col">Capture</th><th scope="col">Ready</th></tr></thead><tbody id="screens"></tbody></table></div>
+  <footer>Ready means the export route was rendered in local QA. Public accessibility and Figma import quality are separate checks. Converting HTML does not automatically prove Figma variables, variants or prototype connections.</footer>
+</main></body></html>

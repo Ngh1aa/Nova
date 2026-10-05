@@ -1,0 +1,47 @@
+<!-- Generated wrapper: canonical app.html + isolated export state. -->
+<!doctype html>
+<html lang="en">
+<head>
+  <base href="/">
+  <meta name="robots" content="noindex">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#f3f6fa">
+  <meta name="description" content="Nova personal banking and money-planning portfolio prototype centered on Money Horizon and safe-to-spend decisions.">
+  <title>Nova — Personal Banking & Money Planning</title>
+  <link rel="icon" href="assets/nova-mark.svg" type="image/svg+xml">
+  <link rel="preload" href="assets/nova-current-renderer.js" as="script">
+  <link rel="stylesheet" href="assets/nova-current.css">
+  <link rel="stylesheet" href="assets/nova-motion.css?v=20260917-2">
+  <link rel="stylesheet" href="assets/nova-phase3-clarity.css">
+  <link rel="stylesheet" href="assets/nova-d02-truth-boundary.css">
+  <link rel="stylesheet" href="assets/nova-figma-export.css">
+  <script src="assets/nova-figma-export-catalog.js"></script>
+  <script src="assets/nova-figma-export-bootstrap.js"></script>
+</head>
+<body class="product-body">
+  <a class="skip-link" href="#main">Skip to main content</a>
+  <div id="app" class="app-root">
+    <main id="main" class="loading-shell" tabindex="-1">
+      <p class="eyebrow">Nova, prototype data</p>
+      <h1>Loading your money view…</h1>
+      <p>If this message remains visible, open <a href="prototype.html">Prototype index</a>.</p>
+    </main>
+  </div>
+  <noscript><div class="noscript">Nova’s interactive product flow needs JavaScript. The prototype index remains available at <a href="prototype.html">prototype.html</a>.</div></noscript>
+  <script>
+    (() => {
+      'use strict';
+      try {
+        const screen = new URLSearchParams(location.search).get('screen');
+        if (screen === 'card-frozen') localStorage.setItem('nova_card_frozen', 'true');
+      } catch {}
+    })();
+  </script>
+  <script src="assets/nova-current-renderer.js" defer></script>
+  <script src="assets/nova-current-state.js" defer></script>
+  <script src="assets/nova-phase3-clarity.js" defer></script>
+  <script src="assets/nova-d02-truth-boundary.js" defer></script>
+  <script src="assets/nova-figma-export-states.js" defer></script>
+</body>
+</html>

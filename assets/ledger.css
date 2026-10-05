@@ -9,12 +9,13 @@
   --radius-xs:0;--radius-sm:0;--radius:0;--radius-lg:0;--pill:0;
   --serif:Georgia,"Times New Roman",serif;--sans:ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
 }
-*,*::before,*::after{box-shadow:none!important;border-radius:0!important}
+/* Predecessor paper styling belongs to evidence documents, never the Nova product. */
+body:not(.product-body),body:not(.product-body) *,body:not(.product-body) *::before,body:not(.product-body) *::after{box-shadow:none!important;border-radius:0!important}
 html,body{background:var(--canvas);color:var(--ink);font-family:var(--sans)}
 ::selection{background:#d6cfba;color:var(--ink)}
 a{text-decoration-thickness:1px;text-underline-offset:.18em}
 button,input,select,textarea{font-family:var(--sans)}
-svg{stroke-linecap:square!important;stroke-linejoin:miter!important}
+body:not(.product-body) svg{stroke-linecap:square!important;stroke-linejoin:miter!important}
 
 /* Typography — figures carry the editorial voice, controls remain utilitarian. */
 .eyebrow,.prototype-label,.horizon-range,.ledger-date,.cashflow-item span,.upcoming-date,.meta{letter-spacing:.09em}

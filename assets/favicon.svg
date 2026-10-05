@@ -1,4 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Nova">
-  <rect x="4" y="4" width="56" height="56" fill="#F2ECDC" stroke="#241F16" stroke-width="4"/>
-  <path d="M17 47V17h7l16 20V17h7v30h-7L24 27v20z" fill="#241F16"/>
+  <rect width="64" height="64" rx="19" fill="#16232B"/>
+  <path d="M18 45V19" fill="none" stroke="#A9E5D2" stroke-width="10" stroke-linecap="round"/>
+  <path d="M19 20L45 44" fill="none" stroke="#C8BDF1" stroke-width="10" stroke-linecap="round"/>
+  <path d="M46 45V19" fill="none" stroke="#AAD3FF" stroke-width="10" stroke-linecap="round"/>
 </svg>
