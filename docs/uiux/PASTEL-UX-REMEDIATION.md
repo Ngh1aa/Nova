@@ -8,6 +8,8 @@ This is a component repair of the existing banking prototype, with an explicitly
 - `assets/legacy/p2-1a-canonical/nova-current.p2-1a.css`: canonical component geometry, switch hit areas/focus, readable muted text, Activity scale/filter layout and comfortable dashboard spacing.
 - `assets/legacy/p2-1a-canonical/nova-current-renderer.p2-1a.js`: reuse the existing two-child setting-row for Notifications; label switches, persist demo choices, expose selected theme state and keep security copy consistent with demo preference changes.
 - `assets/nova-ios26.css`: retain the month heading as visible Activity context.
+- `assets/nova-ios26.css` and `nova-ios26-final.css`: pair light financial meta surfaces with dark text; keep inverse white text scoped to its old dark hero context. This repairs invisible target/remaining labels on Savings detail and export 47.
+- `assets/state-lab-launcher.js`: reviewer tooling is opt-in through `app.html?screen=home&reviewer=1`; ordinary product pages are not obscured by the floating reviewer launcher. The State Lab remains directly accessible from the prototype index.
 - `assets/nova-motion.css`: remove the redundant active-icon underline; reduced motion no longer forces intentionally transparent checkbox inputs to become visible.
 - `assets/nova-mark.svg`, `nova-logo.svg`, `favicon.svg`: one rounded N identity using mint, lavender and sky against Nova's dark surface. All existing consumers reuse the same asset paths.
 

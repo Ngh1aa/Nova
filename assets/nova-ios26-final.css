@@ -164,7 +164,7 @@ body.product-body .decision-top {
     linear-gradient(145deg, #17191b 0%, #111615 62%, #16231f 100%) !important;
 }
 body.product-body .decision-copy .eyebrow { color: rgba(255,255,255,.76) !important; }
-body.product-body .money-sub { color: rgba(255,255,255,.74) !important; }
+body.product-body .decision-top .money-sub { color: rgba(255,255,255,.74) !important; }
 body.product-body .decision-action small { color: rgba(255,255,255,.72) !important; }
 body.product-body .fi-delta { color: #b7f4d5 !important; }
 body.product-body .fi-horizon,

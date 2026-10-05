@@ -73,3 +73,13 @@ test('Settings and Security added to accessibility coverage at desktop and mobil
   expect(result.violations.map(v=>({id:v.id,nodes:v.nodes.map(n=>({target:n.target,summary:n.failureSummary}))})),`${screen}/${width}`).toEqual([]);
  }
 });
+test('light savings surfaces keep text readable and reviewer tools never overlay the normal product',async({page})=>{
+ for(const route of ['/app.html?screen=savings-detail','/figma-export/47-contribution-settings']){
+  await page.goto(route);const meta=page.locator('#main .money-sub');await expect(meta).toBeVisible();
+  await expect(meta).toContainText('Target €4,000.00');
+  expect(await meta.evaluate(x=>getComputedStyle(x).color)).not.toMatch(/255, 255, 255/);
+  await expect(page.locator('[data-nova-state-lab-launcher]')).toHaveCount(0);
+ }
+ await page.goto('/app.html?screen=home&reviewer=1');await expect(page.locator('[data-nova-state-lab-launcher]')).toBeVisible();
+ await page.goto('/app.html?screen=home&reviewer=1&lab=1');await expect(page.locator('[data-nova-state-lab-launcher]')).toHaveCount(0);
+});

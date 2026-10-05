@@ -361,7 +361,7 @@ body.product-body .money-sub {
   flex-wrap: wrap !important;
   gap: 6px 14px !important;
   margin-top: 14px !important;
-  color: rgba(255,255,255,.60) !important;
+  color: var(--nova-secondary) !important;
   font: 450 12px/18px var(--nova-font) !important;
 }
 body.product-body .decision-actions {
