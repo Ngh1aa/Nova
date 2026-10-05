@@ -134,7 +134,9 @@ jobs:
 
       - name: Print target server log on failure
         if: failure()
-        run: cat /tmp/nova-qa-server.log || true
+        run: |
+          cat /tmp/nova-export-server.log || true
+          cat /tmp/nova-qa-server.log || true
 
       - name: Upload Nova screenshots and QA evidence
         if: always()

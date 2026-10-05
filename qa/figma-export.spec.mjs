@@ -101,6 +101,7 @@ for(const number of [1,10,14,29,38,45,60]){
 }
 
 test('index, manifest and invalid capture are explicit',async({page,request})=>{
+  expect((await request.get('/')).status()).toBe(200);
   await page.goto('/figma-export/');
   await expect(page.locator('#screens tr')).toHaveCount(70);
   await page.locator('#search').fill('insufficient');

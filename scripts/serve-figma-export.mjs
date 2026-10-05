@@ -11,7 +11,7 @@ createServer(async(req,res)=>{
     if(/^\/figma-export\/?$/.test(path))path='/figma-export/index.html';
     else if(/^\/figma-export\/\d{2}-[a-z-]+\/?$/.test(path))path='/figma-export.html';
     let file=resolve(root,'.'+path);
-    if(!file.startsWith(root+sep)){res.writeHead(403).end();return;}
+    if(file!==root&&!file.startsWith(root+sep)){res.writeHead(403).end();return;}
     if((await stat(file)).isDirectory())file=resolve(file,'index.html');
     res.writeHead(200,{'Content-Type':types[extname(file)]||'application/octet-stream','Cache-Control':'no-store'});res.end(await readFile(file));
   }catch{res.writeHead(404).end('Not found');}
