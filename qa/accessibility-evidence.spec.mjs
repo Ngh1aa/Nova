@@ -3,6 +3,22 @@ import fs from 'node:fs';
 
 fs.mkdirSync('artifacts', { recursive: true });
 
+test('mobile keyboard scrolling keeps the unusual-activity link clear of the fixed dock', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.goto('/app.html?screen=home');
+  const link = page.getByRole('link', { name: 'Unusual card activity at ByteMart Online' });
+  await tabUntil(page, 'a[aria-label="Unusual card activity at ByteMart Online"]');
+  await expect(link).toBeFocused();
+  const uncovered = await link.evaluate(el => {
+    const box = el.getBoundingClientRect();
+    const point = document.elementFromPoint(box.x + box.width / 2, box.y + box.height / 2);
+    return point === el || el.contains(point);
+  });
+  expect(uncovered, 'Fixed mobile dock must not cover the focused risk link').toBe(true);
+  await expectVisibleFocus(page);
+});
+
 async function resetPrototype(page) {
   await page.goto('/app.html?screen=home');
   await page.evaluate(() => localStorage.clear());
