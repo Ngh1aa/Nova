@@ -2450,6 +2450,14 @@ body.product-body .bottom-nav a.active .nav-glyph {
   color: #ffffff !important;
 }
 
+/* Keep native keyboard scrolling clear of the fixed mobile navigation dock. */
+@media (max-width: 900px) {
+  html { scroll-padding-block: 80px 112px; }
+  body.product-body :is(a, button, input, select, textarea, [tabindex]) {
+    scroll-margin-block: 8px;
+  }
+}
+
 /* The v4 Pay surface previously used several pale 8–11px labels and avatar
    foregrounds that only became visible to automated QA once transfer-recipient
    joined the rendered route matrix. Keep the pastel surfaces, but strengthen
