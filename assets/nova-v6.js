@@ -7,7 +7,6 @@
   'use strict';
 
   const screen = new URLSearchParams(location.search).get('screen') || 'home';
-  if (screen !== 'home') return;
 
   const MODEL = Object.freeze({ balance: 2840, committed: 1040, buffer: 500, safe: 1300 });
   const money = (value) => `€${value.toLocaleString('en-IE', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
@@ -52,7 +51,43 @@
     list.insertAdjacentElement('afterend', row);
   }
 
-  const run = () => { addHorizonSplit(); addUpcomingTotal(); };
+  // Every screen: say in the top bar that the figures are simulated.
+  function addSimulatedMarker() {
+    const actions = document.querySelector('.ios26-nav-actions');
+    if (!actions || actions.querySelector('.v6-sim-pill')) return;
+    const pill = document.createElement('span');
+    pill.className = 'v6-sim-pill';
+    pill.textContent = 'Simulated data';
+    actions.prepend(pill);
+  }
+
+  // Phones: draw the whole 14-day line at card width and move the labels to HTML,
+  // so nothing is clipped and the text stays readable.
+  function fitForecast() {
+    const wrap = document.querySelector('#main .nova-forecast-wrap');
+    const svg = wrap?.querySelector('svg');
+    if (!svg || wrap.parentElement.querySelector('.v6-forecast-axis')) return;
+    svg.setAttribute('preserveAspectRatio', 'none');
+    const dates = [...svg.querySelectorAll('.nova-axis text')].map((node) => node.textContent).filter((text) => /^\d+ [A-Z][a-z]+$/.test(text));
+    const axis = document.createElement('div');
+    axis.className = 'v6-forecast-axis';
+    axis.setAttribute('aria-hidden', 'true');
+    axis.innerHTML = dates.map((text) => `<span>${text}</span>`).join('');
+    wrap.insertAdjacentElement('afterend', axis);
+    const low = svg.querySelector('.nova-chart-label text')?.textContent;
+    if (low) {
+      const note = document.createElement('p');
+      note.className = 'v6-forecast-low';
+      note.innerHTML = `Lowest point <strong>${low}</strong> before it rises again`;
+      axis.insertAdjacentElement('afterend', note);
+    }
+  }
+
+  const run = () => {
+    addSimulatedMarker();
+    if (screen !== 'home') return;
+    addHorizonSplit(); addUpcomingTotal(); fitForecast();
+  };
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', run, { once: true });
   else run();
   window.addEventListener('load', run, { once: true });

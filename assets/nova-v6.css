@@ -498,3 +498,55 @@ body.product-body .v3-segmented button{min-height:40px!important}
   html body.product-body .nova-profile-chip{width:46px!important;min-width:0!important;padding:4px!important;justify-content:center!important}
   html body.product-body .nova-profile-chip>:not(.nova-avatar){display:none!important}
 }
+
+/* ---------- Pass 4: fixes from the independent design review ---------- */
+/* Simulated-data marker in the top bar on every screen */
+html body.product-body .v6-sim-pill{display:inline-flex;align-items:center;gap:6px;min-height:28px;padding:0 10px;border-radius:999px;background:var(--v6-review-soft);color:var(--v6-review);font-size:12px;font-weight:600;white-space:nowrap}
+html body.product-body .v6-sim-pill::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor}
+
+/* Card face: secondary labels readable on the dark card (≥4.5:1) */
+html body.product-body .v3-bank-card :is(.v3-bank-bottom small,.v3-debit){color:rgba(255,255,255,.78)!important;font-size:11px!important;letter-spacing:.08em}
+
+/* Chart axis text: darker and larger */
+html body.product-body .nova-axis text{fill:var(--v6-text-2)!important;font-size:12px!important}
+html body.product-body .nova-chart-label text:last-of-type{fill:var(--v6-text-2)!important;font-size:11px!important}
+
+/* Money Horizon bars: zones shrink instead of pushing the buffer off the edge */
+html body.product-body .horizon-bar{display:flex!important;overflow:hidden!important;min-width:0!important;width:100%!important}
+html body.product-body .horizon-dates{min-width:0!important}
+html body.product-body .horizon-timeline{overflow:visible!important}
+html body.product-body .horizon-zone{min-width:0!important;flex:0 1 auto!important;text-overflow:clip}
+@media (max-width:599px){html body.product-body .horizon-zone{font-size:0!important;padding:0!important}}
+/* Rent marker label sits above the bar, not on it */
+html body.product-body .horizon-timeline{position:relative;padding-top:30px!important}
+html body.product-body .horizon-marker{top:0!important}
+html body.product-body .horizon-marker::before{top:0!important}
+html body.product-body .horizon-marker{height:calc(100% - 22px)!important}
+
+/* Savings contribution rows: status pill and amount stay inside the row */
+html body.product-body .v3-contribution-row{display:grid!important;grid-template-columns:auto minmax(0,1fr) auto!important;gap:12px!important;align-items:center}
+html body.product-body .v3-contribution-row>:last-child{justify-self:end;white-space:nowrap}
+
+/* Outcome screens: the card has inner padding */
+html body.product-body .empty-state{padding:clamp(24px,4vw,40px)!important}
+html body.product-body .nova-phase3-recovery-banner{padding:20px 24px!important}
+
+/* Minimum readable size for secondary text (12 px) */
+html body.product-body main :is(.v3-stat-grid>div>span,.v3-action-tile>span,.v3-list>a>b,.v3-horizon-items>div>span,.v3-horizon-bar>span,.v3-goal-row>b,.nova-bankcard-bottom span,.decision-action small,.v3-security-layout p,.v3-limit-row span,.horizon-note,.legend-key,.horizon-range,.risk-chip,.list-value small,dl dt,dl dd){font-size:12px!important}
+html body.product-body main .v3-list>a>b{font-size:13px!important}
+html body.product-body main .v4-full-action{font-size:15px!important}
+
+/* Spending: the sixth category closes the gap to the total */
+html body.product-body .nova-category-list .c6{background:var(--v6-line-strong)}
+
+/* Mobile forecast: fit the whole 14 days instead of clipping at 21 Sep */
+@media (max-width:767px){
+  html body.product-body .nova-forecast-wrap svg{min-width:0!important;width:100%!important;transform:none!important;height:150px!important}
+  html body.product-body .nova-forecast-wrap :is(.nova-axis,.nova-chart-label,.nova-points){display:none!important}
+  html body.product-body .nova-forecast-wrap .nova-line{vector-effect:non-scaling-stroke;stroke-width:3px!important}
+  html body.product-body .nova-forecast-wrap .nova-gridlines path{vector-effect:non-scaling-stroke}
+  html body.product-body .v6-forecast-axis{display:flex;justify-content:space-between;padding:6px 4px 0;color:var(--v6-text-2);font-size:12px;font-variant-numeric:tabular-nums}
+  html body.product-body .v6-forecast-low{display:block;margin-top:8px;color:var(--v6-text);font-size:13px}
+}
+@media (min-width:768px){html body.product-body :is(.v6-forecast-axis,.v6-forecast-low){display:none!important}}
+html body.product-body .horizon .legend-swatch[style*="--buffer"]{background:#7a66c9!important}

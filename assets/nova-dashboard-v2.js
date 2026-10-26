@@ -129,7 +129,7 @@
 
         <section class="nova-card nova-spending-card" aria-labelledby="spending-title">
           <div class="nova-card-head"><h2 id="spending-title">Spending categories</h2><span class="nova-date-pill">This month⌄</span></div>
-          <div class="nova-donut-layout"><div class="nova-donut" aria-label="1680 euros total spent"><span><strong>€1,680</strong><small>Total spent</small></span></div><div class="nova-category-list"><span><i class="c1"></i>Housing <b>37% · €620</b></span><span><i class="c2"></i>Food & Dining <b>18% · €302</b></span><span><i class="c3"></i>Shopping <b>12% · €202</b></span><span><i class="c4"></i>Transport <b>10% · €168</b></span><span><i class="c5"></i>Entertainment <b>8% · €134</b></span></div></div>
+          <div class="nova-donut-layout"><div class="nova-donut" aria-label="1680 euros total spent"><span><strong>€1,680</strong><small>Total spent</small></span></div><div class="nova-category-list"><span><i class="c1"></i>Housing <b>37% · €620</b></span><span><i class="c2"></i>Food & Dining <b>18% · €302</b></span><span><i class="c3"></i>Shopping <b>12% · €202</b></span><span><i class="c4"></i>Transport <b>10% · €168</b></span><span><i class="c5"></i>Entertainment <b>8% · €134</b></span><span><i class="c6"></i>Other <b>15% · €254</b></span></div></div>
         </section>
 
         <section class="nova-card nova-savings-card" aria-labelledby="savings-title">

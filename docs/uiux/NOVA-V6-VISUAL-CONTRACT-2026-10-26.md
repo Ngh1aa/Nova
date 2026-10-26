@@ -95,3 +95,28 @@ theme switch remains simulated), users (no new research round).
 Remaining `taste-check` warnings are mostly touch targets on the off-screen skip link and text buttons (36 px), headings
 that wrap by design at 390 px, and the radius of the full-width top bar (0 px by design). Many other " · " joins remain in
 copy that was not on the audited screens; a content pass should decide them together with research-linked wording.
+
+## Independent review (stranger review, `scripts/review-packet.py`)
+
+A separate reviewer saw only the 24 screenshots and the brief. Result on the first v6 build: **not passed for size L**,
+average 3.05/5 (bar ≥ 4.0, floor 3.5 per dimension), seven hard fails.
+
+Fixed in the follow-up commit:
+
+| Hard fail | Fix |
+|---|---|
+| Card face labels `CARDHOLDER`, `VALID THRU` at ~1.8:1 | white 78 % on the dark card, 11 px |
+| Forecast axis labels ~3:1, 9 px | `--v6-text-2`, 12 px |
+| Home forecast clipped at 21 Sep on phones | line drawn at card width, dates and lowest point moved to HTML below the chart |
+| Money Horizon bar lost the Protected part on phones | bar no longer has a 500 px minimum; zone labels hidden under 600 px (the legend carries them) |
+| `Rent · 20 Sep` marker sat on the bar | label moved above the bar |
+| Savings `Included` pill touching the edge | contribution rows use a three-column grid |
+| No "simulated" marker on Home, Activity, Cards, Savings, Settings | `Simulated data` pill in the top bar on every screen |
+
+Also: 8–10 px secondary text raised to 12 px on Cards, Savings, Security and Pay; padding on the outcome card;
+spending breakdown gains `Other 15 % – €254` so the categories add up to €1,680; Security says `No security alerts`.
+
+Still open (needs a product or content decision, not a visual one): Holiday Fund €100 in Accounts versus €3,200 in
+Savings (the €2,840 balance model depends on the €100), Pay's committed total versus its listed bills, the repeated
+prototype disclaimer on transaction detail, error-copy wording, KYC "Why Nova asks", no Security or Settings in the
+mobile dock, no selected state on the recipient step. The reviewer has not re-scored the fixed build.
