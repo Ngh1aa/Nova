@@ -15,17 +15,17 @@
   body.product-body .v4-rail-nav a.active .v5-rail-icon{animation:nova-active-confirm 720ms var(--nova-motion-spring) both}
 }
 @keyframes nova-shell-in{
-  from{opacity:.45;transform:translate3d(0,24px,0) scale(.992)}
+  from{transform:translate3d(0,12px,0)}
   to{opacity:1;transform:none}
 }
 @keyframes nova-rail-in{
-  from{opacity:0;transform:translate3d(-24px,0,0)}
+  from{transform:translate3d(-12px,0,0)}
   to{opacity:1;transform:none}
 }
 @keyframes nova-active-confirm{
-  0%{transform:scale(.88);box-shadow:0 0 0 rgba(76,153,247,0)}
-  55%{transform:scale(1.08);box-shadow:0 0 0 8px rgba(76,153,247,.12)}
-  100%{transform:scale(1);box-shadow:0 7px 18px rgba(76,153,247,.28)}
+  0%{transform:scale(.9)}
+  60%{transform:scale(1.05)}
+  100%{transform:scale(1)}
 }
 
 html.nova-motion-enabled [data-nova-motion="surface"]{
@@ -47,19 +47,15 @@ body.product-body .v5-rail-icon,body.product-body .v4-rail-nav a,body.product-bo
   transition:transform var(--nova-motion-fast) var(--nova-motion-spring),background-color var(--nova-motion-fast) ease,box-shadow var(--nova-motion-base) var(--nova-motion-ease),color var(--nova-motion-fast) ease;
 }
 @media (hover:hover) and (pointer:fine){
-  body.product-body .v4-rail-nav a:hover .v5-rail-icon,body.product-body .v4-icon-button:hover,body.product-body .nova-icon:hover{transform:translate3d(0,-5px,0) scale(1.03)}
-  body.product-body .v4-rail-nav a:active .v5-rail-icon,body.product-body .v4-icon-button:active,body.product-body .nova-icon:active{transform:translate3d(0,1px,0) scale(.96)}
-  body.product-body :is(.nova-card,.v3-surface,.v4-card,.decision-field,.fi-horizon,.context-panel,.activity-header,.ledger,.task-panel,.settings-panel):hover{
-    transform:translate3d(0,-4px,0);box-shadow:0 20px 50px rgba(29,43,60,.12)!important;
-  }
+  /* iOS surfaces do not lift on hover; only a pressed control scales down */
+  body.product-body .v4-rail-nav a:active .v5-rail-icon,body.product-body .v4-icon-button:active,body.product-body .nova-icon:active{transform:scale(.96)}
 }
 
 
 body.product-body :is(.btn,.nova-action,.v3-primary-action,.v3-action-tile,.v4-action,.v4-full-action,.chip,.back-link){
   transition:transform var(--nova-motion-fast) var(--nova-motion-spring),box-shadow var(--nova-motion-fast) var(--nova-motion-ease),background-color var(--nova-motion-fast) ease,color var(--nova-motion-fast) ease,border-color var(--nova-motion-fast) ease;
 }
-@media (hover:hover) and (pointer:fine){body.product-body :is(.btn,.nova-action,.v3-primary-action,.v3-action-tile,.v4-action,.v4-full-action,.back-link):hover{transform:translate3d(0,-4px,0)}}
-body.product-body :is(.btn,.nova-action,.v3-primary-action,.v3-action-tile,.v4-action,.v4-full-action,.back-link):active{transform:translate3d(0,2px,0) scale(.975)}
+body.product-body :is(.btn,.nova-action,.v3-primary-action,.v3-action-tile,.v4-action,.v4-full-action,.back-link):active{transform:scale(.97)}
 
 body.product-body :is(.progress,.v3-progress,.v3-mini-progress,.v3-meter,.goal-timeline,.horizon-bar)>*{
   transition:width 620ms var(--nova-motion-spring),transform 620ms var(--nova-motion-spring);transform-origin:left center;

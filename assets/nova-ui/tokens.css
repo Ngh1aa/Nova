@@ -1,0 +1,105 @@
+/* Nova UI — tokens and base.
+   Pastel iOS: mint, sky and lavender come from the Nova mark; each pastel has one
+   meaning (safe, committed, protected) and the rest of the UI stays neutral.
+   Source for assets/nova-current.css (run scripts/p2-1b-consolidate-runtime.mjs). */
+
+@font-face{font-family:"Inter";font-style:normal;font-weight:400;font-display:swap;src:url("fonts/inter-latin-400-normal.woff2") format("woff2")}
+@font-face{font-family:"Inter";font-style:normal;font-weight:500;font-display:swap;src:url("fonts/inter-latin-500-normal.woff2") format("woff2")}
+@font-face{font-family:"Inter";font-style:normal;font-weight:600;font-display:swap;src:url("fonts/inter-latin-600-normal.woff2") format("woff2")}
+@font-face{font-family:"Inter";font-style:normal;font-weight:700;font-display:swap;src:url("fonts/inter-latin-700-normal.woff2") format("woff2")}
+
+:root{
+  /* Neutrals: iOS grouped background, white surfaces, ink from the Nova mark */
+  --bg:#f2f2f7;
+  --surface:#ffffff;
+  --surface-2:#f7f7fa;
+  --fill:#f0f1f5;
+  --fill-strong:#e6e8ee;
+  --hairline:rgba(60,60,67,.12);
+  --hairline-strong:rgba(60,60,67,.2);
+  --ink:#16232b;
+  --ink-2:#3d4952;
+  --ink-3:#5e6a75;
+  --ink-inverse:#ffffff;
+
+  /* Nova pastels (logo) and their roles */
+  --mint:#a9e5d2;      --mint-soft:#e3f6ee;     --mint-ink:#1f6f55;
+  --sky:#aad3ff;       --sky-soft:#e6f0ff;      --sky-ink:#1e56b0;
+  --lavender:#c8bdf1;  --lavender-soft:#eeeafd; --lavender-ink:#5443b0;
+  --peach:#f6c3d4;     --peach-soft:#fdecf2;    --peach-ink:#a3355f;
+  --butter:#f4dc94;    --butter-soft:#fcf3d6;   --butter-ink:#7a5a06;
+  --risk:#d92d20;      --risk-soft:#fdecec;     --risk-ink:#b42318;
+
+  /* Money Horizon roles, also used inline by the renderer */
+  --safe:var(--mint);
+  --committed:var(--sky);
+  --buffer:var(--lavender);
+
+  /* Actions */
+  --accent:#2f5fd0;
+  --accent-hover:#2650b5;
+  --accent-soft:var(--sky-soft);
+  --focus:#2f5fd0;
+
+  /* Shape: one radius per surface type */
+  --r-card:22px;
+  --r-inner:14px;
+  --r-icon:12px;
+  --r-pill:999px;
+  --shadow-card:0 1px 2px rgba(22,35,43,.04),0 6px 20px rgba(22,35,43,.05);
+  --shadow-float:0 10px 40px rgba(22,35,43,.14),0 1px 3px rgba(22,35,43,.08);
+  --glass:rgba(255,255,255,.78);
+  --glass-blur:saturate(180%) blur(20px);
+
+  /* Type */
+  --font:-apple-system,BlinkMacSystemFont,"SF Pro Text","SF Pro Display","Inter",system-ui,"Segoe UI",sans-serif;
+  --font-mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+  --t-xs:12px;
+  --t-sm:13px;
+  --t-body:15px;
+  --t-md:17px;
+  --t-lg:20px;
+  --t-xl:28px;
+  --t-hero:clamp(44px,6vw,64px);
+
+  /* Space (4/8 rhythm) */
+  --s-1:4px;--s-2:8px;--s-3:12px;--s-4:16px;--s-5:20px;--s-6:24px;--s-8:32px;--s-10:40px;
+
+  --rail-w:236px;
+  --page-max:1240px;
+  color-scheme:light;
+}
+
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%;scroll-padding-top:96px}
+body{margin:0;min-height:100vh;background:var(--bg);color:var(--ink);font-family:var(--font);font-size:var(--t-body);line-height:1.5;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+body.product-body [hidden]{display:none!important}
+img,svg{display:block;max-width:100%}
+h1,h2,h3,h4,p,dl,dd,ol,ul,figure{margin:0}
+ul,ol{padding:0;list-style:none}
+h1,h2,h3{color:var(--ink);font-weight:700;line-height:1.2;letter-spacing:-.01em;text-wrap:balance}
+h1{font-size:var(--t-xl);letter-spacing:-.02em}
+h2{font-size:var(--t-md);font-weight:600}
+h3{font-size:var(--t-body);font-weight:600}
+p{color:var(--ink-3);text-wrap:pretty}
+a{color:var(--accent);text-decoration:none}
+a:hover{color:var(--accent-hover)}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+strong,b{font-weight:600}
+small{font-size:var(--t-sm)}
+dt{color:var(--ink-3)}
+.mono{font-family:var(--font-mono);font-size:.92em;letter-spacing:0}
+.sr-only{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+:focus-visible{outline:3px solid var(--focus);outline-offset:2px;border-radius:10px}
+::selection{background:var(--sky)}
+
+.skip-link{position:fixed;left:16px;top:-64px;z-index:10000;padding:10px 16px;border-radius:var(--r-pill);background:var(--ink);color:#fff;font-weight:600;transition:top .15s ease}
+.skip-link:focus{top:12px;color:#fff}
+
+/* Money is always tabular */
+.money-amount,.goal-amount,.dossier-amount,.list-value,.nova-edge-amount,
+[class*="amount"],.review-row strong,.horizon-legend strong,b,strong{font-variant-numeric:tabular-nums}
+
+.loading-shell,.noscript{max-width:560px;margin:15vh auto;padding:var(--s-8);border-radius:var(--r-card);background:var(--surface);box-shadow:var(--shadow-card)}
+.loading-shell h1{margin:var(--s-2) 0}

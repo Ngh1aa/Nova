@@ -29,27 +29,10 @@
     "assets/legacy/p2-1a-canonical/nova-current-renderer.p2-1a.js"
   ],
   "bundled_css_sources": [
-    "assets/nova.css",
-    "assets/accessibility.css",
-    "assets/ledger.css",
-    "assets/ledger-v2.css",
-    "assets/ledger-final.css",
-    "assets/nova-redesign.css",
-    "assets/nova-financial-intelligence.css",
-    "assets/nova-floating-dock.css",
-    "assets/nova-a11y.css",
-    "assets/nova-polish.css",
-    "assets/nova-logo.css",
-    "assets/nova-ios26.css",
-    "assets/nova-ios26-final.css",
-    "assets/nova-ios26-critique.css",
-    "assets/nova-ios26-release.css",
-    "assets/nova-pastel-dashboard.css",
-    "assets/nova-pastel-contrast.css",
-    "assets/nova-dashboard-v2.css",
-    "assets/nova-dashboard-v2-responsive.css",
-    "assets/nova-dashboard-v2-contrast.css",
-    "assets/legacy/p2-1a-canonical/nova-current.p2-1a.css"
+    "assets/nova-ui/tokens.css",
+    "assets/nova-ui/shell.css",
+    "assets/nova-ui/components.css",
+    "assets/nova-ui/screens.css"
   ],
   "runtime_absorbed_scripts": [
     "assets/nova.js",
@@ -64,27 +47,10 @@
     "assets/nova.css",
     "assets/accessibility.css",
     "assets/ledger.css",
-    "assets/ledger-v2.css",
-    "assets/ledger-final.css",
-    "assets/nova-redesign.css",
-    "assets/nova-financial-intelligence.css",
-    "assets/nova-floating-dock.css",
-    "assets/nova-a11y.css",
-    "assets/nova-polish.css",
-    "assets/nova-logo.css",
-    "assets/nova-ios26.css",
-    "assets/nova-ios26-final.css",
-    "assets/nova-ios26-critique.css",
-    "assets/nova-ios26-release.css",
-    "assets/nova-pastel-dashboard.css",
-    "assets/nova-pastel-contrast.css",
-    "assets/nova-dashboard-v2.css",
-    "assets/nova-dashboard-v2-responsive.css",
-    "assets/nova-dashboard-v2-contrast.css"
+    "assets/nova-redesign.css"
   ],
   "archive_snapshots": [
-    "assets/legacy/p2-1a-canonical/nova-current-renderer.p2-1a.js",
-    "assets/legacy/p2-1a-canonical/nova-current.p2-1a.css"
+    "assets/legacy/p2-1a-canonical/nova-current-renderer.p2-1a.js"
   ],
   "truth_boundary": "Physical bundling preserves historical source order; canonical Nova identity is normalized at generation time. Behavior parity must still be proven by browser/QA gates before P2.2 is DONE_VERIFIED."
 }
