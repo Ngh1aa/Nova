@@ -52,7 +52,7 @@ window.NovaCurrentRuntime.renderer = Object.freeze({ owner: 'assets/nova-current
 
   function repairChrome() {
     const actions = $('.ios26-nav-actions');
-    if (actions) actions.innerHTML = `<a class="nova-search-chip v3-search" href="app.html?screen=activity" aria-label="Search transactions">${icons.search}<span>Search anything…</span></a><a class="nova-bell-chip v3-bell" href="app.html?screen=notifications" aria-label="Notifications">${icons.bell}<i aria-hidden="true"></i></a><a class="nova-profile-chip v3-profile" href="app.html?screen=settings" aria-label="Open profile and settings"><span class="nova-avatar">AN</span><span><small>Good morning</small><strong>Alex</strong></span><b aria-hidden="true">⌄</b></a>`;
+    if (actions) actions.innerHTML = `<span class="v6-sim-pill">Simulated data</span><a class="nova-search-chip v3-search" href="app.html?screen=activity" aria-label="Search transactions">${icons.search}<span>Search anything…</span></a><a class="nova-bell-chip v3-bell" href="app.html?screen=notifications" aria-label="Notifications">${icons.bell}<i aria-hidden="true"></i></a><a class="nova-profile-chip v3-profile" href="app.html?screen=settings" aria-label="Open profile and settings"><span class="nova-avatar">AN</span><span><small>Good morning</small><strong>Alex</strong></span><b aria-hidden="true">⌄</b></a>`;
     const rail = $('.sidebar');
     if (rail) {
       rail.classList.add('nova-rail-v3');

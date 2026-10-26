@@ -33,7 +33,7 @@ Current delivery state:
 
 ## Current visual layer
 
-Nova v6 "Calm Money Workspace" (2026-10-26) is the final stylesheet layer: `assets/nova-v6.css` + `assets/nova-v6.js`. Contract, audit, direction gate and QA results: `docs/uiux/NOVA-V6-VISUAL-CONTRACT-2026-10-26.md`.
+Pastel iOS redesign (2026-10-26): one token-driven stylesheet in `assets/nova-ui/` (tokens, shell, components, screens), bundled into `assets/nova-current.css` by `scripts/p2-1b-consolidate-runtime.mjs`. Ownership, DNA and QA: `docs/redesign/NOVA-PASTEL-IOS-2026-10-26.md`.
 
 ## Product evidence
 
