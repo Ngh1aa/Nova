@@ -25,7 +25,7 @@
     return list;
   }
 
-  function actionCard({ kind, label, copy, changes, doesNot, control }) {
+  function actionCard({ kind, label, changes, doesNot, control }) {
     const card = document.createElement('section');
     card.className = `nova-d02-action-card nova-d02-action-card--${kind}`;
     card.dataset.novaD02Action = kind;
@@ -34,13 +34,10 @@
     title.className = 'nova-d02-action-label';
     title.textContent = label;
 
-    const description = document.createElement('p');
-    description.className = 'nova-d02-action-copy';
-    description.id = `nova-d02-${kind}-copy`;
-    description.textContent = copy;
-
-    control.setAttribute('aria-describedby', description.id);
-    card.append(title, description, consequence({ changes, doesNot }), control);
+    const effects = consequence({ changes, doesNot });
+    effects.id = `nova-d02-${kind}-effects`;
+    control.setAttribute('aria-describedby', effects.id);
+    card.append(title, effects, control);
     return card;
   }
 
@@ -74,34 +71,24 @@
     if (!band || band.dataset.novaD02TruthBoundary === 'true') return;
     band.dataset.novaD02TruthBoundary = 'true';
 
-    const eyebrow = band.querySelector('.eyebrow');
+    // One idea per line: the heading, one "No bank contact" status, two action cards.
+    band.querySelector('.eyebrow')?.remove();
     const heading = band.querySelector('h2');
-    if (eyebrow) eyebrow.textContent = 'Sensitive action · simulated';
     if (heading) heading.textContent = 'Freeze card and Report do different things';
-
-    const truth = boundary({ detail: 'Both choices stay inside this portfolio prototype.' });
-    if (heading) heading.insertAdjacentElement('afterend', truth);
-    else band.prepend(truth);
 
     const callout = band.querySelector('.callout');
     const isFrozen = !!callout?.classList.contains('callout-success');
     if (callout) {
+      callout.classList.add('nova-d02-status');
+      callout.setAttribute('role', 'note');
       const title = callout.querySelector('strong');
-      const copy = callout.querySelector('p');
-      if (isFrozen) {
-        if (title) title.textContent = 'Demo card state · Frozen';
-        if (copy) copy.textContent = 'Only Nova’s prototype card state changed. No bank was contacted, no report was submitted, and the ByteMart payment was not reversed.';
-      } else {
-        if (title) title.textContent = 'No bank contact';
-        if (copy) copy.textContent = 'Choose based on what you want to preview. Freeze changes the demo card state; Report only previews reporting requirements.';
-      }
+      if (title) title.textContent = isFrozen ? 'Demo card frozen, no bank contact' : 'No bank contact';
+      callout.querySelector('p')?.remove();
     }
 
-    const intro = [...band.children].find((element) => element.tagName === 'P' && !element.classList.contains('eyebrow') && !element.matches('[data-report-boundary]'));
-    if (intro) {
-      intro.classList.add('nova-d02-intro');
-      intro.textContent = 'Freeze is a reversible card-protection demo. Report is a no-submit preview. Neither action changes the completed ByteMart payment.';
-    }
+    [...band.children]
+      .filter((element) => element.tagName === 'P' && !element.classList.contains('eyebrow'))
+      .forEach((element) => element.remove());
 
     const actions = band.querySelector('.action-stack');
     const report = band.querySelector('#report-transaction');
@@ -124,9 +111,6 @@
     const freezeCard = actionCard({
       kind: 'freeze',
       label: isFrozen ? 'Freeze card · demo state is active' : 'Freeze card in demo',
-      copy: isFrozen
-        ? 'The prototype card is currently frozen. You can review or reverse that simulated protection state from Cards.'
-        : 'Use this when you want to preview protecting the card while you investigate the unusual payment.',
       changes: isFrozen ? 'Prototype card state remains Frozen.' : 'Prototype card state only.',
       doesNot: 'Report the transaction, reverse ByteMart, or contact a bank.',
       control: freeze
@@ -135,7 +119,6 @@
     const reportCard = actionCard({
       kind: 'report',
       label: 'Report transaction preview',
-      copy: 'Use this to inspect what a real reporting handoff would require before any submission could happen.',
       changes: 'Nothing in account or card state.',
       doesNot: 'Freeze the card, create a bank case, request a refund, or contact a bank.',
       control: report
@@ -144,11 +127,7 @@
     actions.classList.add('nova-d02-action-grid');
     actions.replaceChildren(freezeCard, reportCard);
 
-    const note = band.querySelector('[data-report-boundary]');
-    if (note) {
-      note.classList.add('nova-d02-boundary-note');
-      note.innerHTML = '<strong>Neither action contacts a bank.</strong> Freeze does not report the transaction. Report preview does not freeze the card or create a bank case.';
-    }
+    band.querySelector('[data-report-boundary]')?.remove();
   }
 
   function patchReportScreen() {
@@ -177,7 +156,7 @@
       if (calloutTitle) calloutTitle.textContent = 'Nothing was submitted';
       if (calloutCopy) calloutCopy.textContent = 'This prototype result confirms the boundary: no bank was contacted, no dispute was created, no refund was requested, and card protection was not changed by this preview.';
     } else {
-      if (eyebrow) eyebrow.textContent = 'Report preview · simulated';
+      if (eyebrow) eyebrow.textContent = 'Simulated report preview';
       if (calloutTitle) calloutTitle.textContent = 'Nothing has been reported';
       if (calloutCopy) calloutCopy.textContent = 'This portfolio prototype can preview the reporting decision, but it cannot contact a bank, create a dispute, request a refund, or freeze the card.';
     }

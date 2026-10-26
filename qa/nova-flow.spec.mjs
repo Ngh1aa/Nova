@@ -59,7 +59,9 @@ test('Nova adaptive pastel visual contract holds at portfolio breakpoints', asyn
       await expect(page.locator('.nova-top-tabs')).toBeHidden();
     } else {
       await expect(page.locator('.bottom-nav')).toBeHidden();
-      await expect(page.locator('.nova-top-tabs')).toBeVisible();
+      // v6: one primary navigation per breakpoint. Top tabs only where the rail is hidden.
+      if (width >= 1200) await expect(page.locator('.nova-top-tabs')).toBeHidden();
+      else await expect(page.locator('.nova-top-tabs')).toBeVisible();
     }
 
     if (width >= 1200) await expect(page.locator('.sidebar')).toBeVisible();
@@ -105,7 +107,7 @@ test('Nova adaptive pastel visual contract holds at portfolio breakpoints', asyn
     expect(state.amountFontFamily).toMatch(/sans-serif|monospace|ui-monospace/);
     expect(state.amountFontFamily).not.toMatch(/source serif|georgia|times new roman|times,/);
     expect(state.amountNumeric).toContain('tabular-nums');
-    expect(state.bodyBackground).toBe('rgb(243, 246, 250)');
+    expect(state.bodyBackground).toBe('rgb(242, 242, 247)');
     expect(state.forecastRadius).toBeGreaterThanOrEqual(20);
 
     if (width < 768) {
@@ -116,8 +118,7 @@ test('Nova adaptive pastel visual contract holds at portfolio breakpoints', asyn
     }
 
     if (width >= 1200) {
-      expect(state.sidebarRadius).toBeGreaterThanOrEqual(24);
-      expect(state.sidebarBackground).not.toBe('rgba(0, 0, 0, 0)');
+      expect(state.sidebarBackground).toMatch(/^rgba?\(255, 255, 255/);
     }
 
     if (width >= 1024) expect(state.mainWidth).toBeGreaterThan(900);
@@ -147,7 +148,7 @@ test('Cards uses responsive card-plus-controls composition', async ({ page }) =>
       };
     });
 
-    expect(state.cardRadius).toBeGreaterThanOrEqual(22);
+    expect(state.cardRadius).toBeGreaterThanOrEqual(20);
     expect(state.cardWidth).toBeLessThanOrEqual(width - 20);
     if (width >= 1000) expect(state.controlsBesideCard).toBeTruthy();
     expect(state.overflow).toBeFalsy();

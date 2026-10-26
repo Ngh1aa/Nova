@@ -92,12 +92,12 @@ test('activity search, filters and no-results state change the native ledger', a
 
   await expect(rows).toHaveCount(8);
   await expect(visibleRows).toHaveCount(8);
-  await expect(summary).toContainText('8 transactions · newest first');
+  await expect(summary).toContainText('8 transactions, newest first');
 
   await search.fill('ByteMart');
   await expect(visibleRows).toHaveCount(1);
   await expect(visibleRows.first()).toContainText('ByteMart Online');
-  await expect(summary).toContainText('1 transaction · filtered');
+  await expect(summary).toContainText('1 transaction, filtered');
 
   await search.fill('');
   await page.getByRole('button', { name: 'Pending', exact: true }).click();
@@ -120,7 +120,7 @@ test('activity search, filters and no-results state change the native ledger', a
   await expect(visibleRows).toHaveCount(0);
   await expect(empty).toBeVisible();
   await expect(empty).toContainText('No matching transactions');
-  await expect(summary).toContainText('0 transactions · filtered');
+  await expect(summary).toContainText('0 transactions, filtered');
 
   await empty.getByRole('button', { name: 'Clear search and filters' }).click();
   await expect(search).toHaveValue('');

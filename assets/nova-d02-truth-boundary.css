@@ -34,12 +34,6 @@
 }
 .nova-d02-boundary--result span{color:#fff}
 
-.nova-d02-intro{
-  margin:10px 0 0!important;
-  max-width:62ch;
-  color:#636366!important;
-  line-height:1.55;
-}
 
 body.product-body .protection-band .nova-d02-action-grid{
   display:grid!important;
@@ -71,12 +65,6 @@ body.product-body .protection-band .nova-d02-action-grid{
   font-size:15px;
   font-weight:760;
   line-height:1.25;
-}
-.nova-d02-action-copy{
-  margin:0!important;
-  color:#636366!important;
-  font-size:12px;
-  line-height:1.5;
 }
 .nova-d02-consequence{
   display:grid;
@@ -116,29 +104,19 @@ body.product-body .protection-band .nova-d02-action-grid{
   text-align:center;
   line-height:1.25;
 }
-.nova-d02-action-card--freeze .btn-risk{
-  border:1px solid rgba(255,59,48,.24)!important;
+body.product-body .protection-band .nova-d02-action-card--freeze :is(.btn-risk,#freeze-card.btn-risk){
+  border:1px solid rgba(176,42,99,.28)!important;
   background:#fff!important;
-  color:#d92d20!important;
+  color:#b02a63!important;
+  padding:10px 14px!important;
 }
-.nova-d02-action-card--freeze .btn-risk:hover{
-  background:#fff2f0!important;
+body.product-body .protection-band .nova-d02-action-card--freeze :is(.btn-risk,#freeze-card.btn-risk):hover{
+  background:#fff7fa!important;
 }
-.nova-d02-action-card--report .btn-secondary{
-  border-color:rgba(0,122,255,.2)!important;
+body.product-body .protection-band .nova-d02-action-card--report .btn-secondary{
+  border:1px solid rgba(29,95,214,.28)!important;
   background:#fff!important;
-  color:#0068d9!important;
-}
-.nova-d02-boundary-note{
-  margin:12px 0 0!important;
-  padding-top:12px;
-  border-top:1px solid rgba(60,60,67,.12);
-  color:#636366!important;
-  font-size:11px!important;
-  line-height:1.5!important;
-}
-.nova-d02-boundary-note strong{
-  color:#1c1c1e;
+  color:#1d5fd6!important;
 }
 
 .nova-d02-dialog-boundary{

@@ -36,7 +36,7 @@
       const heading = panel?.querySelector(':scope > h2');
       if (heading && !/14 days/i.test(heading.textContent || '')) {
         heading.textContent = screen === 'transfer-amount'
-          ? 'Money after sending · next 14 days'
+          ? 'Money after sending in the next 14 days'
           : 'Safe to spend after transfer · next 14 days';
       }
     }

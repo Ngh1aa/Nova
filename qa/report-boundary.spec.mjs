@@ -6,7 +6,9 @@ test('D-02 makes demo-only consequences primary and separates Freeze from Report
   await page.goto('/app.html?screen=transaction-detail&lab=1');
 
   const protection = page.locator('.protection-band');
-  await expect(protection.locator('.nova-d02-boundary')).toContainText(/DEMO ONLY.*NO BANK CONTACT/i);
+  // v6.1: one visible "No bank contact" status replaces the band, intro and footnote that repeated it.
+  await expect(protection.locator('.nova-d02-status')).toHaveText('No bank contact');
+  await expect(protection.locator('.nova-d02-status')).toBeVisible();
   await expect(page.getByRole('heading', { name: 'Freeze card and Report do different things' })).toBeVisible();
 
   const freezeCard = protection.locator('[data-nova-d02-action="freeze"]');
@@ -22,9 +24,8 @@ test('D-02 makes demo-only consequences primary and separates Freeze from Report
   const reportPreview = page.getByRole('link', { name: /Preview report steps.*no bank case created.*no bank contact/i });
   await expect(freeze).toBeVisible();
   await expect(reportPreview).toBeVisible();
-  await expect(page.locator('[data-report-boundary]')).toContainText('Neither action contacts a bank');
-  await expect(page.locator('[data-report-boundary]')).toContainText('Freeze does not report the transaction');
-  await expect(page.locator('[data-report-boundary]')).toContainText('Report preview does not freeze the card');
+  await expect(freeze).toHaveAttribute('aria-describedby', 'nova-d02-freeze-effects');
+  await expect(reportPreview).toHaveAttribute('aria-describedby', 'nova-d02-report-effects');
 
   await freeze.click();
   const freezeDialog = page.getByRole('dialog', { name: /Freeze demo card only.*no bank contact/i });
@@ -79,7 +80,7 @@ test('D-02 truth boundary remains clear and operable at 390px without reviewer t
   await page.goto('/app.html?screen=transaction-detail&lab=1');
 
   await expect(page.locator('[data-nova-state-lab-launcher]')).toHaveCount(0);
-  await expect(page.locator('.nova-d02-boundary')).toContainText(/DEMO ONLY.*NO BANK CONTACT/i);
+  await expect(page.locator('.protection-band .nova-d02-status')).toBeVisible();
   await expect(page.getByRole('link', { name: /Preview report steps.*no bank case created/i })).toBeVisible();
   await expect(page.locator('[data-nova-d02-action]')).toHaveCount(2);
 

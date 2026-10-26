@@ -31,6 +31,10 @@ Current delivery state:
 - P2.3 phase/status ledger refresh: in verification
 - P2.4 design-decision / rejected-alternative evidence: next planned portfolio-clarity task
 
+## Current visual layer
+
+Nova v6 "Calm Money Workspace" (2026-10-26) is the final stylesheet layer: `assets/nova-v6.css` + `assets/nova-v6.js`. Contract, audit, direction gate and QA results: `docs/uiux/NOVA-V6-VISUAL-CONTRACT-2026-10-26.md`.
+
 ## Product evidence
 
 - `design-system.html`
