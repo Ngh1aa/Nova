@@ -1,10 +1,9 @@
-/* Nova v6 — Calm Money Workspace
+/* Nova v6.1 — Pastel iOS
    Final visual layer, loaded after every other product stylesheet.
    Contract: docs/uiux/NOVA-V6-VISUAL-CONTRACT-2026-10-26.md
    - One navigation per breakpoint: rail >=1200, top tabs 768-1199, dock <768.
-   - Neutral surfaces, hairline borders, no decorative shadows, one card radius.
-   - Colour is reserved for meaning: action blue, safe, needs review, negative,
-     and the three Money Horizon parts taken from the Nova mark. */
+   - Passes 1-4 set structure and accessibility; Pass 5 (bottom of file) sets the
+     pastel iOS colour system and wins where the two differ. */
 
 @font-face{font-family:"Inter Nova";src:url("fonts/inter-latin-400-normal.woff2") format("woff2");font-weight:400;font-style:normal;font-display:swap}
 @font-face{font-family:"Inter Nova";src:url("fonts/inter-latin-500-normal.woff2") format("woff2");font-weight:500;font-style:normal;font-display:swap}
@@ -550,3 +549,155 @@ html body.product-body .nova-category-list .c6{background:var(--v6-line-strong)}
 }
 @media (min-width:768px){html body.product-body :is(.v6-forecast-axis,.v6-forecast-low){display:none!important}}
 html body.product-body .horizon .legend-swatch[style*="--buffer"]{background:#7a66c9!important}
+
+/* ---------- Pass 5: Pastel iOS (Ten's review, 2026-10-26) ----------
+   Brings back Nova's own pastel iOS character with a rule: each colour family has
+   one meaning. Blue = money and actions, mint = safe / saving, pink = spending,
+   yellow = scheduled or needs review, lavender = protection. Surfaces are white
+   grouped cards on the iOS grouped background, with a soft shadow instead of a border. */
+:root{
+  --v6-canvas:#f2f2f7;
+  --p-blue-bg:#e9f2ff;   --p-blue:#1d5fd6;
+  --p-mint-bg:#e3f6ee;   --p-mint:#0b7552;
+  --p-pink-bg:#fdecf3;   --p-pink:#b02a63;
+  --p-yellow-bg:#fff4d6; --p-yellow:#865600;
+  --p-lav-bg:#efebff;    --p-lav:#5a44c2;
+  --p-shadow:0 1px 2px rgba(16,24,40,.04),0 8px 24px rgba(16,24,40,.06);
+  --v6-r-card:22px;
+}
+html body.product-body :is(.nova-card,.v3-surface,.v4-card,.section,.task-panel,.security-summary,.goal-hero,.dossier-hero,.evidence-panel,.protection-band,.review-panel,.notification-group,.recurring-total,.impact-panel,.receipt-sheet,.document-sheet,.kyc-capture,.empty-state,.activity-header,.ledger-toolbar,.horizon){
+  border:0!important;box-shadow:var(--p-shadow)!important;border-radius:var(--v6-r-card)!important;
+}
+
+/* Colour families on icon tiles, avatars, action tiles and statuses */
+html body.product-body :is(.nova-icon,.v3-icon,.v4-avatar,.v3-merchant,.v4-list-icon).blue{background:var(--p-blue-bg)!important;color:var(--p-blue)!important}
+html body.product-body :is(.nova-icon,.v3-icon,.v4-avatar,.v3-merchant,.v4-list-icon):is(.mint,.green){background:var(--p-mint-bg)!important;color:var(--p-mint)!important}
+html body.product-body :is(.nova-icon,.v3-icon,.v4-avatar,.v3-merchant,.v4-list-icon).pink{background:var(--p-pink-bg)!important;color:var(--p-pink)!important}
+html body.product-body :is(.nova-icon,.v3-icon,.v4-avatar,.v3-merchant,.v4-list-icon):is(.yellow,.orange){background:var(--p-yellow-bg)!important;color:var(--p-yellow)!important}
+html body.product-body :is(.nova-icon,.v3-icon,.v4-avatar,.v3-merchant,.v4-list-icon):is(.lavender,.purple,.violet){background:var(--p-lav-bg)!important;color:var(--p-lav)!important}
+html body.product-body :is(.nova-icon,.v3-icon,.v4-list-icon) svg{color:inherit!important}
+html body.product-body .v4-avatar,html body.product-body .v3-merchant{font-weight:700!important}
+
+html body.product-body :is(.v3-action-tile,.v4-action):is(.blue){background:var(--p-blue-bg)!important}
+html body.product-body :is(.v3-action-tile,.v4-action):is(.mint,.green){background:var(--p-mint-bg)!important}
+html body.product-body :is(.v3-action-tile,.v4-action):is(.pink,.danger){background:var(--p-pink-bg)!important}
+html body.product-body :is(.v3-action-tile,.v4-action):is(.yellow){background:var(--p-yellow-bg)!important}
+html body.product-body :is(.v3-action-tile,.v4-action):is(.lavender,.purple){background:var(--p-lav-bg)!important}
+html body.product-body .v3-action-tile.blue :is(svg,strong){color:var(--p-blue)!important}
+html body.product-body .v3-action-tile:is(.mint,.green) :is(svg,strong){color:var(--p-mint)!important}
+html body.product-body .v3-action-tile:is(.pink,.danger) :is(svg,strong){color:var(--p-pink)!important}
+html body.product-body .v3-action-tile.yellow :is(svg,strong){color:var(--p-yellow)!important}
+html body.product-body .v3-action-tile>span,html body.product-body .v3-action-tile span{color:var(--v6-text-2)!important}
+html body.product-body .v4-pay-actions>.v4-action:first-child{background:var(--p-blue-bg)!important;box-shadow:inset 0 0 0 1.5px var(--p-blue)!important}
+html body.product-body .v4-pay-actions>.v4-action:first-child :is(strong,svg){color:var(--p-blue)!important}
+html body.product-body .v4-pay-actions>.v4-action:first-child small{color:var(--v6-text-2)!important}
+html body.product-body .v4-pay-actions>.v4-action.pink :is(strong,svg){color:var(--p-pink)!important}
+html body.product-body .v4-pay-actions>.v4-action.yellow :is(strong,svg){color:var(--p-yellow)!important}
+html body.product-body .v4-status:is(.mint,.green){background:var(--p-mint-bg)!important;color:var(--p-mint)!important;border-color:transparent!important}
+html body.product-body .v4-status.blue{background:var(--p-blue-bg)!important;color:var(--p-blue)!important;border-color:transparent!important}
+html body.product-body .v4-status:is(.pink){background:var(--p-pink-bg)!important;color:var(--p-pink)!important;border-color:transparent!important}
+html body.product-body .v4-status:is(.yellow){background:var(--p-yellow-bg)!important;color:var(--p-yellow)!important;border-color:transparent!important}
+
+/* Number tiles take the colour of what they count */
+html body.product-body :is(.v3-stat-grid,.v4-context-grid,.cashflow-strip)>*{border-radius:16px!important}
+html body.product-body .v3-stat-grid>:nth-child(1){background:var(--p-pink-bg)!important}
+html body.product-body .v3-stat-grid>:nth-child(2){background:var(--p-yellow-bg)!important}
+html body.product-body .v4-context-grid>:nth-child(1){background:var(--p-blue-bg)!important}
+html body.product-body .v4-context-grid>:nth-child(2){background:var(--p-yellow-bg)!important}
+html body.product-body .v4-context-grid>:nth-child(3){background:var(--p-lav-bg)!important}
+html body.product-body .v4-context-grid>:nth-child(4){background:var(--p-mint-bg)!important}
+html body.product-body .v4-context-grid>:nth-child(4) strong{color:var(--p-mint)!important}
+html body.product-body .cashflow-strip>.cashflow-item:nth-child(1){background:var(--p-mint-bg)!important}
+html body.product-body .cashflow-strip>.cashflow-item:nth-child(2){background:var(--p-pink-bg)!important}
+html body.product-body .cashflow-strip>.cashflow-item:nth-child(3){background:var(--p-blue-bg)!important}
+html body.product-body .nova-kpi.mint{background:var(--p-mint-bg)!important}
+html body.product-body .nova-kpi.pink{background:var(--p-pink-bg)!important}
+html body.product-body .nova-kpi.mint span{color:var(--p-mint)!important}
+html body.product-body .nova-kpi.pink span{color:var(--p-pink)!important}
+html body.product-body .nova-bars b{background:#f2a6c7!important}
+html body.product-body .nova-bars i{background:#6aa6f5!important}
+html body.product-body .nova-chart-legend .pink-dot{background:#f2a6c7!important}
+html body.product-body .nova-chart-legend .blue-dot{background:#6aa6f5!important}
+html body.product-body .nova-card-spend{background:var(--p-blue-bg)!important}
+html body.product-body .nova-protection-note{background:var(--p-mint-bg)!important}
+html body.product-body .nova-protection-note strong{color:var(--p-mint)!important}
+
+/* Home hero: light pastel glass, ink text, Horizon colours do the talking */
+html body.product-body .nova-hero-card{
+  background:linear-gradient(135deg,#e8f2ff 0%,#f1ecff 52%,#e6f6ef 100%)!important;color:var(--v6-text)!important;box-shadow:var(--p-shadow)!important;
+}
+html body.product-body .nova-hero-card :is(h1,h2,strong,b,.money-amount){color:var(--v6-text)!important}
+html body.product-body .nova-hero-card :is(p,small,span,.nova-label){color:var(--v6-text-2)!important}
+html body.product-body .nova-hero-card .nova-label{color:var(--v6-text-2)!important}
+html body.product-body .nova-hero-status>span{background:rgba(255,255,255,.7)!important;color:var(--p-mint)!important}
+html body.product-body .nova-hero-status>strong{color:var(--p-mint)!important}
+html body.product-body .nova-hero-status>button{background:rgba(255,255,255,.75)!important;color:var(--v6-text)!important}
+html body.product-body .nova-health-note{background:rgba(255,255,255,.62)!important;border:0!important}
+html body.product-body .nova-health-note strong{color:var(--p-mint)!important}
+html body.product-body .nova-health-note p{color:var(--v6-text-2)!important}
+html body.product-body .nova-hero-card .nova-icon{background:rgba(255,255,255,.75)!important;color:var(--v6-text)!important}
+html body.product-body .nova-hero-card .nova-icon svg{color:var(--v6-text)!important}
+html body.product-body .nova-hero-footer{border-top:1px solid rgba(22,35,43,.08)!important}
+html body.product-body .v6-horizon-bar i{border-radius:6px}
+html body.product-body .v6-horizon-bar{height:14px}
+html body.product-body .nova-hero-card .v6-horizon-legend span{color:var(--v6-text-2)!important}
+html body.product-body .nova-hero-card .v6-horizon-legend strong{color:var(--v6-text)!important}
+html body.product-body .nova-hero-card .v6-horizon-legend li.total span::before{border-color:var(--v6-text-2)}
+html body.product-body .nova-hero-card .nova-action{background:rgba(255,255,255,.8)!important;border:0!important}
+html body.product-body .nova-hero-card .nova-action strong{color:var(--v6-text)!important}
+html body.product-body .nova-hero-card .nova-action.blue{background:var(--p-blue)!important}
+html body.product-body .nova-hero-card .nova-action.blue strong{color:#fff!important}
+
+/* Navigation: frosted white glass, active item in blue pastel */
+@media (min-width:1200px){
+  html body.product-body aside.sidebar.nova-rail-v4{background:rgba(255,255,255,.78)!important;border-right:0!important;box-shadow:1px 0 0 rgba(16,24,40,.06)!important;backdrop-filter:saturate(180%) blur(20px)!important;-webkit-backdrop-filter:saturate(180%) blur(20px)!important}
+}
+html body.product-body aside.sidebar.nova-rail-v4 a.active{color:var(--p-blue)!important}
+html body.product-body aside.sidebar.nova-rail-v4 a.active .v5-rail-icon{background:var(--p-blue-bg)!important;color:var(--p-blue)!important}
+html body.product-body .bottom-nav{background:rgba(255,255,255,.82)!important;border:1px solid rgba(16,24,40,.06)!important;box-shadow:0 10px 30px rgba(16,24,40,.12)!important;backdrop-filter:saturate(180%) blur(20px)!important;-webkit-backdrop-filter:saturate(180%) blur(20px)!important}
+html body.product-body .bottom-nav a{color:var(--v6-text-2)!important}
+html body.product-body .bottom-nav a.active{background:var(--p-blue-bg)!important;color:var(--p-blue)!important}
+html body.product-body .bottom-nav a.active *{color:var(--p-blue)!important}
+html body.product-body :is(.nova-search-chip,.nova-bell-chip,.nova-profile-chip){border:0!important;box-shadow:var(--p-shadow)!important}
+html body.product-body .nova-avatar,html body.product-body .v3-profile-avatar{background:var(--p-pink-bg)!important;color:var(--p-pink)!important}
+html body.product-body .chip[aria-pressed="true"],html body.product-body .chip.active{background:var(--p-blue-bg)!important;border-color:transparent!important;color:var(--p-blue)!important}
+html body.product-body .chip{border:0!important;box-shadow:var(--p-shadow)!important}
+
+
+/* Cards: the card and its controls side by side, recent payments as a full-width strip */
+@media (min-width:1200px){
+  html body.product-body .v3-cards-layout{grid-template-columns:repeat(12,minmax(0,1fr))!important;grid-template-areas:
+    "show show show show show show act act act act act act"
+    "bal bal bal bal wal wal wal wal lim lim lim lim"
+    "actv actv actv actv actv actv actv actv actv actv actv actv"!important}
+  html body.product-body .v3-cards-layout>*{grid-row:auto!important;grid-column:auto!important}
+  html body.product-body .v3-cards-layout>.v3-card-showcase{grid-area:show!important}
+  html body.product-body .v3-cards-layout>.v3-card-actions{grid-area:act!important}
+  html body.product-body .v3-cards-layout>.v3-card-balance{grid-area:bal!important}
+  html body.product-body .v3-cards-layout>.v3-wallet-card{grid-area:wal!important}
+  html body.product-body .v3-cards-layout>.v3-limits-card{grid-area:lim!important}
+  html body.product-body .v3-cards-layout>.v3-card-activity{grid-area:actv!important}
+  html body.product-body .v3-card-showcase{display:grid!important;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr)!important;gap:24px!important;align-items:center!important}
+  html body.product-body .v3-card-actions .v3-action-grid{height:calc(100% - 56px)}
+  html body.product-body .v3-card-activity .v3-list{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:12px!important}
+  html body.product-body .v3-card-activity .v3-list>a{background:var(--v6-sunken)!important;border:0!important;border-radius:16px!important;padding:14px!important}
+}
+html body.product-body .v3-wallet-row,html body.product-body .v3-device-row{background:var(--v6-sunken)!important}
+
+/* Transaction detail: one "No bank contact" status, two tinted action cards */
+html body.product-body .protection-band .nova-d02-status{display:inline-flex!important;align-items:center!important;gap:8px!important;padding:6px 12px!important;border-radius:999px!important;background:var(--p-yellow-bg)!important;border:0!important;margin:4px 0 8px!important}
+html body.product-body .protection-band .nova-d02-status strong{color:var(--p-yellow)!important;font-size:13px!important}
+html body.product-body .protection-band .nova-d02-status::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--p-yellow)}
+html body.product-body .nova-d02-action-card--freeze{background:var(--p-pink-bg)!important;border:0!important}
+html body.product-body .nova-d02-action-card--report{background:var(--p-blue-bg)!important;border:0!important}
+html body.product-body .nova-d02-consequence{background:rgba(255,255,255,.7)!important;border:0!important}
+html body.product-body .evidence-panel .insight-line{padding:10px 0!important;border-bottom:1px solid var(--v6-line)!important}
+html body.product-body .evidence-panel .insight-line strong{font-size:15px!important}
+html body.product-body .risk-chip{border-radius:999px!important}
+@media (min-width:1200px){
+  html body.product-body .v3-cards-layout>.v3-card-showcase{grid-template-columns:minmax(0,1.5fr) minmax(0,1fr)!important}
+  html body.product-body .v3-card-showcase .v3-bank-card{width:100%!important;max-width:none!important;margin:0!important}
+  html body.product-body .v3-card-showcase .v3-card-summary{flex-direction:column!important;align-items:flex-start!important;gap:14px!important;width:auto!important}
+  html body.product-body .v3-card-showcase .v3-card-summary>div{width:auto!important}
+}
+html body.product-body .v3-card-summary .v3-status.live{align-self:flex-start!important;justify-self:start!important;width:auto!important;padding:4px 12px!important;background:var(--p-mint-bg)!important;color:var(--p-mint)!important;border-color:transparent!important}

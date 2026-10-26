@@ -9,7 +9,6 @@ test('recipient search filters saved people and selected identity survives the t
   await expect(search).toBeVisible();
   await expect(page.getByRole('button', { name: /Add new recipient/i })).toHaveCount(0);
   await expect(page.locator('[data-nova-recipient-scope]')).toContainText('Saved recipients only');
-  await expect(page.locator('[data-nova-recipient-boundary]')).toContainText('outside this portfolio scenario');
 
   const savedRecipients = page.locator('.v4-recipient-chips [data-recipient-id]');
   const maya = page.locator('.v4-recipient-chips [data-recipient-id="maya-chen-2048"]');

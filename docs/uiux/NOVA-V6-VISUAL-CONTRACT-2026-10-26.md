@@ -120,3 +120,24 @@ Still open (needs a product or content decision, not a visual one): Holiday Fund
 Savings (the €2,840 balance model depends on the €100), Pay's committed total versus its listed bills, the repeated
 prototype disclaimer on transaction detail, error-copy wording, KYC "Why Nova asks", no Security or Settings in the
 mobile dock, no selected state on the recipient step. The reviewer has not re-scored the fixed build.
+
+## v6.1 — Pastel iOS (Ten's review, 2026-10-26)
+
+Ten's feedback on the first v6 build: the pastel iOS character of Nova was gone, Cards and Pay felt empty, some
+screens read as AI-generated, transaction detail had too much text, and the work had only layered CSS on top of the
+old code. v6.1 changes the direction and edits source instead of hiding things:
+
+| Area | Change | Where |
+|---|---|---|
+| Colour | Pastel families with one meaning each: blue = money and actions, mint = safe and saving, pink = spending, yellow = scheduled or needs review, lavender = protection. Icon tiles, avatars, action tiles and number tiles take the family of what they show. | `assets/nova-v6.css` (Pass 5) |
+| Surfaces | iOS grouped background `#F2F2F7`, white cards with a soft shadow, no borders; frosted white rail and dock, active item in blue pastel. | `assets/nova-v6.css` |
+| Home hero | Light pastel gradient instead of ink; the Money Horizon bar keeps the three logo colours. | `assets/nova-v6.css` |
+| Page titles | Large iOS title only; the eyebrow and description sentence are no longer rendered. | `pageHead()` and the Pay header in `assets/legacy/p2-1a-canonical/nova-current-renderer.p2-1a.js` |
+| Cards | Card and its summary side by side next to the four controls; balance, wallet, limits in one row; recent payments as a full-width strip. | `assets/nova-v6.css` |
+| Pay | The "Adding or verifying a new recipient…" note is no longer inserted; the "Saved recipients only" status already says it. | `assets/nova-current-state.js` |
+| Transaction detail | The DEMO ONLY band, the intro sentence, the callout sentence, both action descriptions and the footnote are no longer created. One "No bank contact" status remains, and each action card keeps its Changes / Does not list, which the buttons now reference with `aria-describedby`. The evidence panel copy is three short lines. Dead CSS for the removed parts was deleted. | `assets/nova-d02-truth-boundary.js`, `.css`; `assets/nova.js` |
+
+Tests changed with it: `report-boundary.spec.mjs` and `direct-user-round01.spec.mjs` assert the single visible
+"No bank contact" status and the `aria-describedby` link instead of the removed band and footnote;
+`recipient-continuity.spec.mjs` drops the removed note; `nova-flow.spec.mjs` expects `#F2F2F7` and a white (possibly
+translucent) rail. The report-preview screen keeps its DEMO ONLY band unchanged.

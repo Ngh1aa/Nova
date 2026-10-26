@@ -107,7 +107,7 @@ test('Nova adaptive pastel visual contract holds at portfolio breakpoints', asyn
     expect(state.amountFontFamily).toMatch(/sans-serif|monospace|ui-monospace/);
     expect(state.amountFontFamily).not.toMatch(/source serif|georgia|times new roman|times,/);
     expect(state.amountNumeric).toContain('tabular-nums');
-    expect(state.bodyBackground).toBe('rgb(245, 245, 247)');
+    expect(state.bodyBackground).toBe('rgb(242, 242, 247)');
     expect(state.forecastRadius).toBeGreaterThanOrEqual(20);
 
     if (width < 768) {
@@ -118,7 +118,7 @@ test('Nova adaptive pastel visual contract holds at portfolio breakpoints', asyn
     }
 
     if (width >= 1200) {
-      expect(state.sidebarBackground).toBe('rgb(255, 255, 255)');
+      expect(state.sidebarBackground).toMatch(/^rgba?\(255, 255, 255/);
     }
 
     if (width >= 1024) expect(state.mainWidth).toBeGreaterThan(900);
