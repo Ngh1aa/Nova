@@ -76,7 +76,7 @@
 
     const eyebrow = band.querySelector('.eyebrow');
     const heading = band.querySelector('h2');
-    if (eyebrow) eyebrow.textContent = 'Sensitive action · simulated';
+    if (eyebrow) eyebrow.textContent = 'Simulated sensitive action';
     if (heading) heading.textContent = 'Freeze card and Report do different things';
 
     const truth = boundary({ detail: 'Both choices stay inside this portfolio prototype.' });
@@ -177,7 +177,7 @@
       if (calloutTitle) calloutTitle.textContent = 'Nothing was submitted';
       if (calloutCopy) calloutCopy.textContent = 'This prototype result confirms the boundary: no bank was contacted, no dispute was created, no refund was requested, and card protection was not changed by this preview.';
     } else {
-      if (eyebrow) eyebrow.textContent = 'Report preview · simulated';
+      if (eyebrow) eyebrow.textContent = 'Simulated report preview';
       if (calloutTitle) calloutTitle.textContent = 'Nothing has been reported';
       if (calloutCopy) calloutCopy.textContent = 'This portfolio prototype can preview the reporting decision, but it cannot contact a bank, create a dispute, request a refund, or freeze the card.';
     }

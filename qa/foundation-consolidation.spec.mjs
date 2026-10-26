@@ -82,8 +82,9 @@ test('historical foundation behavior is preserved by the canonical bundle', asyn
   await expect(page.locator('body')).toHaveClass(/nova-density-v2/);
   await expect(page.locator('.nova-density-dashboard')).toBeVisible();
   await expect(page.locator('.ios26-nav')).toBeVisible();
-  await expect(page.locator('.nova-top-tabs')).toBeVisible();
-  await expect(page.getByText('Nova', { exact: true }).first()).toBeVisible();
+  // v6: at the default 1280px viewport the rail is the only primary navigation.
+  await expect(page.locator('.v4-rail-nav .v5-rail-primary')).toBeVisible();
+  await expect(page.locator('.nova-top-tabs')).toBeHidden();
 
   await page.goto('/app.html?screen=onboarding');
   await expect(page.getByRole('heading', { name: /See what is truly safe to spend/i })).toBeVisible();

@@ -497,7 +497,7 @@
       limitInput.setAttribute('autocomplete', 'off');
       if (hint) {
         hint.id = hint.id || 'daily-limit-hint';
-        hint.textContent = `€ per day · Minimum €1 · Maximum ${money(CARD_LIMIT_MAX)} · Prototype setting`;
+        hint.textContent = `€ per day, from €1 to ${money(CARD_LIMIT_MAX)}. Prototype setting`;
       }
       if (!error && limitField) {
         error = document.createElement('span');

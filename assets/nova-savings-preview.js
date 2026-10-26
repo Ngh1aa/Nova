@@ -50,7 +50,7 @@
     const hint = field.querySelector('.field-hint');
     if (hint) {
       hint.id = hint.id || 'contribution-hint';
-      hint.textContent = `Preview only · Minimum €0 · Maximum ${money(MODEL.maxPreviewContribution)} · No money moves in this prototype.`;
+      hint.textContent = `Preview only, from €0 to ${money(MODEL.maxPreviewContribution)}. No money moves in this prototype.`;
     }
 
     let error = field.querySelector('#contribution-error');
