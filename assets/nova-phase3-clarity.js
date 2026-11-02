@@ -28,7 +28,7 @@
 
     if (screen === 'home') {
       const label = document.querySelector('.decision-label') || exactText(document.querySelector('#main') || document, 'Safe to spend');
-      if (label && !/14 days/i.test(label.textContent || '')) label.textContent = 'Safe to spend · next 14 days';
+      if (label && !/14 days/i.test(label.textContent || '')) label.textContent = 'Safe to spend, next 14 days';
     }
 
     if (['transfer-amount', 'transfer-review', 'biometric-failed', 'offline'].includes(screen)) {

@@ -24,7 +24,7 @@
 
   function rebuildSidebar() {
     const rail = $('.sidebar');
-    if (!rail || window.matchMedia('(max-width:1199px)').matches) return;
+    if (!rail || window.matchMedia('(max-width:1023px)').matches) return;
     const active = (key) => {
       if (key === 'home') return screen === 'home' || screen === 'notifications';
       if (key === 'activity') return screen === 'activity' || screen === 'transaction-detail';

@@ -61,3 +61,70 @@ Copy verified with users is unchanged (including the buffer note). Tab bar label
 Verification: `qa/home-dashboard.spec.mjs` (new), all existing Playwright suites, axe/browser evidence on Home routes,
 `taste-check --layout strict` dashboard rules at 390/1024/1280/1440 (CI step), `overlay-check`: 0 errors.
 Not verified: real devices, screen readers, users.
+
+## Black sidebar and pastel colour blocks (2026-11-02)
+
+Request (Ten): redesign the whole Nova UI with `uiux-ai-workspace`: pastel tone, a fixed black sidebar on the left,
+content arranged inside one rectangle, modern minimal cards. Flow: size L, track "Redesign sản phẩm có code"
+(`brownfield-redesign`) with the direction gate. Three directions were built on Home
+(`docs/redesign/directions-2026-11-02/`); the product owner chose **B, colour blocks**
+([approval](directions-2026-11-02/direction-approval.md)).
+
+### DNA decisions
+
+| Trait | Decision |
+|---|---|
+| Pastel roles (mint safe, sky committed, lavender protected, peach review, butter warning) | Kept, now used as card fills on Home panels |
+| Light iPadOS sidebar | Changed by the owner to a black fixed sidebar (from 1024px) and a black floating phone tab bar |
+| Aurora on the safe-to-spend hero | Moved off the hero (now black, the one bold block); aurora stays on the card face and onboarding |
+| System font, tabular money, rounded shapes | Kept; card radius 20, frame radius 28 |
+
+### Owners changed (all at source, bundle regenerated)
+
+| Owner | Change |
+|---|---|
+| `assets/nova-ui/tokens.css` | `--page`, `--bg` (frame), `--card`, `--side*`, `--primary*`, `--r-frame` |
+| `assets/nova-ui/shell.css` | Black sidebar from 1024px; content frame (`.app-stage`) as one white rectangle; top tabs only 768–1023; black phone tab bar with the active tab as a white pill (icon + label), others icon only; compact top bar 1024–1359 |
+| `assets/nova-ui/components.css` | Cards are flat grey fills with white pills and icon tiles inside; primary buttons black |
+| `assets/nova-ui/screens.css` | Home hero black and panels tinted by role; multi-column screen layouts start at 1200/1360 so nothing cramps beside the sidebar; security score is a tile, not a gauge ring; cash-flow tiles stack on phones; pay actions become rows in a narrow card |
+| `assets/nova-system-v4.js`, `assets/legacy/p2-1a-canonical/nova-current-renderer.p2-1a.js` | Rail markup built from 1024px instead of 1200px |
+| `assets/nova-ios26.js` | Page captions under large titles removed |
+| `assets/nova-phase3-clarity.js`, `assets/nova.js` | "Safe to spend · next 14 days" → "Safe to spend, next 14 days" (test regex unchanged) |
+
+### Tests changed
+
+`qa/nova-flow.spec.mjs` locked the old look (white sidebar from 1200px, `#f2f2f7` body, top tabs to 1199px, 900px
+main at 1024). It now checks the new contract: black sidebar and no top tabs from 1024px, white content frame on a
+grey page, main wider than 640px at 1024 and 900px at 1440. Behaviour assertions are unchanged.
+
+### Verification
+
+All 18 Playwright suites (62 tests), axe and browser evidence on the 31 CI routes: pass. `taste-check --layout strict`
+on 26 routes at 390/768/1024/1280/1440: 3 remaining errors, all the D-02 "DEMO ONLY" banner, which stays dark as the
+user-tested truth boundary. `overlay-check`: 0 errors, `!important` net +0. Not verified: real devices, screen
+readers, users.
+
+## Minimalism, icons, type, sidebar and logo (2026-11-02, second pass)
+
+Request (Ten): remove unneeded content from cards, sync icons and typography, fill the empty sidebar with other
+screens, and design a new Nova logo without a background.
+
+- **Copy trimmed at source** (`assets/nova.js`, the P2.1A renderer source, `nova-current-state.js`,
+  `nova-product-rules.js`, `nova-savings-preview.js`, `nova-dashboard-v2.js`): overline + slogan pairs became one plain
+  title ("Make Nova yours" → "Appearance", "Use it your way" → "Card controls", "Stay informed, not interrupted" →
+  "Notifications", …); descriptions under switches, prototype footnotes and "how it works" paragraphs removed; field
+  hints keep the range only. Kept: copy locked by user-research tests (buffer note, projected-safe sentence, transfer
+  success note), D-02 truth boundaries, error and state reasons, data.
+- **Type**: one scale (12, 13, 15, 17, 20, 28, 40 and the Home hero); page titles 28 on every width (20 in the phone bar);
+  three weights (400, 600, 700).
+- **Icons**: one line weight (1.75) on every stroke icon; 20 px in tiles and navigation, 18 inline, 22 for Back.
+- **Sidebar**: a "Planning" group with Subscriptions, Notifications and Identity check (existing screens), the profile
+  moved from the top bar to the bottom of the sidebar.
+- **Logo**: new transparent mark: a sunrise over the Money Horizon (three bars in the safe, committed and protected
+  roles). Files keep their names (`nova-mark.svg`, `nova-logo.svg`, `favicon.svg`), so every page picks it up.
+  Preview: [logo-preview.png](directions-2026-11-02/logo-preview.png).
+
+Tests changed: `qa/pastel-ux.spec.mjs` finds the settings card by its new title "Notifications".
+Verification: 62/62 Playwright tests, axe + browser evidence on the 31 CI routes, `overlay-check` 0 errors.
+`taste-check --layout strict` on 26 routes × 5 widths: the D-02 banner (kept on purpose) and one flat-scale warning on
+the frozen-card screen at 768 px.
