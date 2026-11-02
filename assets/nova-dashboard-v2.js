@@ -190,7 +190,7 @@
 
         <section class="nova-card nova-bankcard-card nova-home-detail" aria-labelledby="card-title">
           <div class="nova-card-head"><h2 id="card-title">Your card</h2><a href="app.html?screen=cards">Manage</a></div>
-          <div class="nova-bankcard"><div class="nova-bankcard-top"><img src="assets/nova-mark.svg" alt=""><strong>Nova</strong></div><div class="nova-bankcard-bottom"><span>•••• 4821</span><small>Debit</small></div></div>
+          <div class="nova-bankcard" data-artwork><div class="nova-bankcard-top"><img src="assets/nova-mark.svg" alt=""><strong>Nova</strong></div><div class="nova-bankcard-bottom"><span>•••• 4821</span><small>Debit</small></div></div>
           <div class="nova-card-spend"><div><span>Spent this month</span><strong>€620.00</strong></div><div class="nova-card-meter"><span style="width:62%"></span></div><small>62% of your €1,000 limit</small></div>
         </section>
 

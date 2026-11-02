@@ -86,11 +86,12 @@
   flex:none;display:grid;place-items:center;width:44px;height:44px;border-radius:50%;
   background:var(--fill);color:var(--ink);font-size:var(--t-sm);font-weight:700
 }
-:is(.nova-icon,.v3-icon,.v4-list-icon,.v4-avatar,.v3-merchant).mint{background:var(--mint-soft);color:var(--mint-ink)}
-:is(.nova-icon,.v3-icon,.v4-list-icon,.v4-avatar,.v3-merchant).blue{background:var(--sky-soft);color:var(--sky-ink)}
-:is(.nova-icon,.v3-icon,.v4-list-icon,.v4-avatar,.v3-merchant).lavender{background:var(--lavender-soft);color:var(--lavender-ink)}
-:is(.nova-icon,.v3-icon,.v4-list-icon,.v4-avatar,.v3-merchant).pink{background:var(--peach-soft);color:var(--peach-ink)}
-:is(.nova-icon,.v3-icon,.v4-list-icon,.v4-avatar,.v3-merchant).yellow{background:var(--butter-soft);color:var(--butter-ink)}
+/* Home panels tint their icons with the panel's role colour; everywhere else icons stay neutral */
+.nova-icon.mint{background:var(--mint-soft);color:var(--mint-ink)}
+.nova-icon.blue{background:var(--sky-soft);color:var(--sky-ink)}
+.nova-icon.lavender{background:var(--lavender-soft);color:var(--lavender-ink)}
+.nova-icon.pink{background:var(--peach-soft);color:var(--peach-ink)}
+.nova-icon.yellow{background:var(--butter-soft);color:var(--butter-ink)}
 
 /* ---------- Grouped list rows ---------- */
 .list,.ledger,.control-list,.review-list,.detail-grid{display:flex;flex-direction:column}
@@ -104,7 +105,7 @@ a.list-row:hover .list-title,a.ledger-row:hover .list-title{color:var(--accent)}
 .list-title{color:var(--ink);font-weight:600;line-height:1.3}
 .list-sub{margin-top:2px;color:var(--ink-3);font-size:var(--t-sm);line-height:1.35}
 .list-value{flex:none;color:var(--ink);font-weight:600;text-align:right;white-space:nowrap}
-.list-value small{display:block;color:var(--peach-ink);font-size:var(--t-xs);font-weight:600}
+.list-value small{display:block;color:var(--ink-3);font-size:var(--t-xs);font-weight:600}
 .ledger-date{flex:none;width:52px;color:var(--ink-3);font-size:var(--t-sm);font-weight:400}
 .ledger-row.is-risk .list-title,.list-row.is-risk .list-title{color:var(--peach-ink)}
 .list-row.is-risk .list-icon{background:var(--peach-soft);color:var(--peach-ink)}
@@ -162,7 +163,7 @@ a.list-row:hover .list-title,a.ledger-row:hover .list-title{color:var(--accent)}
 /* ---------- Callouts and notes ---------- */
 .callout,.nova-phase3-decision-note,.nova-recovery-reassurance,.nova-safe-warning,.nova-card-status,
 .nova-transfer-impact-status,.nova-d02-report-note,.nova-savings-preview-status:not(:empty),.nova-native-state-note,.nova-native-loading-meta{
-  margin-top:var(--s-4);padding:var(--s-3) var(--s-4);border-radius:var(--r-inner);background:var(--surface-2);
+  margin-top:var(--s-4);padding:var(--s-4);border-radius:var(--r-inner);background:var(--surface-2);
   color:var(--ink-2);font-size:var(--t-sm);line-height:1.5
 }
 :is(.callout,.nova-phase3-decision-note,.nova-recovery-reassurance,.nova-safe-warning,.nova-card-status,.nova-transfer-impact-status,.nova-d02-report-note) strong{display:block;margin-bottom:2px;color:var(--ink);font-size:var(--t-body);font-weight:600}
@@ -170,7 +171,7 @@ a.list-row:hover .list-title,a.ledger-row:hover .list-title{color:var(--accent)}
 .callout-warning,.nova-safe-warning,.nova-card-status.is-warning,.nova-transfer-impact-status.is-warning{background:var(--butter-soft);color:#5c4405}
 .callout-risk,.nova-safe-warning.is-critical,.nova-transfer-impact-status.is-critical{background:var(--risk-soft);color:#7a1d16}
 .callout-success,.nova-phase3-buffer-note,.nova-recovery-reassurance,.nova-card-status{background:var(--mint-soft);color:#1b5641}
-.nova-d02-report-note{background:var(--sky-soft);color:#1d3f75}
+.nova-d02-report-note{width:fit-content;max-width:100%;background:var(--sky-soft);color:#1d3f75}
 
 .nova-safe-shortfall,.nova-savings-shortfall,.nova-transfer-blocked{
   display:flex;align-items:center;justify-content:space-between;gap:var(--s-3);width:100%;min-height:56px;padding:var(--s-3) var(--s-4);
@@ -192,17 +193,17 @@ a.list-row:hover .list-title,a.ledger-row:hover .list-title{color:var(--accent)}
 .nova-phase3-horizon-label::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor}
 
 /* Demo boundary: the one place a dark strip is used, so it reads as a system notice */
-.nova-d02-boundary{display:flex;align-items:center;justify-content:space-between;gap:var(--s-3);margin-bottom:var(--s-4);padding:var(--s-3) var(--s-4);border-radius:var(--r-inner);background:var(--ink);color:#fff}
-.nova-d02-boundary strong{font-size:var(--t-xs);font-weight:700;letter-spacing:.04em}
-.nova-d02-boundary span{color:rgba(255,255,255,.86);font-size:var(--t-sm);text-align:right}
-.nova-d02-boundary--result{background:var(--mint-ink)}
+.nova-d02-boundary{display:flex;align-items:center;justify-content:space-between;gap:var(--s-3);margin-bottom:var(--s-4);padding:var(--s-4);border-radius:var(--r-inner);background:var(--butter-soft);color:#5c4405}
+.nova-d02-boundary strong{color:#3f2f04;font-size:var(--t-xs);font-weight:700;letter-spacing:.04em}
+.nova-d02-boundary span{font-size:var(--t-sm);text-align:right}
+.nova-d02-boundary--result{background:var(--mint-soft);color:#1b5641}.nova-d02-boundary--result strong{color:#0e3b2c}
 .nova-d02-dialog-boundary{margin-bottom:var(--s-3);padding:var(--s-2) var(--s-3);border-radius:10px;background:var(--ink);color:#fff;font-size:var(--t-xs);font-weight:700;letter-spacing:.04em}
 @media (max-width:767px){.nova-d02-boundary{flex-direction:column;align-items:flex-start}.nova-d02-boundary span{text-align:left}}
 
 /* ---------- Progress, stepper ---------- */
 .progress,.v3-progress,.v3-meter,.v3-mini-progress{height:8px;overflow:hidden;border-radius:var(--r-pill);background:var(--fill-strong)}
-.progress > span,.v3-progress > span,.v3-meter > span,.v3-mini-progress > i{display:block;height:100%;border-radius:inherit;background:linear-gradient(90deg,var(--mint),#7fd3b6)}
-.v3-meter > span{background:linear-gradient(90deg,var(--sky),#86bdf7)}
+.progress > span,.v3-progress > span,.v3-meter > span,.v3-mini-progress > i{display:block;height:100%;border-radius:inherit;background:var(--mint)}
+.v3-meter > span{background:var(--sky)}
 
 .stepper{display:grid;grid-auto-flow:column;grid-auto-columns:1fr;gap:6px}
 .stepper span{height:6px;border-radius:var(--r-pill);background:var(--fill-strong)}
@@ -255,7 +256,7 @@ a.list-row:hover .list-title,a.ledger-row:hover .list-title{color:var(--accent)}
 .empty-state p{max-width:52ch;margin:var(--s-2) auto 0}
 .empty-mark,.receipt-mark{width:64px;height:64px;margin:0 auto var(--s-4);border-radius:20px;background:var(--butter-soft)}
 .empty-mark{background:radial-gradient(circle at 50% 50%,var(--butter-ink) 0 4px,transparent 5px),var(--butter-soft)}
-.nova-activity-empty,.v4-pay-search .empty-state{margin-top:var(--s-4);padding:var(--s-6) var(--s-5);border-radius:var(--r-inner);background:var(--surface-2);box-shadow:none;text-align:center}
+.nova-activity-empty,.v4-pay-search .empty-state{margin-top:var(--s-4);padding:var(--s-6);border-radius:var(--r-inner);background:var(--surface-2);box-shadow:none;text-align:center}
 .nova-activity-empty strong,.v4-pay-search .empty-state strong{display:block;color:var(--ink);font-weight:600}
 .nova-activity-empty p{max-width:44ch;margin:var(--s-1) auto var(--s-4)}
 

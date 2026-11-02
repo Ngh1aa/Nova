@@ -68,7 +68,7 @@
 }
 .nova-bell-chip svg{width:20px;height:20px}
 .nova-bell-chip i{position:absolute;top:10px;right:11px;width:8px;height:8px;border:2px solid var(--card);border-radius:50%;background:var(--peach-ink)}
-.nova-avatar{display:grid;place-items:center;width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--mint),var(--sky) 55%,var(--lavender));color:var(--ink);font-size:var(--t-sm);font-weight:700}
+.nova-avatar{display:grid;place-items:center;width:36px;height:36px;border-radius:50%;background:var(--side-2);color:#fff;font-size:var(--t-sm);font-weight:700}
 
 .ios26-nav-title{display:none;padding:var(--s-1) 0 var(--s-3)}
 .ios26-nav-title h1{font-size:var(--t-xl);letter-spacing:-.025em}
@@ -104,6 +104,8 @@ body:has(.v3-page-head,.v4-page-head) .ios26-nav-center{visibility:hidden}
   /* Pushed screens show Back and their title instead of the tabs */
   .ios26-nav-row:has(.ios26-back) .nova-top-tabs{display:none}
   .ios26-nav-row:has(.ios26-back) .ios26-nav-center{display:block}
+  /* Tab roots without their own page head keep a large title under the tabs */
+  body:not(:has(.v3-page-head,.v4-page-head,main.home-page)) .ios26-nav-inner:not(:has(.ios26-back)) .ios26-nav-title{display:block}
 }
 @media (min-width:1024px){
   .ios26-nav-leading:not(:has(.ios26-back)){display:none}
