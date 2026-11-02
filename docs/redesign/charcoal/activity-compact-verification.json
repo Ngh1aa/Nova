@@ -1,0 +1,72 @@
+{
+  "task": "Compact Activity Transactions card",
+  "date": "2026-11-02",
+  "desktop_before": {
+    "x": 244,
+    "y": 144,
+    "width": 1164,
+    "height": 815.5
+  },
+  "after": [
+    {
+      "width": 1440,
+      "card": {
+        "x": 338,
+        "y": 304,
+        "width": 976,
+        "height": 548.5
+      },
+      "errors": []
+    },
+    {
+      "width": 390,
+      "card": {
+        "x": 16,
+        "y": 224,
+        "width": 358,
+        "height": 663.5
+      },
+      "errors": []
+    },
+    {
+      "width": 320,
+      "card": {
+        "x": 16,
+        "y": 130,
+        "width": 288,
+        "height": 758.375
+      },
+      "errors": []
+    }
+  ],
+  "behavior": "6 rows per page; search and filters apply to all 12 rows; changes reset pagination; all rows retain their correct detail links",
+  "regression": {
+    "startTime": "2026-11-02T09:37:20.820Z",
+    "duration": 55145.604999999996,
+    "expected": 21,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "final_focused_regression": {
+    "startTime": "2026-11-02T09:38:57.999Z",
+    "duration": 13072.03,
+    "expected": 4,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "taste": {
+    "errors": 0,
+    "warnings": 0,
+    "axe": "PASS at 390/1440; reflow PASS at 320"
+  },
+  "generated_reproducible": true,
+  "sources": [
+    "C:\\Users\\LENOVO\\Documents\\ChatGPT\\nova\\assets\\nova.js",
+    "C:\\Users\\LENOVO\\Documents\\ChatGPT\\nova\\assets\\nova-current-state.js",
+    "C:\\Users\\LENOVO\\Documents\\ChatGPT\\nova\\assets\\nova-ui\\screens.css",
+    "C:\\Users\\LENOVO\\Documents\\ChatGPT\\nova\\qa\\activity-compact.spec.mjs"
+  ],
+  "publication": "No commit, push or deployment"
+}

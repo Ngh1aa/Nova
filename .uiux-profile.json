@@ -5,7 +5,12 @@
   "domain": "consumer_fintech_personal_banking",
   "primary_audience": "18-30 digital-first users with recurring payments who want money control without spreadsheets",
   "responsive_scope": "responsive_all",
-  "viewports": [1440, 1024, 768, 390],
+  "viewports": [
+    1440,
+    1024,
+    768,
+    390
+  ],
   "release_authorization": "merge_and_deploy",
   "skill_ref": "main",
   "system_reality": {
@@ -24,17 +29,34 @@
     "docs/uiux/Component-State-Contract.md",
     "research/validation/nova-round-01/status.json",
     "research/validation/nova-round-02/status.json",
-    "Ngh1aa/uiux-ai-workspace"
+    "Ngh1aa/uiux-ai-workspace",
+    "docs/redesign/mint-reference-plan.md",
+    "docs/redesign/home-style-sync.md"
   ],
-  "visual_direction": ["native", "calm", "precise", "fluid", "premium"],
-  "visual_signature": "Nova Financial Workspace — cool neutral content surfaces with a restrained iOS 26 Liquid Glass navigation layer and a blue Money Horizon forecast",
-  "composition_families": ["Financial Overview", "Grouped Activity", "Focused Money Task", "Protection Detail"],
+  "visual_direction": [
+    "charcoal",
+    "warm gradient",
+    "compact",
+    "clear",
+    "precise"
+  ],
+  "visual_signature": "Charcoal money workspace — labelled sidebar, warm gradient safe-to-spend card and contextual financial panels",
+  "composition_families": [
+    "Financial Overview",
+    "Grouped Activity",
+    "Focused Money Task",
+    "Protection Detail"
+  ],
   "hero_flow": "Home -> unusual transaction -> transaction detail -> freeze/report decision -> truthful simulated result",
   "secondary_flow": "Home -> transfer -> recipient -> amount -> review -> simulated authentication/recovery -> success",
   "target_repository": "Ngh1aa/Nova",
   "implementation": {
     "stack": "static HTML/CSS/JavaScript",
-    "entry_points": ["index.html", "app.html", "prototype.html"],
+    "entry_points": [
+      "index.html",
+      "app.html",
+      "prototype.html"
+    ],
     "canonical_branch": "main",
     "canonical_renderer": "assets/nova-current-renderer.js",
     "canonical_state_owner": "assets/nova-current-state.js",

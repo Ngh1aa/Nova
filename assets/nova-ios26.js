@@ -7,7 +7,9 @@
   const META = {
     home: { title: 'Home', caption: 'Your money, planned ahead' },
     activity: { title: 'Activity', caption: 'September overview' },
-    'transaction-detail': { title: 'Payment', back: 'app.html?screen=activity', backLabel: 'Activity' },
+    'account-detail': { title: 'Current account', back: 'app.html?screen=home', backLabel: 'Home' },
+    'payment-detail': { title: 'Upcoming payment', back: 'app.html?screen=home', backLabel: 'Home' },
+    'transaction-detail': { title: 'Transaction', back: 'app.html?screen=activity', backLabel: 'Activity' },
     cards: { title: 'Cards', caption: 'Card status and controls' },
     'card-frozen': { title: 'Cards', caption: 'Card status and controls' },
     'card-controls': { title: 'Card controls', back: 'app.html?screen=cards', backLabel: 'Cards' },
@@ -18,7 +20,7 @@
     offline: { title: 'Confirm', back: 'app.html?screen=transfer-review', backLabel: 'Review' },
     'transfer-success': { title: 'Transfer complete', back: 'app.html?screen=home', backLabel: 'Home' },
     savings: { title: 'Savings', caption: 'Emergency buffer' },
-    'savings-detail': { title: 'Emergency buffer', back: 'app.html?screen=savings', backLabel: 'Save' },
+    'savings-detail': { title: window.NovaProduct.data.goals.find(goal => goal.id === (params.get('goal') || 'emergency'))?.name || 'Savings goal', back: 'app.html?screen=savings', backLabel: 'Save' },
     subscriptions: { title: 'Subscriptions', back: 'app.html?screen=home', backLabel: 'Home' },
     security: { title: 'Security', back: 'app.html?screen=home', backLabel: 'Home' },
     notifications: { title: 'Notifications', back: 'app.html?screen=home', backLabel: 'Home' },
@@ -42,6 +44,7 @@
   }
 
   function buildNavigation() {
+    if (screen === 'home' && !['empty','loading','edge'].includes(params.get('state'))) return;
     const stage = document.querySelector('.app-stage');
     if (!stage || document.querySelector('.ios26-nav')) return;
 
@@ -51,6 +54,7 @@
     const cfg = META[screen] || {};
     const isRoot = ['home', 'activity', 'cards', 'card-frozen', 'savings'].includes(screen);
     const title = currentTitle();
+    const caption = cfg.caption || (isRoot ? 'Prototype data · Simulated banking' : 'Prototype data · Simulated banking');
 
     const nav = document.createElement('header');
     nav.className = 'ios26-nav';
@@ -67,7 +71,7 @@
             ${isRoot ? `<a class="ios26-icon-btn" href="app.html?screen=notifications" aria-label="Notifications">${svg('bell')}</a><a class="ios26-icon-btn" href="app.html?screen=security" aria-label="Security and profile">${svg('user')}</a>` : ''}
           </div>
         </div>
-        <div class="ios26-nav-title"><h1>${title}</h1></div>
+        <div class="ios26-nav-title"><h1>${title}</h1>${caption ? `<p>${caption}</p>` : ''}</div>
       </div>`;
 
     stage.insertBefore(nav, stage.firstChild);
@@ -86,10 +90,7 @@
 
   function normalizeLegacyLanguage() {
     document.querySelectorAll('.prototype-label').forEach((node) => node.remove());
-    document.querySelectorAll('.page-heading').forEach((node) => {
-      node.hidden = true;
-      node.setAttribute('aria-hidden', 'true');
-    });
+    // Page titles remain in their task context; the chrome only supplies Back.
 
     document.querySelectorAll('.card-brand').forEach((node) => {
       node.textContent = 'Nova / DEBIT';

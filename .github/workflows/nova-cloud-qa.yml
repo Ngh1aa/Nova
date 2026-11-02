@@ -16,7 +16,7 @@ permissions:
 
 jobs:
   visual-qa:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - name: Checkout Nova target
         uses: actions/checkout@v6
@@ -108,6 +108,15 @@ jobs:
           cp qa/figma-export.spec.mjs .factory/uiux-factory/qa/tests/figma-export.spec.mjs
           cp qa/pastel-ux.spec.mjs .factory/uiux-factory/qa/tests/pastel-ux.spec.mjs
           cp qa/home-dashboard.spec.mjs .factory/uiux-factory/qa/tests/home-dashboard.spec.mjs
+          cp qa/activity-compact.spec.mjs .factory/uiux-factory/qa/tests/activity-compact.spec.mjs
+          cp qa/charcoal.spec.mjs .factory/uiux-factory/qa/tests/charcoal.spec.mjs
+          cp qa/content-flow.spec.mjs .factory/uiux-factory/qa/tests/content-flow.spec.mjs
+          cp qa/dashboard-layout.spec.mjs .factory/uiux-factory/qa/tests/dashboard-layout.spec.mjs
+          cp qa/inbox-layout.spec.mjs .factory/uiux-factory/qa/tests/inbox-layout.spec.mjs
+          cp qa/minimal-layout.spec.mjs .factory/uiux-factory/qa/tests/minimal-layout.spec.mjs
+          cp qa/product-style.spec.mjs .factory/uiux-factory/qa/tests/product-style.spec.mjs
+          cp qa/reference-frame.spec.mjs .factory/uiux-factory/qa/tests/reference-frame.spec.mjs
+          cp qa/remaining-system.spec.mjs .factory/uiux-factory/qa/tests/remaining-system.spec.mjs
 
       - name: Verify deterministic HTML to Figma export
         run: |
@@ -132,7 +141,7 @@ jobs:
           trap 'kill $SERVER_PID 2>/dev/null || true' EXIT
           node scripts/wait-ready.mjs
           npm test
-          npx playwright test tests/home-dashboard.spec.mjs tests/pastel-ux.spec.mjs tests/nova-flow.spec.mjs tests/product-integrity.spec.mjs tests/savings-integrity.spec.mjs tests/passcode-recovery.spec.mjs tests/transfer-impact.spec.mjs tests/recipient-continuity.spec.mjs tests/accessibility-evidence.spec.mjs tests/native-states.spec.mjs tests/runtime-consolidation.spec.mjs tests/foundation-consolidation.spec.mjs tests/report-boundary.spec.mjs tests/direct-user-round01.spec.mjs tests/phase3-clarity.spec.mjs tests/identity-source.spec.mjs tests/status-ledger.spec.mjs tests/decision-tradeoffs.spec.mjs
+          npx playwright test tests/home-dashboard.spec.mjs tests/pastel-ux.spec.mjs tests/nova-flow.spec.mjs tests/product-integrity.spec.mjs tests/savings-integrity.spec.mjs tests/passcode-recovery.spec.mjs tests/transfer-impact.spec.mjs tests/recipient-continuity.spec.mjs tests/accessibility-evidence.spec.mjs tests/native-states.spec.mjs tests/runtime-consolidation.spec.mjs tests/foundation-consolidation.spec.mjs tests/report-boundary.spec.mjs tests/direct-user-round01.spec.mjs tests/phase3-clarity.spec.mjs tests/identity-source.spec.mjs tests/status-ledger.spec.mjs tests/decision-tradeoffs.spec.mjs tests/activity-compact.spec.mjs tests/charcoal.spec.mjs tests/content-flow.spec.mjs tests/dashboard-layout.spec.mjs tests/inbox-layout.spec.mjs tests/minimal-layout.spec.mjs tests/product-style.spec.mjs tests/reference-frame.spec.mjs tests/remaining-system.spec.mjs
 
       # The QA harness above stays pinned: uiux-factory no longer exists on the toolkit's main.
       # The design rules (TASTE + taste-check) follow the toolkit's latest main.

@@ -1,0 +1,20 @@
+[
+  {
+    "level": "warning",
+    "rule": "generated",
+    "path": "assets/nova-current-renderer.js",
+    "message": "File này là file sinh tự động. Kiểm tra đã sửa ở nguồn và chạy lại generator, không sửa tay bản sinh ra."
+  },
+  {
+    "level": "warning",
+    "rule": "generated",
+    "path": "assets/nova-current.css",
+    "message": "File này là file sinh tự động. Kiểm tra đã sửa ở nguồn và chạy lại generator, không sửa tay bản sinh ra."
+  },
+  {
+    "level": "info",
+    "rule": "summary",
+    "path": null,
+    "message": "CSS: +1021 / -966 dòng; file CSS sửa 6, thêm 0, xoá 0; !important ròng +0."
+  }
+]

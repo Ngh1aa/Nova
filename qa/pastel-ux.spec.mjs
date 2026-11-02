@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 
 const routes=['home','activity','transaction-detail','report-transaction','cards','card-controls','transfer-recipient','transfer-amount','transfer-review','biometric-failed','offline','transfer-success','savings','savings-detail','subscriptions','settings','security','kyc','onboarding','notifications','error'];
-test('shared pastel owners remain visible and usable on native routes at desktop and mobile',async({page})=>{
+test('shared source owners remain visible and usable on product routes at desktop and mobile',async({page})=>{
  test.setTimeout(120_000);
  const errors=[];page.on('pageerror',e=>errors.push(e.message));
  for(const width of [1440,390])for(const screen of routes){
@@ -17,7 +17,7 @@ test('shared pastel owners remain visible and usable on native routes at desktop
 });
 test('Activity month, filters and search have clear hierarchy and functioning selected states',async({page})=>{
  await page.goto('/app.html?screen=activity');
- const month=page.getByRole('heading',{name:'September',exact:true});await expect(month).toBeVisible();
+ const month=page.getByRole('heading',{name:'Activity',exact:true});await expect(month).toBeVisible();
  expect(await month.evaluate(x=>parseFloat(getComputedStyle(x).fontSize))).toBeLessThanOrEqual(50);
  await page.getByRole('button',{name:'Needs review',exact:true}).click();
  await expect(page.getByRole('button',{name:'Needs review',exact:true})).toHaveAttribute('aria-pressed','true');
@@ -26,7 +26,7 @@ test('Activity month, filters and search have clear hierarchy and functioning se
  await page.getByRole('searchbox',{name:'Search transactions'}).fill('Greenline');
  await expect(page.locator('.ledger-row:visible')).toHaveCount(1);
  await page.getByRole('searchbox',{name:'Search transactions'}).fill('');
- await expect(page.locator('.ledger-row:visible')).toHaveCount(8);
+ await expect(page.locator('.ledger-row:visible')).toHaveCount(6);
  expect(await page.locator('.v4-rail-nav a.active .v5-rail-icon').evaluate(x=>getComputedStyle(x,'::after').content)).toBe('none');
 });
 test('Pay and Cards CTAs stay legible in default hover and keyboard focus states',async({page})=>{
@@ -36,7 +36,7 @@ test('Pay and Cards CTAs stay legible in default hover and keyboard focus states
   for(const state of ['default','hover','focus']){
    if(state==='hover')await cta.hover();if(state==='focus')await cta.focus();
    const style=await cta.evaluate(x=>{const s=getComputedStyle(x);return {radius:parseFloat(s.borderRadius),color:s.color,bg:s.backgroundColor};});
-   expect(style.radius).toBeGreaterThan(10);expect(style.color).toBe('rgb(255, 255, 255)');expect(style.bg).not.toBe(style.color);
+   expect(style.radius).toBeGreaterThanOrEqual(10);expect(style.color).toBe(screen==='cards'?'rgb(41, 28, 41)':'rgb(246, 244, 248)');expect(style.bg).not.toBe(style.color);
   }
   await cta.click();
   if(screen==='cards')await expect(page).toHaveURL(/screen=card-controls/);
@@ -48,7 +48,7 @@ test('Settings switches align, expose names, work with Space and persist on retu
   await page.emulateMedia({reducedMotion});await page.goto('/app.html?screen=settings');
   const check=page.getByRole('checkbox',{name:'Instant payment alerts'});
   expect(await check.evaluate(x=>getComputedStyle(x).opacity)).toBe('0');
-  const rightEdges=await page.locator('.v3-settings-card').filter({has:page.getByRole('heading',{name:'Notifications'})}).locator('.v3-switch').evaluateAll(xs=>xs.map(x=>x.getBoundingClientRect().right));
+  const rightEdges=await page.locator('.v3-settings-card').filter({has:page.getByRole('heading',{name:'Notifications',exact:true})}).locator('.v3-switch').evaluateAll(xs=>xs.map(x=>x.getBoundingClientRect().right));
   expect(Math.max(...rightEdges)-Math.min(...rightEdges)).toBeLessThan(1);
   const before=await check.isChecked();await check.focus();await page.keyboard.press('Space');await expect(check).toBeChecked({checked:!before});
   await page.reload();await expect(check).toBeChecked({checked:!before});
@@ -69,6 +69,8 @@ test('Security reflects changed demo preferences without falsely retaining the p
 test('Settings and Security added to accessibility coverage at desktop and mobile',async({page})=>{
  for(const width of [1440,390])for(const screen of ['settings','security']){
   await page.setViewportSize({width,height:1000});await page.goto('/app.html?screen='+screen);
+  // Read the settled palette, after the finite route fade has completed.
+  await page.locator('#app').evaluate(root=>Promise.all(root.getAnimations().map(animation=>animation.finished)));
   const result=await new AxeBuilder({page}).withTags(['wcag2a','wcag2aa','wcag21aa']).analyze();
   expect(result.violations.map(v=>({id:v.id,nodes:v.nodes.map(n=>({target:n.target,summary:n.failureSummary}))})),`${screen}/${width}`).toEqual([]);
  }
@@ -76,8 +78,8 @@ test('Settings and Security added to accessibility coverage at desktop and mobil
 test('light savings surfaces keep text readable and reviewer tools never overlay the normal product',async({page})=>{
  // Native CI uses the generic static QA server; the canonical wrapper query works there too.
  for(const route of ['/app.html?screen=savings-detail','/figma-export.html?capture=contribution-settings']){
-  await page.goto(route);const meta=page.locator('#main .money-sub');await expect(meta).toBeVisible();
-  await expect(meta).toContainText('Target €4,000.00');
+  await page.goto(route);const meta=page.locator('#main .task-panel > .meta');await expect(meta).toBeVisible();
+  await expect(meta).toContainText('€4,000.00 target');
   expect(await meta.evaluate(x=>getComputedStyle(x).color)).not.toMatch(/255, 255, 255/);
   await expect(page.locator('[data-nova-state-lab-launcher]')).toHaveCount(0);
  }

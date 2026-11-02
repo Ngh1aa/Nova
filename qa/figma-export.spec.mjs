@@ -52,7 +52,7 @@ test('direct state URLs expose the intended semantic states, not only renamed sc
   await expect(page.locator('#main')).not.toContainText('ByteMart Online');
   await page.goto(path(16,'freeze-confirmation'));
   await expect(page.getByRole('dialog')).toBeVisible();
-  await expect(page.getByRole('dialog')).toContainText('no bank');
+  await expect(page.getByRole('dialog')).toContainText(/no bank/i);
   await page.goto(path(21,'transaction-already-frozen'));
   await expect(page.locator('#main')).toContainText('Demo card frozen, no bank contact');
   await expect(page.locator('#freeze-card')).toHaveCount(0);

@@ -17,7 +17,7 @@ test('F-03 promotes the 14-day horizon into primary safe-to-spend language', asy
   }
 
   await page.goto('/app.html?screen=transfer-amount');
-  await expect(page.locator('.impact-panel > h2')).toContainText(/next 14 days/i);
+  await expect(page.locator('.impact-panel .horizon-range')).toContainText(/next 14 days/i);
   await expect(page.locator('.horizon-range').first()).toHaveText('Next 14 days');
 });
 
@@ -27,15 +27,15 @@ test('F-02 states the protected-buffer rule at the transfer decision point', asy
 
   const amountNote = page.locator('[data-nova-phase3-buffer-note]');
   await expect(amountNote).toBeVisible();
-  await expect(amountNote).toContainText('Protected buffer stays reserved');
-  await expect(amountNote).toContainText('This transfer does not use the €500.00 protected buffer');
+  await expect(amountNote).toContainText('€500.00 buffer protected');
+  await expect(amountNote).toContainText('It stays separate from this transfer.');
 
   await page.getByRole('button', { name: /Review transfer/ }).click();
   await expect(page).toHaveURL(/screen=transfer-review/);
   const reviewNote = page.locator('[data-nova-phase3-buffer-note]');
   await expect(reviewNote).toBeVisible();
-  await expect(reviewNote).toContainText('Protected buffer stays reserved');
-  await expect(page.locator('.impact-panel > h2')).toContainText(/next 14 days/i);
+  await expect(reviewNote).toContainText('€500.00 buffer protected');
+  await expect(page.locator('.impact-panel .horizon-range')).toContainText(/next 14 days/i);
 });
 
 test('F-04 makes no-money-moved status dominant after biometric failure while preserving recovery continuity', async ({ page }) => {
@@ -78,8 +78,8 @@ test('F-04 augments generic revalidation failure without replacing its recovery 
   await expect(banner).toBeVisible();
   await expect(banner).toContainText('No money moved');
   await expect(banner).toContainText('Balance revalidation failed before confirmation');
-  await expect(page.getByRole('heading', { level: 1 })).toHaveText('Something changed before confirmation');
-  await expect(page.getByText('Balance revalidation failed before confirmation. No money moved and the transfer was not submitted. Review the amount and try again.', { exact: true })).toBeVisible();
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText('Transfer not completed');
+  await expect(page.getByText('Review the amount and try again.', { exact: true })).toBeVisible();
   await expect(page.getByRole('link', { name: 'Review again' })).toBeVisible();
 });
 

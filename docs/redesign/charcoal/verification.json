@@ -1,0 +1,165 @@
+{
+  "task": "NOVA — user-directed charcoal / yellow-pink redesign",
+  "date": "2026-11-02",
+  "scope": "All existing product routes, details, transfer, card, savings, identity and recovery states",
+  "project_root": "C:\\Users\\LENOVO\\Documents\\ChatGPT\\nova",
+  "preview": "http://127.0.0.1:4387/app.html?screen=home&v=charcoal-1",
+  "workflow": "uiux-ai-workspace / L / brownfield-redesign + structure/flow + visual direction + craft/QA + dashboard + IA",
+  "publication": {
+    "committed": false,
+    "pushed": false,
+    "deployed": false
+  },
+  "regression": {
+    "passed": 101,
+    "failed": 0,
+    "skipped": 0,
+    "baseline": {
+      "passed": 85,
+      "failed": 14,
+      "notes": "13 export tests blocked by initial static server routing; one stale historical heading assertion. Current runner mirrors project export routing; obsolete visual assertions were updated with rationale."
+    }
+  },
+  "render": {
+    "captures": 46,
+    "routes": 23,
+    "widths": [
+      1440,
+      390
+    ],
+    "console_or_overflow_issues": 0,
+    "additional_reflow_viewports": [
+      320,
+      768,
+      1024
+    ],
+    "zoom_text": "Existing 200% reflow and text-scaling checks PASS"
+  },
+  "axe": {
+    "checks": 58,
+    "violations": 0,
+    "meaning": "Automated WCAG-tagged checks only; not full WCAG certification"
+  },
+  "taste": {
+    "errors": 0,
+    "warnings": 6,
+    "scope": "Home, Activity, Cards, Transfer Review; 390/1440 and 320 reflow; strict layout",
+    "warning_disposition": "State colours and spending-category encodings are intentional and labelled; no layout, contrast or touch-target errors remain in this checker run"
+  },
+  "source": {
+    "reproducible": true,
+    "js_syntax": "PASS",
+    "diff_check": 0,
+    "hashes": {
+      "assets/nova-current.css": "2e26edb89ae26640836573ba9095b1a6e6a795ed24d2e4bef3b50c60031ba5d7",
+      "assets/nova-current-renderer.js": "a6cee6c2f4241e3883a18d3ea82e17c62044924cddcf9f1edec0fd977f890ce4",
+      "app.html": "a7519ddaa3a940ea600e54b1970431fee77f8de9c890242c63f35b557b5ffdb5",
+      "docs/uiux/runtime-manifest.p2-1b.json": "bdc738c82d76791d532a804e22979a9d70c0300a847b83b1894ee629e285d28f"
+    },
+    "task_diff": {
+      "assets/nova.js": {
+        "added": 395,
+        "removed": 385
+      },
+      "assets/nova-dashboard-v2.js": {
+        "added": 120,
+        "removed": 216
+      },
+      "assets/nova-ios26.js": {
+        "added": 2,
+        "removed": 4
+      },
+      "assets/legacy/p2-1a-canonical/nova-current-renderer.p2-1a.js": {
+        "added": 173,
+        "removed": 191
+      },
+      "assets/nova-current-state.js": {
+        "added": 233,
+        "removed": 231
+      },
+      "assets/nova-mark.svg": {
+        "added": 6,
+        "removed": 6
+      },
+      "assets/nova-ui/tokens.css": {
+        "added": 76,
+        "removed": 144
+      },
+      "assets/nova-ui/shell.css": {
+        "added": 90,
+        "removed": 172
+      },
+      "assets/nova-ui/components.css": {
+        "added": 266,
+        "removed": 266
+      },
+      "assets/nova-ui/screens.css": {
+        "added": 592,
+        "removed": 648
+      },
+      "assets/nova-current.css": {
+        "added": 299,
+        "removed": 505
+      },
+      "assets/nova-current-renderer.js": {
+        "added": 46,
+        "removed": 152
+      },
+      "app.html": {
+        "added": 4,
+        "removed": 4
+      },
+      ".uiux-profile.json": {
+        "added": 4,
+        "removed": 4
+      },
+      "PROJECT-CONTEXT.md": {
+        "added": 104,
+        "removed": 130
+      }
+    }
+  },
+  "overlay": {
+    "errors": 0,
+    "warnings": 2,
+    "notes": "Generated bundle advisories only. Compared against Git HEAD, so aggregate diff includes the pre-existing uncommitted work. Task-specific delta is separately recorded against saved source snapshot."
+  },
+  "flow": {
+    "source_static": "PASS",
+    "source_runtime": "UNKNOWN by design",
+    "browser_runtime": "Critical scripted product journeys PASS in regression suite"
+  },
+  "review": {
+    "score": 4.13,
+    "lowest_dimension": 3.8,
+    "hard_fails": 0,
+    "kind": "agent-heuristic",
+    "independent_of_implementation": true,
+    "revision_after_brief": true,
+    "human_approval": false,
+    "minor_open": [
+      "KYC demo explanation remains repetitive",
+      "Compact dashboard remains a wide-screen preference visible on mobile"
+    ]
+  },
+  "primary_sources": [
+    "C:\\Users\\LENOVO\\Documents\\ChatGPT\\nova\\assets\\nova-ui\\tokens.css",
+    "C:\\Users\\LENOVO\\Documents\\ChatGPT\\nova\\assets\\nova-ui\\shell.css",
+    "C:\\Users\\LENOVO\\Documents\\ChatGPT\\nova\\assets\\nova-ui\\components.css",
+    "C:\\Users\\LENOVO\\Documents\\ChatGPT\\nova\\assets\\nova-ui\\screens.css",
+    "C:\\Users\\LENOVO\\Documents\\ChatGPT\\nova\\assets\\nova-dashboard-v2.js",
+    "C:\\Users\\LENOVO\\Documents\\ChatGPT\\nova\\assets\\nova.js",
+    "C:\\Users\\LENOVO\\Documents\\ChatGPT\\nova\\assets\\nova-ios26.js",
+    "C:\\Users\\LENOVO\\Documents\\ChatGPT\\nova\\assets\\legacy\\p2-1a-canonical\\nova-current-renderer.p2-1a.js",
+    "C:\\Users\\LENOVO\\Documents\\ChatGPT\\nova\\assets\\nova-current-state.js",
+    "C:\\Users\\LENOVO\\Documents\\ChatGPT\\nova\\assets\\nova-mark.svg",
+    "C:\\Users\\LENOVO\\Documents\\ChatGPT\\nova\\app.html",
+    "C:\\Users\\LENOVO\\Documents\\ChatGPT\\nova\\qa\\charcoal.spec.mjs"
+  ],
+  "not_verified": [
+    "human usability retest of this redesign",
+    "real devices",
+    "full screen-reader coverage",
+    "banking backend / real transactions"
+  ]
+}

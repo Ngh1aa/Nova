@@ -7,8 +7,8 @@ test('mobile keyboard scrolling keeps the unusual-activity link clear of the fix
   await page.setViewportSize({ width: 390, height: 844 });
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.goto('/app.html?screen=home');
-  const link = page.getByRole('link', { name: 'Unusual card activity at ByteMart Online' });
-  await tabUntil(page, 'a[aria-label="Unusual card activity at ByteMart Online"]');
+  const link = page.getByRole('link', { name: /ByteMart Online.*Needs review/ });
+  await tabUntil(page, '.nova-txn-row.risk');
   await expect(link).toBeFocused();
   const uncovered = await link.evaluate(el => {
     const box = el.getBoundingClientRect();

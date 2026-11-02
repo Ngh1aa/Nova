@@ -45,7 +45,7 @@ test('P2.2 rendered product identity is Nova-native across representative routes
 
   await page.goto('/app.html?screen=transaction-detail');
   await expect(page.getByText(/txn_NVA_9F2K7Q/)).toBeVisible();
-  await expect(page.getByRole('heading', { name: 'Nova noticed a pattern change' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Card protection', exact:true })).toBeVisible();
 
   await page.goto('/app.html?screen=cards');
   await expect(page.locator('[aria-label^="Nova debit card"]')).toBeVisible();

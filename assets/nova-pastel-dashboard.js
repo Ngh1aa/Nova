@@ -4,11 +4,11 @@
   const screen = new URLSearchParams(location.search).get('screen') || 'home';
 
   const groups = {
-    home: ['home', 'notifications', 'security'],
+    home: ['home', 'notifications', 'security', 'subscriptions'],
     activity: ['activity', 'transaction-detail'],
     pay: ['transfer-recipient', 'transfer-amount', 'transfer-review', 'biometric-failed', 'offline', 'transfer-success', 'error'],
     cards: ['cards', 'card-frozen', 'card-controls'],
-    savings: ['savings', 'savings-detail', 'subscriptions']
+    savings: ['savings', 'savings-detail']
   };
 
   function activeKey() {
