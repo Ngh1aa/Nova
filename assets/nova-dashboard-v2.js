@@ -91,12 +91,11 @@
 
   function enrichChrome() {
     const actions = document.querySelector('.ios26-nav-actions');
-    if (actions && !actions.querySelector('.nova-profile-chip')) {
+    if (actions && !actions.querySelector('.nova-bell-chip')) {
       actions.innerHTML = `
         <span class="v6-sim-pill">Simulated data</span>
         <a class="nova-search-chip" href="app.html?screen=activity" aria-label="Search activity">${svg('search')}<span>Search</span></a>
-        <a class="nova-bell-chip" href="app.html?screen=notifications" aria-label="Notifications">${svg('bell')}<i aria-hidden="true"></i></a>
-        <a class="nova-profile-chip" href="app.html?screen=security" aria-label="Security and profile"><span class="nova-avatar">AN</span><span><small>Good morning</small><strong>Alex</strong></span></a>`;
+        <a class="nova-bell-chip" href="app.html?screen=notifications" aria-label="Notifications">${svg('bell')}<i aria-hidden="true"></i></a>`;
     }
 
     const rail = document.querySelector('.sidebar');
@@ -149,7 +148,7 @@
         </section>
 
         <section class="nova-card nova-upcoming-card" aria-labelledby="bills-title">
-          <div class="nova-card-head"><div><small>Next 14 days</small><h2 id="bills-title">Upcoming bills</h2></div><span class="nova-date-pill">5 items</span></div>
+          <div class="nova-card-head"><h2 id="bills-title">Upcoming bills</h2><span class="nova-date-pill">Next 14 days</span></div>
           <div class="nova-bill-list">
             <div class="nova-bill-row"><span class="nova-icon blue">${svg('home')}</span><span><strong>Apartment rent</strong><small>20 Sep, bill</small></span><b>−€620.00</b></div>
             <div class="nova-bill-row"><span class="nova-icon blue">${svg('phone')}</span><span><strong>Mobile plan</strong><small>22 Sep, subscription</small></span><b>−€32.00</b></div>

@@ -103,3 +103,28 @@ All 18 Playwright suites (62 tests), axe and browser evidence on the 31 CI route
 on 26 routes at 390/768/1024/1280/1440: 3 remaining errors, all the D-02 "DEMO ONLY" banner, which stays dark as the
 user-tested truth boundary. `overlay-check`: 0 errors, `!important` net +0. Not verified: real devices, screen
 readers, users.
+
+## Minimalism, icons, type, sidebar and logo (2026-11-02, second pass)
+
+Request (Ten): remove unneeded content from cards, sync icons and typography, fill the empty sidebar with other
+screens, and design a new Nova logo without a background.
+
+- **Copy trimmed at source** (`assets/nova.js`, the P2.1A renderer source, `nova-current-state.js`,
+  `nova-product-rules.js`, `nova-savings-preview.js`, `nova-dashboard-v2.js`): overline + slogan pairs became one plain
+  title ("Make Nova yours" → "Appearance", "Use it your way" → "Card controls", "Stay informed, not interrupted" →
+  "Notifications", …); descriptions under switches, prototype footnotes and "how it works" paragraphs removed; field
+  hints keep the range only. Kept: copy locked by user-research tests (buffer note, projected-safe sentence, transfer
+  success note), D-02 truth boundaries, error and state reasons, data.
+- **Type**: one scale (12, 13, 15, 17, 20, 28, 40 and the Home hero); page titles 28 on every width (20 in the phone bar);
+  three weights (400, 600, 700).
+- **Icons**: one line weight (1.75) on every stroke icon; 20 px in tiles and navigation, 18 inline, 22 for Back.
+- **Sidebar**: a "Planning" group with Subscriptions, Notifications and Identity check (existing screens), the profile
+  moved from the top bar to the bottom of the sidebar.
+- **Logo**: new transparent mark: a sunrise over the Money Horizon (three bars in the safe, committed and protected
+  roles). Files keep their names (`nova-mark.svg`, `nova-logo.svg`, `favicon.svg`), so every page picks it up.
+  Preview: [logo-preview.png](directions-2026-11-02/logo-preview.png).
+
+Tests changed: `qa/pastel-ux.spec.mjs` finds the settings card by its new title "Notifications".
+Verification: 62/62 Playwright tests, axe + browser evidence on the 31 CI routes, `overlay-check` 0 errors.
+`taste-check --layout strict` on 26 routes × 5 widths: the D-02 banner (kept on purpose) and one flat-scale warning on
+the frozen-card screen at 768 px.

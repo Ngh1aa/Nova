@@ -69,7 +69,8 @@
   --t-body:15px;
   --t-md:17px;
   --t-lg:20px;
-  --t-xl:28px;
+  --t-xl:28px;        /* page titles, card amounts */
+  --t-2xl:40px;       /* display amounts inside cards */
   --t-hero:clamp(44px,6vw,64px);
 
   /* Space (4/8 rhythm) */

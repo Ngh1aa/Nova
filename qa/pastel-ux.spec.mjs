@@ -48,7 +48,7 @@ test('Settings switches align, expose names, work with Space and persist on retu
   await page.emulateMedia({reducedMotion});await page.goto('/app.html?screen=settings');
   const check=page.getByRole('checkbox',{name:'Instant payment alerts'});
   expect(await check.evaluate(x=>getComputedStyle(x).opacity)).toBe('0');
-  const rightEdges=await page.locator('.v3-settings-card').filter({has:page.getByRole('heading',{name:'Stay informed, not interrupted'})}).locator('.v3-switch').evaluateAll(xs=>xs.map(x=>x.getBoundingClientRect().right));
+  const rightEdges=await page.locator('.v3-settings-card').filter({has:page.getByRole('heading',{name:'Notifications'})}).locator('.v3-switch').evaluateAll(xs=>xs.map(x=>x.getBoundingClientRect().right));
   expect(Math.max(...rightEdges)-Math.min(...rightEdges)).toBeLessThan(1);
   const before=await check.isChecked();await check.focus();await page.keyboard.press('Space');await expect(check).toBeChecked({checked:!before});
   await page.reload();await expect(check).toBeChecked({checked:!before});

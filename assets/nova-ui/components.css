@@ -17,14 +17,14 @@
 :is(.task-panel,.document-sheet) > .section{margin-top:var(--s-5)}
 
 /* Overline above a heading: sentence case, quiet */
-.eyebrow,.nova-label,.nova-state-eyebrow{margin:0 0 var(--s-1);color:var(--ink-3);font-size:var(--t-sm);font-weight:500;letter-spacing:0;text-transform:none}
+.eyebrow,.nova-label,.nova-state-eyebrow{margin:0 0 var(--s-1);color:var(--ink-3);font-size:var(--t-sm);font-weight:400;letter-spacing:0;text-transform:none}
 .meta{color:var(--ink-3);font-size:var(--t-sm)}
 
 /* Card head: optional overline, title, trailing pill or link */
 .nova-card-head,.v3-section-title,.v4-section-head,.section-head,.notification-group-title{
   display:flex;align-items:center;justify-content:space-between;gap:var(--s-3);margin-bottom:var(--s-4)
 }
-.nova-card-head small,.v3-section-title small,.v4-section-head small{display:block;margin-bottom:2px;color:var(--ink-3);font-size:var(--t-sm);font-weight:500}
+.nova-card-head small,.v3-section-title small,.v4-section-head small{display:block;margin-bottom:2px;color:var(--ink-3);font-size:var(--t-sm);font-weight:400}
 .nova-card-head h2,.v3-section-title h2,.v4-section-head h2,.section-head h2,.notification-group-title h2{font-size:var(--t-md);font-weight:600}
 .nova-card-head p{margin-top:2px;font-size:var(--t-sm)}
 .nova-card-head > a,.v3-section-title > a,.v4-section-head > a,.section-head > a,.text-link{
@@ -55,7 +55,7 @@
 .action-stack > *,.dialog-actions > *{flex:1 1 200px}
 @media (max-width:599px){.action-stack,.dialog-actions,.nova-safe-ack-actions{flex-direction:column}.action-stack > *,.dialog-actions > *{flex:none;width:100%}}
 
-.back-link{display:inline-flex;align-items:center;gap:var(--s-1);min-height:44px;color:var(--accent);font-weight:500}
+.back-link{display:inline-flex;align-items:center;gap:var(--s-1);min-height:44px;color:var(--accent);font-weight:600}
 .back-link svg{width:20px;height:20px}
 
 /* ---------- Pills, chips, statuses ---------- */
@@ -105,7 +105,7 @@ a.list-row:hover .list-title,a.ledger-row:hover .list-title{color:var(--accent)}
 .list-sub{margin-top:2px;color:var(--ink-3);font-size:var(--t-sm);line-height:1.35}
 .list-value{flex:none;color:var(--ink);font-weight:600;text-align:right;white-space:nowrap}
 .list-value small{display:block;color:var(--peach-ink);font-size:var(--t-xs);font-weight:600}
-.ledger-date{flex:none;width:52px;color:var(--ink-3);font-size:var(--t-sm);font-weight:500}
+.ledger-date{flex:none;width:52px;color:var(--ink-3);font-size:var(--t-sm);font-weight:400}
 .ledger-row.is-risk .list-title,.list-row.is-risk .list-title{color:var(--peach-ink)}
 .list-row.is-risk .list-icon{background:var(--peach-soft);color:var(--peach-ink)}
 .chevron{flex:none;width:8px;height:8px;margin-right:4px;border-top:2px solid var(--ink-3);border-right:2px solid var(--ink-3);transform:rotate(45deg);opacity:.6}
@@ -132,8 +132,8 @@ a.list-row:hover .list-title,a.ledger-row:hover .list-title{color:var(--accent)}
 .field-error{color:var(--risk-ink);font-size:var(--t-sm);font-weight:600}
 .field-error:empty{display:none}
 .amount-field{position:relative}
-.amount-field .currency-prefix{position:absolute;left:var(--s-4);top:50%;transform:translateY(-50%);color:var(--ink-3);font-size:28px;font-weight:600}
-.amount-field .amount-input{min-height:72px;padding-left:44px;font-size:32px;font-weight:700;font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+.amount-field .currency-prefix{position:absolute;left:var(--s-4);top:50%;transform:translateY(-50%);color:var(--ink-3);font-size:var(--t-xl);font-weight:600}
+.amount-field .amount-input{min-height:72px;padding-left:44px;font-size:var(--t-xl);font-weight:700;font-variant-numeric:tabular-nums;letter-spacing:-.02em}
 
 .search-wrap,.v4-search-box{position:relative;display:flex;align-items:center;gap:var(--s-2)}
 .search-wrap .search-icon,.v4-search-box > span{position:absolute;left:14px;display:grid;place-items:center;color:var(--ink-3);pointer-events:none}
@@ -141,7 +141,7 @@ a.list-row:hover .list-title,a.ledger-row:hover .list-title{color:var(--accent)}
 .search-wrap .input,.v4-search-box input{min-height:44px;padding-left:40px;border-radius:var(--r-inner);font-size:var(--t-md)}
 .v4-search-box input{width:100%;border:0;background:var(--fill);color:var(--ink)}
 .v4-search-box input:focus{outline:none;background:#fff;box-shadow:inset 0 0 0 2px var(--accent)}
-.ios-search-cancel{display:none;min-height:44px;padding:0 var(--s-2);border:0;background:none;color:var(--accent);font-weight:500}
+.ios-search-cancel{display:none;min-height:44px;padding:0 var(--s-2);border:0;background:none;color:var(--accent);font-weight:600}
 .search-wrap:focus-within .ios-search-cancel{display:inline-flex;align-items:center}
 
 /* ---------- iOS switch ---------- */
@@ -176,7 +176,7 @@ a.list-row:hover .list-title,a.ledger-row:hover .list-title{color:var(--accent)}
   display:flex;align-items:center;justify-content:space-between;gap:var(--s-3);width:100%;min-height:56px;padding:var(--s-3) var(--s-4);
   border-radius:var(--r-inner);background:var(--risk-soft);color:var(--risk-ink);font-weight:600
 }
-:is(.nova-safe-shortfall,.nova-savings-shortfall,.nova-transfer-blocked) small{color:var(--risk-ink);font-weight:500;text-align:right}
+:is(.nova-safe-shortfall,.nova-savings-shortfall,.nova-transfer-blocked) small{color:var(--risk-ink);font-weight:400;text-align:right}
 .nova-safe-legend,.nova-transfer-impact-legend{display:flex!important;justify-content:space-between;gap:var(--s-3);width:100%}
 .nova-safe-legend span,.nova-transfer-impact-legend span{color:var(--ink-3)}
 .nova-safe-legend strong,.nova-transfer-impact-legend.is-critical strong{color:var(--risk-ink)}
@@ -262,3 +262,6 @@ a.list-row:hover .list-title,a.ledger-row:hover .list-title{color:var(--accent)}
 /* Inline icons inside controls default to 20px unless a component sizes them */
 :where(a,button,label,span) > svg{width:20px;height:20px;flex:none}
 :where(.btn,.v4-full-action,.v3-pill-btn,.v4-dark-pill,.v3-primary-link,.nova-native-state-actions a,.decision-action,.text-link) > svg{width:18px;height:18px}
+
+/* ---------- Icons: one line weight everywhere ---------- */
+svg[stroke="currentColor"],svg[stroke="currentColor"] :is(path,circle,rect,line,polyline,polygon,ellipse){stroke-width:1.75}

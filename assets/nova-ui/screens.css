@@ -123,7 +123,7 @@ a.nova-account-row:hover strong{color:var(--accent)}
 .nova-bankcard::after{content:"";position:absolute;inset:0;background:radial-gradient(90% 70% at 85% 0%,rgba(255,255,255,.55),transparent 60%);pointer-events:none}
 .nova-bankcard-top,.nova-bankcard-bottom{position:relative;z-index:1;display:flex;align-items:center;justify-content:space-between;gap:var(--s-2)}
 .nova-bankcard-top{justify-content:flex-start}
-.nova-bankcard-top img{width:28px;height:28px;border-radius:8px}
+.nova-bankcard-top img{width:34px;height:26px}
 .nova-bankcard-top strong{font-size:var(--t-md);font-weight:700}
 .nova-bankcard-bottom span{font-size:var(--t-md);font-weight:600;letter-spacing:.08em}
 .nova-bankcard-bottom small{font-weight:600;color:var(--ink-2)}
@@ -223,7 +223,7 @@ a.nova-account-row:hover strong{color:var(--accent)}
 
 /* =================== ACTIVITY =================== */
 .activity-header{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:var(--s-4)}
-.activity-heading-row h1{font-size:34px;letter-spacing:-.025em}
+.activity-heading-row h1{font-size:var(--t-xl);letter-spacing:-.025em}
 .cashflow-strip{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--s-2);width:100%}
 @media (min-width:900px){.cashflow-strip{width:auto;min-width:520px}}
 .cashflow-item{padding:var(--s-3);border-radius:var(--r-inner);background:var(--surface-2)}
@@ -249,7 +249,7 @@ a.nova-account-row:hover strong{color:var(--accent)}
 .dossier-title{font-size:var(--t-xl)}
 .dossier-meta{display:flex;flex-wrap:wrap;gap:var(--s-2);margin-top:var(--s-2)}
 .dossier-meta span{display:inline-flex;align-items:center;min-height:26px;padding:0 10px;border-radius:var(--r-pill);background:var(--fill);color:var(--ink-2);font-size:var(--t-xs);font-weight:600}
-.dossier-amount{font-size:40px;font-weight:700;letter-spacing:-.03em;line-height:1.05}
+.dossier-amount{font-size:var(--t-2xl);font-weight:700;letter-spacing:-.03em;line-height:1.05}
 .dossier-main .meta{margin-top:2px}
 .risk-reasons{display:flex;flex-wrap:wrap;gap:var(--s-2);margin-top:var(--s-4)}
 .dossier-layout{display:grid;gap:var(--s-4)}
@@ -288,7 +288,7 @@ a.nova-account-row:hover strong{color:var(--accent)}
 .recipient-card .avatar{background:var(--sky-soft);color:var(--sky-ink)}
 .recipient-card strong{display:block}
 .recipient-card span span{color:var(--ink-3);font-size:var(--t-sm)}
-.goal-amount{margin-top:var(--s-2);color:var(--ink);font-size:40px;font-weight:700;letter-spacing:-.03em;line-height:1.05}
+.goal-amount{margin-top:var(--s-2);color:var(--ink);font-size:var(--t-2xl);font-weight:700;letter-spacing:-.03em;line-height:1.05}
 .impact-panel .goal-amount{color:var(--mint-ink)}
 .impact-panel > .horizon{margin-top:var(--s-5);padding-top:var(--s-5);box-shadow:inset 0 1px 0 var(--hairline)}
 .money-sub{display:flex;flex-wrap:wrap;justify-content:space-between;gap:var(--s-2);margin:var(--s-2) 0 var(--s-3);color:var(--ink-3);font-size:var(--t-sm)}
@@ -397,8 +397,9 @@ a.nova-account-row:hover strong{color:var(--accent)}
 
 /* =================== PAY =================== */
 .v4-page-head .v4-dark-pill{flex:none}
-.v4-pay-hero h2{font-size:34px;font-weight:700;letter-spacing:-.03em}
+.v4-pay-hero h2{font-size:var(--t-2xl);font-weight:700;letter-spacing:-.03em}
 .v4-pay-hero{background:var(--aurora)}
+.v4-pay-hero .v4-section-head{flex-wrap:wrap;align-items:flex-start}
 .v4-copy{margin-top:calc(var(--s-2) * -1);font-size:var(--t-sm)}
 .v4-pay-actions{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--s-2);margin-top:var(--s-4)}
 .v4-action{display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-end;gap:var(--s-2);min-height:88px;padding:var(--s-3);border:0;border-radius:var(--r-inner);background:rgba(255,255,255,.8);color:var(--ink);text-align:left}
@@ -435,13 +436,15 @@ a.nova-account-row:hover strong{color:var(--accent)}
 
 /* =================== SAVINGS =================== */
 .v3-goal-amount{display:flex;align-items:baseline;gap:var(--s-2);margin-top:calc(var(--s-1) * -1)}
-.v3-goal-amount strong{font-size:40px;font-weight:700;letter-spacing:-.03em}
+.v3-goal-amount strong{font-size:var(--t-2xl);font-weight:700;letter-spacing:-.03em}
 .v3-goal-amount span{color:var(--ink-3)}
 .v3-goal-main .v3-progress{height:12px;margin:var(--s-4) 0}
 .v3-goal-main{background:linear-gradient(180deg,#eef9f4,#fff 60%)}
 @media (min-width:768px){.v3-goal-stats{grid-template-columns:repeat(4,minmax(0,1fr))}}
 .v3-growth-card > p{margin:calc(var(--s-2) * -1) 0 var(--s-4);font-size:var(--t-sm)}
 .v3-growth-stats strong{color:var(--mint-ink)}
+/* Savings account beside the tall primary goal: stats stack as rows with the value large */
+@media (min-width:1360px){.v3-growth-stats{grid-template-columns:minmax(0,1fr);margin-top:var(--s-4)}.v3-growth-stats > div{padding:var(--s-4)}.v3-growth-stats strong{font-size:var(--t-xl)}}
 .v3-goal-row .v3-mini-progress{height:6px;margin-top:var(--s-2)}
 .v3-goal-row.pink .v3-mini-progress > i{background:linear-gradient(90deg,var(--peach),#f2a7c1)}
 .v3-add-goal{display:flex;align-items:center;justify-content:center;gap:var(--s-2);width:100%;min-height:48px;margin-top:var(--s-3);border:1.5px dashed var(--hairline-strong);border-radius:var(--r-inner);background:none;color:var(--accent);font-weight:600}
@@ -469,7 +472,7 @@ a.nova-account-row:hover strong{color:var(--accent)}
 /* =================== SECURITY =================== */
 .v3-security-score{display:flex;align-items:center;gap:var(--s-5);background:var(--mint-soft)}
 .v3-score-ring{position:relative;flex:none;display:grid;place-items:center;align-content:center;width:108px;height:108px;border-radius:var(--r-card);background:#fff}
-.v3-score-ring span{font-size:30px;font-weight:700;line-height:1}
+.v3-score-ring span{font-size:var(--t-xl);font-weight:700;line-height:1}
 .v3-score-ring small{color:var(--ink-3);font-size:var(--t-xs)}
 .v3-security-score h2{margin-top:var(--s-2);font-size:var(--t-lg);font-weight:700}
 .v3-security-score p{margin-top:var(--s-1);font-size:var(--t-sm)}
@@ -495,7 +498,7 @@ a.nova-account-row:hover strong{color:var(--accent)}
 /* =================== SETTINGS =================== */
 .v3-profile-card{grid-column:1 / -1}
 .v3-profile-card p{overflow-wrap:anywhere}
-@media (min-width:768px) and (max-width:1359px){.v3-settings-layout{grid-template-columns:minmax(0,1fr)}}
+@media (min-width:768px) and (max-width:1359px){.v3-settings-layout,.v3-security-layout{grid-template-columns:minmax(0,1fr)}}
 .v3-settings-profile{display:flex;align-items:center;gap:var(--s-4)}
 .v3-settings-profile > div{flex:1;min-width:0}
 .v3-profile-avatar{width:64px;height:64px;background:var(--aurora-strong);font-size:var(--t-lg)}
@@ -506,7 +509,7 @@ a.nova-account-row:hover strong{color:var(--accent)}
 .v3-segmented button.active,.v3-segmented button[aria-pressed="true"]{background:#fff;color:var(--ink);box-shadow:0 1px 3px rgba(22,35,43,.12)}
 .v3-settings-link{width:100%;border:0;background:none;text-align:left}
 .v3-settings-link > span{flex:1;min-width:0}
-.v3-settings-link > b{flex:none;color:var(--ink-3);font-size:22px;font-weight:400;line-height:1}
+.v3-settings-link > b{flex:none;color:var(--ink-3);font-size:var(--t-lg);font-weight:400;line-height:1}
 .v3-settings-link:hover strong{color:var(--accent)}
 .v3-settings-link.danger strong{color:var(--risk-ink)}
 @media (min-width:1360px){.v3-settings-card{grid-column:span 6;align-self:stretch}}
@@ -517,7 +520,7 @@ a.nova-account-row:hover strong{color:var(--accent)}
 @media (min-width:1200px){.kyc-layout{grid-template-columns:280px minmax(0,1fr);align-items:start}}
 .kyc-spine h2{font-size:var(--t-lg)}
 .kyc-spine ol{display:flex;flex-direction:column;gap:var(--s-1);margin:var(--s-4) 0;counter-reset:kyc}
-.kyc-spine li{position:relative;display:flex;align-items:center;gap:var(--s-3);min-height:40px;color:var(--ink-2);font-weight:500;counter-increment:kyc}
+.kyc-spine li{position:relative;display:flex;align-items:center;gap:var(--s-3);min-height:40px;color:var(--ink-2);font-weight:400;counter-increment:kyc}
 .kyc-spine li::before{content:counter(kyc);display:grid;place-items:center;width:28px;height:28px;border-radius:50%;background:var(--fill);color:var(--ink-3);font-size:var(--t-sm);font-weight:700}
 .kyc-spine li.done::before{content:"✓";background:var(--mint);color:var(--mint-ink)}
 .kyc-capture{margin-top:var(--s-4)}
@@ -527,7 +530,7 @@ a.nova-account-row:hover strong{color:var(--accent)}
 
 /* =================== ONBOARDING =================== */
 .onboarding-hero{display:grid;gap:var(--s-6);padding:var(--s-8) var(--s-5);border-radius:28px;background:#fff;box-shadow:var(--shadow-card)}
-.onboarding-copy h1{font-size:clamp(34px,5vw,52px);letter-spacing:-.035em;line-height:1.05}
+.onboarding-copy h1{font-size:var(--t-2xl);letter-spacing:-.035em;line-height:1.05}
 .onboarding-copy p:not(.eyebrow){max-width:52ch;margin-top:var(--s-3);font-size:var(--t-md)}
 .onboarding-art{display:grid;place-items:center;min-height:200px;border-radius:var(--r-card);background:var(--aurora)}
 .onboarding-horizon{display:flex;gap:6px;width:min(320px,80%);height:56px}
@@ -544,15 +547,15 @@ a.nova-account-row:hover strong{color:var(--accent)}
 
 /* =================== SUBSCRIPTIONS, NOTIFICATIONS =================== */
 .recurring-total{display:flex;align-items:center;justify-content:space-between;gap:var(--s-4);background:var(--aurora)}
-.recurring-total strong{font-size:34px;font-weight:700;letter-spacing:-.03em}
+.recurring-total strong{font-size:var(--t-2xl);font-weight:700;letter-spacing:-.03em}
 .notification-group .list-icon{background:var(--sky-soft);color:var(--sky-ink)}
 
 /* =================== NATIVE LIFECYCLE STATES =================== */
 .nova-native-state-shell{display:grid;place-items:center;min-height:min(640px,calc(100vh - 160px));padding:var(--s-4) 0}
 .nova-native-state-card{width:min(760px,100%)}
-.nova-native-state-card h1{font-size:clamp(28px,4vw,40px);letter-spacing:-.03em}
+.nova-native-state-card h1{font-size:var(--t-xl);letter-spacing:-.03em}
 .nova-native-state-card > p{max-width:62ch;margin-top:var(--s-2)}
-.nova-native-empty-mark{display:grid;place-items:center;width:56px;height:56px;margin-bottom:var(--s-4);border-radius:18px;background:var(--sky-soft);color:var(--sky-ink);font-size:28px;font-weight:500}
+.nova-native-empty-mark{display:grid;place-items:center;width:56px;height:56px;margin-bottom:var(--s-4);border-radius:18px;background:var(--sky-soft);color:var(--sky-ink);font-size:28px;font-weight:400}
 .nova-native-empty-grid,.nova-native-edge-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:var(--s-2);margin-top:var(--s-5)}
 :is(.nova-native-empty-grid,.nova-native-edge-grid) > div{padding:var(--s-3);border-radius:var(--r-inner);background:var(--surface-2)}
 :is(.nova-native-empty-grid,.nova-native-edge-grid) small{display:block;color:var(--ink-3);font-size:var(--t-xs)}
@@ -566,7 +569,7 @@ a.nova-account-row:hover strong{color:var(--accent)}
 @keyframes novaNativeShimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
 .nova-native-loading-meta{display:flex;align-items:center;gap:var(--s-2)}
 .nova-native-loading-meta span{flex:none;width:8px;height:8px;border-radius:50%;background:#8ec2fb;box-shadow:0 0 0 5px var(--sky-soft)}
-.nova-edge-amount{margin-top:var(--s-3);color:var(--risk-ink);font-size:clamp(40px,7vw,64px);font-weight:700;letter-spacing:-.04em;line-height:1;overflow-wrap:anywhere}
+.nova-edge-amount{margin-top:var(--s-3);color:var(--risk-ink);font-size:var(--t-2xl);font-weight:700;letter-spacing:-.03em;line-height:1;overflow-wrap:anywhere}
 .nova-edge-status{display:inline-flex;margin-top:var(--s-3);padding:6px 12px;border-radius:var(--r-pill);background:var(--risk-soft);color:var(--risk-ink);font-size:var(--t-xs);font-weight:700}
 .nova-native-edge-alert{margin-top:var(--s-4);padding:var(--s-3) var(--s-4);border-radius:var(--r-inner);background:var(--risk-soft);color:#7a1d16;font-size:var(--t-sm)}
 .nova-native-edge-alert strong{display:block;color:var(--risk-ink)}
