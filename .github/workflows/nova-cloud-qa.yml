@@ -25,7 +25,7 @@ jobs:
         uses: actions/checkout@v6
         with:
           repository: Ngh1aa/uiux-ai-workspace
-          ref: 11003bf36909b08c3def617023dc8ecd9c3964fd
+          ref: c09ad669981eafe0c101f475f34b5e037277698d
           path: .factory
 
       - name: Set up Python
@@ -140,7 +140,7 @@ jobs:
         uses: actions/checkout@v6
         with:
           repository: Ngh1aa/uiux-ai-workspace
-          ref: ddc16cdad8f1e0513b25da9e7d5b730cf8cd3d46
+          ref: bdfcd8f47bc5b1709a234b0b39b070275edfcf36
           path: .toolkit
 
       - name: Home passes the dashboard taste check
