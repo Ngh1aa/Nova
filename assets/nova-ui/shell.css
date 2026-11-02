@@ -62,7 +62,7 @@
 .nova-bell-chip i{position:absolute;top:10px;right:11px;width:8px;height:8px;border:2px solid #fff;border-radius:50%;background:var(--peach-ink)}
 .nova-profile-chip{display:none;padding:0 var(--s-3) 0 4px;color:var(--ink)}
 .nova-avatar{display:grid;place-items:center;width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--mint),var(--sky) 55%,var(--lavender));color:var(--ink);font-size:var(--t-sm);font-weight:700}
-.nova-profile-chip small{display:block;color:var(--ink-3);font-size:11px;line-height:1.2}
+.nova-profile-chip small{display:block;color:var(--ink-3);font-size:var(--t-xs);line-height:1.2}
 .nova-profile-chip strong{display:block;font-size:var(--t-sm);line-height:1.2}
 .nova-profile-chip b{display:none}
 
@@ -115,7 +115,7 @@ body:has(.v3-page-head,.v4-page-head) .ios26-nav-center{visibility:hidden}
     border-radius:32px;background:var(--glass);-webkit-backdrop-filter:var(--glass-blur);backdrop-filter:var(--glass-blur);
     box-shadow:var(--shadow-float),inset 0 0 0 .5px rgba(255,255,255,.7)
   }
-  .bottom-nav a{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;min-height:52px;border-radius:26px;color:var(--ink-3);font-size:10.5px;font-weight:600}
+  .bottom-nav a{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;min-height:52px;border-radius:26px;color:var(--ink-3);font-size:var(--t-xs);font-weight:600}
   .bottom-nav a.active{background:var(--sky-soft);color:var(--sky-ink)}
   .nav-glyph{display:grid;place-items:center;height:24px}
   .nav-glyph svg{width:22px;height:22px}
