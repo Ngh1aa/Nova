@@ -956,7 +956,63 @@ window.NovaCurrentRuntime.foundation = Object.freeze({
 
   const MODEL = Object.freeze({ balance: 2840, committed: 1040, buffer: 500, safe: 1300 });
   const money = (value) => `€${value.toLocaleString('en-IE', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+  const whole = (value) => `€${value.toLocaleString('en-IE')}`;
   const share = (value) => `${(value / MODEL.balance) * 100}%`;
+
+  // Home dashboard data. Spending is sorted by amount with "Other" last; money in and out
+  // runs over the six months ending in the current month (September).
+  const SPENDING = Object.freeze([
+    ['Housing', 620], ['Food and dining', 302], ['Shopping', 202], ['Transport', 168], ['Entertainment', 134], ['Other', 254]
+  ]);
+  const SPENT = SPENDING.reduce((sum, [, value]) => sum + value, 0);
+  const FLOW = Object.freeze([
+    ['Apr', 72, 43], ['May', 80, 48], ['Jun', 75, 39], ['Jul', 59, 38], ['Aug', 57, 34], ['Sep', 76, 41]
+  ]);
+  const FLOW_NOW = Object.freeze({ in: 2980, out: 1680 });
+  const GOALS = Object.freeze([
+    { name: 'Emergency buffer', saved: 2480, target: 4000 },
+    { name: 'Holiday Fund', saved: 3200, target: 5000 }
+  ]);
+  const pct = (goal) => Math.round((goal.saved / goal.target) * 100);
+  const goalBlock = (goal) => `<div class="nova-goal">
+            <div class="nova-goal-head"><h3>${goal.name}</h3><strong>${pct(goal)}%</strong></div>
+            <div class="nova-goal-meter" role="progressbar" aria-label="${goal.name} progress" aria-valuemin="0" aria-valuemax="${goal.target}" aria-valuenow="${goal.saved}"><span style="width:${pct(goal)}%"></span></div>
+            <div class="nova-goal-foot"><span>${whole(goal.saved)} of ${whole(goal.target)} saved</span><span class="nova-date-pill">${whole(goal.target - goal.saved)} to go</span></div>
+          </div>`;
+
+  // Forecast panel: its own loading and error state so one failing source never blanks Home.
+  const forecastBody = () => `
+          <div class="nova-forecast-total"><strong>€3,900</strong><span>expected on 30 Sep</span></div>
+          <div class="nova-forecast-wrap">
+            <svg viewBox="0 0 760 190" preserveAspectRatio="none" role="img" aria-label="Balance forecast falls to 1050 euros on 27 September, above the 500 euro buffer, then rises to 3900 euros on 30 September">
+              <defs><linearGradient id="novaArea" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#aad3ff" stop-opacity=".55"/><stop offset="1" stop-color="#c8bdf1" stop-opacity=".06"/></linearGradient></defs>
+              <g class="nova-gridlines"><path d="M0 34H760M0 78H760M0 122H760"/><path class="buffer" d="M0 166H760"/></g>
+              <path class="nova-area" d="M8 48 L120 70 L230 83 L340 99 L450 126 L560 145 L660 94 L752 54 L752 190 L8 190 Z"/>
+              <path class="nova-line" d="M8 48 L120 70 L230 83 L340 99 L450 126 L560 145 L660 94 L752 54"/>
+            </svg>
+            <span class="nova-forecast-low-mark" aria-hidden="true"></span>
+            <span class="nova-forecast-buffer-label" aria-hidden="true">€500 buffer</span>
+          </div>
+          <div class="nova-forecast-axis" aria-hidden="true"><span>15 Sep</span><span>21 Sep</span><span>27 Sep</span><span>30 Sep</span></div>
+          <p class="nova-forecast-low">Lowest point <strong>€1,050</strong> on 27 Sep, still above your €500 buffer.</p>`;
+  const forecastError = () => `
+          <div class="nova-panel-error" role="status">
+            <strong>Forecast unavailable</strong>
+            <p>We couldn't load upcoming payments.</p>
+            <button type="button" class="v3-text-button" data-nova-retry="forecast">Try again</button>
+          </div>`;
+
+  const spendingRows = () => SPENDING.map(([name, value], index) => {
+    const pct = Math.round((value / SPENT) * 100);
+    return `<li class="nova-category-row${index === 0 ? ' is-top' : ''}"><span class="nova-category-name">${name}</span><b>${whole(value)}</b><span class="nova-category-pct">${pct}%</span><span class="nova-category-track" aria-hidden="true"><i style="width:${(value / SPENDING[0][1]) * 100}%"></i></span></li>`;
+  }).join('');
+
+  const flowBars = () => FLOW.map(([month, inH, outH], index) => {
+    const now = index === FLOW.length - 1;
+    return `<span class="${now ? 'is-now' : ''}"><i style="height:${inH}%"></i><b style="height:${outH}%"></b><em>${month}</em></span>`;
+  }).join('');
+
+  const summaryRow = (href, title, value) => `<a class="nova-summary-row" href="${href}"><span>${title}</span><b>${value}</b><span class="nova-chevron">${svg('arrow')}</span></a>`;
 
   function enrichChrome() {
     const actions = document.querySelector('.ios26-nav-actions');
@@ -1012,6 +1068,11 @@ window.NovaCurrentRuntime.foundation = Object.freeze({
           </div>
         </section>
 
+        <section class="nova-card nova-attention-card" aria-labelledby="attention-title">
+          <div class="nova-card-head"><h2 id="attention-title">Needs your attention</h2><span class="status status-risk">1 to review</span></div>
+          <a class="nova-attention-row risk" href="app.html?screen=transaction-detail" aria-label="Unusual card activity at ByteMart Online"><span class="nova-icon">${svg('bag')}</span><span><strong>Unusual card activity</strong><small>ByteMart Online, needs review</small></span><b>−€189.40</b><span class="nova-chevron">${svg('arrow')}</span></a>
+        </section>
+
         <section class="nova-card nova-upcoming-card" aria-labelledby="bills-title">
           <div class="nova-card-head"><div><small>Next 14 days</small><h2 id="bills-title">Upcoming bills</h2></div><span class="nova-date-pill">5 items</span></div>
           <div class="nova-bill-list">
@@ -1025,32 +1086,21 @@ window.NovaCurrentRuntime.foundation = Object.freeze({
           <div class="nova-protection-note"><span class="nova-icon lavender">${svg('shield')}</span><div><strong>Your €500 buffer stays protected.</strong><p>Nova excludes it before showing the next-14-days safe-to-spend estimate.</p></div></div>
         </section>
 
-        <section class="nova-card nova-transactions-card" aria-labelledby="transactions-title">
+        <section class="nova-card nova-forecast-card fi-horizon" aria-labelledby="forecast-title" data-nova-panel="forecast">
+          <div class="nova-card-head"><h2 id="forecast-title" tabindex="-1">Balance forecast</h2><span class="nova-date-pill">15–30 Sep</span></div>
+          <div class="nova-panel-body">${params.get('panel') === 'forecast-error' ? forecastError() : forecastBody()}</div>
+        </section>
+
+        <section class="nova-card nova-transactions-card nova-home-detail" aria-labelledby="transactions-title">
           <div class="nova-card-head"><h2 id="transactions-title">Recent transactions</h2><a href="app.html?screen=activity">See all</a></div>
           <div class="nova-txn-list">
-            <a class="nova-txn-row risk" href="app.html?screen=transaction-detail" aria-label="Unusual card activity at ByteMart Online"><span class="nova-icon pink">${svg('bag')}</span><span><strong>Unusual card activity</strong><small>ByteMart Online, needs review</small></span><b>−€189.40</b></a>
             <div class="nova-txn-row"><span class="nova-icon">${svg('cart')}</span><span><strong>Greenline Market</strong><small>Today, 14:32, groceries</small></span><b>−€42.70</b></div>
             <div class="nova-txn-row positive"><span class="nova-icon mint">${svg('wallet')}</span><span><strong>Salary Deposit</strong><small>Today, 09:15, income</small></span><b>+€2,500.00</b></div>
             <div class="nova-txn-row"><span class="nova-icon">${svg('coffee')}</span><span><strong>Atelier Coffee</strong><small>Yesterday, 16:20, dining</small></span><b>−€6.40</b></div>
           </div>
         </section>
 
-        <section class="nova-card nova-forecast-card fi-horizon" aria-labelledby="forecast-title">
-          <div class="nova-card-head"><div><h2 id="forecast-title">Balance forecast</h2><p>Known payments, saving and expected income.</p></div><span class="nova-date-pill">15–30 Sep</span></div>
-          <div class="nova-forecast-total"><strong>€3,900</strong><span>expected on 30 Sep</span></div>
-          <div class="nova-forecast-wrap">
-            <svg viewBox="0 0 760 190" preserveAspectRatio="none" role="img" aria-label="Balance forecast falls toward 1050 euros then rises to 3900 euros">
-              <defs><linearGradient id="novaArea" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#aad3ff" stop-opacity=".55"/><stop offset="1" stop-color="#c8bdf1" stop-opacity=".06"/></linearGradient></defs>
-              <g class="nova-gridlines"><path d="M0 34H760M0 78H760M0 122H760"/><path class="buffer" d="M0 166H760"/></g>
-              <path class="nova-area" d="M8 48 L120 70 L230 83 L340 99 L450 126 L560 145 L660 94 L752 54 L752 190 L8 190 Z"/>
-              <path class="nova-line" d="M8 48 L120 70 L230 83 L340 99 L450 126 L560 145 L660 94 L752 54"/>
-            </svg>
-          </div>
-          <div class="nova-forecast-axis" aria-hidden="true"><span>15 Sep</span><span>21 Sep</span><span>27 Sep</span><span>30 Sep</span></div>
-          <p class="nova-forecast-low">Lowest point <strong>€1,050</strong> on 27 Sep, still above your €500 buffer.</p>
-        </section>
-
-        <section class="nova-card nova-accounts-card" aria-labelledby="accounts-title">
+        <section class="nova-card nova-accounts-card nova-home-detail" aria-labelledby="accounts-title">
           <div class="nova-card-head"><h2 id="accounts-title">Accounts</h2><a href="app.html?screen=cards">See all</a></div>
           <div class="nova-account-list">
             <a href="app.html?screen=cards" class="nova-account-row"><span class="nova-icon blue">${svg('wallet')}</span><span><strong>Current Account</strong><small>Nova Bank •••• 4421</small></span><b>€2,240.00</b></a>
@@ -1059,39 +1109,60 @@ window.NovaCurrentRuntime.foundation = Object.freeze({
           </div>
         </section>
 
-        <section class="nova-card nova-bankcard-card" aria-labelledby="card-title">
+        <section class="nova-card nova-savings-card nova-home-detail" aria-labelledby="savings-title">
+          <div class="nova-card-head"><h2 id="savings-title">Savings progress</h2><a href="app.html?screen=savings">See all</a></div>
+          <div class="nova-goal-list">${GOALS.map(goalBlock).join('')}</div>
+        </section>
+
+        <section class="nova-card nova-bankcard-card nova-home-detail" aria-labelledby="card-title">
           <div class="nova-card-head"><h2 id="card-title">Your card</h2><a href="app.html?screen=cards">Manage</a></div>
           <div class="nova-bankcard"><div class="nova-bankcard-top"><img src="assets/nova-mark.svg" alt=""><strong>Nova</strong></div><div class="nova-bankcard-bottom"><span>•••• 4821</span><small>Debit</small></div></div>
           <div class="nova-card-spend"><div><span>Spent this month</span><strong>€620.00</strong></div><div class="nova-card-meter"><span style="width:62%"></span></div><small>62% of your €1,000 limit</small></div>
         </section>
 
-        <section class="nova-card nova-flow-card" aria-labelledby="flow-title">
-          <div class="nova-card-head"><h2 id="flow-title">Money in and out</h2><span class="nova-date-pill">This month</span></div>
+        <section class="nova-card nova-flow-card nova-home-detail" aria-labelledby="flow-title">
+          <div class="nova-card-head"><h2 id="flow-title">Money in and out</h2><span class="nova-date-pill">Apr–Sep</span></div>
           <div class="nova-flow-summary">
-            <div class="nova-kpi mint"><small>Money in</small><strong>€2,980</strong><span>12% more than last month</span></div>
-            <div class="nova-kpi pink"><small>Money out</small><strong>€1,680</strong><span>8% more than last month</span></div>
+            <div class="nova-kpi in"><small>In, September</small><strong>${whole(FLOW_NOW.in)}</strong><span class="nova-delta up-good">▲ 12% vs August</span></div>
+            <div class="nova-kpi out"><small>Out, September</small><strong>${whole(FLOW_NOW.out)}</strong><span class="nova-delta up-bad">▲ 8% vs August</span></div>
           </div>
-          <div class="nova-bars" role="img" aria-label="Income and expense bars from January to June">
-            <span><i style="height:72%"></i><b style="height:43%"></b><em>Jan</em></span><span><i style="height:80%"></i><b style="height:48%"></b><em>Feb</em></span><span><i style="height:75%"></i><b style="height:39%"></b><em>Mar</em></span><span><i style="height:59%"></i><b style="height:38%"></b><em>Apr</em></span><span><i style="height:57%"></i><b style="height:34%"></b><em>May</em></span><span><i style="height:76%"></i><b style="height:41%"></b><em>Jun</em></span>
-          </div>
-          <div class="nova-chart-legend"><span><i class="mint-dot"></i>Income</span><span><i class="pink-dot"></i>Expenses</span></div>
+          <div class="nova-bars" role="img" aria-label="Money in and out, April to September. September: ${whole(FLOW_NOW.in)} in, ${whole(FLOW_NOW.out)} out">${flowBars()}</div>
         </section>
 
-        <section class="nova-card nova-spending-card" aria-labelledby="spending-title">
-          <div class="nova-card-head"><h2 id="spending-title">Spending by category</h2><span class="nova-date-pill">This month</span></div>
-          <div class="nova-donut-layout"><div class="nova-donut" role="img" aria-label="1680 euros total spent"><span><strong>€1,680</strong><small>spent</small></span></div><div class="nova-category-list"><span><i class="c1"></i>Housing <b>€620</b></span><span><i class="c2"></i>Food and dining <b>€302</b></span><span><i class="c3"></i>Shopping <b>€202</b></span><span><i class="c4"></i>Transport <b>€168</b></span><span><i class="c5"></i>Entertainment <b>€134</b></span><span><i class="c6"></i>Other <b>€254</b></span></div></div>
+        <section class="nova-card nova-spending-card nova-home-detail" aria-labelledby="spending-title">
+          <div class="nova-card-head"><h2 id="spending-title">Spending by category</h2><span class="nova-date-pill">September</span></div>
+          <div class="nova-spending-total"><strong>${whole(SPENT)}</strong><span>spent</span></div>
+          <ol class="nova-category-bars">${spendingRows()}</ol>
         </section>
 
-        <section class="nova-card nova-savings-card" aria-labelledby="savings-title">
-          <div class="nova-card-head"><h2 id="savings-title">Savings progress</h2><a href="app.html?screen=savings">See all</a></div>
-          <div class="nova-savings-layout"><div class="nova-progress-ring" role="img" aria-label="Holiday Fund 64 percent saved"><span><strong>64%</strong></span></div><div><h3>Holiday Fund</h3><p>€3,200 of €5,000 saved</p><span class="nova-date-pill">€1,800 to go</span></div></div>
+        <section class="nova-card nova-home-summary" aria-labelledby="summary-title">
+          <div class="nova-card-head"><h2 id="summary-title">Accounts and spending</h2></div>
+          <div class="nova-summary-list">
+            ${summaryRow('app.html?screen=activity', 'Recent transactions', '−€42.70')}
+            ${summaryRow('app.html?screen=cards', 'Accounts', '€2,240.00')}
+            ${summaryRow('app.html?screen=savings-detail', 'Savings progress', `${pct(GOALS[0])}%`)}
+            ${summaryRow('app.html?screen=cards', 'Your card', '€620.00 spent')}
+            ${summaryRow('app.html?screen=activity', 'Money in and out', `${whole(FLOW_NOW.in)} in`)}
+            ${summaryRow('app.html?screen=activity', 'Spending by category', `${whole(SPENT)} spent`)}
+          </div>
         </section>
       </div>`;
+  }
+
+  function bindPanelRetry() {
+    document.addEventListener('click', (event) => {
+      const button = event.target.closest('[data-nova-retry="forecast"]');
+      if (!button) return;
+      const body = button.closest('[data-nova-panel="forecast"]').querySelector('.nova-panel-body');
+      body.innerHTML = forecastBody();
+      body.closest('[data-nova-panel]').querySelector('h2').focus?.();
+    });
   }
 
   function init() {
     enrichChrome();
     renderDenseHome();
+    bindPanelRetry();
     document.body.classList.add('nova-density-v2');
   }
 

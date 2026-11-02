@@ -107,6 +107,7 @@ jobs:
           cp qa/decision-tradeoffs.spec.mjs .factory/uiux-factory/qa/tests/decision-tradeoffs.spec.mjs
           cp qa/figma-export.spec.mjs .factory/uiux-factory/qa/tests/figma-export.spec.mjs
           cp qa/pastel-ux.spec.mjs .factory/uiux-factory/qa/tests/pastel-ux.spec.mjs
+          cp qa/home-dashboard.spec.mjs .factory/uiux-factory/qa/tests/home-dashboard.spec.mjs
 
       - name: Verify deterministic HTML to Figma export
         run: |
@@ -131,7 +132,31 @@ jobs:
           trap 'kill $SERVER_PID 2>/dev/null || true' EXIT
           node scripts/wait-ready.mjs
           npm test
-          npx playwright test tests/pastel-ux.spec.mjs tests/nova-flow.spec.mjs tests/product-integrity.spec.mjs tests/savings-integrity.spec.mjs tests/passcode-recovery.spec.mjs tests/transfer-impact.spec.mjs tests/recipient-continuity.spec.mjs tests/accessibility-evidence.spec.mjs tests/native-states.spec.mjs tests/runtime-consolidation.spec.mjs tests/foundation-consolidation.spec.mjs tests/report-boundary.spec.mjs tests/direct-user-round01.spec.mjs tests/phase3-clarity.spec.mjs tests/identity-source.spec.mjs tests/status-ledger.spec.mjs tests/decision-tradeoffs.spec.mjs
+          npx playwright test tests/home-dashboard.spec.mjs tests/pastel-ux.spec.mjs tests/nova-flow.spec.mjs tests/product-integrity.spec.mjs tests/savings-integrity.spec.mjs tests/passcode-recovery.spec.mjs tests/transfer-impact.spec.mjs tests/recipient-continuity.spec.mjs tests/accessibility-evidence.spec.mjs tests/native-states.spec.mjs tests/runtime-consolidation.spec.mjs tests/foundation-consolidation.spec.mjs tests/report-boundary.spec.mjs tests/direct-user-round01.spec.mjs tests/phase3-clarity.spec.mjs tests/identity-source.spec.mjs tests/status-ledger.spec.mjs tests/decision-tradeoffs.spec.mjs
+
+      - name: Checkout dashboard toolkit (data-visualization-and-dashboard-ux)
+        uses: actions/checkout@v6
+        with:
+          repository: Ngh1aa/uiux-ai-workspace
+          ref: be50775661421394285932d14c468a27bf4de08a
+          path: .toolkit
+
+      - name: Home passes the dashboard taste check
+        env:
+          NODE_PATH: ${{ github.workspace }}/.factory/uiux-factory/qa/node_modules
+        run: |
+          for route in "app.html?screen=home" "app.html?screen=home&panel=forecast-error"; do
+            rm -f "$RUNNER_TEMP/home-taste.json"
+            node .toolkit/skills_UIUX/ui-craft-and-visual-qa/scripts/taste-check.cjs "$route" \
+              --width 390 --width 1024 --width 1280 --width 1440 --theme light --layout strict --no-axe \
+              --json "$RUNNER_TEMP/home-taste.json" || true
+            node -e '
+              const d = JSON.parse(require("fs").readFileSync(process.argv[1], "utf8"));
+              const hits = d.results.flatMap(r => r.screens.flatMap(s => [...s.errors, ...s.warnings]
+                .filter(i => /^(chart-|status-series|panel-)/.test(i.rule)).map(i => `${r.width}px ${i.rule}: ${i.message}`)));
+              if (hits.length) { console.error(hits.join("\n")); process.exit(1); }
+              console.log("Dashboard rules clean");' "$RUNNER_TEMP/home-taste.json"
+          done
 
       - name: Print target server log on failure
         if: failure()

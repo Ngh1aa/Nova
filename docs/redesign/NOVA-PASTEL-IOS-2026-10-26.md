@@ -41,3 +41,23 @@ non-functional "i" button removed (the split bar now shows the formula), insight
 - axe-core wcag2a/aa on 24 routes at 1440 and 390: no violations.
 - `overlay-check.py --base main`: 0 errors; warnings are the four new source files (they replace the cascade above) and generated files rebuilt by their generators.
 - Not verified: real iPhone, screen readers, dark mode (not built).
+
+## Home dashboard pass (2026-11-02)
+
+Request (Ten): use the latest `uiux-ai-workspace` dashboard skill to fix Nova Home. Source owners edited in place:
+`assets/nova-dashboard-v2.js` (markup) and `assets/nova-ui/screens.css` (layout), bundle regenerated.
+
+| Before | After |
+|---|---|
+| Unusual card activity sat in the third row | "Needs your attention" panel next to the safe-to-spend hero (below it on phones); the same link and `aria-label` |
+| 6-slice donut and a 64% ring | Sorted category bars with amount and share; two savings goals as number + bar |
+| Money in and out: "This month" chip over Jan–Jun, legend, expenses pink = review colour | "Apr–Sep" chip, "In/Out, September" tiles with a named comparison, current month emphasised, no legend, neutral expense bars |
+| Caption under "Balance forecast" | Removed; "€500 buffer" labelled on the dashed line, low point marked |
+| Only whole-page states | `?panel=forecast-error` fails one panel with Try again; the rest of Home keeps its numbers |
+| Stretched empty panels at 1440, lone panel at 1024, ten panels on phones | Area grid (1 column < 768, 2 columns to 1399, 3 from 1400); phones show four full panels and six summary rows |
+
+Copy verified with users is unchanged (including the buffer note). Tab bar labels and the greeting moved from 10.5/11 px to 12 px.
+
+Verification: `qa/home-dashboard.spec.mjs` (new), all existing Playwright suites, axe/browser evidence on Home routes,
+`taste-check --layout strict` dashboard rules at 390/1024/1280/1440 (CI step), `overlay-check`: 0 errors.
+Not verified: real devices, screen readers, users.
