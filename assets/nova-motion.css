@@ -15,8 +15,10 @@
   body.product-body .v4-rail-nav a.active .v5-rail-icon{animation:nova-active-confirm 720ms var(--nova-motion-spring) both}
 }
 @keyframes nova-shell-in{
-  from{transform:translate3d(0,12px,0)}
-  to{opacity:1;transform:none}
+  /* The app root contains fixed navigation and dialogs. A retained transform
+     makes those elements scroll with this ancestor instead of the viewport. */
+  from{opacity:0}
+  to{opacity:1}
 }
 @keyframes nova-rail-in{
   from{transform:translate3d(-12px,0,0)}

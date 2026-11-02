@@ -1,0 +1,233 @@
+{
+  "errorCount": 0,
+  "warningCount": 6,
+  "axe": "RUN",
+  "results": [
+    {
+      "page": "http://127.0.0.1:4387/app.html?screen=home",
+      "width": 390,
+      "theme": "dark",
+      "reflow": false,
+      "screens": [
+        {
+          "name": "Nova — home – Personal Banking",
+          "errors": [],
+          "warnings": [
+            {
+              "rule": "colors",
+              "message": "6 nhóm màu trong một màn (nên ≤ 3): #ffa7c6 ở i; #ffd28d ở span.nova-avatar \"AN\"; #b5a0d5 ở i.buffer; #9ee1ba ở strong \"€2,522.00\"; #9bc8bd ở i; #aeb9e1 ở i"
+            }
+          ]
+        },
+        {
+          "name": "axe-core",
+          "errors": [],
+          "warnings": []
+        }
+      ]
+    },
+    {
+      "page": "http://127.0.0.1:4387/app.html?screen=home",
+      "width": 1440,
+      "theme": "dark",
+      "reflow": false,
+      "screens": [
+        {
+          "name": "Nova — home – Personal Banking",
+          "errors": [],
+          "warnings": [
+            {
+              "rule": "colors",
+              "message": "6 nhóm màu trong một màn (nên ≤ 3): #ffa7c6 ở span.nova-avatar \"AN\"; #ffd28d ở span.nova-avatar \"AN\"; #b5a0d5 ở i.buffer; #9ee1ba ở strong \"€2,522.00\"; #9bc8bd ở i; #aeb9e1 ở i"
+            }
+          ]
+        },
+        {
+          "name": "axe-core",
+          "errors": [],
+          "warnings": []
+        }
+      ]
+    },
+    {
+      "page": "http://127.0.0.1:4387/app.html?screen=home",
+      "width": 320,
+      "theme": "light",
+      "reflow": true,
+      "screens": [
+        {
+          "name": "Nova — home – Personal Banking (reflow 320 px)",
+          "errors": [],
+          "warnings": []
+        }
+      ]
+    },
+    {
+      "page": "http://127.0.0.1:4387/app.html?screen=activity",
+      "width": 390,
+      "theme": "dark",
+      "reflow": false,
+      "screens": [
+        {
+          "name": "Nova — activity – Personal Banking",
+          "errors": [],
+          "warnings": []
+        },
+        {
+          "name": "axe-core",
+          "errors": [],
+          "warnings": []
+        }
+      ]
+    },
+    {
+      "page": "http://127.0.0.1:4387/app.html?screen=activity",
+      "width": 1440,
+      "theme": "dark",
+      "reflow": false,
+      "screens": [
+        {
+          "name": "Nova — activity – Personal Banking",
+          "errors": [],
+          "warnings": []
+        },
+        {
+          "name": "axe-core",
+          "errors": [],
+          "warnings": []
+        }
+      ]
+    },
+    {
+      "page": "http://127.0.0.1:4387/app.html?screen=activity",
+      "width": 320,
+      "theme": "light",
+      "reflow": true,
+      "screens": [
+        {
+          "name": "Nova — activity – Personal Banking (reflow 320 px)",
+          "errors": [],
+          "warnings": []
+        }
+      ]
+    },
+    {
+      "page": "http://127.0.0.1:4387/app.html?screen=cards",
+      "width": 390,
+      "theme": "dark",
+      "reflow": false,
+      "screens": [
+        {
+          "name": "Nova — Cards",
+          "errors": [],
+          "warnings": [
+            {
+              "rule": "colors",
+              "message": "5 nhóm màu trong một màn (nên ≤ 3): #ffa7c6 ở i; #ffd28d ở span.nova-avatar \"AN\"; #15232b ở i; #9ee1ba ở span.v3-status \"● Active\"; #cbb9ef ở svg"
+            }
+          ]
+        },
+        {
+          "name": "axe-core",
+          "errors": [],
+          "warnings": []
+        }
+      ]
+    },
+    {
+      "page": "http://127.0.0.1:4387/app.html?screen=cards",
+      "width": 1440,
+      "theme": "dark",
+      "reflow": false,
+      "screens": [
+        {
+          "name": "Nova — Cards",
+          "errors": [],
+          "warnings": [
+            {
+              "rule": "colors",
+              "message": "5 nhóm màu trong một màn (nên ≤ 3): #ffa7c6 ở span.nova-avatar \"AN\"; #ffd28d ở span.nova-avatar \"AN\"; #15232b ở i; #9ee1ba ở span.v3-status \"● Active\"; #cbb9ef ở svg"
+            }
+          ]
+        },
+        {
+          "name": "axe-core",
+          "errors": [],
+          "warnings": []
+        }
+      ]
+    },
+    {
+      "page": "http://127.0.0.1:4387/app.html?screen=cards",
+      "width": 320,
+      "theme": "light",
+      "reflow": true,
+      "screens": [
+        {
+          "name": "Nova — Cards (reflow 320 px)",
+          "errors": [],
+          "warnings": []
+        }
+      ]
+    },
+    {
+      "page": "http://127.0.0.1:4387/app.html?screen=transfer-review",
+      "width": 390,
+      "theme": "dark",
+      "reflow": false,
+      "screens": [
+        {
+          "name": "Nova — transfer review – Personal Banking",
+          "errors": [],
+          "warnings": [
+            {
+              "rule": "colors",
+              "message": "4 nhóm màu trong một màn (nên ≤ 3): #ffa7c6 ở i; #ffd28d ở span.nova-avatar \"AN\"; #9ee1ba ở div.nova-phase3-decision-note \"€500.00 buffer protectedIt stays separat\"; #b5a0d5 ở div.horizon-zone \"Protected\""
+            }
+          ]
+        },
+        {
+          "name": "axe-core",
+          "errors": [],
+          "warnings": []
+        }
+      ]
+    },
+    {
+      "page": "http://127.0.0.1:4387/app.html?screen=transfer-review",
+      "width": 1440,
+      "theme": "dark",
+      "reflow": false,
+      "screens": [
+        {
+          "name": "Nova — transfer review – Personal Banking",
+          "errors": [],
+          "warnings": [
+            {
+              "rule": "colors",
+              "message": "4 nhóm màu trong một màn (nên ≤ 3): #ffa7c6 ở span.nova-avatar \"AN\"; #ffd28d ở span.nova-avatar \"AN\"; #9ee1ba ở div.nova-phase3-decision-note \"€500.00 buffer protectedIt stays separat\"; #b5a0d5 ở div.horizon-zone \"Protected\""
+            }
+          ]
+        },
+        {
+          "name": "axe-core",
+          "errors": [],
+          "warnings": []
+        }
+      ]
+    },
+    {
+      "page": "http://127.0.0.1:4387/app.html?screen=transfer-review",
+      "width": 320,
+      "theme": "light",
+      "reflow": true,
+      "screens": [
+        {
+          "name": "Nova — transfer review – Personal Banking (reflow 320 px)",
+          "errors": [],
+          "warnings": []
+        }
+      ]
+    }
+  ]
+}

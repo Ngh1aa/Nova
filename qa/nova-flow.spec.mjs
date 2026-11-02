@@ -23,13 +23,13 @@ test('core protection flow works', async ({ page }) => {
   await resetPrototype(page);
   await page.goto('/app.html?screen=home');
   await expect(page.getByText('€1,300.00').first()).toBeVisible();
-  await page.getByRole('link', { name: /Unusual card activity/ }).click();
+  await page.getByRole('link', { name: /ByteMart Online.*Needs review/ }).click();
   await expect(page.getByText('ByteMart Online').first()).toBeVisible();
-  await page.getByRole('button', { name: /Freeze card in demo.*no bank contact/i }).click();
-  const dialog = page.getByRole('dialog', { name: /Freeze demo card only.*no bank contact/i });
+  await page.getByRole('button', { name: 'Freeze card' }).click();
+  const dialog = page.getByRole('dialog', { name: 'Freeze demo card?' });
   await expect(dialog).toContainText('Already-authorized or offline payments can still settle');
   await expect(dialog).toContainText('does not report ByteMart, reverse the payment, or contact a bank');
-  await dialog.getByRole('button', { name: /Freeze demo card only.*no bank contact/i }).click();
+  await dialog.getByRole('button', { name: 'Freeze card' }).click();
   await expect(page.getByText('Card frozen').first()).toBeVisible();
 });
 
@@ -47,28 +47,28 @@ test('core transfer flow works', async ({ page }) => {
   await expect(page.getByText(/This portfolio prototype simulates a successful/)).toBeVisible();
 });
 
-test('Nova adaptive pastel visual contract holds at portfolio breakpoints', async ({ page }) => {
+test('Nova charcoal visual contract holds at portfolio breakpoints', async ({ page }) => {
   for (const [width, height] of [[390, 844], [768, 1024], [1024, 900], [1440, 1000]]) {
     await page.setViewportSize({ width, height });
     await page.goto('/app.html?screen=home');
     await expect(page.locator('.fi-horizon')).toBeVisible();
-    await expect(page.locator('.ios26-nav')).toBeVisible();
+    await expect(page.locator('.nova-dashboard-intro')).toBeVisible();
 
     if (width < 768) {
       await expect(page.locator('.bottom-nav')).toBeVisible();
-      await expect(page.locator('.nova-top-tabs')).toBeHidden();
+      await expect(page.locator('.nova-home-tabs')).toBeHidden();
     } else {
       await expect(page.locator('.bottom-nav')).toBeHidden();
-      // One primary navigation per breakpoint. Top tabs only where the black sidebar is hidden (768–1023).
-      if (width >= 1024) await expect(page.locator('.nova-top-tabs')).toBeHidden();
-      else await expect(page.locator('.nova-top-tabs')).toBeVisible();
+      // v6: one primary navigation per breakpoint. Top tabs only where the rail is hidden.
+      if (width >= 1200) await expect(page.locator('.nova-home-tabs')).toBeHidden();
+      else await expect(page.locator('.nova-home-tabs')).toBeVisible();
     }
 
-    if (width >= 1024) await expect(page.locator('.sidebar')).toBeVisible();
+    if (width >= 1200) await expect(page.locator('.sidebar')).toBeVisible();
 
     const state = await page.evaluate(() => {
       const amount = document.querySelector('.money-amount');
-      const actions = [...document.querySelectorAll('.decision-action')];
+      const actions = [...document.querySelectorAll('.nova-quick-card .btn')];
       const dock = document.querySelector('.bottom-nav');
       const forecast = document.querySelector('.fi-horizon');
       const main = document.querySelector('.main-wrap');
@@ -84,7 +84,6 @@ test('Nova adaptive pastel visual contract holds at portfolio breakpoints', asyn
       const amountStyle = getComputedStyle(amount);
       const bodyStyle = getComputedStyle(document.body);
       const sidebarStyle = getComputedStyle(sidebar);
-      const stageStyle = getComputedStyle(document.querySelector('.app-stage'));
       return {
         overlaps,
         amountRight: amountRect.right,
@@ -92,8 +91,6 @@ test('Nova adaptive pastel visual contract holds at portfolio breakpoints', asyn
         amountFontFamily: amountStyle.fontFamily.toLowerCase(),
         amountNumeric: amountStyle.fontVariantNumeric,
         bodyBackground: bodyStyle.backgroundColor,
-        stageBackground: stageStyle.backgroundColor,
-        stageRadius: parseFloat(stageStyle.borderRadius),
         dockPosition: dockStyle.position,
         dockRadius: parseFloat(dockStyle.borderRadius),
         dockWidth: dockRect.width,
@@ -110,25 +107,21 @@ test('Nova adaptive pastel visual contract holds at portfolio breakpoints', asyn
     expect(state.amountFontFamily).toMatch(/sans-serif|monospace|ui-monospace/);
     expect(state.amountFontFamily).not.toMatch(/source serif|georgia|times new roman|times,/);
     expect(state.amountNumeric).toContain('tabular-nums');
-    // 2026-11-02 redesign: content sits in one white rectangle on a soft grey page.
-    expect(state.bodyBackground).toBe('rgb(233, 233, 238)');
-    expect(state.stageBackground).toBe('rgb(255, 255, 255)');
-    expect(state.stageRadius).toBeGreaterThanOrEqual(24);
-    expect(state.forecastRadius).toBeGreaterThanOrEqual(20);
+    expect(state.bodyBackground).toBe('rgb(28, 27, 34)');
+    expect(state.forecastRadius).toBeGreaterThanOrEqual(12);
 
     if (width < 768) {
       expect(state.dockPosition).toBe('fixed');
-      expect(state.dockRadius).toBeGreaterThanOrEqual(24);
+      expect(state.dockRadius).toBe(0);
       expect(state.dockWidth).toBeLessThanOrEqual(582);
-      expect(state.dockWidth).toBeLessThanOrEqual(state.viewportWidth - (width <= 430 ? 16 : 20));
+      expect(state.dockWidth).toBe(state.viewportWidth);
     }
 
-    if (width >= 1024) {
-      expect(state.sidebarBackground).toBe('rgb(17, 19, 23)');
+    if (width >= 1200) {
+      expect(state.sidebarBackground).toBe('rgb(36, 35, 44)');
     }
 
-    if (width >= 1440) expect(state.mainWidth).toBeGreaterThan(900);
-    else if (width >= 1024) expect(state.mainWidth).toBeGreaterThan(640);
+    if (width >= 1024) expect(state.mainWidth).toBeGreaterThan(900);
     expect(state.overflow, `Unexpected page overflow at ${width}px`).toBeFalsy();
   }
 });
@@ -155,7 +148,7 @@ test('Cards uses responsive card-plus-controls composition', async ({ page }) =>
       };
     });
 
-    expect(state.cardRadius).toBeGreaterThanOrEqual(20);
+    expect(state.cardRadius).toBeGreaterThanOrEqual(12);
     expect(state.cardWidth).toBeLessThanOrEqual(width - 20);
     if (width >= 1000) expect(state.controlsBesideCard).toBeTruthy();
     expect(state.overflow).toBeFalsy();

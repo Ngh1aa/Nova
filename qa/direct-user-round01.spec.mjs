@@ -4,27 +4,31 @@ import { test, expect } from '@playwright/test';
 test('D-01 Safe to spend exposes its time horizon at the primary decision number', async ({ page }) => {
   await page.goto('/app.html?screen=home&lab=1');
   await expect(page.getByText(/Safe to spend.*next 14 days/i)).toBeVisible();
-  await expect(page.getByText('Nova excludes it before showing the next-14-days safe-to-spend estimate.', { exact: true })).toBeVisible();
+  await expect(page.getByText('Excludes bills, savings and buffer', { exact: true })).toBeVisible();
 });
 
 test('D-02 sensitive actions state simulated consequences before interaction', async ({ page }) => {
   await page.goto('/app.html?screen=transaction-detail&lab=1');
   await expect(page.locator('.protection-band .nova-d02-status')).toBeVisible();
   await expect(page.getByText('No bank contact', { exact: true })).toBeVisible();
-  await expect(page.getByRole('button', { name: /Freeze card in demo.*no bank contact/i })).toBeVisible();
-  await expect(page.getByRole('link', { name: /Preview report steps.*no bank case created.*no bank contact/i })).toBeVisible();
-  await expect(page.locator('#nova-d02-freeze-effects')).toContainText('Report the transaction, reverse ByteMart, or contact a bank');
-  await expect(page.locator('#nova-d02-report-effects')).toContainText('Freeze the card, create a bank case, request a refund, or contact a bank');
+  await expect(page.getByRole('button', { name: 'Freeze card' })).toBeVisible();
+  await expect(page.getByRole('link', { name: 'Preview report' })).toBeVisible();
+  await expect(page.locator('#nova-d02-freeze-effects')).toContainText('Reverse this payment or contact your bank');
+  await expect(page.locator('#nova-d02-report-effects')).toContainText('Submit a report or freeze your card');
 });
 
 test('D-03 transfer review explains the projected amount as a calculation', async ({ page }) => {
   await page.goto('/app.html?screen=transfer-review&lab=1');
   const review = page.locator('.review-list');
-  await expect(review).toContainText('Impact calculation');
-  await expect(review).toContainText('€1,300.00 − €145.00 − €0.00 = €1,155.00');
-  await expect(review).toContainText('Protected buffer €500.00 stays reserved');
-  await expect(page.getByRole('heading', { name: /Projected safe to spend.*next 14 days/i })).toBeVisible();
-  await expect(page.getByText('Known bills remain included and the protected buffer stays reserved; Nova does not pull from it automatically.', { exact: true })).toBeVisible();
+  await expect(review).toContainText('Safe after transfer');
+  await page.getByText('How it’s calculated', { exact: true }).click();
+  await expect(review.locator('.nova-calculation')).toContainText('€1,300.00');
+  await expect(review.locator('.nova-calculation')).toContainText('−€145.00');
+  await expect(review.locator('.nova-calculation')).toContainText('€0.00');
+  await expect(review.locator('.nova-calculation')).toContainText('€1,155.00');
+  await expect(page.locator('[data-nova-phase3-buffer-note]')).toContainText('€500.00 buffer protected');
+  await expect(page.getByRole('heading', { name: 'After this transfer' })).toBeVisible();
+  await expect(page.getByText('Safe to spend after sending.', { exact: true })).toBeVisible();
 });
 
 test('D-04 recovery pairs the cause with no-money-moved reassurance', async ({ page }) => {
@@ -36,5 +40,5 @@ test('D-04 recovery pairs the cause with no-money-moved reassurance', async ({ p
   await expect(page.getByRole('button', { name: 'Try biometrics again' })).toBeVisible();
 
   await page.goto('/app.html?screen=error&lab=1');
-  await expect(page.getByText('Balance revalidation failed before confirmation. No money moved and the transfer was not submitted. Review the amount and try again.', { exact: true })).toBeVisible();
+  await expect(page.getByText('Review the amount and try again.', { exact: true })).toBeVisible();
 });

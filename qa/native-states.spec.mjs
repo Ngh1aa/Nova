@@ -63,7 +63,7 @@ test('transfer error remains a native recovery screen with no-money-moved reassu
 
   const main = page.locator('#main[data-native-product-state="error"]');
   await expect(main).toBeVisible();
-  await expect(page.getByRole('heading', { name: 'Something changed before confirmation' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Transfer not completed' })).toBeVisible();
   await expect(main).toContainText('No money moved');
   await expect(page.getByRole('link', { name: 'Review again' })).toHaveAttribute('href', 'app.html?screen=transfer-review');
   await expectNoWrapperInjection(page);

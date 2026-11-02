@@ -1,0 +1,173 @@
+{
+  "reviewer": {
+    "id": "independent-visual-review-revision",
+    "kind": "agent-heuristic",
+    "independent": true
+  },
+  "cold": {
+    "activity-1440.png": {
+      "Màn này để làm gì?": "[Revision sau brief] Xem thu chi tháng và giao dịch.",
+      "Bạn sẽ bấm vào đâu đầu tiên?": "[Revision sau brief] Needs review hoặc Search transactions.",
+      "Điều gì trông sai, rối hoặc thiếu?": "[Revision sau brief] Không thấy regression bố cục; giữ nhóm số tiền và hàng giao dịch dễ quét."
+    },
+    "activity-390.png": {
+      "Màn này để làm gì?": "[Revision sau brief] Xem thu chi và lọc giao dịch trên mobile.",
+      "Bạn sẽ bấm vào đâu đầu tiên?": "[Revision sau brief] Needs review hoặc Search transactions.",
+      "Điều gì trông sai, rối hoặc thiếu?": "[Revision sau brief] Số tổng nay xuống 2+1 hàng, ít chật hơn nhưng đẩy danh sách thấp; không bị mất chữ hay tràn ngang."
+    },
+    "cards-1440.png": {
+      "Màn này để làm gì?": "[Revision sau brief] Quản lý thẻ, hạn mức và thanh toán gần đây.",
+      "Bạn sẽ bấm vào đâu đầu tiên?": "[Revision sau brief] Freeze card hoặc Show details.",
+      "Điều gì trông sai, rối hoặc thiếu?": "[Revision sau brief] Controls chuyển thành 2×2 vẫn rõ; limits và recent payments gọn cạnh nhau, không thấy lỗi mới."
+    },
+    "cards-390.png": {
+      "Màn này để làm gì?": "[Revision sau brief] Quản lý thẻ debit và quyền thanh toán.",
+      "Bạn sẽ bấm vào đâu đầu tiên?": "[Revision sau brief] Freeze card khi cần khóa.",
+      "Điều gì trông sai, rối hoặc thiếu?": "[Revision sau brief] Finding ưu tiên controls đã được xử lý: controls nằm ngay dưới thẻ, Freeze card thấy đầy đủ trong viewport."
+    },
+    "home-1440.png": {
+      "Màn này để làm gì?": "[Revision sau brief] Nắm tiền có thể chi, cam kết và chuyển nhanh.",
+      "Bạn sẽ bấm vào đâu đầu tiên?": "[Revision sau brief] Send money hoặc View all giao dịch.",
+      "Điều gì trông sai, rối hoặc thiếu?": "[Revision sau brief] Hierarchy và brand được giữ; không thấy regression đáng kể."
+    },
+    "home-390.png": {
+      "Màn này để làm gì?": "[Revision sau brief] Xem tiền có thể chi rồi chuyển tiền nhanh.",
+      "Bạn sẽ bấm vào đâu đầu tiên?": "[Revision sau brief] Send money trong Quick transfer.",
+      "Điều gì trông sai, rối hoặc thiếu?": "[Revision sau brief] Finding ưu tiên chuyển tiền đã được xử lý: người nhận, amount và CTA hiện ngay sau balance trong viewport."
+    },
+    "kyc-1440.png": {
+      "Màn này để làm gì?": "[Revision sau brief] Chuẩn bị giấy tờ để thử kiểm tra danh tính demo.",
+      "Bạn sẽ bấm vào đâu đầu tiên?": "[Revision sau brief] Continue to ID check.",
+      "Điều gì trông sai, rối hoặc thiếu?": "[Revision sau brief] Câu mô tả nội bộ đã được sửa; Why Nova asks vẫn là heading không khớp nội dung giới hạn prototype."
+    },
+    "kyc-390.png": {
+      "Màn này để làm gì?": "[Revision sau brief] Thử luồng kiểm tra ID demo theo ba bước.",
+      "Bạn sẽ bấm vào đâu đầu tiên?": "[Revision sau brief] Continue to ID check.",
+      "Điều gì trông sai, rối hoặc thiếu?": "[Revision sau brief] Copy mở đầu rõ hơn; cảnh báo không xác minh thật vẫn xuất hiện hai chỗ, có thể gọn lại."
+    },
+    "notifications-1440.png": {
+      "Màn này để làm gì?": "[Revision sau brief] Xem thông báo và rà thanh toán cần chú ý.",
+      "Bạn sẽ bấm vào đâu đầu tiên?": "[Revision sau brief] Review payment.",
+      "Điều gì trông sai, rối hoặc thiếu?": "[Revision sau brief] Không thấy regression; tách danh sách và detail rõ."
+    },
+    "notifications-390.png": {
+      "Màn này để làm gì?": "[Revision sau brief] Chọn thông báo cần xem.",
+      "Bạn sẽ bấm vào đâu đầu tiên?": "[Revision sau brief] Review card payment.",
+      "Điều gì trông sai, rối hoặc thiếu?": "[Revision sau brief] Home vẫn được tô trong thanh dưới; có thể là mục cha nhưng ảnh không đủ kiểm mô hình navigation."
+    },
+    "savings-1440.png": {
+      "Màn này để làm gì?": "[Revision sau brief] Theo dõi mục tiêu tiết kiệm và kế hoạch góp.",
+      "Bạn sẽ bấm vào đâu đầu tiên?": "[Revision sau brief] Emergency buffer hoặc New goal.",
+      "Điều gì trông sai, rối hoặc thiếu?": "[Revision sau brief] Không thấy regression; tổng tiền và tiến độ dễ scan."
+    },
+    "savings-390.png": {
+      "Màn này để làm gì?": "[Revision sau brief] Xem tiến độ từng mục tiêu tiết kiệm.",
+      "Bạn sẽ bấm vào đâu đầu tiên?": "[Revision sau brief] Emergency buffer hoặc New goal.",
+      "Điều gì trông sai, rối hoặc thiếu?": "[Revision sau brief] Không thấy regression; plan nằm dưới viewport, không coi là clipping vì đây là ảnh viewport."
+    },
+    "settings-1440.png": {
+      "Màn này để làm gì?": "[Revision sau brief] Chỉnh hồ sơ, hiển thị và tài khoản.",
+      "Bạn sẽ bấm vào đâu đầu tiên?": "[Revision sau brief] Edit hoặc toggle thông báo.",
+      "Điều gì trông sai, rối hoặc thiếu?": "[Revision sau brief] Không thấy regression; giới hạn Theme preview hiện rõ."
+    },
+    "settings-390.png": {
+      "Màn này để làm gì?": "[Revision sau brief] Chỉnh hồ sơ và cài đặt trên mobile.",
+      "Bạn sẽ bấm vào đâu đầu tiên?": "[Revision sau brief] Edit hoặc toggle thông báo.",
+      "Điều gì trông sai, rối hoặc thiếu?": "[Revision sau brief] Finding nhẹ vẫn còn: Compact dashboard chỉ mô tả tác động wide screens, chưa nói rõ tác động khi đổi từ mobile."
+    },
+    "transfer-review-1440.png": {
+      "Màn này để làm gì?": "[Revision sau brief] Kiểm tra chuyển €145 và tác động trước xác nhận.",
+      "Bạn sẽ bấm vào đâu đầu tiên?": "[Revision sau brief] Confirm with biometrics sau khi rà chi tiết.",
+      "Điều gì trông sai, rối hoặc thiếu?": "[Revision sau brief] Không thấy regression; recipient, amount, fee và buffer rõ."
+    },
+    "transfer-review-390.png": {
+      "Màn này để làm gì?": "[Revision sau brief] Rà giao dịch cho Maya trước xác nhận.",
+      "Bạn sẽ bấm vào đâu đầu tiên?": "[Revision sau brief] Confirm with biometrics.",
+      "Điều gì trông sai, rối hoặc thiếu?": "[Revision sau brief] Không thấy lỗi mới; Edit nằm dưới viewport nên chưa xác minh khả năng nhìn thấy khi cuộn."
+    }
+  },
+  "hard_fails": [],
+  "scores": {
+    "1": 4.3,
+    "2": 4.3,
+    "3": 4.1,
+    "4": 4.1,
+    "5": 4.2,
+    "6": 4.1,
+    "7": 4.0,
+    "8": 3.8,
+    "9": 4.2,
+    "10": 4.2
+  },
+  "observations": [
+    {
+      "dimension": "8",
+      "image": "kyc-1440.png",
+      "element": "Why Nova asks",
+      "fix": "Finding còn một phần: câu mở đầu đã sửa thành hướng dẫn demo; đổi heading Why Nova asks thành About this demo vì nội dung hiện giải thích giới hạn prototype, không giải thích lý do cần ID."
+    },
+    {
+      "dimension": "8",
+      "image": "kyc-390.png",
+      "element": "No real identity verification occurs và đoạn This prototype represents identity verification…",
+      "fix": "Có thể hợp nhất thông báo giới hạn demo để giảm lặp trong cùng màn; vẫn giữ rõ không gửi hoặc xác minh danh tính thật."
+    },
+    {
+      "dimension": "9",
+      "image": "settings-390.png",
+      "element": "Compact dashboard — Show more financial detail on wide screens",
+      "fix": "Finding nhẹ còn lại: làm rõ đây là tùy chọn cho màn hình lớn khi đổi từ mobile, hoặc giảm ưu tiên nếu chỉ ảnh hưởng desktop. Không cần giấu nếu người dùng đang đổi cấu hình dùng chéo thiết bị."
+    }
+  ],
+  "not_checked": [
+    "Đây là revision review sau khi người duyệt đã biết brief và vòng trước; KHÔNG phải cold review mới. Trường cold chỉ giữ cấu trúc template và chứa câu trả lời revision có gắn nhãn. Chưa có cold review hoặc human approval mới cho revision này.",
+    "HF-1: Chưa đo contrast bằng pixel/token. Không thấy chữ hoặc icon quan trọng khó đọc; không kết luận toàn bộ UI đạt AA.",
+    "HF-2: Chưa đo hit area trong browser; ảnh không đủ chứng minh vùng bấm thực tế. Ngưỡng thích hợp theo brief là web, không tự áp dụng ngưỡng native.",
+    "HF-3: Không thấy horizontal overflow hoặc chồng nội dung trong 16 ảnh. Chưa kiểm chữ phóng 200%, largest text, long content và cuộn cuối trang. Nội dung ngoài viewport không được tính là clipping.",
+    "HF-4: Chưa kiểm keyboard, focus indicator, focus order, accessible name hoặc screen reader.",
+    "HF-5: Chưa kiểm các state loading, error, empty và recovery; chúng không xuất hiện trong packet, không suy ra chúng không tồn tại.",
+    "HF-6: Các status nhìn thấy đều có chữ hoặc số kèm màu; chưa kiểm trạng thái khác.",
+    "HF-7: Chưa kiểm browser Back và điều hướng. Home selected trên Notifications mobile có thể chỉ mục cha; ảnh không chứng minh convention bị phá.",
+    "HF-8/HF-9/HF-10: Không thấy nhiều filled primary cạnh tranh trong cùng vùng, deceptive pattern hoặc dữ liệu giả mạo không gắn nhãn. Demo/prototype labels hiện rõ. Chưa kiểm các bước hoặc modal ngoài ảnh.",
+    "Chiều 7 chỉ đánh giá affordance và trạng thái nhìn thấy; chưa kiểm click/tap feedback, Undo, lưu setting, xác thực hoặc xử lý lỗi.",
+    "Không đọc source, kết quả test, ghi chú tự chấm hoặc file ngoài packet mới. Không có bằng chứng real-device/AT/backend/giao dịch thật hoặc nghiên cứu người dùng."
+  ],
+  "review_context": {
+    "type": "revision-after-brief",
+    "new_cold_review": false,
+    "scope": "Chỉ đọc packet review-final; không đọc source hoặc kết quả test.",
+    "cold_field_semantics": "Các câu trả lời trong cold là đánh giá revision theo cùng ba câu hỏi để giữ schema; không phải cold review mới. Người duyệt đã biết brief và vòng trước."
+  },
+  "revision_outcomes": [
+    {
+      "image": "home-390.png",
+      "finding": "Quick transfer bị đẩy sau payments",
+      "status": "resolved-in-render",
+      "evidence": "Quick transfer hiện ngay sau safe-to-spend; Send money nhìn thấy đầy đủ."
+    },
+    {
+      "image": "cards-390.png",
+      "finding": "Freeze card bị đẩy sau wallet và spending",
+      "status": "resolved-in-render",
+      "evidence": "Card controls hiện ngay sau thẻ; Freeze card nhìn thấy đầy đủ."
+    },
+    {
+      "image": "kyc-1440.png",
+      "finding": "Câu mô tả cách thiết kế nội bộ",
+      "status": "resolved-in-render",
+      "evidence": "Đã thay bằng Prepare a photo ID to try the demo identity check."
+    },
+    {
+      "image": "kyc-390.png",
+      "finding": "Heading Why Nova asks và cảnh báo lặp",
+      "status": "partly-open",
+      "evidence": "Heading và hai đoạn cảnh báo vẫn còn."
+    },
+    {
+      "image": "settings-390.png",
+      "finding": "Tùy chọn wide screens trong mobile",
+      "status": "open-minor",
+      "evidence": "Copy không thay đổi trong ảnh revision."
+    }
+  ]
+}

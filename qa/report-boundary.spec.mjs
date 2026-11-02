@@ -9,43 +9,43 @@ test('D-02 makes demo-only consequences primary and separates Freeze from Report
   // v6.1: one visible "No bank contact" status replaces the band, intro and footnote that repeated it.
   await expect(protection.locator('.nova-d02-status')).toHaveText('No bank contact');
   await expect(protection.locator('.nova-d02-status')).toBeVisible();
-  await expect(page.getByRole('heading', { name: 'Freeze card and Report do different things' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Card protection' })).toBeVisible();
 
   const freezeCard = protection.locator('[data-nova-d02-action="freeze"]');
   const reportCard = protection.locator('[data-nova-d02-action="report"]');
   await expect(freezeCard).toBeVisible();
   await expect(reportCard).toBeVisible();
-  await expect(freezeCard).toContainText('Prototype card state only');
-  await expect(freezeCard).toContainText('Report the transaction, reverse ByteMart, or contact a bank');
-  await expect(reportCard).toContainText('Nothing in account or card state');
-  await expect(reportCard).toContainText('Freeze the card, create a bank case, request a refund, or contact a bank');
+  await expect(freezeCard).toContainText('Pauses new payments in the demo');
+  await expect(freezeCard).toContainText('Reverse this payment or contact your bank');
+  await expect(reportCard).toContainText('Shows the reporting steps');
+  await expect(reportCard).toContainText('Submit a report or freeze your card');
 
-  const freeze = page.getByRole('button', { name: /Freeze card in demo.*no bank contact/i });
-  const reportPreview = page.getByRole('link', { name: /Preview report steps.*no bank case created.*no bank contact/i });
+  const freeze = page.getByRole('button', { name: 'Freeze card' });
+  const reportPreview = page.getByRole('link', { name: 'Preview report' });
   await expect(freeze).toBeVisible();
   await expect(reportPreview).toBeVisible();
   await expect(freeze).toHaveAttribute('aria-describedby', 'nova-d02-freeze-effects');
   await expect(reportPreview).toHaveAttribute('aria-describedby', 'nova-d02-report-effects');
 
   await freeze.click();
-  const freezeDialog = page.getByRole('dialog', { name: /Freeze demo card only.*no bank contact/i });
+  const freezeDialog = page.getByRole('dialog', { name: 'Freeze demo card?' });
   await expect(freezeDialog).toBeVisible();
   await expect(freezeDialog.locator('.nova-d02-dialog-boundary')).toContainText(/DEMO ONLY.*NO BANK CONTACT/i);
   await expect(freezeDialog).toContainText('does not report ByteMart, reverse the payment, or contact a bank');
-  await expect(freezeDialog.getByRole('button', { name: /Freeze demo card only.*no bank contact/i })).toBeVisible();
+  await expect(freezeDialog.getByRole('button', { name: 'Freeze card' })).toBeVisible();
   await freezeDialog.getByRole('button', { name: 'Cancel' }).click();
 
   await reportPreview.click();
   await expect(page).toHaveURL(/screen=report-transaction/);
   await expect(page.locator('.task-panel .nova-d02-boundary')).toContainText(/DEMO ONLY.*NO BANK CONTACT/i);
-  await expect(page.getByRole('heading', { name: 'Preview reporting ByteMart Online' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'ByteMart Online' })).toBeVisible();
   await expect(page.getByText('Nothing has been reported')).toBeVisible();
-  await expect(page.getByText('cannot contact a bank, create a dispute, request a refund, or freeze the card')).toBeVisible();
-  await expect(page.locator('.nova-d02-report-note')).toContainText('Report preview does not freeze the card');
+  await expect(page.getByText('No report or refund request will be submitted')).toBeVisible();
+  await expect(page.locator('.nova-d02-report-note')).toContainText('Your card stays unchanged');
   await expect(page.locator('.review-list')).toContainText('ByteMart Online');
   await expect(page.locator('.review-list')).toContainText('−€189.40');
 
-  await page.getByRole('link', { name: /Preview bank handoff requirements.*no bank contact/i }).click();
+  await page.getByRole('link', { name: 'View next steps' }).click();
   await expect(page).toHaveURL(/screen=report-transaction&state=handoff/);
   await expect(page.locator('.task-panel .nova-d02-boundary')).toContainText(/DEMO RESULT.*NO BANK CASE CREATED/i);
   await expect(page.getByText(/Demo result.*simulated support handoff/i)).toBeVisible();
@@ -81,7 +81,7 @@ test('D-02 truth boundary remains clear and operable at 390px without reviewer t
 
   await expect(page.locator('[data-nova-state-lab-launcher]')).toHaveCount(0);
   await expect(page.locator('.protection-band .nova-d02-status')).toBeVisible();
-  await expect(page.getByRole('link', { name: /Preview report steps.*no bank case created/i })).toBeVisible();
+  await expect(page.getByRole('link', { name: 'Preview report' })).toBeVisible();
   await expect(page.locator('[data-nova-d02-action]')).toHaveCount(2);
 
   const freezeBox = await page.locator('[data-nova-d02-action="freeze"]').boundingBox();
@@ -91,13 +91,13 @@ test('D-02 truth boundary remains clear and operable at 390px without reviewer t
   expect(reportBox.y).toBeGreaterThan(freezeBox.y + freezeBox.height - 2);
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth + 1)).toBe(true);
 
-  await page.getByRole('link', { name: /Preview report steps.*no bank case created/i }).click();
+  await page.getByRole('link', { name: 'Preview report' }).click();
   await expect(page.locator('.task-panel .nova-d02-boundary')).toContainText(/DEMO ONLY.*NO BANK CONTACT/i);
-  await expect(page.getByRole('heading', { name: 'Preview reporting ByteMart Online' })).toBeVisible();
-  await expect(page.getByRole('link', { name: /Preview bank handoff requirements.*no bank contact/i })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'ByteMart Online' })).toBeVisible();
+  await expect(page.getByRole('link', { name: 'View next steps' })).toBeVisible();
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth + 1)).toBe(true);
 
-  await page.getByRole('link', { name: /Preview bank handoff requirements.*no bank contact/i }).click();
+  await page.getByRole('link', { name: 'View next steps' }).click();
   await expect(page.locator('.task-panel .nova-d02-boundary')).toContainText(/DEMO RESULT.*NO BANK CASE CREATED/i);
   await expect(page.getByRole('heading', { name: 'No bank case created' })).toBeVisible();
   await expect(page.getByText('Not requested or promised', { exact: true })).toBeVisible();

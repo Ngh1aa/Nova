@@ -1,13 +1,6 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 8 64 48" role="img" aria-label="Nova">
-  <defs>
-    <linearGradient id="nova-sun" x1="20" y1="20" x2="44" y2="36" gradientUnits="userSpaceOnUse">
-      <stop offset="0" stop-color="#5CC3A0"/>
-      <stop offset=".55" stop-color="#5B9CF0"/>
-      <stop offset="1" stop-color="#8F7FE0"/>
-    </linearGradient>
-  </defs>
-  <path d="M20 36a12 12 0 0 1 24 0Z" fill="url(#nova-sun)"/>
-  <rect x="6" y="40" width="24" height="6" rx="3" fill="#5CC3A0"/>
-  <rect x="33" y="40" width="16" height="6" rx="3" fill="#5B9CF0"/>
-  <rect x="52" y="40" width="6" height="6" rx="3" fill="#8F7FE0"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Nova">
+  <rect width="64" height="64" rx="19" fill="#302B35"/>
+  <path d="M18 45V19" fill="none" stroke="#FFE294" stroke-width="10" stroke-linecap="round"/>
+  <path d="M19 20L45 44" fill="none" stroke="#FFB39D" stroke-width="10" stroke-linecap="round"/>
+  <path d="M46 45V19" fill="none" stroke="#F85ABC" stroke-width="10" stroke-linecap="round"/>
 </svg>

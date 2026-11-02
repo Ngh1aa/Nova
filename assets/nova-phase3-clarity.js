@@ -27,8 +27,8 @@
     });
 
     if (screen === 'home') {
-      const label = document.querySelector('.decision-label') || exactText(document.querySelector('#main') || document, 'Safe to spend');
-      if (label && !/14 days/i.test(label.textContent || '')) label.textContent = 'Safe to spend, next 14 days';
+      const label = document.querySelector('.decision-label,.nova-hero-card .nova-label') || exactText(document.querySelector('#main') || document, 'Safe to spend');
+      if (label && !/14 days/i.test(label.textContent || '')) label.textContent = 'Safe to spend for the next 14 days';
     }
 
     if (['transfer-amount', 'transfer-review', 'biometric-failed', 'offline'].includes(screen)) {
@@ -36,8 +36,8 @@
       const heading = panel?.querySelector(':scope > h2');
       if (heading && !/14 days/i.test(heading.textContent || '')) {
         heading.textContent = screen === 'transfer-amount'
-          ? 'Money after sending in the next 14 days'
-          : 'Safe to spend after transfer · next 14 days';
+          ? 'After this transfer'
+          : 'After this transfer';
       }
     }
   }
@@ -50,7 +50,7 @@
     note.className = 'nova-phase3-decision-note nova-phase3-buffer-note';
     note.dataset.novaPhase3BufferNote = 'true';
     note.setAttribute('role', 'note');
-    note.innerHTML = `<strong>Protected buffer stays reserved</strong>This transfer does not use the ${MONEY.buffer} protected buffer. It remains set aside unless you explicitly change your plan.`;
+    note.innerHTML = `<strong>${MONEY.buffer} buffer protected</strong>It stays separate from this transfer.`;
 
     if (screen === 'transfer-review') {
       const actions = document.querySelector('.task-panel .action-stack');

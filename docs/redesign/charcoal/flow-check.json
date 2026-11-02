@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "layer": "source-static",
+  "errorCount": 0,
+  "warningCount": 0,
+  "flow_status": "UNKNOWN",
+  "results": [
+    {
+      "page": "C:\\Users\\LENOVO\\Documents\\ChatGPT\\nova\\app.html",
+      "mode": "prototype",
+      "static_status": "PASS",
+      "flow_status": "UNKNOWN",
+      "errors": [],
+      "warnings": [],
+      "unknown": [
+        {
+          "rule": "runtime",
+          "status": "UNKNOWN",
+          "line": 1,
+          "message": "HTML nguồn không chứng minh luồng, Back, tổng tiền, đúng đối tượng/vai trò, khôi phục lỗi hoặc navigation động. Chạy Playwright của dự án."
+        }
+      ]
+    }
+  ]
+}

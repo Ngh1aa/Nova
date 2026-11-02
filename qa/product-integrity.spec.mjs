@@ -90,9 +90,9 @@ test('activity search, filters and no-results state change the native ledger', a
   const empty = page.locator('[data-nova-activity-empty]');
   const search = page.getByRole('searchbox', { name: 'Search transactions' });
 
-  await expect(rows).toHaveCount(8);
-  await expect(visibleRows).toHaveCount(8);
-  await expect(summary).toContainText('8 transactions, newest first');
+  await expect(rows).toHaveCount(12);
+  await expect(visibleRows).toHaveCount(6);
+  await expect(summary).toContainText('12 transactions, newest first');
 
   await search.fill('ByteMart');
   await expect(visibleRows).toHaveCount(1);
@@ -106,7 +106,7 @@ test('activity search, filters and no-results state change the native ledger', a
 
   await page.getByRole('button', { name: 'Income', exact: true }).click();
   await expect(visibleRows).toHaveCount(1);
-  await expect(visibleRows.first()).toContainText('Merchant refund');
+  await expect(visibleRows.first()).toContainText('Salary deposit');
 
   await page.getByRole('button', { name: 'Needs review', exact: true }).click();
   await expect(visibleRows).toHaveCount(1);
@@ -125,7 +125,7 @@ test('activity search, filters and no-results state change the native ledger', a
   await empty.getByRole('button', { name: 'Clear search and filters' }).click();
   await expect(search).toHaveValue('');
   await expect(page.getByRole('button', { name: 'All', exact: true })).toHaveAttribute('aria-pressed', 'true');
-  await expect(visibleRows).toHaveCount(8);
+  await expect(visibleRows).toHaveCount(6);
   await expect(empty).toBeHidden();
 });
 

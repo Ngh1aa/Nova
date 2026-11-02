@@ -1,0 +1,292 @@
+[
+  {
+    "route": "home",
+    "width": 390,
+    "violations": []
+  },
+  {
+    "route": "activity",
+    "width": 390,
+    "violations": []
+  },
+  {
+    "route": "cards",
+    "width": 390,
+    "violations": []
+  },
+  {
+    "route": "card-frozen",
+    "width": 390,
+    "violations": []
+  },
+  {
+    "route": "card-controls",
+    "width": 390,
+    "violations": []
+  },
+  {
+    "route": "transfer-recipient",
+    "width": 390,
+    "violations": []
+  },
+  {
+    "route": "transfer-amount",
+    "width": 390,
+    "violations": []
+  },
+  {
+    "route": "transfer-review",
+    "width": 390,
+    "violations": []
+  },
+  {
+    "route": "transfer-success",
+    "width": 390,
+    "violations": []
+  },
+  {
+    "route": "transaction-detail",
+    "width": 390,
+    "violations": []
+  },
+  {
+    "route": "report-transaction",
+    "width": 390,
+    "violations": []
+  },
+  {
+    "route": "savings",
+    "width": 390,
+    "violations": []
+  },
+  {
+    "route": "savings-detail",
+    "width": 390,
+    "violations": []
+  },
+  {
+    "route": "subscriptions",
+    "width": 390,
+    "violations": []
+  },
+  {
+    "route": "notifications",
+    "width": 390,
+    "violations": []
+  },
+  {
+    "route": "security",
+    "width": 390,
+    "violations": []
+  },
+  {
+    "route": "settings",
+    "width": 390,
+    "violations": []
+  },
+  {
+    "route": "onboarding",
+    "width": 390,
+    "violations": []
+  },
+  {
+    "route": "kyc",
+    "width": 390,
+    "violations": []
+  },
+  {
+    "route": "offline",
+    "width": 390,
+    "violations": []
+  },
+  {
+    "route": "biometric-failed",
+    "width": 390,
+    "violations": []
+  },
+  {
+    "route": "error",
+    "width": 390,
+    "violations": []
+  },
+  {
+    "route": "home&state=empty&pin=1",
+    "width": 390,
+    "violations": []
+  },
+  {
+    "route": "home&state=loading&pin=1",
+    "width": 390,
+    "violations": []
+  },
+  {
+    "route": "home&state=edge&pin=1",
+    "width": 390,
+    "violations": []
+  },
+  {
+    "route": "report-transaction&state=handoff",
+    "width": 390,
+    "violations": []
+  },
+  {
+    "route": "kyc&state=failed",
+    "width": 390,
+    "violations": []
+  },
+  {
+    "route": "kyc&state=manual",
+    "width": 390,
+    "violations": []
+  },
+  {
+    "route": "kyc&state=review",
+    "width": 390,
+    "violations": []
+  },
+  {
+    "route": "home",
+    "width": 1440,
+    "violations": []
+  },
+  {
+    "route": "activity",
+    "width": 1440,
+    "violations": []
+  },
+  {
+    "route": "cards",
+    "width": 1440,
+    "violations": []
+  },
+  {
+    "route": "card-frozen",
+    "width": 1440,
+    "violations": []
+  },
+  {
+    "route": "card-controls",
+    "width": 1440,
+    "violations": []
+  },
+  {
+    "route": "transfer-recipient",
+    "width": 1440,
+    "violations": []
+  },
+  {
+    "route": "transfer-amount",
+    "width": 1440,
+    "violations": []
+  },
+  {
+    "route": "transfer-review",
+    "width": 1440,
+    "violations": []
+  },
+  {
+    "route": "transfer-success",
+    "width": 1440,
+    "violations": []
+  },
+  {
+    "route": "transaction-detail",
+    "width": 1440,
+    "violations": []
+  },
+  {
+    "route": "report-transaction",
+    "width": 1440,
+    "violations": []
+  },
+  {
+    "route": "savings",
+    "width": 1440,
+    "violations": []
+  },
+  {
+    "route": "savings-detail",
+    "width": 1440,
+    "violations": []
+  },
+  {
+    "route": "subscriptions",
+    "width": 1440,
+    "violations": []
+  },
+  {
+    "route": "notifications",
+    "width": 1440,
+    "violations": []
+  },
+  {
+    "route": "security",
+    "width": 1440,
+    "violations": []
+  },
+  {
+    "route": "settings",
+    "width": 1440,
+    "violations": []
+  },
+  {
+    "route": "onboarding",
+    "width": 1440,
+    "violations": []
+  },
+  {
+    "route": "kyc",
+    "width": 1440,
+    "violations": []
+  },
+  {
+    "route": "offline",
+    "width": 1440,
+    "violations": []
+  },
+  {
+    "route": "biometric-failed",
+    "width": 1440,
+    "violations": []
+  },
+  {
+    "route": "error",
+    "width": 1440,
+    "violations": []
+  },
+  {
+    "route": "home&state=empty&pin=1",
+    "width": 1440,
+    "violations": []
+  },
+  {
+    "route": "home&state=loading&pin=1",
+    "width": 1440,
+    "violations": []
+  },
+  {
+    "route": "home&state=edge&pin=1",
+    "width": 1440,
+    "violations": []
+  },
+  {
+    "route": "report-transaction&state=handoff",
+    "width": 1440,
+    "violations": []
+  },
+  {
+    "route": "kyc&state=failed",
+    "width": 1440,
+    "violations": []
+  },
+  {
+    "route": "kyc&state=manual",
+    "width": 1440,
+    "violations": []
+  },
+  {
+    "route": "kyc&state=review",
+    "width": 1440,
+    "violations": []
+  }
+]
