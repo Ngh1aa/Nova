@@ -134,11 +134,13 @@ jobs:
           npm test
           npx playwright test tests/home-dashboard.spec.mjs tests/pastel-ux.spec.mjs tests/nova-flow.spec.mjs tests/product-integrity.spec.mjs tests/savings-integrity.spec.mjs tests/passcode-recovery.spec.mjs tests/transfer-impact.spec.mjs tests/recipient-continuity.spec.mjs tests/accessibility-evidence.spec.mjs tests/native-states.spec.mjs tests/runtime-consolidation.spec.mjs tests/foundation-consolidation.spec.mjs tests/report-boundary.spec.mjs tests/direct-user-round01.spec.mjs tests/phase3-clarity.spec.mjs tests/identity-source.spec.mjs tests/status-ledger.spec.mjs tests/decision-tradeoffs.spec.mjs
 
-      - name: Checkout dashboard toolkit (data-visualization-and-dashboard-ux)
+      # The QA harness above stays pinned: uiux-factory no longer exists on the toolkit's main.
+      # The design rules (TASTE + taste-check) follow the toolkit's latest main.
+      - name: Checkout design toolkit (TASTE rules and taste-check)
         uses: actions/checkout@v6
         with:
           repository: Ngh1aa/uiux-ai-workspace
-          ref: be50775661421394285932d14c468a27bf4de08a
+          ref: ddc16cdad8f1e0513b25da9e7d5b730cf8cd3d46
           path: .toolkit
 
       - name: Home passes the dashboard taste check
@@ -157,6 +159,20 @@ jobs:
               if (hits.length) { console.error(hits.join("\n")); process.exit(1); }
               console.log("Dashboard rules clean");' "$RUNNER_TEMP/home-taste.json"
           done
+
+      - name: Every screen passes the strict taste check
+        env:
+          NODE_PATH: ${{ github.workspace }}/.factory/uiux-factory/qa/node_modules
+        run: |
+          routes=()
+          for r in home "home&state=empty&pin=1" "home&state=loading&pin=1" "home&state=edge&pin=1" "home&panel=forecast-error" \
+            error activity transaction-detail report-transaction cards card-controls card-frozen transfer-recipient \
+            transfer-amount transfer-review biometric-failed offline transfer-success settings security onboarding \
+            savings savings-detail subscriptions notifications kyc; do routes+=("app.html?screen=$r"); done
+          node .toolkit/skills_UIUX/ui-craft-and-visual-qa/scripts/taste-check.cjs "${routes[@]}" \
+            --width 390 --width 768 --width 1024 --width 1280 --width 1440 --theme light --layout strict --no-axe \
+            --json "$RUNNER_TEMP/taste-all.json" > "$RUNNER_TEMP/taste-all.txt" || { grep -E "LỖI|lỗi " "$RUNNER_TEMP/taste-all.txt" | head -60; exit 1; }
+          tail -2 "$RUNNER_TEMP/taste-all.txt"
 
       - name: Print target server log on failure
         if: failure()
