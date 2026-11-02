@@ -4,7 +4,8 @@
 .nova-card,.v3-surface,.v4-card,.section,.task-panel,.impact-panel,.evidence-panel,.dossier-hero,
 .activity-header,.document-sheet,.kyc-spine,.card-quick,.recurring-total,.notification-group,
 .protection-band,.nova-native-state-card,.receipt-sheet,.empty-state,.page-grid > section{
-  min-width:0;padding:var(--s-5);border-radius:var(--r-card);background:var(--surface);box-shadow:var(--shadow-card)
+  --fill:#ffffff; /* pills, icon tiles and quiet buttons sit white on the grey card */
+  min-width:0;padding:var(--s-5);border-radius:var(--r-card);background:var(--card)
 }
 @media (min-width:768px){
   .nova-card,.v3-surface,.v4-card,.section,.task-panel,.impact-panel,.evidence-panel,.dossier-hero,
@@ -38,8 +39,8 @@
   transition:background-color .15s ease,transform .15s ease,box-shadow .15s ease
 }
 .btn:active,.v3-primary-action:active,.v4-full-action:active,.decision-action:active{transform:scale(.97)}
-.btn-primary,.btn.primary,.v4-full-action,.v3-pill-btn,.v4-dark-pill,.v3-primary-link,.nova-native-state-actions a.primary{background:var(--accent);color:#fff}
-.btn-primary:hover,.v4-full-action:hover,.v3-pill-btn:hover,.v4-dark-pill:hover,.v3-primary-link:hover,.nova-native-state-actions a.primary:hover{background:var(--accent-hover);color:#fff}
+.btn-primary,.btn.primary,.v4-full-action,.v3-pill-btn,.v4-dark-pill,.v3-primary-link,.nova-native-state-actions a.primary{background:var(--primary);color:#fff}
+.btn-primary:hover,.v4-full-action:hover,.v3-pill-btn:hover,.v4-dark-pill:hover,.v3-primary-link:hover,.nova-native-state-actions a.primary:hover{background:var(--primary-hover);color:#fff}
 .btn-primary:focus-visible,.v3-pill-btn:focus-visible,.v4-dark-pill:focus-visible{color:#fff}
 .btn-secondary,.btn.secondary,.v3-primary-action,.nova-native-state-actions a.secondary{background:var(--accent-soft);color:var(--sky-ink)}
 .btn-secondary:hover,.btn.secondary:hover,.v3-primary-action:hover,.nova-native-state-actions a.secondary:hover{background:#d9e8ff;color:var(--sky-ink)}

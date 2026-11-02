@@ -59,12 +59,12 @@ test('Nova adaptive pastel visual contract holds at portfolio breakpoints', asyn
       await expect(page.locator('.nova-top-tabs')).toBeHidden();
     } else {
       await expect(page.locator('.bottom-nav')).toBeHidden();
-      // v6: one primary navigation per breakpoint. Top tabs only where the rail is hidden.
-      if (width >= 1200) await expect(page.locator('.nova-top-tabs')).toBeHidden();
+      // One primary navigation per breakpoint. Top tabs only where the black sidebar is hidden (768–1023).
+      if (width >= 1024) await expect(page.locator('.nova-top-tabs')).toBeHidden();
       else await expect(page.locator('.nova-top-tabs')).toBeVisible();
     }
 
-    if (width >= 1200) await expect(page.locator('.sidebar')).toBeVisible();
+    if (width >= 1024) await expect(page.locator('.sidebar')).toBeVisible();
 
     const state = await page.evaluate(() => {
       const amount = document.querySelector('.money-amount');
@@ -84,6 +84,7 @@ test('Nova adaptive pastel visual contract holds at portfolio breakpoints', asyn
       const amountStyle = getComputedStyle(amount);
       const bodyStyle = getComputedStyle(document.body);
       const sidebarStyle = getComputedStyle(sidebar);
+      const stageStyle = getComputedStyle(document.querySelector('.app-stage'));
       return {
         overlaps,
         amountRight: amountRect.right,
@@ -91,6 +92,8 @@ test('Nova adaptive pastel visual contract holds at portfolio breakpoints', asyn
         amountFontFamily: amountStyle.fontFamily.toLowerCase(),
         amountNumeric: amountStyle.fontVariantNumeric,
         bodyBackground: bodyStyle.backgroundColor,
+        stageBackground: stageStyle.backgroundColor,
+        stageRadius: parseFloat(stageStyle.borderRadius),
         dockPosition: dockStyle.position,
         dockRadius: parseFloat(dockStyle.borderRadius),
         dockWidth: dockRect.width,
@@ -107,7 +110,10 @@ test('Nova adaptive pastel visual contract holds at portfolio breakpoints', asyn
     expect(state.amountFontFamily).toMatch(/sans-serif|monospace|ui-monospace/);
     expect(state.amountFontFamily).not.toMatch(/source serif|georgia|times new roman|times,/);
     expect(state.amountNumeric).toContain('tabular-nums');
-    expect(state.bodyBackground).toBe('rgb(242, 242, 247)');
+    // 2026-11-02 redesign: content sits in one white rectangle on a soft grey page.
+    expect(state.bodyBackground).toBe('rgb(233, 233, 238)');
+    expect(state.stageBackground).toBe('rgb(255, 255, 255)');
+    expect(state.stageRadius).toBeGreaterThanOrEqual(24);
     expect(state.forecastRadius).toBeGreaterThanOrEqual(20);
 
     if (width < 768) {
@@ -117,11 +123,12 @@ test('Nova adaptive pastel visual contract holds at portfolio breakpoints', asyn
       expect(state.dockWidth).toBeLessThanOrEqual(state.viewportWidth - (width <= 430 ? 16 : 20));
     }
 
-    if (width >= 1200) {
-      expect(state.sidebarBackground).toMatch(/^rgba?\(255, 255, 255/);
+    if (width >= 1024) {
+      expect(state.sidebarBackground).toBe('rgb(17, 19, 23)');
     }
 
-    if (width >= 1024) expect(state.mainWidth).toBeGreaterThan(900);
+    if (width >= 1440) expect(state.mainWidth).toBeGreaterThan(900);
+    else if (width >= 1024) expect(state.mainWidth).toBeGreaterThan(640);
     expect(state.overflow, `Unexpected page overflow at ${width}px`).toBeFalsy();
   }
 });

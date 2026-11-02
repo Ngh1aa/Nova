@@ -10,7 +10,9 @@
 
 :root{
   /* Neutrals: iOS grouped background, white surfaces, ink from the Nova mark */
-  --bg:#f2f2f7;
+  --page:#e9e9ee;      /* outside the content frame */
+  --bg:#ffffff;        /* the content frame */
+  --card:#f5f5f8;      /* neutral card inside the frame */
   --surface:#ffffff;
   --surface-2:#f7f7fa;
   --fill:#f0f1f5;
@@ -35,6 +37,13 @@
   --committed:var(--sky);
   --buffer:var(--lavender);
 
+  /* Black chrome: sidebar, phone tab bar, Home hero, primary buttons */
+  --side:#111317;
+  --side-2:#1d2026;
+  --side-ink-2:rgba(255,255,255,.66);
+  --primary:#111317;
+  --primary-hover:#2a2d34;
+
   /* Actions */
   --accent:#2f5fd0;
   --accent-hover:#2650b5;
@@ -42,7 +51,8 @@
   --focus:#2f5fd0;
 
   /* Shape: one radius per surface type */
-  --r-card:22px;
+  --r-frame:28px;
+  --r-card:20px;
   --r-inner:14px;
   --r-icon:12px;
   --r-pill:999px;
@@ -72,7 +82,7 @@
 
 *,*::before,*::after{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%;text-size-adjust:100%;scroll-padding-top:96px}
-body{margin:0;min-height:100vh;background:var(--bg);color:var(--ink);font-family:var(--font);font-size:var(--t-body);line-height:1.5;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+body{margin:0;min-height:100vh;background:var(--page);color:var(--ink);font-family:var(--font);font-size:var(--t-body);line-height:1.5;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
 body.product-body [hidden]{display:none!important}
 img,svg{display:block;max-width:100%}
 h1,h2,h3,h4,p,dl,dd,ol,ul,figure{margin:0}

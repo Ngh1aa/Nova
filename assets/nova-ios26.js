@@ -51,7 +51,6 @@
     const cfg = META[screen] || {};
     const isRoot = ['home', 'activity', 'cards', 'card-frozen', 'savings'].includes(screen);
     const title = currentTitle();
-    const caption = cfg.caption || (isRoot ? 'Prototype data · Simulated banking' : 'Prototype data · Simulated banking');
 
     const nav = document.createElement('header');
     nav.className = 'ios26-nav';
@@ -68,7 +67,7 @@
             ${isRoot ? `<a class="ios26-icon-btn" href="app.html?screen=notifications" aria-label="Notifications">${svg('bell')}</a><a class="ios26-icon-btn" href="app.html?screen=security" aria-label="Security and profile">${svg('user')}</a>` : ''}
           </div>
         </div>
-        <div class="ios26-nav-title"><h1>${title}</h1>${caption ? `<p>${caption}</p>` : ''}</div>
+        <div class="ios26-nav-title"><h1>${title}</h1></div>
       </div>`;
 
     stage.insertBefore(nav, stage.firstChild);
