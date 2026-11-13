@@ -57,7 +57,7 @@
     const cfg = META[screen] || {};
     const isRoot = ['home', 'activity', 'cards', 'card-frozen', 'savings'].includes(screen);
     const title = currentTitle();
-    const caption = cfg.caption || (isRoot ? 'Prototype data · Simulated banking' : 'Prototype data · Simulated banking');
+    const caption = cfg.caption || 'Personal account';
 
     const nav = document.createElement('header');
     nav.className = 'ios26-nav';

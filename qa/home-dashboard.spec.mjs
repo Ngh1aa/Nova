@@ -11,7 +11,7 @@ test('unusual transaction stays actionable at desktop, tablet and phone sizes',a
 });
 test('forecast values come from planned payments, with a text alternative',async({page})=>{
  await page.goto('/app.html?screen=home');await expect(page.locator('.nova-forecast-total')).toContainText('€1,800.00');
- await expect(page.getByRole('table',{name:'Demo balance forecast, based on known payments'})).toContainText('30 Sep€1,800.00');
+ await expect(page.getByRole('table',{name:'Balance forecast, based on known payments'})).toContainText('30 Sep€1,800.00');
 });
 test('a failed forecast keeps balances and payments usable and retries in place',async({page})=>{
  await page.goto('/app.html?screen=home&panel=forecast-error');

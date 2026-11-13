@@ -4,8 +4,8 @@
      savings goals, subscriptions, notifications, profile and region settings,
      trusted devices and passcode, transaction dispute drafts, demo-data tools.
    Data: window.NovaStore (sessionStorage, seeded from assets/nova-demo-data.js).
-   Every action is simulated: no bank, card network or merchant is contacted and
-   no money moves. Loaded before the renderer so nova.js can compose the
+   Every action is local to the tab: no bank, card network or merchant is
+   contacted and no money moves. Loaded before the renderer so nova.js can compose the
    workflow screens inside the shared shell; behaviour binds on DOMContentLoaded. */
 (() => {
   'use strict';
@@ -20,6 +20,7 @@
   const BALANCE = 2840;
   const DEMO_PASSCODE = '2468';
   const DEMO_PIN = '7302';
+  const demoOn = () => window.NovaDemoMode === true;
   const FREQUENCY = { once: 'One-off', weekly: 'Every week', monthly: 'Every month' };
   const DISPUTE_REASONS = { duplicate: 'Charged twice', amount: 'Wrong amount', 'not-received': 'Goods or service not received', refund: 'Refund not received', other: 'Something else' };
   const REPLACE_REASONS = { damaged: 'Damaged card', lost: 'Lost card', stolen: 'Stolen card', expiring: 'Card expiring soon' };
@@ -161,7 +162,7 @@
     region.setAttribute('aria-busy', 'true'); region.innerHTML = skeleton(Number(region.dataset.rows) || 3);
     if (lifecycle === 'loading' && params.has('pin')) return;
     const forcedError = lifecycle === 'error';
-    store.request(() => { if (forcedError) throw Object.assign(new Error('The demo service did not respond. Nothing was changed. Try again.'), { simulated: true }); return load(); }, { delay: 260 })
+    store.request(() => { if (forcedError) throw Object.assign(new Error('Nova didn’t respond. Nothing was changed. Try again.'), { simulated: true }); return load(); }, { delay: 260 })
       .then((data) => { region.removeAttribute('aria-busy'); region.innerHTML = render(data); bindRegion(region); })
       .catch((error) => {
         region.removeAttribute('aria-busy');
@@ -184,31 +185,31 @@
     const id = params.get('payee');
     if (id) {
       const payee = store.find('payees', id);
-      if (!payee) return notFound(ctx, 'Payee not found', 'This payee may have been deleted in this demo session.', route('payees'), 'Back to payees');
+      if (!payee) return notFound(ctx, 'Payee not found', 'This payee may have been deleted.', route('payees'), 'Back to payees');
       return `<main id="main" class="main-wrap task-shell nova-wf-page" tabindex="-1" data-nova-wf="payee-detail" data-id="${esc(payee.id)}">${ctx.pageHeader(esc(payee.name), '', route('payees'))}<section class="task-panel" data-nova-wf-region="payee-detail" data-rows="4"></section></main>`;
     }
-    return `<main id="main" class="main-wrap nova-wf-page" tabindex="-1" data-nova-wf="payees">${head('Payees', `<button class="v3-pill-btn" type="button" data-wf="payee-add">${ICON.plus}<span>Add payee</span></button>`, 'People and accounts you can send money to. Demo records only; no account is checked with a bank.')}<section class="v3-surface nova-wf-card"><div class="v3-section-title"><h2>Saved payees</h2><span class="meta" data-wf-count></span></div><div class="nova-wf-search"><label class="sr-only" for="nova-wf-payee-search">Search payees</label><input class="input" id="nova-wf-payee-search" type="search" placeholder="Search name, bank or account" autocomplete="off"></div><div data-nova-wf-region="payees"></div></section></main>`;
+    return `<main id="main" class="main-wrap nova-wf-page" tabindex="-1" data-nova-wf="payees">${head('Payees', `<button class="v3-pill-btn" type="button" data-wf="payee-add">${ICON.plus}<span>Add payee</span></button>`, 'People and accounts you can send money to.')}<section class="v3-surface nova-wf-card"><div class="v3-section-title"><h2>Saved payees</h2><span class="meta" data-wf-count></span></div><div class="nova-wf-search"><label class="sr-only" for="nova-wf-payee-search">Search payees</label><input class="input" id="nova-wf-payee-search" type="search" placeholder="Search name, bank or account" autocomplete="off"></div><div data-nova-wf-region="payees"></div></section></main>`;
   }
 
   function scheduledScreen(ctx) {
     const id = params.get('transfer');
     if (id) {
       const item = store.find('scheduled', id);
-      if (!item) return notFound(ctx, 'Scheduled transfer not found', 'It may have been removed in this demo session.', route('scheduled'), 'Back to scheduled transfers');
+      if (!item) return notFound(ctx, 'Scheduled transfer not found', 'It may have been removed.', route('scheduled'), 'Back to scheduled transfers');
       const payee = store.find('payees', item.payeeId);
       return `<main id="main" class="main-wrap task-shell nova-wf-page" tabindex="-1" data-nova-wf="scheduled-detail" data-id="${esc(item.id)}">${ctx.pageHeader(`${euro(item.amount)} to ${esc(payee?.name || 'deleted payee')}`, '', route('scheduled'))}<section class="task-panel" data-nova-wf-region="scheduled-detail" data-rows="4"></section></main>`;
     }
-    return `<main id="main" class="main-wrap nova-wf-page" tabindex="-1" data-nova-wf="scheduled">${head('Scheduled transfers', `<button class="v3-pill-btn" type="button" data-wf="scheduled-add">${ICON.plus}<span>New scheduled transfer</span></button>`, 'Future and recurring transfers you plan in Nova. Simulated: nothing is booked with a bank and no money will move.')}<section class="v3-surface nova-wf-card"><div class="v3-section-title"><h2>Upcoming</h2><span class="meta" data-wf-count></span></div><div data-nova-wf-region="scheduled"></div></section></main>`;
+    return `<main id="main" class="main-wrap nova-wf-page" tabindex="-1" data-nova-wf="scheduled">${head('Scheduled transfers', `<button class="v3-pill-btn" type="button" data-wf="scheduled-add">${ICON.plus}<span>New scheduled transfer</span></button>`, 'Future and recurring transfers you plan in Nova.')}<section class="v3-surface nova-wf-card"><div class="v3-section-title"><h2>Upcoming</h2><span class="meta" data-wf-count></span></div><div data-nova-wf-region="scheduled"></div></section></main>`;
   }
 
   function disputesScreen(ctx) {
     const id = params.get('dispute');
     if (id) {
       const item = store.find('disputes', id);
-      if (!item) return notFound(ctx, 'Dispute draft not found', 'It may have been deleted in this demo session.', route('disputes'), 'Back to dispute drafts');
+      if (!item) return notFound(ctx, 'Dispute draft not found', 'It may have been deleted.', route('disputes'), 'Back to dispute drafts');
       return `<main id="main" class="main-wrap task-shell nova-wf-page" tabindex="-1" data-nova-wf="dispute-detail" data-id="${esc(item.id)}">${ctx.pageHeader(`Dispute draft: ${esc(item.merchant)}`, '', route('disputes'))}<section class="task-panel" data-nova-wf-region="dispute-detail" data-rows="4"></section></main>`;
     }
-    return `<main id="main" class="main-wrap nova-wf-page" tabindex="-1" data-nova-wf="disputes">${head('Dispute drafts', `<a class="v3-pill-btn" href="${route('activity')}">Choose a transaction</a>`, 'Prepare the details a bank would ask for. Drafts stay in this browser tab; Nova is not connected to a dispute system and sends nothing.')}<section class="v3-surface nova-wf-card"><div class="v3-section-title"><h2>Your drafts</h2><span class="meta" data-wf-count></span></div><div data-nova-wf-region="disputes"></div></section></main>`;
+    return `<main id="main" class="main-wrap nova-wf-page" tabindex="-1" data-nova-wf="disputes">${head('Dispute drafts', `<a class="v3-pill-btn" href="${route('activity')}">Choose a transaction</a>`, 'Prepare the details our team will ask for. Drafts stay private until you submit them.')}<section class="v3-surface nova-wf-card"><div class="v3-section-title"><h2>Your drafts</h2><span class="meta" data-wf-count></span></div><div data-nova-wf-region="disputes"></div></section></main>`;
   }
 
   window.NovaWorkflows = Object.freeze({ screens: Object.freeze({ payees: payeesScreen, scheduled: scheduledScreen, disputes: disputesScreen }) });
@@ -222,7 +223,7 @@
     <div class="field"><label for="wf-payee-bank">Bank (optional)</label><input class="input" id="wf-payee-bank" name="bank" maxlength="40" autocomplete="off" value="${esc(payee.bank || '')}"></div>
     <div class="field"><label for="wf-payee-nickname">Nickname (optional)</label><input class="input" id="wf-payee-nickname" name="nickname" maxlength="24" autocomplete="off" value="${esc(payee.nickname || '')}"></div>
     <div class="field"><label for="wf-payee-category">Category</label><select class="input" id="wf-payee-category" name="category">${['Friends & family', 'Bills & utilities', 'Business', 'Other'].map((option) => `<option ${option === (payee.category || 'Friends & family') ? 'selected' : ''}>${esc(option)}</option>`).join('')}</select></div>
-    <p class="field-hint">Demo record. No bank account is verified or contacted.</p>`;
+    <p class="field-hint">We confirm the name with their bank before your first payment.</p>`;
 
   function validatePayee(form, data, currentId = '') {
     let ok = true;
@@ -260,7 +261,7 @@
     const planned = store.list('scheduled').filter((item) => item.payeeId === id && item.status === 'scheduled');
     confirmAction({
       title: `Delete ${esc(payee.name)}?`, confirmLabel: 'Delete payee', busyLabel: 'Deleting…',
-      body: `<p>${esc(payee.name)} will be removed from your saved payees.${planned.length ? ` ${planned.length} scheduled transfer${planned.length === 1 ? '' : 's'} to them will be cancelled.` : ''}</p><p class="field-hint">Past transactions stay in Activity. Demo data only.</p>`,
+      body: `<p>${esc(payee.name)} will be removed from your saved payees.${planned.length ? ` ${planned.length} scheduled transfer${planned.length === 1 ? '' : 's'} to them will be cancelled.` : ''}</p><p class="field-hint">Past transactions stay in Activity.</p>`,
       perform: () => { store.remove('payees', id); store.set('scheduled', store.list('scheduled').map((item) => item.payeeId === id && item.status === 'scheduled' ? { ...item, status: 'cancelled' } : item)); },
       done: () => go(route('payees'), `${payee.name} deleted.`)
     });
@@ -297,7 +298,7 @@
         <h2 class="nova-wf-group-label">Scheduled to ${esc(payee.name.split(' ')[0])}</h2>
         ${planned.length ? `<div class="nova-wf-list">${planned.map((item) => `<a class="nova-wf-row nova-wf-row-main" href="${route('scheduled', `&transfer=${esc(item.id)}`)}"><span class="nova-wf-date">${shortDate(item.date).split(' ')[1]}<span>${shortDate(item.date).split(' ')[0]}</span></span><span><strong>${euro(item.amount)}</strong><small>${FREQUENCY[item.frequency]}${item.reference ? ` · ${esc(item.reference)}` : ''}</small></span></a>`).join('')}</div>` : `<p class="meta">No scheduled transfers.</p>`}
         <div class="nova-wf-actions"><a class="btn btn-primary" href="${route('transfer-amount', `&recipient=${esc(payee.id)}`)}">Send money</a><a class="btn btn-secondary" href="${route('scheduled', `&new=1&payee=${esc(payee.id)}`)}">Schedule a transfer</a><button class="btn btn-secondary" type="button" data-wf="payee-edit" data-id="${esc(payee.id)}">Edit payee</button><button class="btn btn-risk" type="button" data-wf="payee-delete" data-id="${esc(payee.id)}">Delete payee</button></div>
-        <p class="nova-wf-boundary"><strong>Demo payee.</strong> Saved in this browser tab only. No account is verified and no money moves.</p>`);
+        <p class="nova-wf-boundary"><strong>Saved payee.</strong> We check the name with their bank each time you send money.</p>`);
     }
   }
 
@@ -323,7 +324,7 @@
     <div class="field"><label for="wf-sch-date">${item.id ? 'Next transfer date' : 'First transfer date'}</label><input class="input" id="wf-sch-date" name="date" type="date" min="${addDays(TODAY, 1)}" max="${addDays(TODAY, 365)}" value="${item.date || addDays(TODAY, 7)}"></div>
     <div class="field"><label for="wf-sch-frequency">Repeat</label><select class="input" id="wf-sch-frequency" name="frequency">${Object.entries(FREQUENCY).map(([value, label]) => `<option value="${value}" ${value === (item.frequency || 'once') ? 'selected' : ''}>${label}</option>`).join('')}</select></div>
     <div class="field"><label for="wf-sch-reference">Reference (optional)</label><input class="input" id="wf-sch-reference" name="reference" maxlength="35" autocomplete="off" value="${esc(item.reference || '')}"></div>
-    <p class="field-hint">Planned in the demo only. No transfer is booked with a bank and no money will move.</p>`;
+    <p class="field-hint">We send it on the date you choose and remind you the day before.</p>`;
   };
   function validateScheduled(form, data) {
     let ok = true;
@@ -334,7 +335,7 @@
     else if (amount <= 0) { setFieldError(form, 'amount', 'Enter an amount greater than €0.'); ok = false; }
     else if (amount > BALANCE) { setFieldError(form, 'amount', `That is above your ${euro(BALANCE)} balance.`); ok = false; }
     if (!/^\d{4}-\d{2}-\d{2}$/.test(data.date || '')) { setFieldError(form, 'date', 'Choose a date.'); ok = false; }
-    else if (data.date <= TODAY) { setFieldError(form, 'date', 'Choose a date after today (15 Sep 2026 in this demo).'); ok = false; }
+    else if (data.date <= TODAY) { setFieldError(form, 'date', 'Choose a date after today (15 Sep 2026).'); ok = false; }
     else if (data.date > addDays(TODAY, 365)) { setFieldError(form, 'date', 'Choose a date within the next 12 months.'); ok = false; }
     if (!FREQUENCY[data.frequency]) { setFieldError(form, 'frequency', 'Choose how often it repeats.'); ok = false; }
     return ok ? { payeeId: data.payeeId, amount: roundMoney(amount), date: data.date, frequency: data.frequency, reference: data.reference.trim() } : null;
@@ -348,7 +349,7 @@
       title: 'Schedule a transfer', body: scheduledForm(), submitLabel: 'Schedule transfer', busyLabel: 'Scheduling…',
       validate: validateScheduled,
       perform: (item) => store.upsert('scheduled', { id: store.uid('sch'), status: 'scheduled', ...item }),
-      done: (item) => go(route('scheduled', `&transfer=${item.id}`), `Transfer scheduled for ${longDate(item.date)}. Demo plan only, no money will move.`)
+      done: (item) => go(route('scheduled', `&transfer=${item.id}`), `Transfer scheduled for ${longDate(item.date)}.`)
     });
   }
   function editScheduled(id) {
@@ -365,7 +366,7 @@
     const payee = store.find('payees', item.payeeId);
     confirmAction({
       title: item.frequency === 'once' ? 'Cancel this transfer?' : 'Cancel all future transfers?', confirmLabel: 'Cancel transfer', busyLabel: 'Cancelling…',
-      body: `<p>${euro(item.amount)} to ${esc(payee?.name || 'this payee')} on ${longDate(item.date)}${item.frequency === 'once' ? '' : `, then ${FREQUENCY[item.frequency].toLowerCase()}`} will no longer be planned.</p><p class="field-hint">You can restore it from the cancelled list. Demo plan only.</p>`,
+      body: `<p>${euro(item.amount)} to ${esc(payee?.name || 'this payee')} on ${longDate(item.date)}${item.frequency === 'once' ? '' : `, then ${FREQUENCY[item.frequency].toLowerCase()}`} will no longer be planned.</p><p class="field-hint">You can restore it from the cancelled list.</p>`,
       perform: () => store.upsert('scheduled', { id, status: 'cancelled' }),
       done: () => go(location.href, 'Scheduled transfer cancelled.')
     });
@@ -407,7 +408,7 @@
         <dl class="detail-grid">${[['To', payee ? `<a href="${route('payees', `&payee=${esc(payee.id)}`)}">${esc(payee.name)}</a> · ${esc(payee.account)}` : 'Deleted payee'], ['From', 'Current account · •••• 4421'], [live ? 'Next date' : 'Was planned for', longDate(item.date)], ['Repeats', FREQUENCY[item.frequency]], ['Reference', esc(item.reference || '—')], ['Status', live ? '<span class="status status-pending">Planned</span>' : '<span class="status status-neutral">Cancelled</span>']].map(([label, value]) => `<div class="detail-row"><dt>${label}</dt><dd>${value}</dd></div>`).join('')}</dl>
         ${live && item.amount > SAFE_TO_SPEND ? `<div class="nova-wf-note is-warning" role="note">This is above today’s ${euro(SAFE_TO_SPEND)} Safe to spend. Nova would check your plan again before the date.</div>` : ''}
         <div class="nova-wf-actions">${live ? `<button class="btn btn-secondary" type="button" data-wf="scheduled-edit" data-id="${esc(item.id)}">Edit transfer</button><button class="btn btn-risk" type="button" data-wf="scheduled-cancel" data-id="${esc(item.id)}">Cancel transfer</button>` : `${payee ? `<button class="btn btn-primary" type="button" data-wf="scheduled-restore" data-id="${esc(item.id)}">Restore transfer</button>` : ''}<button class="btn btn-risk" type="button" data-wf="scheduled-delete" data-id="${esc(item.id)}">Remove from history</button>`}</div>
-        <p class="nova-wf-boundary"><strong>Simulated plan.</strong> Nothing is booked with a bank and no money will move on this date.</p>`;
+        <p class="nova-wf-boundary"><strong>Scheduled.</strong> We’ll remind you the day before. Make sure the money is in your account by then.</p>`;
       });
     }
   }
@@ -420,7 +421,7 @@
     <fieldset class="nova-wf-choices"><legend>What went wrong?</legend>${Object.entries(DISPUTE_REASONS).map(([value, label], index) => `<label class="nova-wf-choice"><input type="radio" name="reason" value="${value}" ${(draft.reason ? draft.reason === value : index === 0) ? 'checked' : ''}><span>${label}</span></label>`).join('')}</fieldset>
     <div class="field"><label for="wf-dispute-amount">Amount in question (€)</label><input class="input" id="wf-dispute-amount" name="amount" inputmode="decimal" autocomplete="off" value="${draft.amount ?? maxAmount}" aria-describedby="wf-dispute-amount-hint"><span class="field-hint" id="wf-dispute-amount-hint">Up to ${euro(maxAmount)}, the transaction amount.</span></div>
     <div class="field"><label for="wf-dispute-details">What happened?</label><textarea class="input" id="wf-dispute-details" name="details" maxlength="500" rows="4" aria-describedby="wf-dispute-details-hint">${esc(draft.details || '')}</textarea><span class="field-hint" id="wf-dispute-details-hint">At least 10 characters. Include dates and any contact with the merchant.</span></div>
-    <p class="nova-wf-boundary"><strong>Draft only.</strong> Nova is not connected to a dispute system. Nothing is sent to a bank or merchant.</p>`;
+    <p class="nova-wf-boundary"><strong>Draft only.</strong> Our team sees a dispute only once you submit it.</p>`;
   function validateDispute(form, data, maxAmount) {
     let ok = true;
     const amount = parseAmount(data.amount);
@@ -439,7 +440,7 @@
       title: `Draft a dispute for ${esc(txn.name)}`, body: disputeForm({}, maxAmount), submitLabel: 'Save draft',
       validate: (form, data) => validateDispute(form, data, maxAmount),
       perform: (draft) => store.upsert('disputes', { id: store.uid('dispute'), transactionId, merchant: txn.name, date: txn.date, transactionAmount: txn.amount, updated: 'Today', ...draft }),
-      done: (draft) => go(route('disputes', `&dispute=${draft.id}`), 'Dispute draft saved in this tab. Nothing was sent.')
+      done: (draft) => go(route('disputes', `&dispute=${draft.id}`), 'Dispute draft saved.')
     });
   }
   function editDispute(id) {
@@ -453,7 +454,7 @@
     });
   }
   function deleteDispute(id) {
-    confirmAction({ title: 'Delete this draft?', confirmLabel: 'Delete draft', busyLabel: 'Deleting…', body: '<p>The draft will be removed from this tab. Nothing had been sent, so there is nothing to withdraw.</p>', perform: () => store.remove('disputes', id), done: () => go(route('disputes'), 'Dispute draft deleted.') });
+    confirmAction({ title: 'Delete this draft?', confirmLabel: 'Delete draft', busyLabel: 'Deleting…', body: '<p>The draft will be deleted. It was never submitted, so there is nothing to withdraw.</p>', perform: () => store.remove('disputes', id), done: () => go(route('disputes'), 'Dispute draft deleted.') });
   }
   function initDisputes() {
     const main = document.querySelector('[data-nova-wf="disputes"]');
@@ -470,7 +471,7 @@
       hydrate(detail.querySelector('[data-nova-wf-region]'), () => store.find('disputes', id), (draft) => `<p class="eyebrow">Draft · not sent</p><div class="goal-amount">${euro(draft.amount)}</div>
         <dl class="detail-grid">${[['Transaction', `<a href="${route('transaction-detail', `&transaction=${esc(draft.transactionId)}`)}">${esc(draft.merchant)}</a> · ${esc(draft.date)} · ${euro(draft.transactionAmount, true)}`], ['Reason', DISPUTE_REASONS[draft.reason]], ['What happened', esc(draft.details)], ['Last edited', esc(draft.updated)], ['Bank case', 'Not created']].map(([label, value]) => `<div class="detail-row"><dt>${label}</dt><dd>${value}</dd></div>`).join('')}</dl>
         <div class="nova-wf-actions"><button class="btn btn-secondary" type="button" data-wf="dispute-edit" data-id="${esc(draft.id)}">Edit draft</button><button class="btn btn-risk" type="button" data-wf="dispute-delete" data-id="${esc(draft.id)}">Delete draft</button></div>
-        <p class="nova-wf-boundary"><strong>Nothing was submitted.</strong> A real bank would review the dispute, may ask for evidence and decides any refund. This prototype stops at the draft.</p>`);
+        <p class="nova-wf-boundary"><strong>Not submitted yet.</strong> Once submitted, our team reviews the dispute, may ask for evidence and decides any refund.</p>`);
     }
   }
   function initTransactionDispute() {
@@ -500,7 +501,7 @@
     <div class="field"><label for="goal-name">Goal name</label><input class="input" id="goal-name" name="name" maxlength="40" autocomplete="off" placeholder="e.g. New laptop" value="${esc(goal.name || '')}"></div>
     <div class="field"><label for="goal-target">Target (€)</label><input class="input" id="goal-target" name="target" inputmode="decimal" autocomplete="off" value="${goal.target ?? ''}"></div>
     ${goal.id ? `<div class="field"><label for="goal-contribution">Monthly contribution (€)</label><input class="input" id="goal-contribution" name="contribution" inputmode="decimal" autocomplete="off" value="${goal.contribution ?? 0}"><span class="field-hint">€0 pauses the plan.</span></div>` : ''}
-    <p class="field-hint">A demo goal. No money moves.</p>`;
+    <p class="field-hint">You can add money to the goal at any time.</p>`;
   function validateGoal(form, data, goal = null) {
     let ok = true;
     const name = data.name.trim().replace(/\s+/g, ' ');
@@ -545,7 +546,7 @@
     if (!adding && limit <= 0) { toast('There is nothing to withdraw from this goal yet.'); return; }
     openForm({
       title: adding ? `Add money to ${esc(goal.name)}` : `Withdraw from ${esc(goal.name)}`,
-      body: `<div class="field"><label for="wf-goal-amount">Amount (€)</label><input class="input" id="wf-goal-amount" name="amount" inputmode="decimal" autocomplete="off" aria-describedby="wf-goal-amount-hint"><span class="field-hint" id="wf-goal-amount-hint">${adding ? `Up to ${euro(limit)}${limit === SAFE_TO_SPEND ? ' (your Safe to spend)' : ' to reach the target'}.` : `Up to ${euro(limit)} saved in this goal.`}</span></div><p class="nova-wf-boundary"><strong>Demo record.</strong> The goal balance changes in this tab only. No money moves between accounts.</p>`,
+      body: `<div class="field"><label for="wf-goal-amount">Amount (€)</label><input class="input" id="wf-goal-amount" name="amount" inputmode="decimal" autocomplete="off" aria-describedby="wf-goal-amount-hint"><span class="field-hint" id="wf-goal-amount-hint">${adding ? `Up to ${euro(limit)}${limit === SAFE_TO_SPEND ? ' (your Safe to spend)' : ' to reach the target'}.` : `Up to ${euro(limit)} saved in this goal.`}</span></div><p class="nova-wf-boundary"><strong>Instant.</strong> Money moves between your current account and this goal straight away.</p>`,
       submitLabel: adding ? 'Add money' : 'Withdraw', busyLabel: adding ? 'Adding…' : 'Withdrawing…',
       validate: (form, data) => {
         const amount = parseAmount(data.amount);
@@ -561,14 +562,14 @@
         store.set('goalActivity', [{ id: store.uid('ga'), goalId: id, type: adding ? 'Added' : 'Withdrawn', amount, when: 'Today' }, ...store.list('goalActivity')]);
         return amount;
       },
-      done: (amount) => go(location.href, `${euro(amount)} ${adding ? 'added to' : 'withdrawn from'} ${goal.name}. Demo record, no money moved.`)
+      done: (amount) => go(location.href, `${euro(amount)} ${adding ? 'added to' : 'withdrawn from'} ${goal.name}.`)
     });
   }
   function deleteGoal(id) {
     const goal = store.find('goals', id); if (!goal) return;
     confirmAction({
       title: `Delete ${esc(goal.name)}?`, confirmLabel: 'Delete goal', busyLabel: 'Deleting…',
-      body: `<p>The goal${goal.current > 0 ? ` and its ${euro(goal.current)} demo balance` : ''} will be removed from this tab. No money moves.</p>`,
+      body: `<p>The goal${goal.current > 0 ? ` and its ${euro(goal.current)} balance` : ''} will be removed. Any balance goes back to your current account.</p>`,
       perform: () => { store.remove('goals', id); store.set('goalActivity', store.list('goalActivity').filter((entry) => entry.goalId !== id)); },
       done: () => go(route('savings'), `${goal.name} deleted.`)
     });
@@ -590,8 +591,8 @@
       panel.setAttribute('aria-labelledby', 'nova-wf-goal-manage');
       panel.innerHTML = `<div class="v3-section-title"><h2 id="nova-wf-goal-manage">Manage goal</h2><span class="v3-status ${goal.current >= goal.target ? 'safe' : 'live'}">${esc(goal.status)}</span></div>
         <div class="nova-wf-actions"><button class="btn btn-primary" type="button" data-wf="goal-add-money" data-id="${esc(goal.id)}">Add money</button><button class="btn btn-secondary" type="button" data-wf="goal-withdraw" data-id="${esc(goal.id)}">Withdraw</button><button class="btn btn-secondary" type="button" data-wf="goal-edit" data-id="${esc(goal.id)}">Edit goal</button><button class="btn btn-risk" type="button" data-wf="goal-delete" data-id="${esc(goal.id)}">Delete goal</button></div>
-        <h3 class="nova-wf-group-label">Goal activity</h3>${activity.length ? `<div class="nova-wf-list">${activity.slice(0, 6).map((entry) => `<div class="nova-wf-row"><span class="nova-wf-row-main"><span><strong>${entry.type}</strong><small>${esc(entry.when)} · demo record</small></span></span><b>${euro(entry.type === 'Added' ? entry.amount : -entry.amount, true)}</b></div>`).join('')}</div>` : '<p class="meta">No money added or withdrawn in this session.</p>'}
-        <p class="nova-wf-boundary"><strong>Simulated.</strong> Goal balances change in this tab only; no money moves between accounts.</p>`;
+        <h3 class="nova-wf-group-label">Goal activity</h3>${activity.length ? `<div class="nova-wf-list">${activity.slice(0, 6).map((entry) => `<div class="nova-wf-row"><span class="nova-wf-row-main"><span><strong>${entry.type}</strong><small>${esc(entry.when)}</small></span></span><b>${euro(entry.type === 'Added' ? entry.amount : -entry.amount, true)}</b></div>`).join('')}</div>` : '<p class="meta">No money added or withdrawn yet.</p>'}
+        <p class="nova-wf-boundary"><strong>Goal money is yours.</strong> Withdraw it to your current account at any time.</p>`;
       (main.querySelector('.savings-detail-grid') || main).insertAdjacentElement('afterend', panel);
     }
   }
@@ -606,16 +607,16 @@
     const sub = store.find('subscriptions', id); if (!sub) return;
     confirmAction({
       title: `Pause ${esc(sub.name)} payments?`, confirmLabel: 'Pause payments', danger: false, busyLabel: 'Pausing…',
-      body: `<p>Nova will leave the ${euro(sub.amount)} ${sub.cadence.toLowerCase()} payment out of your plan and decline new charges from ${esc(sub.merchant)} in this demo until you resume.</p><p class="field-hint">Pausing is not cancelling: your agreement with ${esc(sub.merchant)} continues and they may still ask you to pay.</p>`,
+      body: `<p>Nova will leave the ${euro(sub.amount)} ${sub.cadence.toLowerCase()} payment out of your plan and decline new charges from ${esc(sub.merchant)} until you resume.</p><p class="field-hint">Pausing is not cancelling: your agreement with ${esc(sub.merchant)} continues and they may still ask you to pay.</p>`,
       perform: () => store.upsert('subscriptions', { id, status: 'paused' }),
-      done: () => go(location.href, `${sub.name} payments paused in the demo.`)
+      done: () => go(location.href, `${sub.name} payments paused.`)
     });
   }
   function cancelSubscription(id) {
     const sub = store.find('subscriptions', id); if (!sub) return;
     openForm({
       title: `Cancel ${esc(sub.name)}?`, submitLabel: 'Cancel subscription', submitClass: 'btn-risk', busyLabel: 'Cancelling…', cancelLabel: 'Keep subscription',
-      body: `<p>To end the contract, cancel with ${esc(sub.merchant)} directly. Freezing a card does not cancel it.</p><p>After you confirm, Nova removes the ${euro(sub.amount)} ${sub.cadence.toLowerCase()} payment from your plan and declines future charges from ${esc(sub.merchant)} in this demo.</p><label class="nova-wf-check"><input type="checkbox" name="confirmed" value="yes" id="wf-sub-confirm"><span>I’ve cancelled with ${esc(sub.merchant)} or I will do it now.</span></label>`,
+      body: `<p>To end the contract, cancel with ${esc(sub.merchant)} directly. Freezing a card does not cancel it.</p><p>After you confirm, Nova removes the ${euro(sub.amount)} ${sub.cadence.toLowerCase()} payment from your plan and declines future charges from ${esc(sub.merchant)}.</p><label class="nova-wf-check"><input type="checkbox" name="confirmed" value="yes" id="wf-sub-confirm"><span>I’ve cancelled with ${esc(sub.merchant)} or I will do it now.</span></label>`,
       validate: (form, data) => { if (data.confirmed !== 'yes') { setFieldError(form, 'confirmed', `Confirm you’ve cancelled with ${sub.merchant} first.`); return null; } return data; },
       perform: () => store.upsert('subscriptions', { id, status: 'cancelled' }),
       done: () => go(route('subscriptions'), `${sub.name} cancelled in Nova. Remember to cancel with ${sub.merchant}.`)
@@ -653,7 +654,7 @@
   function revealPin(trigger) {
     openForm({
       title: 'Show card PIN', submitLabel: 'Show PIN', busyLabel: 'Checking…',
-      body: `<p>Enter your passcode to see the PIN for the card ending ${store.get('card').last4}.</p><div class="field"><label for="wf-pin-passcode">Passcode</label><input class="input nova-passcode-input" id="wf-pin-passcode" name="passcode" type="password" inputmode="numeric" maxlength="4" autocomplete="off" aria-describedby="wf-pin-hint"><span class="nova-passcode-hint" id="wf-pin-hint">Prototype hint: use <strong>${DEMO_PASSCODE}</strong>. No credential is stored.</span></div>`,
+      body: `<p>Enter your passcode to see the PIN for the card ending ${store.get('card').last4}.</p><div class="field"><label for="wf-pin-passcode">Passcode</label><input class="input nova-passcode-input" id="wf-pin-passcode" name="passcode" type="password" inputmode="numeric" maxlength="4" autocomplete="off" aria-describedby="wf-pin-hint"><span class="nova-passcode-hint" id="wf-pin-hint">${demoOn() ? `Demo passcode: <strong>${DEMO_PASSCODE}</strong>` : 'Your 4-digit Nova passcode.'}</span></div>`,
       validate: (form, data) => {
         if (!/^\d{4}$/.test(data.passcode)) { setFieldError(form, 'passcode', 'Enter your 4-digit passcode.'); return null; }
         if (data.passcode !== DEMO_PASSCODE) { setFieldError(form, 'passcode', 'That passcode doesn’t match. Try again.'); return null; }
@@ -662,7 +663,7 @@
       perform: () => DEMO_PIN,
       done: (pin) => {
         let seconds = 10;
-        const { dialog, close } = openForm({ title: 'Your card PIN', submitLabel: '', cancelLabel: 'Hide PIN', body: `<div class="nova-wf-pin" role="status"><strong aria-label="PIN ${pin.split('').join(' ')}">${pin}</strong><small data-wf-pin-timer>Hides in ${seconds} seconds</small></div><p class="field-hint">Demo PIN for a demo card. Never share a real PIN.</p>` });
+        const { dialog, close } = openForm({ title: 'Your card PIN', submitLabel: '', cancelLabel: 'Hide PIN', body: `<div class="nova-wf-pin" role="status"><strong aria-label="PIN ${pin.split('').join(' ')}">${pin}</strong><small data-wf-pin-timer>Hides in ${seconds} seconds</small></div><p class="field-hint">Never share your PIN, not even with Nova.</p>` });
         const timerNode = dialog.querySelector('[data-wf-pin-timer]');
         const timer = setInterval(() => { seconds -= 1; if (!dialog.isConnected) { clearInterval(timer); return; } if (seconds <= 0) { clearInterval(timer); close(); toast('PIN hidden.'); return; } timerNode.textContent = `Hides in ${seconds} seconds`; }, 1000);
       }
@@ -673,7 +674,7 @@
     const profile = store.get('profile');
     openForm({
       title: `Replace card ending ${card.last4}`, submitLabel: 'Order replacement', busyLabel: 'Ordering…',
-      body: `<fieldset class="nova-wf-choices"><legend>Why do you need a new card?</legend>${Object.entries(REPLACE_REASONS).map(([value, label], index) => `<label class="nova-wf-choice"><input type="radio" name="reason" value="${value}" ${index === 0 ? 'checked' : ''}><span>${label}<small>${value === 'lost' || value === 'stolen' ? 'The current card is frozen straight away and won’t work again.' : 'Your current card keeps working until the new one is activated.'}</small></span></label>`).join('')}</fieldset><div class="detail-grid nova-wf-section-gap"><div class="detail-row"><dt>Delivery address</dt><dd>${esc(profile.address)}</dd></div><div class="detail-row"><dt>Expected</dt><dd>5–7 working days</dd></div><div class="detail-row"><dt>Fee</dt><dd>€0.00</dd></div></div><p class="nova-wf-boundary"><strong>Simulated.</strong> No card is printed or posted. Change the address in Settings.</p>`,
+      body: `<fieldset class="nova-wf-choices"><legend>Why do you need a new card?</legend>${Object.entries(REPLACE_REASONS).map(([value, label], index) => `<label class="nova-wf-choice"><input type="radio" name="reason" value="${value}" ${index === 0 ? 'checked' : ''}><span>${label}<small>${value === 'lost' || value === 'stolen' ? 'The current card is frozen straight away and won’t work again.' : 'Your current card keeps working until the new one is activated.'}</small></span></label>`).join('')}</fieldset><div class="detail-grid nova-wf-section-gap"><div class="detail-row"><dt>Delivery address</dt><dd>${esc(profile.address)}</dd></div><div class="detail-row"><dt>Expected</dt><dd>5–7 working days</dd></div><div class="detail-row"><dt>Fee</dt><dd>€0.00</dd></div></div><p class="nova-wf-boundary"><strong>Delivery address.</strong> Change the address in Settings before you order.</p>`,
       validate: (form, data) => REPLACE_REASONS[data.reason] ? data : (setFieldError(form, 'reason', 'Choose a reason.'), null),
       perform: ({ reason }) => {
         const freeze = reason === 'lost' || reason === 'stolen';
@@ -681,7 +682,7 @@
         store.set('card', { ...store.get('card'), replacement: { reason, ordered: '15 Sep 2026', eta: '22–24 Sep 2026', froze: freeze } });
         return freeze;
       },
-      done: (froze) => go(location.href, froze ? 'Replacement ordered and current card frozen. Demo only.' : 'Replacement ordered. Demo only, no card will arrive.')
+      done: (froze) => go(location.href, froze ? 'Replacement ordered and current card frozen.' : 'Replacement ordered.')
     });
   }
   function cancelReplacement() {
@@ -703,7 +704,7 @@
       services.setAttribute('aria-labelledby', 'nova-wf-card-services');
       const replacement = card.replacement;
       services.innerHTML = `<div class="v3-section-title"><h2 id="nova-wf-card-services">Card services</h2>${replacement ? '<span class="v3-status live">Replacement ordered</span>' : ''}</div>
-        ${replacement ? `<div class="nova-wf-note" role="status">New card ordered on ${esc(replacement.ordered)} (${esc(REPLACE_REASONS[replacement.reason].toLowerCase())}). Expected ${esc(replacement.eta)}. Demo only, nothing will be posted.</div>` : ''}
+        ${replacement ? `<div class="nova-wf-note" role="status">New card ordered on ${esc(replacement.ordered)} (${esc(REPLACE_REASONS[replacement.reason].toLowerCase())}). Expected ${esc(replacement.eta)}.</div>` : ''}
         <button class="v3-settings-link" type="button" data-wf="card-pin"><span><strong>Show PIN</strong><small>Confirm with your passcode first</small></span><b aria-hidden="true">›</b></button>
         ${replacement ? `<button class="v3-settings-link danger" type="button" data-wf="card-replace-cancel"><span><strong>Cancel replacement</strong><small>Keep using the current card</small></span><b aria-hidden="true">›</b></button>` : `<button class="v3-settings-link" type="button" data-wf="card-replace"><span><strong>Replace card</strong><small>Damaged, lost, stolen or expiring</small></span><b aria-hidden="true">›</b></button>`}
         <a class="v3-settings-link" href="${route('card-controls')}"><span><strong>Limits and controls</strong><small>Daily spend, cash and contactless</small></span><b aria-hidden="true">›</b></a>`;
@@ -788,7 +789,7 @@
     const profile = store.get('profile');
     openForm({
       title: 'Edit profile', submitLabel: 'Save changes',
-      body: `<div class="field"><label for="profile-name">Name</label><input id="profile-name" class="input" name="name" maxlength="60" autocomplete="name" value="${esc(profile.name)}"></div><div class="field"><label for="profile-email">Email</label><input id="profile-email" class="input" name="email" type="email" maxlength="80" autocomplete="email" value="${esc(profile.email)}"></div><div class="field"><label for="profile-phone">Mobile number</label><input id="profile-phone" class="input" name="phone" type="tel" maxlength="20" autocomplete="tel" value="${esc(profile.phone)}" aria-describedby="profile-phone-hint"><span class="field-hint" id="profile-phone-hint">Include the country code, for example +353 87 555 0142.</span></div><div class="field"><label for="profile-address">Card delivery address</label><input id="profile-address" class="input" name="address" maxlength="80" autocomplete="street-address" value="${esc(profile.address)}"></div><p class="field-hint">Saved in this browser tab for the demo.</p>`,
+      body: `<div class="field"><label for="profile-name">Name</label><input id="profile-name" class="input" name="name" maxlength="60" autocomplete="name" value="${esc(profile.name)}"></div><div class="field"><label for="profile-email">Email</label><input id="profile-email" class="input" name="email" type="email" maxlength="80" autocomplete="email" value="${esc(profile.email)}"></div><div class="field"><label for="profile-phone">Mobile number</label><input id="profile-phone" class="input" name="phone" type="tel" maxlength="20" autocomplete="tel" value="${esc(profile.phone)}" aria-describedby="profile-phone-hint"><span class="field-hint" id="profile-phone-hint">Include the country code, for example +353 87 555 0142.</span></div><div class="field"><label for="profile-address">Card delivery address</label><input id="profile-address" class="input" name="address" maxlength="80" autocomplete="street-address" value="${esc(profile.address)}"></div><p class="field-hint">We use these details for statements and card delivery.</p>`,
       validate: (form, data) => {
         let ok = true;
         const name = data.name.trim().replace(/\s+/g, ' ');
@@ -798,13 +799,13 @@
         if (!name) { setFieldError(form, 'name', 'Enter your name.'); ok = false; }
         else if (!/^[\p{L} .'-]{2,60}$/u.test(name)) { setFieldError(form, 'name', 'Use letters, spaces, apostrophes, full stops or hyphens.'); ok = false; }
         if (!email) { setFieldError(form, 'email', 'Enter your email address.'); ok = false; }
-        else if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) { setFieldError(form, 'email', 'Enter an email like name@example.com.'); ok = false; }
+        else if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) { setFieldError(form, 'email', 'Enter an email like name@novamail.app.'); ok = false; }
         if (phone && !/^\+\d[\d ]{7,17}$/.test(phone)) { setFieldError(form, 'phone', 'Start with + and the country code, then 7–15 digits.'); ok = false; }
         if (address.length < 5) { setFieldError(form, 'address', 'Enter a delivery address of at least 5 characters.'); ok = false; }
         return ok ? { name, email, phone, address } : null;
       },
       perform: (profile) => store.set('profile', profile),
-      done: () => { document.dispatchEvent(new CustomEvent('nova:profile-changed')); toast('Profile saved in this tab.'); }
+      done: () => { document.dispatchEvent(new CustomEvent('nova:profile-changed')); toast('Profile saved.'); }
     });
   }
   function chooseDateFormat() {
@@ -812,7 +813,7 @@
     const options = { 'DD MMM YYYY': '15 Sep 2026', 'DD/MM/YYYY': '15/09/2026', 'YYYY-MM-DD': '2026-09-15' };
     openForm({
       title: 'Date format', submitLabel: 'Save format',
-      body: `<fieldset class="nova-wf-choices"><legend>Show dates as</legend>${Object.entries(options).map(([value, example]) => `<label class="nova-wf-choice"><input type="radio" name="format" value="${value}" ${value === current ? 'checked' : ''}><span>${example}<small>${value}</small></span></label>`).join('')}</fieldset><p class="field-hint">Applies to this settings preview; demo screens keep their sample dates.</p>`,
+      body: `<fieldset class="nova-wf-choices"><legend>Show dates as</legend>${Object.entries(options).map(([value, example]) => `<label class="nova-wf-choice"><input type="radio" name="format" value="${value}" ${value === current ? 'checked' : ''}><span>${example}<small>${value}</small></span></label>`).join('')}</fieldset><p class="field-hint">Applies to dates in Settings and your statements.</p>`,
       validate: (form, data) => options[data.format] ? data : null,
       perform: ({ format }) => store.set('settings', { ...store.get('settings'), dateFormat: format }),
       done: (settings) => { const small = document.querySelector('[data-wf="date-format"] small'); if (small) small.textContent = settings.dateFormat; toast('Date format saved.'); }
@@ -821,9 +822,17 @@
   function resetDemo() {
     confirmAction({
       title: 'Reset demo data?', confirmLabel: 'Reset demo data', busyLabel: 'Resetting…',
-      body: '<p>Payees, scheduled transfers, goals, subscriptions, card settings, notifications, devices, dispute drafts and preferences go back to the original sample data.</p><p class="field-hint">Only this browser tab is affected.</p>',
+      body: '<p>Payees, scheduled transfers, goals, subscriptions, card settings, notifications, devices, dispute drafts and preferences go back to the original data.</p><p class="field-hint">Only this browser tab is affected.</p>',
       perform: () => { store.reset(); },
-      done: () => go(route('settings'), 'Demo data reset to the original sample.')
+      done: () => go(location.href, 'Demo data reset.')
+    });
+  }
+  function signOut() {
+    confirmAction({
+      title: 'Sign out of Nova?', confirmLabel: 'Sign out', danger: false, busyLabel: 'Signing out…',
+      body: '<p>You’ll need your email and passcode to sign in again.</p>',
+      perform: () => {},
+      done: () => { try { sessionStorage.setItem('nova_signed_out', '1'); } catch {} location.href = 'signin.html'; }
     });
   }
   function initSettings() {
@@ -838,10 +847,8 @@
     const notificationsCard = [...document.querySelectorAll('.v3-settings-card')].find((card) => card.querySelector('h2')?.textContent.trim() === 'Notifications');
     if (notificationsCard) notificationsCard.id = 'notification-preferences';
     const layout = document.querySelector('.v3-settings-layout');
-    if (layout) {
-      const mode = store.failureMode();
-      layout.insertAdjacentHTML('beforeend', `<section class="v3-surface v3-settings-card nova-wf-card" aria-labelledby="nova-wf-demo-title"><div class="v3-section-title"><div><h2 id="nova-wf-demo-title">Prototype data</h2></div><span class="v3-status live">This tab only</span></div><p class="meta">Your changes are kept in this browser tab (session storage) and survive reloads. Nothing is sent to a server.</p><div class="nova-wf-demo-controls"><div class="field"><label for="wf-failure-mode">Simulate a failed request</label><select class="input" id="wf-failure-mode" data-wf-failure>${[['off', 'Off, requests succeed'], ['next', 'Fail the next request'], ['always', 'Fail every request']].map(([value, label]) => `<option value="${value}" ${value === mode ? 'selected' : ''}>${label}</option>`).join('')}</select><span class="field-hint">Use it to see each flow’s error and retry state.</span></div><button class="btn btn-secondary" type="button" data-wf="demo-reset">Reset demo data</button></div></section>`);
-      layout.querySelector('[data-wf-failure]').addEventListener('change', (event) => { store.setFailureMode(event.target.value); toast(event.target.value === 'off' ? 'Requests will succeed.' : event.target.value === 'next' ? 'The next request will fail once.' : 'Every request will fail until you turn this off.'); });
+    if (layout && !layout.querySelector('[data-wf="sign-out"]')) {
+      layout.insertAdjacentHTML('beforeend', `<section class="v3-surface v3-settings-card nova-wf-card" aria-labelledby="nova-wf-session-title"><div class="v3-section-title"><div><h2 id="nova-wf-session-title">Session</h2></div></div><p class="meta">Signed in as ${esc(profile.email)} on this device.</p><div class="nova-wf-actions"><button class="btn btn-secondary" type="button" data-wf="sign-out">Sign out</button></div></section>`);
     }
     if (location.hash === '#notification-preferences') document.querySelector('#notification-preferences')?.scrollIntoView({ block: 'start' });
   }
@@ -853,13 +860,13 @@
   function deviceDetail(id) {
     const device = store.find('devices', id); if (!device) return;
     openForm({ title: esc(device.name), submitLabel: device.current ? '' : 'Sign out this device', submitClass: 'btn-risk', busyLabel: 'Signing out…', cancelLabel: 'Close',
-      body: `<dl class="detail-grid">${[['Last active', device.lastActive], ['Location', device.location], ['Type', device.kind[0].toUpperCase() + device.kind.slice(1)], ['Status', device.current ? 'This device' : 'Trusted']].map(([label, value]) => `<div class="detail-row"><dt>${label}</dt><dd>${esc(value)}</dd></div>`).join('')}</dl><p class="field-hint">Sample session. No real device is connected to this demo.</p>`,
+      body: `<dl class="detail-grid">${[['Last active', device.lastActive], ['Location', device.location], ['Type', device.kind[0].toUpperCase() + device.kind.slice(1)], ['Status', device.current ? 'This device' : 'Trusted']].map(([label, value]) => `<div class="detail-row"><dt>${label}</dt><dd>${esc(value)}</dd></div>`).join('')}</dl><p class="field-hint">Don’t recognise this device? Sign it out and change your passcode.</p>`,
       perform: () => { store.remove('devices', id); logSecurity('Device signed out', device.name); },
-      done: () => go(location.href, `${device.name} signed out. Demo only.`) });
+      done: () => go(location.href, `${device.name} signed out.`) });
   }
   function signOutDevice(id) {
     const device = store.find('devices', id); if (!device || device.current) return;
-    confirmAction({ title: `Sign out ${esc(device.name)}?`, confirmLabel: 'Sign out', busyLabel: 'Signing out…', body: `<p>${esc(device.name)} will need your passcode to sign in again. Card and account settings don’t change.</p><p class="field-hint">Demo session only.</p>`,
+    confirmAction({ title: `Sign out ${esc(device.name)}?`, confirmLabel: 'Sign out', busyLabel: 'Signing out…', body: `<p>${esc(device.name)} will need your passcode to sign in again. Card and account settings don’t change.</p>`,
       perform: () => { store.remove('devices', id); logSecurity('Device signed out', device.name); },
       done: () => go(location.href, `${device.name} signed out.`) });
   }
@@ -871,7 +878,7 @@
   }
   function changePasscode() {
     openForm({ title: 'Change passcode', submitLabel: 'Change passcode', busyLabel: 'Updating…',
-      body: `<div class="field"><label for="wf-pc-current">Current passcode</label><input class="input nova-passcode-input" id="wf-pc-current" name="current" type="password" inputmode="numeric" maxlength="4" autocomplete="off" aria-describedby="wf-pc-hint"><span class="nova-passcode-hint" id="wf-pc-hint">Prototype hint: the current passcode is <strong>${DEMO_PASSCODE}</strong>.</span></div><div class="field"><label for="wf-pc-new">New passcode</label><input class="input nova-passcode-input" id="wf-pc-new" name="next" type="password" inputmode="numeric" maxlength="4" autocomplete="off"></div><div class="field"><label for="wf-pc-confirm">Confirm new passcode</label><input class="input nova-passcode-input" id="wf-pc-confirm" name="confirm" type="password" inputmode="numeric" maxlength="4" autocomplete="off"></div><p class="field-hint">The demo checks the rules but never stores a passcode. ${DEMO_PASSCODE} keeps working in the transfer flow.</p>`,
+      body: `<div class="field"><label for="wf-pc-current">Current passcode</label><input class="input nova-passcode-input" id="wf-pc-current" name="current" type="password" inputmode="numeric" maxlength="4" autocomplete="off" aria-describedby="wf-pc-hint">${demoOn() ? `<span class="nova-passcode-hint" id="wf-pc-hint">Demo passcode: <strong>${DEMO_PASSCODE}</strong></span>` : '<span class="nova-passcode-hint" id="wf-pc-hint">The passcode you use to confirm transfers.</span>'}</div><div class="field"><label for="wf-pc-new">New passcode</label><input class="input nova-passcode-input" id="wf-pc-new" name="next" type="password" inputmode="numeric" maxlength="4" autocomplete="off"></div><div class="field"><label for="wf-pc-confirm">Confirm new passcode</label><input class="input nova-passcode-input" id="wf-pc-confirm" name="confirm" type="password" inputmode="numeric" maxlength="4" autocomplete="off"></div><p class="field-hint">Use 4 numbers that aren’t all the same or in sequence.</p>`,
       validate: (form, data) => {
         let ok = true;
         if (data.current !== DEMO_PASSCODE) { setFieldError(form, 'current', /^\d{4}$/.test(data.current) ? 'That isn’t your current passcode.' : 'Enter your current 4-digit passcode.'); ok = false; }
@@ -882,7 +889,7 @@
         return ok ? {} : null;
       },
       perform: () => { store.set('passcodeChanged', 'just now'); logSecurity('Passcode changed', 'This device'); },
-      done: () => go(location.href, 'Passcode change recorded. The demo passcode is still 2468.') });
+      done: () => go(location.href, 'Passcode changed.') });
   }
   function initSecurity() {
     if (screen !== 'security') return;
@@ -906,10 +913,10 @@
      ===================================================================== */
   function shareReceipt() {
     const rows = [...document.querySelectorAll('.receipt-sheet .review-row')].map((row) => [row.querySelector('span')?.textContent.trim(), row.querySelector('strong')?.textContent.trim()]).filter(([label, value]) => label && value);
-    const text = ['Nova demo transfer receipt (simulated, not a bank document)', ...rows.map(([label, value]) => `${label}: ${value}`)].join('\n');
+    const text = ['Nova transfer receipt', ...rows.map(([label, value]) => `${label}: ${value}`)].join('\n');
     openForm({
       title: 'Share receipt', submitLabel: 'Copy receipt text', busyLabel: 'Copying…', cancelLabel: 'Close',
-      body: `<dl class="detail-grid">${rows.map(([label, value]) => `<div class="detail-row"><dt>${esc(label)}</dt><dd>${esc(value)}</dd></div>`).join('')}</dl><p class="nova-wf-boundary"><strong>Simulated receipt.</strong> No money moved, so this is not proof of payment.</p>`,
+      body: `<dl class="detail-grid">${rows.map(([label, value]) => `<div class="detail-row"><dt>${esc(label)}</dt><dd>${esc(value)}</dd></div>`).join('')}</dl><p class="nova-wf-boundary"><strong>Transfer receipt.</strong> Share it with the recipient as confirmation.</p>`,
       perform: () => text,
       done: async (copied) => { try { await navigator.clipboard.writeText(copied); toast('Receipt text copied.'); } catch { toast('Copying isn’t available in this browser. Select the details to copy them.'); } }
     });
@@ -917,13 +924,13 @@
   function kycHelp() {
     openForm({
       title: 'Help with the identity check', submitLabel: '', cancelLabel: 'Close',
-      body: `<ul class="dialog-list"><li>Use a passport, national ID card or driving licence that hasn’t expired.</li><li>Lay it flat in good light and keep all four edges in the frame.</li><li>If capture keeps failing, ask for another way to verify.</li></ul><div class="nova-wf-actions"><a class="btn btn-secondary" href="${route('kyc', '&state=manual')}">Request another verification option</a></div><p class="field-hint">Prototype only: no identity data is collected or sent.</p>`
+      body: `<ul class="dialog-list"><li>Use a passport, national ID card or driving licence that hasn’t expired.</li><li>Lay it flat in good light and keep all four edges in the frame.</li><li>If capture keeps failing, ask for another way to verify.</li></ul><div class="nova-wf-actions"><a class="btn btn-secondary" href="${route('kyc', '&state=manual')}">Request another verification option</a></div><p class="field-hint">Our support team replies within one business day.</p>`
     });
   }
   function initPlaceholders() {
     document.querySelectorAll('[data-toast]').forEach((node) => {
-      if (/receipt sharing/i.test(node.dataset.toast)) { node.removeAttribute('data-toast'); node.dataset.wf = 'receipt-share'; }
-      if (/alternate verification/i.test(node.dataset.toast)) { node.removeAttribute('data-toast'); node.dataset.wf = 'kyc-help'; }
+      if (/receipt sharing|ready to share/i.test(node.dataset.toast)) { node.removeAttribute('data-toast'); node.dataset.wf = 'receipt-share'; }
+      if (/alternate verification|verify you another way/i.test(node.dataset.toast)) { node.removeAttribute('data-toast'); node.dataset.wf = 'kyc-help'; }
     });
   }
 
@@ -954,7 +961,7 @@
     'notif-toggle': (el) => runInline(el, 'Saving…', () => { const item = store.find('notifications', el.dataset.id); store.upsert('notifications', { id: el.dataset.id, read: !item.read }); return !item.read; }, (read) => go(route('notifications', `&notification=${el.dataset.id}${read ? '' : '&keep=1'}`), read ? 'Marked as read.' : 'Marked as unread.')),
     'notif-dismiss': (el) => runInline(el, 'Dismissing…', () => markNotification(el.dataset.id, { dismissed: true, read: true }), () => go(route('notifications'), 'Notification dismissed.')),
     'notif-restore': (el) => runInline(el, 'Restoring…', () => store.set('notifications', store.list('notifications').map((item) => ({ ...item, dismissed: false }))), () => go(route('notifications'), 'Dismissed notifications restored.')),
-    'profile-edit': () => editProfile(), 'date-format': () => chooseDateFormat(), 'demo-reset': () => resetDemo(),
+    'profile-edit': () => editProfile(), 'date-format': () => chooseDateFormat(), 'demo-reset': () => resetDemo(), 'sign-out': () => signOut(),
     'device-detail': (el) => deviceDetail(el.dataset.id), 'device-signout': (el) => signOutDevice(el.dataset.id), 'device-signout-all': () => signOutOthers(),
     'passcode-change': () => changePasscode(), 'receipt-share': () => shareReceipt(), 'kyc-help': () => kycHelp()
   };

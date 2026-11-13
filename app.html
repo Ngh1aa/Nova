@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#1c1b22">
-  <meta name="description" content="Nova personal banking and money-planning portfolio prototype centered on Money Horizon and safe-to-spend decisions.">
+  <meta name="description" content="Nova personal banking: see what is safe to spend, send money, manage cards and grow savings.">
   <title>Nova — Personal Banking & Money Planning</title>
   <link rel="icon" href="assets/nova-mark.svg" type="image/svg+xml">
   <link rel="preload" href="assets/nova-current-renderer.js?v=charcoal-2" as="script">
@@ -15,17 +15,18 @@
   <a class="skip-link" href="#main">Skip to main content</a>
   <div id="app" class="app-root">
     <main id="main" class="loading-shell" tabindex="-1">
-      <p class="eyebrow">Nova, prototype data</p>
+      <p class="eyebrow">Nova</p>
       <h1>Loading your money view…</h1>
-      <p>If this message remains visible, open <a href="prototype.html">Prototype index</a>.</p>
+      <p>If this message stays visible, <a href="app.html?screen=home">reload Nova</a>.</p>
     </main>
   </div>
-  <noscript><div class="noscript">Nova’s interactive product flow needs JavaScript. The prototype index remains available at <a href="prototype.html">prototype.html</a>.</div></noscript>
+  <noscript><div class="noscript">Nova needs JavaScript. Turn it on in your browser settings, then reload this page.</div></noscript>
   <script>
     (() => {
       'use strict';
       try {
         const screen = new URLSearchParams(location.search).get('screen');
+        if (sessionStorage.getItem('nova_signed_out') === '1' && !['onboarding', 'kyc'].includes(screen)) location.replace('signin.html');
         if (screen === 'card-frozen') sessionStorage.setItem('nova_card_frozen', 'true');
       } catch {}
     })();
@@ -39,5 +40,6 @@
   <script src="assets/nova-phase3-clarity.js" defer></script>
   <script src="assets/nova-d02-truth-boundary.js" defer></script>
   <script src="assets/state-lab-launcher.js" defer></script>
+  <script src="assets/nova-product-shell.js" defer></script>
 </body>
 </html>

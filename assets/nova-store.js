@@ -3,6 +3,18 @@
    within the current tab only and are cleared by "Reset demo data".
    request() simulates latency and, when enabled, a failed request, so every
    flow can show its loading and recoverable-error states. No backend exists. */
+
+/* Demo tools (reset, failed-request simulation, demo hints) are hidden from visitors.
+   ?demo=1 turns them on for this tab, ?demo=0 turns them off again. */
+(() => {
+  const flag = new URLSearchParams(location.search).get('demo');
+  try {
+    if (flag === '1') sessionStorage.setItem('nova_demo_tools', '1');
+    else if (flag === '0') sessionStorage.removeItem('nova_demo_tools');
+    window.NovaDemoMode = sessionStorage.getItem('nova_demo_tools') === '1';
+  } catch { window.NovaDemoMode = flag === '1'; }
+})();
+
 (() => {
   'use strict';
   const STATE_KEY = 'nova_demo_state_v1';
@@ -57,7 +69,7 @@
       if (mode === 'next') store.setFailureMode('off');
       let outcome;
       if (mode !== 'off') {
-        outcome = { error: Object.assign(new Error('The demo service did not respond. Nothing was changed. Check your connection and try again.'), { simulated: true }) };
+        outcome = { error: Object.assign(new Error('Nova didn’t respond. Nothing was changed. Check your connection and try again.'), { simulated: true }) };
       } else {
         try { outcome = { value: action ? action() : undefined }; } catch (error) { outcome = { error }; }
       }
@@ -67,7 +79,7 @@
     /* Clears every Nova key in this tab (store, card, transfer and preference keys). */
     reset() {
       cache = null;
-      try { if (session) Object.keys(session).filter((key) => key.startsWith('nova_')).forEach((key) => session.removeItem(key)); } catch {}
+      try { if (session) Object.keys(session).filter((key) => key.startsWith('nova_') && key !== 'nova_demo_tools').forEach((key) => session.removeItem(key)); } catch {}
       memory.clear();
     }
   };

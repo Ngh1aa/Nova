@@ -83,6 +83,6 @@ test('light savings surfaces keep text readable and reviewer tools never overlay
   expect(await meta.evaluate(x=>getComputedStyle(x).color)).not.toMatch(/255, 255, 255/);
   await expect(page.locator('[data-nova-state-lab-launcher]')).toHaveCount(0);
  }
- await page.goto('/app.html?screen=home&reviewer=1');await expect(page.locator('[data-nova-state-lab-launcher]')).toBeVisible();
+ await page.goto('/app.html?screen=home&reviewer=1&demo=1');await expect(page.locator('[data-nova-state-lab-launcher]')).toBeVisible();
  await page.goto('/app.html?screen=home&reviewer=1&lab=1');await expect(page.locator('[data-nova-state-lab-launcher]')).toHaveCount(0);
 });

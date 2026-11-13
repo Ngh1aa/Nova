@@ -109,7 +109,7 @@ test('keyboard-only critical transfer path keeps logical focus and visible focus
   trace.push({ step: 'confirm-transfer', ...(await expectVisibleFocus(page)) });
   await page.keyboard.press('Enter');
   await expect(page.getByRole('dialog')).toBeVisible();
-  await expect(page.getByRole('dialog').getByRole('button', { name: 'Approve demo' })).toBeVisible();
+  await expect(page.getByRole('dialog').getByRole('button', { name: 'Confirm', exact: true })).toBeVisible();
 
   fs.writeFileSync('artifacts/p1-8-keyboard-focus.json', JSON.stringify(trace, null, 2));
 });
@@ -216,17 +216,17 @@ test('Chromium accessibility tree exposes usable names, roles, dialog semantics 
   await page.goto('/app.html?screen=biometric-failed');
   await page.getByRole('button', { name: 'Use passcode' }).click();
   await expect(page.getByRole('dialog', { name: 'Use passcode instead' })).toBeVisible();
-  await page.getByLabel('Prototype passcode').fill('1111');
+  await page.getByLabel('Passcode', { exact: true }).fill('1111');
   await page.getByRole('button', { name: 'Confirm passcode' }).click();
-  await expect(page.getByRole('alert')).toContainText('does not match');
+  await expect(page.getByRole('alert')).toContainText('doesn’t match');
 
   const recoveryTree = await snapshot();
   expect(recoveryTree.some((node) => node.role === 'dialog' && node.name === 'Use passcode instead')).toBeTruthy();
-  expect(recoveryTree.some((node) => node.role === 'textbox' && node.name === 'Prototype passcode')).toBeTruthy();
+  expect(recoveryTree.some((node) => node.role === 'textbox' && node.name === 'Passcode')).toBeTruthy();
   // Chromium may expose the live-region text as a child StaticText node rather than
   // using it as the accessible name of the alert container. Verify both semantics.
   expect(recoveryTree.some((node) => node.role === 'alert')).toBeTruthy();
-  expect(recoveryTree.some((node) => /does not match/i.test(node.name))).toBeTruthy();
+  expect(recoveryTree.some((node) => /doesn’t match/i.test(node.name))).toBeTruthy();
 
   fs.writeFileSync('artifacts/p1-8-accessibility-tree.json', JSON.stringify({ recipientTree, recoveryTree }, null, 2));
 });

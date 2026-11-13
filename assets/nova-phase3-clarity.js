@@ -113,7 +113,7 @@
         ? 'Nova lost its connection before the transfer could be confirmed.'
         : 'Balance revalidation failed before confirmation.';
 
-    banner.innerHTML = `<span class="nova-phase3-status">Transfer stopped safely</span><strong>No money moved</strong><p>${cause}</p><p class="nova-phase3-balance">Balance unchanged · ${MONEY.balance}</p>`;
+    banner.innerHTML = `<span class="nova-phase3-status">Transfer stopped safely</span><strong>No money has left your account</strong><p>${cause}</p><p class="nova-phase3-balance">Balance unchanged · ${MONEY.balance}</p>`;
 
     if (screen === 'error') {
       /* Preserve the canonical error heading/copy because those are established

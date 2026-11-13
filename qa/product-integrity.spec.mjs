@@ -27,7 +27,7 @@ test('custom transfer amount and reference remain consistent through receipt', a
 
   await page.getByRole('button', { name: /Confirm with biometrics/ }).click();
   await expect(page.getByRole('dialog')).toContainText('Confirm with biometrics');
-  await page.getByRole('dialog').getByRole('button', { name: 'Approve demo' }).click();
+  await page.getByRole('dialog').getByRole('button', { name: 'Confirm', exact: true }).click();
 
   await expect(page).toHaveURL(/screen=transfer-success/);
   await expect(page.locator('.receipt-sheet')).toContainText('€275.00');
@@ -36,7 +36,7 @@ test('custom transfer amount and reference remain consistent through receipt', a
 
 test('above-safe transfer keeps truthful planning state through biometric failure', async ({ page }) => {
   await reset(page);
-  await page.goto('/app.html?screen=transfer-amount');
+  await page.goto('/app.html?screen=transfer-amount&demo=1');
 
   await page.getByLabel('Amount').fill('1400');
   await expect(page.locator('#safe-spend-warning')).toContainText('€100.00 above Safe to spend');
@@ -64,7 +64,7 @@ test('above-safe transfer keeps truthful planning state through biometric failur
 
   const recovery = page.locator('[data-nova-recovery-reassurance="true"]');
   await expect(recovery).toBeVisible();
-  await expect(recovery).toContainText('Biometric verification failed — no money moved.');
+  await expect(recovery).toContainText('Biometric verification failed. No money has left your account.');
   await expect(recovery).toContainText('the transfer was not submitted and your balance is unchanged');
 });
 

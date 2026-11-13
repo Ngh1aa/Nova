@@ -26,9 +26,9 @@ test('core protection flow works', async ({ page }) => {
   await page.getByRole('link', { name: /ByteMart Online.*Needs review/ }).click();
   await expect(page.getByText('ByteMart Online').first()).toBeVisible();
   await page.getByRole('button', { name: 'Freeze card' }).click();
-  const dialog = page.getByRole('dialog', { name: 'Freeze demo card?' });
+  const dialog = page.getByRole('dialog', { name: 'Freeze card ending 4821?' });
   await expect(dialog).toContainText('Already-authorized or offline payments can still settle');
-  await expect(dialog).toContainText('does not report ByteMart, reverse the payment, or contact a bank');
+  await expect(dialog).toContainText('doesn’t report ByteMart or reverse the payment');
   await dialog.getByRole('button', { name: 'Freeze card' }).click();
   await expect(page.getByText('Card frozen').first()).toBeVisible();
 });
@@ -42,9 +42,9 @@ test('core transfer flow works', async ({ page }) => {
   await expect(page.getByRole('heading', { name: 'Check every detail' })).toBeVisible();
   await expect(page.getByText('€1,155.00').first()).toBeVisible();
   await page.getByRole('button', { name: 'Confirm with biometrics' }).click();
-  await page.getByRole('dialog').getByRole('button', { name: 'Approve demo' }).click();
+  await page.getByRole('dialog').getByRole('button', { name: 'Confirm', exact: true }).click();
   await expect(page.getByRole('heading', { name: 'Transfer successful' })).toBeVisible();
-  await expect(page.getByText(/This portfolio prototype simulates a successful/)).toBeVisible();
+  await expect(page.getByText('Your transfer is on its way. We’ve sent a confirmation to your email.')).toBeVisible();
 });
 
 test('Nova charcoal visual contract holds at portfolio breakpoints', async ({ page }) => {

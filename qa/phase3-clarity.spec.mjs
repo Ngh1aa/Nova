@@ -44,14 +44,14 @@ test('F-04 makes no-money-moved status dominant after biometric failure while pr
 
   const banner = page.locator('[data-nova-phase3-recovery]');
   await expect(banner).toBeVisible();
-  await expect(banner).toContainText('No money moved');
+  await expect(banner).toContainText('No money has left your account');
   await expect(banner).toContainText('Biometric verification failed before the transfer was submitted');
   await expect(banner).toContainText(/Balance unchanged\s*[·–-]\s*€2,840\.00/);
   await expect(banner).toBeFocused();
 
   const existingRecovery = page.locator('[data-nova-recovery-reassurance="true"]');
   await expect(existingRecovery).toBeVisible();
-  await expect(existingRecovery).toContainText('Biometric verification failed — no money moved.');
+  await expect(existingRecovery).toContainText('Biometric verification failed. No money has left your account.');
   await expect(existingRecovery).toContainText('the transfer was not submitted and your balance is unchanged');
   await expect(existingRecovery).toHaveClass(/nova-phase3-recovery-support/);
   await expect(existingRecovery.locator('xpath=..')).toHaveClass(/task-panel/);
@@ -64,7 +64,7 @@ test('F-04 keeps offline reassurance inside the decision card', async ({ page })
   const banner = page.locator('[data-nova-phase3-recovery]');
   const existingRecovery = page.locator('[data-nova-recovery-reassurance="true"]');
   await expect(banner).toBeVisible();
-  await expect(banner).toContainText('No money moved');
+  await expect(banner).toContainText('No money has left your account');
   await expect(existingRecovery).toBeVisible();
   await expect(existingRecovery).toHaveClass(/nova-phase3-recovery-support/);
   await expect(existingRecovery.locator('xpath=..')).toHaveClass(/task-panel/);
@@ -76,7 +76,7 @@ test('F-04 augments generic revalidation failure without replacing its recovery 
 
   const banner = page.locator('[data-nova-phase3-recovery]');
   await expect(banner).toBeVisible();
-  await expect(banner).toContainText('No money moved');
+  await expect(banner).toContainText('No money has left your account');
   await expect(banner).toContainText('Balance revalidation failed before confirmation');
   await expect(page.getByRole('heading', { level: 1 })).toHaveText('Transfer not completed');
   await expect(page.getByText('Review the amount and try again.', { exact: true })).toBeVisible();

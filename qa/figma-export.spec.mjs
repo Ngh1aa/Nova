@@ -52,9 +52,9 @@ test('direct state URLs expose the intended semantic states, not only renamed sc
   await expect(page.locator('#main')).not.toContainText('ByteMart Online');
   await page.goto(path(16,'freeze-confirmation'));
   await expect(page.getByRole('dialog')).toBeVisible();
-  await expect(page.getByRole('dialog')).toContainText(/no bank/i);
+  await expect(page.getByRole('dialog')).toContainText(/payment not reported/i);
   await page.goto(path(21,'transaction-already-frozen'));
-  await expect(page.locator('#main')).toContainText('Demo card frozen, no bank contact');
+  await expect(page.locator('#main')).toContainText('Card frozen, payment not reported');
   await expect(page.locator('#freeze-card')).toHaveCount(0);
   await page.goto(path(22,'transaction-restricted'));
   await expect(page.getByRole('button',{name:'Unfreeze unavailable'})).toBeDisabled();
@@ -64,7 +64,7 @@ test('direct state URLs expose the intended semantic states, not only renamed sc
   await page.goto(path(30,'biometric-auth'));
   await expect(page.getByRole('dialog')).toContainText('Confirm with biometrics');
   await page.goto(path(32,'passcode-fallback'));
-  await expect(page.getByRole('dialog')).toContainText('2468');
+  await expect(page.getByRole('dialog')).toContainText('Your 4-digit Nova passcode');
   await page.goto(path(33,'transfer-offline'));
   await expect(page.locator('#confirm-transfer')).toBeDisabled();
   await page.goto(path(34,'transfer-revalidated'));
@@ -78,7 +78,7 @@ test('direct state URLs expose the intended semantic states, not only renamed sc
   await page.goto(path(68,'kyc-capture-failed'));
   await expect(page.locator('#main')).toContainText('Remove glare');
   await page.goto(path(70,'kyc-manual-review'));
-  await expect(page.locator('#main')).toContainText('No identity data was submitted');
+  await expect(page.locator('#main')).toContainText('We’ll review your ID by hand');
 });
 
 for(const number of [1,10,14,29,38,45,60]){

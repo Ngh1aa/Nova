@@ -7,14 +7,14 @@ test('D-01 Safe to spend exposes its time horizon at the primary decision number
   await expect(page.getByText('Excludes bills, savings and buffer', { exact: true })).toBeVisible();
 });
 
-test('D-02 sensitive actions state simulated consequences before interaction', async ({ page }) => {
+test('D-02 sensitive actions state their consequences before interaction', async ({ page }) => {
   await page.goto('/app.html?screen=transaction-detail&lab=1');
   await expect(page.locator('.protection-band .nova-d02-status')).toBeVisible();
-  await expect(page.getByText('No bank contact', { exact: true })).toBeVisible();
+  await expect(page.getByText('Not reported yet', { exact: true })).toBeVisible();
   await expect(page.getByRole('button', { name: 'Freeze card' })).toBeVisible();
-  await expect(page.getByRole('link', { name: 'Preview report' })).toBeVisible();
-  await expect(page.locator('#nova-d02-freeze-effects')).toContainText('Reverse this payment or contact your bank');
-  await expect(page.locator('#nova-d02-report-effects')).toContainText('Submit a report or freeze your card');
+  await expect(page.getByRole('link', { name: 'Report payment' })).toBeVisible();
+  await expect(page.locator('#nova-d02-freeze-effects')).toContainText('Reverse this payment or report it');
+  await expect(page.locator('#nova-d02-report-effects')).toContainText('Freeze your card');
 });
 
 test('D-03 transfer review explains the projected amount as a calculation', async ({ page }) => {
@@ -34,7 +34,7 @@ test('D-03 transfer review explains the projected amount as a calculation', asyn
 test('D-04 recovery pairs the cause with no-money-moved reassurance', async ({ page }) => {
   await page.goto('/app.html?screen=biometric-failed&lab=1');
   const recovery = page.locator('[data-nova-recovery-reassurance="true"]');
-  await expect(recovery.getByText('Biometric verification failed — no money moved.', { exact: true })).toBeVisible();
+  await expect(recovery.getByText('Biometric verification failed. No money has left your account.', { exact: true })).toBeVisible();
   await expect(recovery).toContainText('the transfer was not submitted and your balance is unchanged');
   await expect(page.getByRole('button', { name: 'Use passcode' })).toBeVisible();
   await expect(page.getByRole('button', { name: 'Try biometrics again' })).toBeVisible();

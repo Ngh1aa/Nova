@@ -102,3 +102,15 @@
 .subscription-schedule .list-title,.subscription-schedule .list-sub{overflow-wrap:anywhere}
 @media(max-width:359px){.subscription-schedule{padding:var(--s-4)}.subscription-schedule .ledger-row{gap:var(--s-1)}}
 .savings-account-details:not([open]) > :not(summary){display:none}
+
+/* Footer credit line and hidden demo tools (assets/nova-product-shell.js) */
+.nova-credit{padding:var(--s-6) var(--s-5);text-align:center}
+.nova-credit p{font-size:var(--t-xs);color:var(--ink-3)}
+.nova-demo-tools{position:fixed;z-index:60;right:16px;bottom:calc(88px + env(safe-area-inset-bottom));max-width:min(300px,calc(100vw - 32px));background:var(--surface);border:1px solid var(--hairline-strong);border-radius:var(--r-card);box-shadow:var(--shadow-float);font-size:var(--t-sm);color:var(--ink-2)}
+@media (min-width:900px){.nova-demo-tools{bottom:16px}}
+.nova-demo-tools summary{cursor:pointer;padding:8px 14px;min-height:36px;display:flex;align-items:center;font-weight:600;color:var(--ink-2);list-style:none}
+.nova-demo-tools summary::-webkit-details-marker{display:none}
+.nova-demo-tools summary:focus-visible{outline:2px solid var(--focus);outline-offset:2px;border-radius:var(--r-card)}
+.nova-demo-tools-body{display:grid;gap:var(--s-2);padding:0 14px 14px}
+.nova-demo-tools-body select,.nova-demo-tools-button{min-height:var(--control-height);border:1px solid var(--hairline-strong);border-radius:var(--r-inner);background:var(--fill);color:var(--ink);padding:0 10px}
+.nova-demo-tools-body p{font-size:var(--t-xs)}

@@ -74,7 +74,7 @@ test('forecast geometry follows known payments and never invents future income',
     return { startY: start.y, endY: end.y };
   });
   expect(endpoints.endY).toBeGreaterThan(endpoints.startY);
-  const data = page.getByRole('table', { name: 'Demo balance forecast, based on known payments' });
+  const data = page.getByRole('table', { name: 'Balance forecast, based on known payments' });
   await expect(data.getByRole('row')).toHaveCount(8);
   await expect(data).toContainText('15 Sep€2,840');
   await expect(data).toContainText('27 Sep€2,060.00');

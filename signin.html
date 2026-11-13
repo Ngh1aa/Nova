@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#1c1b22">
+  <meta name="description" content="Sign in to Nova personal banking.">
+  <title>Sign in — Nova</title>
+  <link rel="icon" href="assets/nova-mark.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="assets/nova-current.css?v=charcoal-2">
+  <style>
+    .signin-page{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:32px 16px 16px}
+    .signin-card{width:100%;max-width:400px;background:var(--surface);border:1px solid var(--hairline);border-radius:var(--r-card);padding:28px 24px}
+    .signin-brand{display:flex;align-items:center;gap:10px;margin-bottom:24px;color:var(--ink);font-size:var(--t-lg);font-weight:700;letter-spacing:-.01em}.signin-brand img{width:32px;height:32px;border-radius:8px}
+    .signin-card h1{font-size:var(--t-xl)}
+    .signin-card > p{margin-top:6px}
+    .signin-continue{display:flex;align-items:center;gap:12px;width:100%;margin-top:24px;padding:12px 14px;border:0;border-radius:var(--r-inner);background:var(--gradient);color:var(--gradient-ink);font-weight:600;text-align:left;min-height:56px}
+    .signin-continue:hover{filter:brightness(1.06)}
+    .signin-continue:focus-visible,.signin-submit:focus-visible{outline:2px solid var(--focus);outline-offset:3px}
+    .signin-avatar{display:grid;place-items:center;width:36px;height:36px;border-radius:50%;background:#291c2922;font-size:var(--t-sm);font-weight:700;flex:none}
+    .signin-continue small{display:block;font-weight:500;opacity:.8}
+    .signin-divider{display:flex;align-items:center;gap:12px;margin:24px 0 4px;color:var(--ink-3);font-size:var(--t-xs)}
+    .signin-divider::before,.signin-divider::after{content:"";flex:1;height:1px;background:var(--hairline)}
+    .signin-card .input{min-height:44px;padding:0 12px;border:0;border-radius:var(--r-inner);background:var(--fill);box-shadow:inset 0 0 0 1px var(--hairline-strong)}
+    .signin-card label{font-weight:600;color:var(--ink-2);font-size:var(--t-sm)}
+    .signin-submit{width:100%;margin-top:20px;min-height:44px;border:0;border-radius:var(--r-inner);background:var(--surface-2);color:var(--ink);font-weight:600;box-shadow:inset 0 0 0 1px var(--hairline-strong)}
+    .signin-submit:hover{background:var(--fill-strong)}
+    .signin-alert{margin-top:16px;padding:10px 12px;border-radius:var(--r-inner);background:var(--risk-soft);color:var(--risk-ink);font-size:var(--t-sm)}
+    .signin-help{margin-top:16px;font-size:var(--t-sm)}
+    .signin-help a{text-decoration:underline;text-underline-offset:2px}
+    .nova-credit{padding:24px 16px 8px;text-align:center}
+    .nova-credit p{font-size:var(--t-xs);color:var(--ink-3)}
+  </style>
+</head>
+<body class="product-body">
+  <main id="main" class="signin-page" tabindex="-1">
+    <section class="signin-card" aria-labelledby="signin-title">
+      <p class="signin-brand"><img src="assets/nova-mark.svg" alt="" width="32" height="32"><span>Nova</span></p>
+      <h1 id="signin-title">Welcome back</h1>
+      <p>Sign in to see what is safe to spend today.</p>
+      <button type="button" class="signin-continue" data-signin-continue>
+        <span class="signin-avatar" aria-hidden="true" data-signin-initials>AN</span>
+        <span>Continue as <span data-signin-name>Alex Nguyen</span><small data-signin-email>alex.nguyen@novamail.app</small></span>
+      </button>
+      <p class="signin-divider">or sign in with your email</p>
+      <form data-signin-form novalidate>
+        <div class="field">
+          <label for="signin-email">Email</label>
+          <input class="input" id="signin-email" name="email" type="email" autocomplete="username" aria-describedby="signin-email-error">
+          <span class="field-error" id="signin-email-error" hidden></span>
+        </div>
+        <div class="field">
+          <label for="signin-passcode">Passcode</label>
+          <input class="input" id="signin-passcode" name="passcode" type="password" inputmode="numeric" maxlength="4" autocomplete="current-password" aria-describedby="signin-passcode-hint signin-passcode-error">
+          <span class="field-hint" id="signin-passcode-hint">Your 4-digit Nova passcode.</span>
+          <span class="field-error" id="signin-passcode-error" hidden></span>
+        </div>
+        <div class="signin-alert" role="alert" data-signin-alert hidden></div>
+        <button type="submit" class="signin-submit">Sign in</button>
+      </form>
+      <p class="signin-help">New to Nova? <a href="app.html?screen=onboarding">Open an account</a></p>
+    </section>
+    <footer class="nova-credit" data-nova-credit><p>Concept product designed by Đỗ Anh Nghĩa.</p></footer>
+  </main>
+  <script src="assets/nova-demo-data.js"></script>
+  <script src="assets/nova-store.js"></script>
+  <script>
+    (() => {
+      'use strict';
+      const PASSCODE = '2468';
+      const profile = window.NovaStore ? window.NovaStore.get('profile') : { name: 'Alex Nguyen', email: 'alex.nguyen@novamail.app' };
+      const initials = profile.name.trim().split(/\s+/).slice(0, 2).map((part) => part[0] || '').join('').toUpperCase();
+      document.querySelector('[data-signin-name]').textContent = profile.name;
+      document.querySelector('[data-signin-email]').textContent = profile.email;
+      document.querySelector('[data-signin-initials]').textContent = initials;
+      if (window.NovaDemoMode === true) document.querySelector('#signin-passcode-hint').innerHTML = 'Demo passcode: <strong>2468</strong>';
+
+      function enter() {
+        try { sessionStorage.removeItem('nova_signed_out'); } catch {}
+        location.href = 'app.html?screen=home';
+      }
+      document.querySelector('[data-signin-continue]').addEventListener('click', enter);
+
+      const form = document.querySelector('[data-signin-form]');
+      const alert = form.querySelector('[data-signin-alert]');
+      const fieldError = (name, message) => {
+        const input = form.querySelector(`#signin-${name}`);
+        const error = form.querySelector(`#signin-${name}-error`);
+        input.setAttribute('aria-invalid', message ? 'true' : 'false');
+        error.textContent = message; error.hidden = !message;
+        return !message;
+      };
+      form.addEventListener('submit', (event) => {
+        event.preventDefault();
+        alert.hidden = true;
+        const email = form.email.value.trim();
+        const passcode = form.passcode.value.trim();
+        const emailOk = fieldError('email', !email ? 'Enter your email address.' : /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email) ? '' : 'Enter an email like name@novamail.app.');
+        const passOk = fieldError('passcode', !passcode ? 'Enter your passcode.' : /^\d{4}$/.test(passcode) ? '' : 'Use exactly 4 numbers.');
+        if (!emailOk || !passOk) { form.querySelector('[aria-invalid="true"]').focus(); return; }
+        if (email.toLowerCase() !== profile.email.toLowerCase() || passcode !== PASSCODE) {
+          alert.textContent = 'That email and passcode don’t match. Check them and try again.';
+          alert.hidden = false;
+          form.passcode.value = '';
+          form.passcode.focus();
+          return;
+        }
+        enter();
+      });
+    })();
+  </script>
+</body>
+</html>

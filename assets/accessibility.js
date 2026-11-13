@@ -34,7 +34,7 @@
     spendingPulse.setAttribute('role', 'img');
     spendingPulse.setAttribute(
       'aria-label',
-      'Prototype seven-day spending comparison: Monday 33 percent, Tuesday 49 percent, Wednesday 28 percent, Thursday 65 percent, Friday 42 percent, today 78 percent, Sunday 18 percent of the visual scale.'
+      'Seven-day spending comparison: Monday 33 percent, Tuesday 49 percent, Wednesday 28 percent, Thursday 65 percent, Friday 42 percent, today 78 percent, Sunday 18 percent of the visual scale.'
     );
   }
 

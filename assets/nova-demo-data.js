@@ -9,7 +9,7 @@
   window.NovaDemoSeed = deepFreeze({
     version: 1,
     today: '2026-09-15',
-    profile: { name: 'Alex Nguyen', email: 'alex.nguyen@example.com', phone: '+353 87 555 0142', address: '12 Harbour Row, Dublin 2' },
+    profile: { name: 'Alex Nguyen', email: 'alex.nguyen@novamail.app', phone: '+353 87 555 0142', address: '12 Harbour Row, Dublin 2' },
 
     // Saved payees. The first four match the recipients the transfer flow has always offered.
     payees: [

@@ -67,7 +67,7 @@ test('new detail views and secondary dialogs remain accessible on desktop and mo
    const audit=await new AxeBuilder({page}).withTags(['wcag2a','wcag2aa','wcag21a','wcag21aa']).analyze();expect(audit.violations,route).toEqual([]);
   }
   await page.goto('/app.html?screen=settings');await page.getByRole('button',{name:/Documents & statements/}).click();
-  await expect(page.getByRole('dialog',{name:'Demo statement'})).toBeVisible();
+  await expect(page.getByRole('dialog',{name:'Statement'})).toBeVisible();
   await page.keyboard.press('Escape');await expect(page.getByRole('dialog')).toHaveCount(0);await expect(page.getByRole('button',{name:/Documents & statements/})).toBeFocused();
  }
 });

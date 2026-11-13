@@ -21,7 +21,7 @@ test('savings preview and recurring payments use bounded two-column desktop layo
 
 test('identity preparation, capture and recovery retain one progress overview',async({page})=>{
  await page.setViewportSize({width:390,height:844});
- await page.goto('/app.html?screen=kyc');
+ await page.goto('/app.html?screen=kyc&demo=1');
  await expect(page.getByLabel('Identity verification progress')).toHaveCount(1);
  await page.getByRole('link',{name:'Continue to ID check'}).click();
  await expect(page.getByRole('heading',{name:'Keep every edge visible'})).toBeVisible();

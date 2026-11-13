@@ -14,11 +14,11 @@ test('empty state is a direct native product route with an honest recovery actio
   await expect(main).toContainText('No accounts are connected yet');
   await expect(main).toContainText('Safe to spend');
   await expect(main).toContainText('Not calculated');
-  await expect(page.getByRole('link', { name: 'Connect demo account' })).toHaveAttribute('href', 'app.html?screen=home');
-  await expect(main.getByRole('note')).toContainText('No real bank connection');
+  await expect(page.getByRole('link', { name: 'Connect current account' })).toHaveAttribute('href', 'app.html?screen=home');
+  await expect(main.getByRole('note')).toContainText('It can’t move money without your confirmation');
   await expectNoWrapperInjection(page);
 
-  await page.getByRole('link', { name: 'Connect demo account' }).click();
+  await page.getByRole('link', { name: 'Connect current account' }).click();
   await expect(page).toHaveURL(/screen=home(?!.*state=empty)/);
   await expect(page.locator('[data-native-product-state]')).toHaveCount(0);
   await expect(page.getByText('€1,300.00', { exact: true }).first()).toBeVisible();
@@ -64,7 +64,7 @@ test('transfer error remains a native recovery screen with no-money-moved reassu
   const main = page.locator('#main[data-native-product-state="error"]');
   await expect(main).toBeVisible();
   await expect(page.getByRole('heading', { name: 'Transfer not completed' })).toBeVisible();
-  await expect(main).toContainText('No money moved');
+  await expect(main).toContainText('No money has left your account');
   await expect(page.getByRole('link', { name: 'Review again' })).toHaveAttribute('href', 'app.html?screen=transfer-review');
   await expectNoWrapperInjection(page);
 });

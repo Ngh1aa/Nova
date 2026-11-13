@@ -21,6 +21,11 @@ const dialog = (page) => page.getByRole('dialog');
 async function submit(page, name) {
   await dialog(page).getByRole('button', { name, exact: true }).click();
 }
+// Demo tools (reset, failure simulation) live in a collapsed panel that only ?demo=1 shows.
+async function openDemoTools(page) {
+  const tools = page.locator('[data-nova-demo-tools]');
+  if (!(await tools.evaluate((node) => node.open))) await tools.locator('summary').click();
+}
 async function expectFieldError(page, text) {
   await page.waitForSelector(`.dialog .field-error:has-text("${text}")`);
 }
@@ -112,7 +117,7 @@ test('scheduled and recurring transfers: create, view, edit, cancel, restore and
   await expect(page.locator('#main h1')).toHaveText('€45.50 to Daniel Lee');
   await page.waitForSelector('.task-panel .detail-grid');
   await expect(page.locator('.task-panel')).toContainText('Every week');
-  await expect(page.locator('.task-panel')).toContainText('no money will move');
+  await expect(page.locator('.task-panel')).toContainText('We’ll remind you the day before');
 
   await page.getByRole('button', { name: 'Edit transfer' }).click();
   await page.getByLabel('Amount (€)').fill('60');
@@ -296,21 +301,21 @@ test('notifications: unread state, mark all, mark unread, dismiss, empty state a
 });
 
 test('settings: profile edit validates and persists, date format, demo failure and reset', async ({ page }) => {
-  await page.goto(app('settings'));
+  await page.goto(app('settings', '&demo=1'));
   await page.getByRole('button', { name: 'Edit profile' }).click();
   await page.getByLabel('Email', { exact: true }).fill('not-an-email');
   await page.getByLabel('Mobile number').fill('087 555');
   await submit(page, 'Save changes');
-  await expectFieldError(page, 'Enter an email like name@example.com.');
+  await expectFieldError(page, 'Enter an email like name@novamail.app.');
   await expectFieldError(page, 'Start with + and the country code');
   await page.getByLabel('Name', { exact: true }).fill('Alex Byrne');
-  await page.getByLabel('Email', { exact: true }).fill('alex.byrne@example.com');
+  await page.getByLabel('Email', { exact: true }).fill('alex.byrne@novamail.app');
   await page.getByLabel('Mobile number').fill('+353 86 123 4567');
   await submit(page, 'Save changes');
   await page.waitForSelector('.toast:has-text("Profile saved")');
   await page.reload();
   await expect(page.locator('.v3-settings-profile h2')).toHaveText('Alex Byrne');
-  await expect(page.locator('.v3-settings-profile p')).toHaveText('alex.byrne@example.com');
+  await expect(page.locator('.v3-settings-profile p')).toHaveText('alex.byrne@novamail.app');
 
   await page.getByRole('button', { name: /Date format/ }).click();
   await dialog(page).getByLabel(/15\/09\/2026/).check();
@@ -318,6 +323,7 @@ test('settings: profile edit validates and persists, date format, demo failure a
   await page.waitForSelector('[data-wf="date-format"] small:has-text("DD/MM/YYYY")');
 
   // Simulated failure: the request fails once, the form keeps its input and retry succeeds.
+  await openDemoTools(page);
   await page.getByLabel('Simulate a failed request').selectOption('next');
   await page.goto(app('payees'));
   await page.waitForSelector('[data-nova-wf-region] .nova-wf-alert');
@@ -326,6 +332,7 @@ test('settings: profile edit validates and persists, date format, demo failure a
   await page.waitForSelector('[data-wf-payee-list]');
 
   await page.goto(app('settings'));
+  await openDemoTools(page);
   await page.getByLabel('Simulate a failed request').selectOption('always');
   await page.getByRole('button', { name: 'Edit profile' }).click();
   await page.getByLabel('Name', { exact: true }).fill('Alex Failure');
@@ -334,12 +341,14 @@ test('settings: profile edit validates and persists, date format, demo failure a
   await expect(dialog(page)).toContainText('Nothing was changed');
   await expect(page.getByLabel('Name', { exact: true })).toHaveValue('Alex Failure');
   await page.keyboard.press('Escape');
+  await openDemoTools(page);
   await page.getByLabel('Simulate a failed request').selectOption('off');
   await page.getByRole('button', { name: 'Edit profile' }).click();
   await page.getByLabel('Name', { exact: true }).fill('Alex Retry');
   await submit(page, 'Save changes');
   await page.waitForSelector('.v3-settings-profile h2:has-text("Alex Retry")');
 
+  await openDemoTools(page);
   await page.getByRole('button', { name: 'Reset demo data' }).click();
   await submit(page, 'Reset demo data');
   await page.waitForSelector('.toast:has-text("Demo data reset")');
@@ -404,7 +413,7 @@ test('activity: search, filters and dispute drafts without any bank submission',
   await page.waitForURL(/screen=disputes&dispute=dispute-/);
   await page.waitForSelector('.task-panel .detail-grid');
   await expect(page.locator('.task-panel')).toContainText('Wrong amount');
-  await expect(page.locator('.task-panel')).toContainText('Nothing was submitted.');
+  await expect(page.locator('.task-panel')).toContainText('Not submitted yet.');
   await expect(page.locator('.task-panel')).toContainText('Not created');
 
   await page.getByRole('button', { name: 'Edit draft' }).click();
@@ -449,21 +458,22 @@ test('session persistence, loading and error states, and reset restore the seed'
   await expect(fresh.locator('.v3-goal-row', { hasText: 'Concert' })).toHaveCount(0);
   await other.close();
 
-  await page.goto(app('settings'));
+  await page.goto(app('settings', '&demo=1'));
+  await openDemoTools(page);
   await page.getByRole('button', { name: 'Reset demo data' }).click();
   await submit(page, 'Reset demo data');
   await page.waitForSelector('.toast:has-text("Demo data reset")');
   await page.goto(app('savings'));
   await expect(page.locator('.v3-goal-row')).toHaveCount(2);
   await expect(page.locator('.v3-goal-row', { hasText: 'Concert' })).toHaveCount(0);
-  const keys = await page.evaluate(() => Object.keys(sessionStorage).filter((key) => key.startsWith('nova_') && key !== 'nova_demo_state_v1'));
+  const keys = await page.evaluate(() => Object.keys(sessionStorage).filter((key) => key.startsWith('nova_') && !['nova_demo_state_v1', 'nova_demo_tools'].includes(key)));
   expect(keys).toEqual([]);
 });
 
 test('former toast-only placeholders open real dialogs: receipt sharing and identity-check help', async ({ page }) => {
   await page.goto(app('transfer-success'));
   await page.getByRole('button', { name: 'Share receipt' }).click();
-  await expect(dialog(page)).toContainText('Simulated receipt.');
+  await expect(dialog(page)).toContainText('Transfer receipt.');
   await expect(dialog(page).getByRole('button', { name: 'Copy receipt text' })).toBeVisible();
   await dialog(page).getByRole('button', { name: 'Close' }).click();
   await expect(dialog(page)).toHaveCount(0);
@@ -481,7 +491,7 @@ const ROUTES = ['home', 'activity', 'transaction-detail', 'transaction-detail&tr
 
 test('every product and evidence page loads without console errors or "#" links', async ({ page }) => {
   test.setTimeout(180_000);
-  const pages = [...ROUTES.map((route) => app(route)), '/index.html', '/prototype.html', '/design-system.html', '/component-states.html', '/state-matrix.html',
+  const pages = [...ROUTES.map((route) => app(route)), '/index.html', '/signin.html', '/prototype.html', '/design-system.html', '/component-states.html', '/state-matrix.html',
     '/recruiter-state-lab.html', '/user-flows.html', '/sitemap.html', '/design-decisions.html'];
   for (const width of [1440, 390]) {
     await page.setViewportSize({ width, height: 900 });
@@ -498,4 +508,64 @@ test('every product and evidence page loads without console errors or "#" links'
       if (url.startsWith('/app.html')) expect(report.heading, `${url} @${width} heading`).toBe(true);
     }
   }
+});
+
+const SIGNALS = /prototype|demo data|sandbox|simulat|fictional|state lab|portfolio review/i;
+
+test('product pages carry no prototype signals; demo tools appear only with ?demo=1', async ({ page }) => {
+  test.setTimeout(180_000);
+  const pages = ['/signin.html', ...ROUTES.map((route) => app(route)), app('report-transaction', '&state=handoff'), app('home', '&state=empty&pin=1'), app('home', '&state=edge&pin=1'), app('kyc', '&state=review')];
+  for (const url of pages) {
+    await page.goto(url, { waitUntil: 'load' });
+    await page.waitForTimeout(250);
+    const text = await page.evaluate(() => document.body.innerText);
+    const hits = text.split('\n').filter((line) => SIGNALS.test(line));
+    expect(hits, `${url} visible text`).toEqual([]);
+    await expect(page.locator('[data-nova-demo-tools]'), url).toHaveCount(0);
+    await expect(page.locator('[data-nova-credit]'), url).toHaveText('Concept product designed by Đỗ Anh Nghĩa.');
+  }
+
+  await page.goto(app('settings', '&demo=1'));
+  const tools = page.locator('[data-nova-demo-tools]');
+  await expect(tools).toBeVisible();
+  await tools.locator('summary').click();
+  await expect(tools.getByRole('button', { name: 'Reset demo data' })).toBeVisible();
+  await expect(tools.getByLabel('Simulate a failed request')).toBeVisible();
+  // The flag stays on for the tab, and ?demo=0 turns it off.
+  await page.goto(app('home'));
+  await expect(page.locator('[data-nova-demo-tools]')).toBeVisible();
+  await page.goto(app('home', '&demo=0'));
+  await expect(page.locator('[data-nova-demo-tools]')).toHaveCount(0);
+});
+
+test('the root URL opens the signed-in home; sign out shows the login screen and sign in returns home', async ({ page }) => {
+  await page.goto('/');
+  await page.waitForURL(/app\.html\?screen=home/);
+  await expect(page.locator('#main h1')).toContainText('Alex');
+
+  await page.goto(app('settings'));
+  await page.getByRole('button', { name: 'Sign out' }).click();
+  await submit(page, 'Sign out');
+  await page.waitForURL(/signin\.html/);
+  await expect(page.getByRole('heading', { name: 'Welcome back' })).toBeVisible();
+  // Signed out: product routes return to the login screen.
+  await page.goto(app('cards'));
+  await page.waitForURL(/signin\.html/);
+
+  await page.getByRole('button', { name: 'Sign in' }).click();
+  await expect(page.locator('#signin-email-error')).toHaveText('Enter your email address.');
+  await page.getByLabel('Email').fill('alex.nguyen@novamail.app');
+  await page.getByLabel('Passcode').fill('1111');
+  await page.getByRole('button', { name: 'Sign in' }).click();
+  await expect(page.getByRole('alert')).toContainText('don’t match');
+  await page.getByLabel('Passcode').fill('2468');
+  await page.getByRole('button', { name: 'Sign in' }).click();
+  await page.waitForURL(/screen=home/);
+
+  await page.goto(app('settings'));
+  await page.getByRole('button', { name: 'Sign out' }).click();
+  await submit(page, 'Sign out');
+  await page.waitForURL(/signin\.html/);
+  await page.getByRole('button', { name: /Continue as Alex Nguyen/ }).click();
+  await page.waitForURL(/screen=home/);
 });

@@ -1,7 +1,7 @@
 (() => {
   'use strict';
   const params = new URLSearchParams(location.search);
-  if (params.get('lab') === '1' || params.get('reviewer') !== '1') return;
+  if (params.get('lab') === '1' || params.get('reviewer') !== '1' || window.NovaDemoMode !== true) return;
   if (document.querySelector('[data-nova-state-lab-launcher]')) return;
 
   const style = document.createElement('style');

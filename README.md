@@ -2,6 +2,12 @@
 
 Nova is a portfolio-grade consumer fintech prototype focused on **safe-to-spend decision support**, Money Horizon planning, transaction trust, card controls, transfers, savings, subscriptions, KYC and recovery.
 
+## Live product
+
+**Entry URL for the portfolio:** https://nova-gamma-eosin.vercel.app/ (the root redirects to `app.html?screen=home`). Visitors land signed in as Alex Nguyen. *Settings → Sign out* shows the sign-in screen (`signin.html`), which offers *Continue as Alex Nguyen* or email `alex.nguyen@novamail.app` with passcode `2468`.
+
+The product UI carries no prototype labels; one footer line credits the concept. Evidence and documentation pages (`prototype.html`, `recruiter-state-lab.html`, `design-system.html`, `state-matrix.html`, `figma-export/` and the rest) are still deployed but are not linked from the product. Demo tools: see `?demo=1` below.
+
 ## Prototype
 
 ### HTML to Figma captures
@@ -32,7 +38,7 @@ Every control does something; only the backend is missing. All changes are kept 
 - **Security**: trusted devices, sign out one or all other devices, passcode change rules, activity log.
 - **Activity**: search, filters and **dispute drafts** (`?screen=disputes`). Drafts are never sent, in line with the D-02 report boundary.
 
-Settings → **Prototype data** has **Reset demo data** and **Simulate a failed request** (fail the next request or every request), so you can see each flow's loading and recoverable-error states. `&state=loading&pin=1` and `&state=error` pin those states on the workflow screens. Money never moves.
+**Demo tools** (hidden from visitors): add `?demo=1` to any app URL, e.g. `app.html?screen=settings&demo=1`. A small floating **Demo tools** panel then offers **Reset demo data**, **Simulate a failed request** (fail the next request or every request) and the demo passcode, so you can see each flow’s loading and recoverable-error states. The flag stays on for the tab; `?demo=0` turns it off. With demo tools on, the transfer confirmation also offers *Simulate failure* and KYC offers *Simulate quality issue*. `&state=loading&pin=1` and `&state=error` pin those states on the workflow screens. Money never moves.
 
 QA: `qa/full-prototype.spec.mjs` covers each flow and the reset. `scripts/control-inventory.cjs` clicks every visible control on each route and reports controls that do nothing or point to `#`.
 

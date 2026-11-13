@@ -9,7 +9,7 @@ if (manifest.screens.length !== 70 || new Set(manifest.screens.map(item => item.
 write('assets/nova-figma-export-catalog.js', '/* Generated from figma-export/manifest.json. */\nwindow.NovaExportManifest = ' + JSON.stringify(manifest, null, 2) + ';\n');
 let wrapper = read('app.html').replace('<head>', '<head>\n  <base href="/">\n  <meta name="robots" content="noindex">');
 wrapper = wrapper.replace('</head>', '  <link rel="stylesheet" href="assets/nova-figma-export.css">\n  <script src="assets/nova-figma-export-catalog.js"></script>\n  <script src="assets/nova-figma-export-bootstrap.js"></script>\n</head>');
-wrapper = wrapper.replace(/\s*<script src="assets\/(?:nova-motion|state-lab-launcher)\.js[^\"]*" defer><\/script>/g, '');
+wrapper = wrapper.replace(/\s*<script src="assets\/(?:nova-motion|state-lab-launcher|nova-product-shell)\.js[^\"]*" defer><\/script>/g, '');
 wrapper = wrapper.replace('</body>', '  <script src="assets/nova-figma-export-states.js" defer></script>\n</body>');
 write('figma-export.html', '<!-- Generated wrapper: canonical app.html + isolated export state. -->\n' + wrapper);
 console.log('Built one wrapper and one catalogue for 70 captures.');

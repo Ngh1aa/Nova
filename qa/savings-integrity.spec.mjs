@@ -48,7 +48,7 @@ test('savings preview validates input and recomputes Money Horizon without movin
   await expect(horizon.locator('[data-nova-preview-safe]')).toHaveText('€1,060.00');
   await expect(horizon.locator('[data-nova-preview-committed]')).toHaveText('€1,280.00');
   await expect(bar).toHaveAttribute('aria-label', /€1,060\.00 safe to spend, €1,280\.00 committed/);
-  await expect(horizon.locator('.horizon-note')).toContainText('no money moves');
+  await expect(horizon.locator('.horizon-note')).toContainText('Applies from the next contribution date');
 
   await contribution.fill('0');
   await preview.click();
@@ -67,5 +67,5 @@ test('savings preview validates input and recomputes Money Horizon without movin
   await expect(horizon.locator('[data-nova-savings-shortfall]')).toContainText('Plan shortfall €40.00');
   await expect(bar).toHaveAttribute('aria-label', /Plan shortfall €40\.00/);
   await expect(horizon.locator('.horizon-note')).toContainText('overcommitted by €40.00');
-  await expect(horizon.locator('.horizon-note')).toContainText('no money has moved');
+  await expect(horizon.locator('.horizon-note')).toContainText('nothing changes until you save');
 });

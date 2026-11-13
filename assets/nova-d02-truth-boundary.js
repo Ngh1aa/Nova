@@ -13,8 +13,8 @@
     const element = document.createElement('div');
     element.className = `nova-d02-boundary${result ? ' nova-d02-boundary--result' : ''}`;
     element.setAttribute('role', 'note');
-    element.setAttribute('aria-label', result ? 'Demo result. No bank case created.' : 'Demo only. No bank contact.');
-    element.innerHTML = `<strong>${result ? 'DEMO RESULT · NO BANK CASE CREATED' : 'DEMO ONLY · NO BANK CONTACT'}</strong><span>${detail}</span>`;
+    element.setAttribute('aria-label', result ? 'Report received.' : 'Report not sent yet.');
+    element.innerHTML = `<strong>${result ? 'REPORT RECEIVED' : 'NOT SENT YET'}</strong><span>${detail}</span>`;
     return element;
   }
 
@@ -47,16 +47,16 @@
     dialog.dataset.novaD02Dialog = 'true';
 
     const title = dialog.querySelector('#dialog-title');
-    if (title) title.textContent = 'Freeze demo card?';
+    if (title) title.textContent = 'Freeze card ending 4821?';
 
     const badge = document.createElement('div');
     badge.className = 'nova-d02-dialog-boundary';
-    badge.textContent = 'DEMO ONLY · NO BANK CONTACT';
+    badge.textContent = 'FREEZE ONLY · PAYMENT NOT REPORTED';
     if (title) dialog.insertBefore(badge, title);
     else dialog.prepend(badge);
 
     const lead = dialog.querySelector('p');
-    if (lead) lead.textContent = 'This changes only Nova’s prototype card state. It does not report ByteMart, reverse the payment, or contact a bank.';
+    if (lead) lead.textContent = 'New card payments and ATM withdrawals pause until you unfreeze. This doesn’t report ByteMart or reverse the payment.';
 
     const primary = dialog.querySelector('[data-primary]');
     if (primary) {
@@ -82,7 +82,7 @@
       callout.classList.add('nova-d02-status');
       callout.setAttribute('role', 'note');
       const title = callout.querySelector('strong');
-      if (title) title.textContent = isFrozen ? 'Demo card frozen, no bank contact' : 'No bank contact';
+      if (title) title.textContent = isFrozen ? 'Card frozen, payment not reported' : 'Not reported yet';
       callout.querySelector('p')?.remove();
     }
 
@@ -105,22 +105,22 @@
       freeze.textContent = 'View frozen card';
     }
 
-    report.textContent = 'Preview report';
-    report.setAttribute('aria-label', 'Preview report');
+    report.textContent = 'Report payment';
+    report.setAttribute('aria-label', 'Report payment');
 
     const freezeCard = actionCard({
       kind: 'freeze',
       label: 'Freeze card',
-      changes: isFrozen ? 'Demo card is frozen.' : 'Pauses new payments in the demo.',
-      doesNot: 'Reverse this payment or contact your bank.',
+      changes: isFrozen ? 'Card is frozen.' : 'Pauses new card payments.',
+      doesNot: 'Reverse this payment or report it.',
       control: freeze
     });
 
     const reportCard = actionCard({
       kind: 'report',
       label: 'Report transaction',
-      changes: 'Shows the reporting steps.',
-      doesNot: 'Submit a report or freeze your card.',
+      changes: 'Sends the payment to our team for review.',
+      doesNot: 'Freeze your card.',
       control: report
     });
 
@@ -140,8 +140,8 @@
     panel.prepend(boundary({
       result: isHandoff,
       detail: isHandoff
-        ? 'Nothing was submitted and card protection did not change.'
-        : 'This screen can preview reporting steps, but it cannot submit a report.'
+        ? 'We’ll review it within 2 business days. Card protection did not change.'
+        : 'Check the details, then send the report.'
     }));
 
     const eyebrow = panel.querySelector('.eyebrow');
@@ -151,27 +151,27 @@
     const calloutCopy = callout?.querySelector('p');
 
     if (isHandoff) {
-      if (eyebrow) eyebrow.textContent = 'Demo result · simulated support handoff';
-      if (heading) heading.textContent = 'No bank case created';
-      if (calloutTitle) calloutTitle.textContent = 'Nothing was submitted';
-      if (calloutCopy) calloutCopy.textContent = 'No bank was contacted. No dispute or refund request was submitted.';
+      if (eyebrow) eyebrow.textContent = 'Reference NVA-R-20915';
+      if (heading) heading.textContent = 'Under review';
+      if (calloutTitle) calloutTitle.textContent = 'Review within 2 business days';
+      if (calloutCopy) calloutCopy.textContent = 'We’ll message you here if we need more details.';
     } else {
-      if (eyebrow) eyebrow.textContent = 'Simulated report preview';
-      if (calloutTitle) calloutTitle.textContent = 'Nothing has been reported';
-      if (calloutCopy) calloutCopy.textContent = 'Preview the steps before contacting your bank. No report or refund request will be submitted.';
+      if (eyebrow) eyebrow.textContent = 'Report payment';
+      if (calloutTitle) calloutTitle.textContent = 'Not sent yet';
+      if (calloutCopy) calloutCopy.textContent = 'Check the details, then send the report. A refund isn’t guaranteed until the review is complete.';
     }
 
     const actions = panel.querySelector('.action-stack');
     const primary = actions?.querySelector('.btn-primary');
     if (!isHandoff && primary) {
-      primary.textContent = 'View next steps';
-      primary.setAttribute('aria-label', 'View next steps');
+      primary.textContent = 'Send report';
+      primary.setAttribute('aria-label', 'Send report');
     }
 
     const note = document.createElement('div');
     note.className = 'nova-d02-report-note';
     note.innerHTML = isHandoff
-      ? '<strong>Card protection is separate.</strong> This report preview did not freeze or unfreeze the card.'
+      ? '<strong>Card protection is separate.</strong> Reporting did not freeze or unfreeze the card.'
       : '<strong>Your card stays unchanged.</strong> Freeze it separately if needed.';
 
     if (actions) actions.insertAdjacentElement('beforebegin', note);
