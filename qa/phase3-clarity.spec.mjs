@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test';
 
 async function reset(page) {
   await page.goto('/app.html?screen=home');
-  await page.evaluate(() => localStorage.clear());
+  await page.evaluate(() => sessionStorage.clear());
 }
 
 test('F-03 promotes the 14-day horizon into primary safe-to-spend language', async ({ page }) => {

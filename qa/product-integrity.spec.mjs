@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test';
 
 async function reset(page) {
   await page.goto('/app.html?screen=home');
-  await page.evaluate(() => localStorage.clear());
+  await page.evaluate(() => sessionStorage.clear());
 }
 
 function cardControl(page, name) {

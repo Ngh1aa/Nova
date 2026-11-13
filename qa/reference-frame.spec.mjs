@@ -74,9 +74,9 @@ test('mobile navigation reserves its own space and cannot cover task controls or
 });
 
 test('transfer calculation disclosure preserves both normal and over-plan amounts',async({page})=>{
- await page.goto('/app.html?screen=home');await page.evaluate(()=>localStorage.clear());
+ await page.goto('/app.html?screen=home');await page.evaluate(()=>sessionStorage.clear());
  for(const [amount,result] of [[145,'€1,155.00'],[1400,'−€100.00']]){
-  await page.evaluate(value=>localStorage.setItem('nova_transfer_amount',String(value)),amount);
+  await page.evaluate(value=>sessionStorage.setItem('nova_transfer_amount',String(value)),amount);
   await page.goto('/app.html?screen=transfer-review');
   const row=page.locator('.review-row').filter({has:page.getByText('Safe after transfer',{exact:true})});
   await expect(row.locator('strong')).toHaveText(result);

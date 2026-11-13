@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test';
 
 async function reset(page) {
   await page.goto('/app.html?screen=home');
-  await page.evaluate(() => localStorage.clear());
+  await page.evaluate(() => sessionStorage.clear());
 }
 
 test('passcode fallback starts empty, validates errors, retries, and completes only with the demo code', async ({ page }) => {

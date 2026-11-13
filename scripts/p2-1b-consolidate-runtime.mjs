@@ -33,7 +33,8 @@ const cssInputs = [
   'assets/nova-ui/tokens.css',
   'assets/nova-ui/shell.css',
   'assets/nova-ui/components.css',
-  'assets/nova-ui/screens.css'
+  'assets/nova-ui/screens.css',
+  'assets/nova-ui/workflows.css'
 ];
 
 const normalizeCanonicalIdentity = (file, content) => {

@@ -21,7 +21,7 @@ test('mobile keyboard scrolling keeps the unusual-activity link clear of the fix
 
 async function resetPrototype(page) {
   await page.goto('/app.html?screen=home');
-  await page.evaluate(() => localStorage.clear());
+  await page.evaluate(() => sessionStorage.clear());
 }
 
 async function tabUntil(page, selector, maxTabs = 40) {

@@ -18,6 +18,24 @@ Open `prototype.html` for the guided recruiter demo, or `app.html?screen=home` f
 - Onboarding/KYC: capture guidance, quality failure, manual-review recovery
 - Native lifecycle evidence: Empty, Loading, Error and overcommitted Edge states
 
+### Complete workflows (feature/full-prototype)
+
+Every control does something; only the backend is missing. All changes are kept in **sessionStorage** for the current tab, seeded from one file, `assets/nova-demo-data.js`, through `assets/nova-store.js`. The workflows live in `assets/nova-workflows.js` (styles in `assets/nova-ui/workflows.css`).
+
+- **Payees** (`?screen=payees`): add with IBAN checksum validation, view, edit, delete, search, empty and not-found states.
+- **Scheduled and recurring transfers** (`?screen=scheduled`): create, view, edit, cancel, restore, remove.
+- **Cards**: freeze, payment-channel controls, daily / cash / contactless limits, replacement (lost or stolen also freezes), passcode-gated PIN reveal.
+- **Savings goals**: create, add money, withdraw, edit, delete, goal activity, empty state.
+- **Subscriptions**: pause, resume, cancel (after confirming the merchant cancellation) and restore.
+- **Notifications**: unread state, mark read / unread / all, dismiss, empty state, link to preferences.
+- **Settings**: profile edit with inline validation, date format, notification preferences.
+- **Security**: trusted devices, sign out one or all other devices, passcode change rules, activity log.
+- **Activity**: search, filters and **dispute drafts** (`?screen=disputes`). Drafts are never sent, in line with the D-02 report boundary.
+
+Settings → **Prototype data** has **Reset demo data** and **Simulate a failed request** (fail the next request or every request), so you can see each flow's loading and recoverable-error states. `&state=loading&pin=1` and `&state=error` pin those states on the workflow screens. Money never moves.
+
+QA: `qa/full-prototype.spec.mjs` covers each flow and the reset. `scripts/control-inventory.cjs` clicks every visible control on each route and reports controls that do nothing or point to `#`.
+
 ## Current status
 
 Start with `docs/uiux/Phase-State.md` for the canonical current project/evidence state. Dated audit and research documents are retained as historical snapshots and should not override that ledger when their old “current/next/pending” language has been superseded.

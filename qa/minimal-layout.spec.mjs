@@ -15,7 +15,7 @@ test('all Activity filters remain visible on phones and preserve ledger filterin
 });
 
 test('Savings shows derived totals, exposes account details and keeps new goal flow',async({page})=>{
- await page.goto('/app.html?screen=savings');await page.evaluate(()=>localStorage.clear());await page.reload();
+ await page.goto('/app.html?screen=savings');await page.evaluate(()=>sessionStorage.clear());await page.reload();
  await expect(page.locator('.savings-overview')).toContainText('€5,680');await expect(page.locator('.savings-overview')).toContainText('€9,000');
  await page.getByText('Savings account details',{exact:true}).click();await expect(page.getByText('4.2% APY',{exact:true})).toBeVisible();
  await page.getByRole('button',{name:'New goal'}).click();await page.getByLabel('Goal name',{exact:true}).fill('Laptop');await page.getByLabel('Target (€)',{exact:true}).fill('2000');

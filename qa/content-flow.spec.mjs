@@ -20,7 +20,7 @@ test('activity, card payments and recent transfers open the selected transaction
 });
 
 test('goal, account and payment links preserve identity and financial context',async({page})=>{
- await page.goto('/app.html?screen=home');await page.evaluate(()=>localStorage.clear());await page.reload();
+ await page.goto('/app.html?screen=home');await page.evaluate(()=>sessionStorage.clear());await page.reload();
  await page.locator('.nova-account-row').filter({hasText:'Current account'}).click();
  await expect(page.locator('#main')).toContainText('€2,840.00');
  await expect(page.locator('#main')).toContainText('•••• 4421');
@@ -43,7 +43,7 @@ test('goal, account and payment links preserve identity and financial context',a
 });
 
 test('profile editing and goal creation validate, persist and render input as text',async({page})=>{
- await page.goto('/app.html?screen=settings');await page.evaluate(()=>localStorage.clear());await page.reload();
+ await page.goto('/app.html?screen=settings');await page.evaluate(()=>sessionStorage.clear());await page.reload();
  await page.locator('.v3-settings-profile button').click();
  const dialog=page.getByRole('dialog');await page.getByLabel('Name',{exact:true}).fill('');await dialog.getByRole('button',{name:'Save changes'}).click();await expect(dialog).toBeVisible();
  await page.getByLabel('Name',{exact:true}).fill('Alex Tran');await page.getByLabel('Email',{exact:true}).fill('alex.tran@example.com');await dialog.getByRole('button',{name:'Save changes'}).click();

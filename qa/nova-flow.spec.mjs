@@ -5,7 +5,7 @@ fs.mkdirSync('artifacts', { recursive: true });
 
 async function resetPrototype(page) {
   await page.goto('/app.html?screen=home');
-  await page.evaluate(() => localStorage.clear());
+  await page.evaluate(() => sessionStorage.clear());
 }
 
 async function shot(page, name, width, height = 900) {

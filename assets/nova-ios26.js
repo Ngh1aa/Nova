@@ -24,6 +24,9 @@
     subscriptions: { title: 'Subscriptions', back: 'app.html?screen=home', backLabel: 'Home' },
     security: { title: 'Security', back: 'app.html?screen=home', backLabel: 'Home' },
     notifications: { title: 'Notifications', back: 'app.html?screen=home', backLabel: 'Home' },
+    payees: { title: 'Payees', back: 'app.html?screen=transfer-recipient', backLabel: 'Pay' },
+    scheduled: { title: 'Scheduled transfers', back: 'app.html?screen=transfer-recipient', backLabel: 'Pay' },
+    disputes: { title: 'Dispute drafts', back: 'app.html?screen=activity', backLabel: 'Activity' },
     kyc: { title: 'Identity check', back: 'app.html?screen=onboarding', backLabel: 'Back' },
     onboarding: { title: 'Welcome to Nova' },
     error: { title: 'Something went wrong', back: 'app.html?screen=home', backLabel: 'Home' }

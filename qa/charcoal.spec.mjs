@@ -1,14 +1,14 @@
 import {test,expect} from '@playwright/test';
 
 test('Home shortcuts preserve the selected saved recipient through review and profile edits do not alter recipient identities',async({page})=>{
- await page.goto('/app.html?screen=home');await page.evaluate(()=>localStorage.clear());await page.reload();
+ await page.goto('/app.html?screen=home');await page.evaluate(()=>sessionStorage.clear());await page.reload();
  for(const [id,name] of [['daniel-lee-7184','Daniel Lee'],['an-nguyen-3052','An Nguyen'],['maya-chen-2048','Maya Chen']]){
   await page.goto('/app.html?screen=home');await page.locator(`.nova-recipient-list a[href*="recipient=${id}"]`).click();
   await expect(page.locator('.task-panel>h2')).toHaveText('Send to '+name);
   await page.getByLabel('Amount',{exact:true}).fill('80');await page.getByRole('button',{name:'Review transfer',exact:true}).click();
   await expect(page.locator('.review-row').filter({hasText:'Recipient'})).toContainText(name);
  }
- await page.goto('/app.html?screen=home');await page.evaluate(()=>localStorage.setItem('nova_profile',JSON.stringify({name:'Linh Tran',email:'linh@example.com'})));await page.reload();
+ await page.goto('/app.html?screen=home');await page.evaluate(()=>sessionStorage.setItem('nova_demo_state_v1',JSON.stringify({version:1,profile:{name:'Linh Tran',email:'linh@example.com',phone:'',address:'12 Harbour Row, Dublin 2'}})));await page.reload();
  await expect(page.locator('.nova-profile-chip')).toContainText('Linh');await expect(page.locator('.nova-recipient-list .nova-avatar')).toHaveText(['MC','DL','AN','']);
 });
 

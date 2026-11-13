@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test';
 
 test('D-02 makes demo-only consequences primary and separates Freeze from Report', async ({ page }) => {
   await page.goto('/app.html?screen=home');
-  await page.evaluate(() => localStorage.clear());
+  await page.evaluate(() => sessionStorage.clear());
   await page.goto('/app.html?screen=transaction-detail&lab=1');
 
   const protection = page.locator('.protection-band');
@@ -61,10 +61,10 @@ test('D-02 makes demo-only consequences primary and separates Freeze from Report
 
 test('D-02 report preview does not change card freeze state', async ({ page }) => {
   await page.goto('/app.html?screen=home');
-  await page.evaluate(() => localStorage.clear());
+  await page.evaluate(() => sessionStorage.clear());
 
   await page.goto('/app.html?screen=report-transaction&state=handoff&lab=1');
-  const frozen = await page.evaluate(() => localStorage.getItem('nova_card_frozen'));
+  const frozen = await page.evaluate(() => sessionStorage.getItem('nova_card_frozen'));
   expect(frozen).toBeNull();
 
   await expect(page.locator('.review-list').getByText('Card protection', { exact: true })).toBeVisible();
@@ -76,7 +76,7 @@ test('D-02 report preview does not change card freeze state', async ({ page }) =
 test('D-02 truth boundary remains clear and operable at 390px without reviewer tooling', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('/app.html?screen=home');
-  await page.evaluate(() => localStorage.clear());
+  await page.evaluate(() => sessionStorage.clear());
   await page.goto('/app.html?screen=transaction-detail&lab=1');
 
   await expect(page.locator('[data-nova-state-lab-launcher]')).toHaveCount(0);

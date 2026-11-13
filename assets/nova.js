@@ -39,10 +39,19 @@
     recipient: { name: 'Maya Chen', bank: 'Northfield Bank', account: 'Personal •••• 2048', amount: 145, fee: 0, arrival: 'Usually within minutes', reference: 'September utilities', afterSafe: 1155 }
   };
 
-  // User-created demo goals use the same detail and contribution-preview flow.
+  // Records a visitor can change (goals, payees, subscriptions, profile) come from the
+  // session demo store, which is seeded from assets/nova-demo-data.js.
   try {
-    const saved = JSON.parse(localStorage.getItem('nova_savings_goals') || '[]');
-    if (Array.isArray(saved)) saved.filter(goal => /^custom-[a-z0-9-]+$/.test(goal.id) && typeof goal.name === 'string' && goal.name.length <= 40 && Number.isFinite(goal.target) && goal.target > 0).forEach(goal => DATA.goals.push({ ...goal, name: escapeHtml(goal.name), current: 0, contribution: 0, next: 'Not scheduled', status: 'New goal' }));
+    const store = window.NovaStore;
+    if (store) {
+      const goals = store.list('goals').filter(goal => typeof goal.name === 'string' && Number.isFinite(goal.target) && goal.target > 0);
+      DATA.goals = goals.map(goal => ({ ...goal, name: escapeHtml(goal.name) }));
+      DATA.goal = DATA.goals.find(goal => goal.id === 'emergency') || DATA.goals[0] || DATA.goal;
+      // Payee names are validated to letters, spaces and . ' - so they are safe as text and in attributes.
+      DATA.recipients = store.list('payees').filter(payee => /^[\p{L} .'-]{2,40}$/u.test(payee.name) && /^[\p{L}0-9 .'-]{0,40}$/u.test(payee.bank || '') && /^[A-Za-z0-9 •]{4,40}$/.test(payee.account)).map(payee => ({ id: payee.id, name: payee.name, bank: payee.bank || '', account: payee.account }));
+      DATA.subscriptions = store.list('subscriptions');
+      DATA.profile = { ...DATA.profile, name: escapeHtml(store.get('profile').name) };
+    }
   } catch {}
 
   function escapeHtml(value) { return String(value).replace(/[&<>"']/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char])); }
@@ -114,13 +123,14 @@
     return `${sign}€${abs}`;
   }
 
-  function storageGet(key, fallback = 'false') { try { return localStorage.getItem(key) ?? fallback; } catch { return fallback; } }
-  function storageSet(key, value) { try { localStorage.setItem(key, String(value)); } catch {} }
+  function storageGet(key, fallback = 'false') { try { return sessionStorage.getItem(key) ?? fallback; } catch { return fallback; } }
+  function storageSet(key, value) { try { sessionStorage.setItem(key, String(value)); } catch {} }
   function isFrozen(forced = false) { return forced || storageGet('nova_card_frozen') === 'true'; }
 
   function activeFor(screen) {
     if (['home', 'notifications', 'subscriptions'].includes(screen)) return 'home';
-    if (['activity', 'transaction-detail', 'report-transaction'].includes(screen)) return 'activity';
+    if (['activity', 'transaction-detail', 'report-transaction', 'disputes'].includes(screen)) return 'activity';
+    if (['payees', 'scheduled'].includes(screen)) return 'pay';
     if (screen.startsWith('transfer') || ['offline', 'biometric-failed', 'error'].includes(screen)) return 'pay';
     if (screen.startsWith('card')) return 'cards';
     if (screen.startsWith('saving')) return 'save';
@@ -197,7 +207,7 @@
     const payment = payments.find(item => transactionId(item[0]) === params.get('payment'));
     if (!payment) return missingDetail('app.html?screen=subscriptions');
     const [name, date, amount, type] = payment;
-    return shell(`<main id="main" class="main-wrap task-shell payment-detail-page" tabindex="-1">${pageHeader(name, '', 'app.html?screen=home')}<section class="task-panel"><p class="eyebrow">Upcoming payment</p><div class="goal-amount">${euro(amount)}</div>${detailRows([['Due date', date], ['Type', type], ['From', 'Current account · •••• 4421'], ['Planning', name === 'River Gym' ? 'Outside the current 14-day plan' : 'Included in bills and savings']])}<p class="field-hint">Planned payment in the demo. No money is scheduled with a bank.</p><div class="action-stack"><a class="btn btn-primary" href="app.html?screen=${type === 'Savings' ? 'savings-detail' : 'subscriptions'}">${type === 'Savings' ? 'View goal' : 'View subscriptions'}</a><a class="btn btn-secondary" href="app.html?screen=home">Back to home</a></div></section></main>`);
+    return shell(`<main id="main" class="main-wrap task-shell payment-detail-page" tabindex="-1" data-payment-id="${transactionId(name)}">${pageHeader(name, '', 'app.html?screen=home')}<section class="task-panel"><p class="eyebrow">Upcoming payment</p><div class="goal-amount">${euro(amount)}</div>${detailRows([['Due date', date], ['Type', type], ['From', 'Current account · •••• 4421'], ['Planning', name === 'River Gym' ? 'Outside the current 14-day plan' : 'Included in bills and savings']])}<p class="field-hint">Planned payment in the demo. No money is scheduled with a bank.</p><div class="action-stack"><a class="btn btn-primary" href="app.html?screen=${type === 'Savings' ? 'savings-detail' : 'subscriptions'}">${type === 'Savings' ? 'View goal' : 'View subscriptions'}</a><a class="btn btn-secondary" href="app.html?screen=home">Back to home</a></div></section></main>`);
   }
 
   function renderHome() {
@@ -230,7 +240,7 @@
     if (selected && selected[3] !== 'risk') {
       const [name, category, amount, status, date] = selected;
       const statusLabel = status === 'reversed' ? 'Refunded' : status === 'pending' ? 'Pending' : 'Completed';
-      return shell(`<main id="main" class="main-wrap task-shell transaction-detail-page" tabindex="-1">${pageHeader(name, '', 'app.html?screen=activity')}<section class="task-panel"><p class="eyebrow">${statusLabel}</p><div class="goal-amount">${euro(amount, true)}</div>${detailRows([['Date', date], ['Category', category], ['Status', statusLabel], ['Account', 'Current account · •••• 4421'], ['Method', ['Income', 'Transfer'].includes(category) ? 'Bank transfer' : amount > 0 ? 'Merchant refund' : 'Debit card · •••• 4821']])}${status === 'pending' ? '<p class="field-hint">The final amount may change when this payment settles.</p>' : ''}<div class="action-stack"><a class="btn btn-secondary" href="app.html?screen=activity">Back to activity</a></div></section></main>`);
+      return shell(`<main id="main" class="main-wrap task-shell transaction-detail-page" tabindex="-1" data-transaction-id="${transactionId(name)}" data-transaction-amount="${amount}" data-transaction-status="${status}">${pageHeader(name, '', 'app.html?screen=activity')}<section class="task-panel"><p class="eyebrow">${statusLabel}</p><div class="goal-amount">${euro(amount, true)}</div>${detailRows([['Date', date], ['Category', category], ['Status', statusLabel], ['Account', 'Current account · •••• 4421'], ['Method', ['Income', 'Transfer'].includes(category) ? 'Bank transfer' : amount > 0 ? 'Merchant refund' : 'Debit card · •••• 4821']])}${status === 'pending' ? '<p class="field-hint">The final amount may change when this payment settles.</p>' : ''}<div class="action-stack"><a class="btn btn-secondary" href="app.html?screen=activity">Back to activity</a></div></section></main>`);
     }
     const frozen = isFrozen(); const t = DATA.suspicious;
     const main = `<main id="main" class="main-wrap transaction-detail-page" tabindex="-1"><section class="dossier-hero"><div class="dossier-topline"><a class="back-link" href="app.html?screen=activity">${icon('back')}<span>Activity</span></a><span class="status status-risk">Unusual activity · review</span></div><div class="dossier-main"><div><p class="eyebrow">${t.timestamp}</p><h1 class="dossier-title">${t.merchant}</h1><div class="dossier-meta"><span>${t.channel}</span><span>${t.card}</span><span>${t.location}</span></div></div><div><div class="dossier-amount">${euro(-t.amount, true)}</div><p class="meta" style="text-align:right;margin:8px 0 0">${t.status} · prototype data</p></div></div></section><div class="dossier-layout"><div><section class="section"><div class="section-head"><h2>Payment details</h2></div><dl class="detail-grid"><div class="detail-row"><dt>Status</dt><dd><span class="status status-success">${t.status}</span></dd></div><div class="detail-row"><dt>Card</dt><dd>${t.card}</dd></div><div class="detail-row"><dt>Channel</dt><dd>${t.channel}</dd></div><div class="detail-row"><dt>Location</dt><dd>${t.location}</dd></div><div class="detail-row"><dt>Category</dt><dd>${t.category}</dd></div><div class="detail-row"><dt>Reference</dt><dd class="mono">${t.id}</dd></div></dl></section><section class="protection-band"><p class="eyebrow">Protective action</p><h2>Protect your card without pretending the payment disappears</h2>${frozen ? '<div class="callout callout-success" style="margin-top:14px"><strong>Card frozen</strong><p>New card payments and ATM withdrawals are blocked. Already-authorized or offline transactions can still settle.</p></div>' : '<div class="callout callout-warning" style="margin-top:14px"><strong>Demo-only protection</strong><p>Freeze changes only this prototype state. It does not contact a bank or reverse the payment.</p></div><p>If you do not recognise this payment, freezing is a reversible first step while you investigate.</p>'}<div class="action-stack">${frozen ? '<a class="btn btn-primary" href="app.html?screen=cards">Review frozen card</a>' : '<button class="btn btn-risk" id="freeze-card">Freeze card in demo</button>'}<a class="btn btn-secondary" id="report-transaction" href="app.html?screen=report-transaction">Preview report steps</a></div><p class="meta" data-report-boundary style="margin:10px 0 0">Demo only — report preview submits nothing. Freeze changes only this prototype state; neither action contacts a bank.</p></section></div><aside class="evidence-panel"><p class="eyebrow">Why this surfaced</p><h2>Why this needs review</h2><p>Not confirmed fraud. Check the merchant, time and place before you act.</p><div class="insight-line"><strong>New merchant</strong><p>First payment to ByteMart.</p></div><div class="insight-line"><strong>Higher online amount</strong><p>Above your usual online spend.</p></div></aside></div></main>`;
@@ -298,9 +308,11 @@
   }
 
   function renderSubscriptions() {
-    const rows = [['Mobile plan', 'Sep 22', 32, 'Monthly'], ['Streaming service', 'Sep 24', 14.99, 'Monthly'], ['River Gym', 'Oct 02', 34, 'Monthly']];
-    const monthly = rows.reduce((sum, row) => sum + row[2], 0);
-    const main = `<main id="main" class="main-wrap subscriptions-page" tabindex="-1"><header class="v3-page-head"><div><h1>Subscriptions</h1></div></header><div class="subscription-layout"><aside class="subscription-summary"><section class="recurring-total"><div><p class="eyebrow">Monthly total</p><span class="meta">${rows.length} subscriptions</span></div><strong>${euro(monthly)}</strong><p class="subscription-next-date">Next payment <b>${rows[0][1]}</b></p></section><details class="subscription-help"><summary>Blocking is not cancellation</summary><p>To end a subscription, cancel with the merchant. Freezing a card does not cancel it.</p></details></aside><section class="section subscription-schedule"><div class="section-head"><h2>Next payments</h2><span class="meta">Upcoming</span></div><div class="ledger">${rows.map(([name, date, amount, cycle]) => `<a class="ledger-row" href="app.html?screen=payment-detail&payment=${transactionId(name)}"><div class="ledger-date">${date}</div><div><div class="list-title">${name}</div><div class="list-sub">${cycle}</div></div><div class="list-value">${euro(-amount, true)}<small>scheduled</small></div><span class="chevron" aria-hidden="true"></span></a>`).join('')}</div></section></div></main>`;
+    const all = (DATA.subscriptions || [{ name: 'Mobile plan', date: 'Sep 22', amount: 32, cadence: 'Monthly', status: 'active' }, { name: 'Streaming service', date: 'Sep 24', amount: 14.99, cadence: 'Monthly', status: 'active' }, { name: 'River Gym', date: 'Oct 02', amount: 34, cadence: 'Monthly', status: 'active' }]);
+    const live = all.filter(item => item.status !== 'cancelled');
+    const rows = live.map(item => [item.name, item.date, item.amount, item.cadence, item.status]);
+    const monthly = live.filter(item => item.status === 'active').reduce((sum, item) => sum + item.amount, 0);
+    const main = `<main id="main" class="main-wrap subscriptions-page" tabindex="-1"><header class="v3-page-head"><div><h1>Subscriptions</h1></div></header><div class="subscription-layout"><aside class="subscription-summary"><section class="recurring-total"><div><p class="eyebrow">Monthly total</p><span class="meta">${rows.length} subscriptions</span></div><strong>${euro(monthly)}</strong><p class="subscription-next-date">Next payment <b>${rows.find(row => row[4] === 'active')?.[1] || 'None planned'}</b></p></section><details class="subscription-help"><summary>Blocking is not cancellation</summary><p>To end a subscription, cancel with the merchant. Freezing a card does not cancel it.</p></details></aside><section class="section subscription-schedule"><div class="section-head"><h2>Next payments</h2><span class="meta">Upcoming</span></div><div class="ledger">${rows.map(([name, date, amount, cycle, status]) => `<a class="ledger-row" data-subscription-id="${transactionId(name)}" href="app.html?screen=payment-detail&payment=${transactionId(name)}"><div class="ledger-date">${date}</div><div><div class="list-title">${name}</div><div class="list-sub">${cycle}${status === 'paused' ? ' · Paused' : ''}</div></div><div class="list-value">${euro(-amount, true)}<small>${status === 'paused' ? 'paused' : 'scheduled'}</small></div><span class="chevron" aria-hidden="true"></span></a>`).join('')}</div></section></div></main>`;
     return shell(main);
   }
 
@@ -316,9 +328,12 @@
       { id: 'rent', title: 'Rent is due in 5 days', subtitle: `${euro(rent[2])} · ${rent[1]}`, glyph: 'calendar', category: 'Planning updates', heading: rent[0], amount: euro(-rent[2], true), description: 'This bill is already included in your spending plan.', rows: [['Due date', rent[1]], ['Type', rent[3]], ['Account', 'Personal account'], ['Plan', 'Included in safe to spend']], note: 'Review the planned payment to see how it affects your balance.', href: 'app.html?screen=payment-detail&payment=apartment-rent', action: 'View payment' },
       { id: 'savings', title: 'Emergency buffer on track', subtitle: `${euro(DATA.goal.contribution)} planned · ${DATA.goal.next}`, glyph: 'goal', category: 'Planning updates', heading: DATA.goal.name, amount: euro(DATA.goal.current), description: 'Your next contribution is included in your spending plan.', rows: [['Target', euro(DATA.goal.target)], ['Next contribution', euro(DATA.goal.contribution)], ['Scheduled for', DATA.goal.next], ['Status', DATA.goal.status]], note: 'Open your goal to review progress and contribution options.', href: 'app.html?screen=savings-detail&goal=emergency', action: 'View goal' }
     ];
-    const selected = notices.find(item => item.id === params.get('notification')) || notices[0];
-    const list = notices.map((item, index) => `${index === 0 || notices[index - 1].category !== item.category ? `<h3 class="notification-group-label">${item.category}</h3>` : ''}<a class="notification-item ${item.id === selected.id ? 'is-selected' : ''}" href="${item.href}" data-notification-preview="${item.id}" ${item.id === selected.id ? 'aria-current="true"' : ''}><span class="notification-item-body"><span class="list-icon">${icon(item.glyph)}</span><span><strong>${item.title}</strong><small>${item.subtitle}</small></span>${icon('arrow')}</span></a>`).join('');
-    return shell(`<main id="main" class="main-wrap notifications-page" tabindex="-1"><header class="v3-page-head"><div><h1 class="notification-page-title">Notifications</h1></div></header><div class="notification-inbox"><nav class="notification-list" aria-label="Notifications"><h2 class="sr-only">Inbox</h2>${list}<a class="notification-preferences" href="app.html?screen=settings">Notification settings ${icon('arrow')}</a></nav><section class="notification-preview" aria-labelledby="notification-title"><div class="notification-preview-head"><span>${selected.category}</span><h2 id="notification-title">${selected.heading}</h2><strong class="notification-amount">${selected.amount}</strong><p>${selected.description}</p></div>${detailRows(selected.rows)}<div class="notification-next"><p>${selected.note}</p><a class="btn btn-primary" href="${selected.href}">${selected.action} ${icon('arrow')}</a></div></section></div></main>`);
+    // Dismissed alerts (session demo store) leave the inbox; the first remaining alert is previewed.
+    const dismissed = new Set((window.NovaStore?.list('notifications') || []).filter(item => item.dismissed).map(item => item.id));
+    const visible = notices.filter(item => !dismissed.has(item.id));
+    const selected = visible.find(item => item.id === params.get('notification')) || visible[0];
+    const list = visible.map((item, index) => `${index === 0 || visible[index - 1].category !== item.category ? `<h3 class="notification-group-label">${item.category}</h3>` : ''}<a class="notification-item ${item.id === selected?.id ? 'is-selected' : ''}" href="${item.href}" data-notification-preview="${item.id}" ${item.id === selected?.id ? 'aria-current="true"' : ''}><span class="notification-item-body"><span class="list-icon">${icon(item.glyph)}</span><span><strong>${item.title}</strong><small>${item.subtitle}</small></span>${icon('arrow')}</span></a>`).join('');
+    return shell(`<main id="main" class="main-wrap notifications-page" tabindex="-1"><header class="v3-page-head"><div><h1 class="notification-page-title">Notifications</h1></div></header><div class="notification-inbox"><nav class="notification-list" aria-label="Notifications"><h2 class="sr-only">Inbox</h2>${list}<a class="notification-preferences" href="app.html?screen=settings">Notification settings ${icon('arrow')}</a></nav>${selected ? `<section class="notification-preview" aria-labelledby="notification-title"><div class="notification-preview-head"><span>${selected.category}</span><h2 id="notification-title">${selected.heading}</h2><strong class="notification-amount">${selected.amount}</strong><p>${selected.description}</p></div>${detailRows(selected.rows)}<div class="notification-next"><p>${selected.note}</p><a class="btn btn-primary" href="${selected.href}">${selected.action} ${icon('arrow')}</a></div></section>` : ''}</div></main>`);
   }
 
   function renderOnboarding() {
@@ -386,7 +401,10 @@
   }
 
   function render() {
-    const renderScreen = screens[currentScreen] || screens.home; app.innerHTML = renderScreen(); document.title = `Ledger — ${currentScreen.replaceAll('-', ' ')} · Personal Banking`; bindInteractions();
+    // Workflow screens (payees, scheduled transfers, dispute drafts) are owned by
+    // assets/nova-workflows.js and composed inside the same shell as every product route.
+    const workflow = window.NovaWorkflows?.screens?.[currentScreen];
+    const renderScreen = screens[currentScreen] || (workflow ? () => shell(workflow({ DATA, icon, euro, pageHeader, detailRows, escapeHtml })) : screens.home); app.innerHTML = renderScreen(); document.title = `Ledger — ${currentScreen.replaceAll('-', ' ')} · Personal Banking`; bindInteractions();
   }
 
   // Shared product data/composition seam for deterministic capture surfaces.

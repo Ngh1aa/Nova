@@ -1084,3 +1084,110 @@ a.list-row:hover .list-title,a.ledger-row:hover .list-title{color:var(--accent)}
  .is-forecast-error .nova-accounts-card{grid-column:1/5;grid-row:3}.is-forecast-error .nova-spending-card{grid-column:5/10;grid-row:3}.is-forecast-error .nova-savings-card{grid-column:10/13;grid-row:3}
 }
 /* ===== END P2.1B CSS SOURCE: assets/nova-ui/screens.css ===== */
+
+/* ===== P2.1B CSS SOURCE: assets/nova-ui/workflows.css ===== */
+/* Nova UI — workflow layer (payees, scheduled transfers, dispute drafts, goal,
+   card, subscription, notification, device and demo-data actions).
+   Reuses the shared surface, row, button, field and dialog system; only adds
+   layout for lists, inline states and feedback. Owner: assets/nova-workflows.js. */
+
+/* ---------- Page and list layout ---------- */
+.main-wrap.nova-wf-page{max-width:var(--form-max)}
+.main-wrap.nova-wf-page.task-shell{max-width:var(--single-panel-max)}
+.nova-wf-lede{max-width:64ch;margin-top:var(--s-1);font-size:var(--t-sm)}
+.nova-wf-layout{display:grid;gap:var(--layout-gap)}
+@media(min-width:1024px){.nova-wf-layout.has-aside{grid-template-columns:minmax(0,1fr) var(--context-width);align-items:start}}
+.nova-wf-card .v3-section-title{display:flex;align-items:center;justify-content:space-between;gap:var(--s-3);margin-bottom:var(--s-2)}
+.nova-wf-search{display:flex;align-items:center;gap:var(--s-2);margin:var(--s-2) 0 var(--s-3)}
+.nova-wf-search .input{flex:1;min-width:0}
+.nova-wf-list{display:flex;flex-direction:column}
+.nova-wf-row{display:flex;align-items:center;gap:var(--s-3);min-height:var(--row-height);padding:var(--s-2) 0;color:var(--ink)}
+.nova-wf-row + .nova-wf-row{border-top:1px solid var(--hairline)}
+.nova-wf-row-main{display:flex;align-items:center;gap:var(--s-3);flex:1;min-width:0;min-height:48px;color:var(--ink)}
+.nova-wf-row-main:hover strong{color:var(--accent)}
+.nova-wf-row-main > span:last-child{min-width:0}
+.nova-wf-row strong{display:block;font-weight:600;line-height:1.3;overflow-wrap:anywhere}
+.nova-wf-row small{display:block;margin-top:1px;color:var(--ink-3);line-height:1.35;overflow-wrap:anywhere}
+.nova-wf-row b{flex:none;font-weight:600}
+.nova-wf-row .nova-wf-row-actions{display:flex;flex:none;gap:var(--s-2)}
+.nova-wf-avatar{display:grid;flex:none;place-items:center;width:40px;height:40px;border-radius:var(--r-icon);background:var(--lavender-soft);color:var(--lavender-ink);font-size:var(--t-sm);font-weight:700}
+.nova-wf-date{display:grid;flex:none;place-items:center;width:48px;min-height:48px;border-radius:var(--r-icon);background:var(--butter-soft);color:var(--butter-ink);font-size:var(--t-xs);font-weight:700;line-height:1.15;text-align:center}
+.nova-wf-date span{display:block;font-size:var(--t-md)}
+.nova-wf-small-btn{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:0 var(--s-3);border:0;border-radius:var(--r-pill);background:var(--surface-2);color:var(--ink);font-size:var(--t-sm);font-weight:600;cursor:pointer}
+.nova-wf-small-btn:hover{background:var(--fill-strong);color:var(--ink)}
+.nova-wf-small-btn.is-risk{color:var(--risk-ink)}
+.nova-wf-section-gap{margin-top:var(--layout-gap)}
+.nova-wf-group-label{margin:var(--s-4) 0 var(--s-1);color:var(--ink-3);font-size:var(--t-xs);font-weight:600;letter-spacing:.04em;text-transform:uppercase}
+
+/* ---------- Detail actions ---------- */
+.nova-wf-actions{display:flex;flex-wrap:wrap;gap:var(--s-2);margin-top:var(--s-5)}
+.nova-wf-actions .btn{flex:1 1 160px}
+.nova-wf-boundary{margin-top:var(--s-4);padding:var(--s-3) var(--s-4);border-radius:var(--r-inner);background:var(--fill);color:var(--ink-2);font-size:var(--t-sm);line-height:1.45}
+.nova-wf-boundary strong{color:var(--ink)}
+
+/* ---------- Inline states: loading, empty, error ---------- */
+.nova-wf-skeleton{display:flex;flex-direction:column;gap:var(--s-3);padding:var(--s-2) 0}
+.nova-wf-skeleton i{display:block;height:48px;border-radius:var(--r-inner);background:linear-gradient(90deg,var(--surface-2),var(--fill-strong),var(--surface-2));background-size:200% 100%;animation:nova-wf-shimmer 1.4s linear infinite}
+@keyframes nova-wf-shimmer{to{background-position:-200% 0}}
+@media (prefers-reduced-motion:reduce){.nova-wf-skeleton i{animation:none}}
+.nova-wf-empty{padding:var(--s-6) var(--s-5);border-radius:var(--r-inner);background:var(--surface-2);text-align:center}
+.nova-wf-empty strong{display:block;color:var(--ink);font-size:var(--t-md)}
+.nova-wf-empty p{max-width:48ch;margin:var(--s-2) auto 0;font-size:var(--t-sm)}
+.nova-wf-empty .btn,.nova-wf-empty .nova-wf-small-btn{margin-top:var(--s-4)}
+.nova-wf-alert{display:flex;flex-wrap:wrap;align-items:center;gap:var(--s-2) var(--s-3);margin-top:var(--s-3);padding:var(--s-3) var(--s-4);border-radius:var(--r-inner);background:var(--risk-soft);color:var(--risk-ink);font-size:var(--t-sm);line-height:1.45}
+.nova-wf-alert strong{display:block;color:var(--risk-ink)}
+.nova-wf-alert > div{flex:1 1 220px;min-width:0}
+.nova-wf-alert p{margin:0;color:var(--ink-2)}
+.nova-wf-alert button{flex:none}
+.nova-wf-note{margin-top:var(--s-3);padding:var(--s-3) var(--s-4);border-radius:var(--r-inner);background:var(--mint-soft);color:var(--mint-ink);font-size:var(--t-sm)}
+.nova-wf-note.is-warning{background:var(--butter-soft);color:var(--butter-ink)}
+
+/* ---------- Busy buttons ---------- */
+.btn[aria-busy="true"],.nova-wf-small-btn[aria-busy="true"]{position:relative;cursor:progress}
+.btn[aria-busy="true"]::after,.nova-wf-small-btn[aria-busy="true"]::after{content:"";width:14px;height:14px;margin-left:var(--s-2);border:2px solid currentColor;border-right-color:transparent;border-radius:50%;animation:nova-wf-spin .8s linear infinite}
+@keyframes nova-wf-spin{to{transform:rotate(360deg)}}
+@media (prefers-reduced-motion:reduce){.btn[aria-busy="true"]::after,.nova-wf-small-btn[aria-busy="true"]::after{animation:none}}
+
+/* ---------- Dialog forms ---------- */
+.dialog form > .field:first-of-type{margin-top:var(--s-3)}
+.dialog select.input,.nova-wf-page select.input,.v3-settings-page select.input{appearance:none;padding-right:36px;background-image:linear-gradient(45deg,transparent 50%,var(--ink-3) 50%),linear-gradient(135deg,var(--ink-3) 50%,transparent 50%);background-position:calc(100% - 18px) 50%,calc(100% - 13px) 50%;background-size:5px 5px;background-repeat:no-repeat}
+.dialog textarea.input{min-height:96px;padding-top:var(--s-3);resize:vertical}
+.nova-wf-choices{display:flex;flex-direction:column;gap:var(--s-2);margin:var(--s-3) 0 0;padding:0;border:0}
+.nova-wf-choices legend{margin-bottom:var(--s-2);color:var(--ink-2);font-size:var(--t-sm);font-weight:600}
+.nova-wf-choice{display:flex;align-items:flex-start;gap:var(--s-3);min-height:48px;padding:var(--s-3);border-radius:var(--r-inner);background:var(--fill);color:var(--ink);cursor:pointer}
+.nova-wf-choice input{flex:none;width:18px;height:18px;margin:2px 0 0;accent-color:var(--accent)}
+.nova-wf-choice small{display:block;color:var(--ink-3)}
+.nova-wf-check{display:flex;align-items:flex-start;gap:var(--s-3);margin-top:var(--s-4);color:var(--ink-2);font-size:var(--t-sm);cursor:pointer}
+.nova-wf-check input{flex:none;width:18px;height:18px;margin:2px 0 0;accent-color:var(--accent)}
+.nova-wf-pin{margin:var(--s-3) 0;padding:var(--s-4);border-radius:var(--r-inner);background:var(--fill);text-align:center}
+.nova-wf-pin strong{display:block;font-family:var(--font-mono);font-size:32px;letter-spacing:.35em}
+.nova-wf-pin small{color:var(--ink-3)}
+
+/* ---------- Toasts (shared by every runtime) ---------- */
+.toast,.v3-toast{position:fixed;left:50%;bottom:calc(88px + env(safe-area-inset-bottom));z-index:10100;width:max-content;max-width:min(520px,calc(100vw - 32px));padding:var(--s-3) var(--s-4);border:1px solid var(--hairline-strong);border-radius:var(--r-inner);background:var(--surface-2);color:var(--ink);font-size:var(--t-sm);line-height:1.45;box-shadow:var(--shadow-float);transform:translateX(-50%)}
+.v3-toast:not(.show){display:none}
+@media(min-width:1200px){.toast,.v3-toast{bottom:24px}}
+
+/* ---------- Notifications, payees link, settings demo panel ---------- */
+.notification-item.is-unread strong::after{content:"";display:inline-block;width:8px;height:8px;margin-left:var(--s-2);border-radius:50%;background:var(--accent);vertical-align:middle}
+.nova-wf-inbox-tools{display:flex;flex-wrap:wrap;align-items:center;gap:var(--s-2)}
+.nova-wf-preview-actions{display:flex;flex-wrap:wrap;gap:var(--s-2);margin-top:var(--s-4)}
+.nova-bell-chip[data-unread="0"] i,.icon-btn[data-unread="0"] .notification-dot{display:none}
+.v4-manage-link{display:inline-flex;align-items:center;gap:var(--s-2);min-height:44px;margin-top:var(--s-2);font-size:var(--t-sm);font-weight:600}
+.v4-manage-link svg{width:16px;height:16px}
+.nova-wf-demo-controls{display:grid;gap:var(--s-3);margin-top:var(--s-2)}
+.nova-wf-demo-controls .field{margin-top:0}
+.nova-wf-inline-link{display:inline-flex;align-items:center;min-height:44px;font-size:var(--t-sm);font-weight:600}
+
+/* ---------- Taste-check fixes ---------- */
+.nova-wf-empty{padding:var(--s-6)}
+.nova-wf-page dd a,.nova-wf-note a{text-decoration:underline;text-underline-offset:2px}
+.nova-wf-card-services{order:6;grid-column:1/-1;width:100%}
+.v3-devices-card .v3-device-row{flex-wrap:wrap}
+.v3-devices-card .v3-device-row > .nova-wf-row-actions{display:flex;flex:0 0 auto;gap:var(--s-1)}
+@media(max-width:479px){.v3-devices-card .v3-device-row > .nova-wf-row-actions{flex-basis:100%;padding-left:52px}}
+.subscription-schedule .ledger-row > div{min-width:0}
+.subscription-schedule .list-title,.subscription-schedule .list-sub{overflow-wrap:anywhere}
+@media(max-width:359px){.subscription-schedule{padding:var(--s-4)}.subscription-schedule .ledger-row{gap:var(--s-1)}}
+.savings-account-details:not([open]) > :not(summary){display:none}
+/* ===== END P2.1B CSS SOURCE: assets/nova-ui/workflows.css ===== */

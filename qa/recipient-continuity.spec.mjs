@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test';
 
 test('recipient search filters saved people and selected identity survives the transfer flow', async ({ page }) => {
   await page.goto('/app.html?screen=home');
-  await page.evaluate(() => localStorage.clear());
+  await page.evaluate(() => sessionStorage.clear());
   await page.goto('/app.html?screen=transfer-recipient');
 
   const search = page.getByRole('searchbox', { name: 'Search recipient by name or account' });

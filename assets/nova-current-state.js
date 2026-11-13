@@ -25,7 +25,7 @@
     'Magstripe': { key: 'nova_card_magstripe', defaultOn: false }
   });
   const RECIPIENTS = Object.freeze(Object.fromEntries(window.NovaProduct.data.recipients.map(recipient => [recipient.account.slice(-4), Object.freeze(recipient)])));
-  const DEFAULT_RECIPIENT = RECIPIENTS['2048'];
+  const DEFAULT_RECIPIENT = RECIPIENTS['2048'] || Object.values(RECIPIENTS)[0] || Object.freeze({ id: 'maya-chen-2048', name: 'Maya Chen', bank: 'Northfield Bank', account: 'Personal •••• 2048' });
   const STORAGE = Object.freeze({
     cardFrozen: 'nova_card_frozen',
     cardLimit: 'nova_card_daily_limit',
@@ -56,8 +56,8 @@
     return `${sign}€${formatted}`;
   };
   const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
-  const storageGet = (key, fallback = '') => { try { return localStorage.getItem(key) ?? fallback; } catch { return fallback; } };
-  const storageSet = (key, value) => { try { localStorage.setItem(key, String(value)); } catch {} };
+  const storageGet = (key, fallback = '') => { try { return sessionStorage.getItem(key) ?? fallback; } catch { return fallback; } };
+  const storageSet = (key, value) => { try { sessionStorage.setItem(key, String(value)); } catch {} };
   const isRendered = (element) => !!element && getComputedStyle(element).display !== 'none' && getComputedStyle(element).visibility !== 'hidden' && element.getClientRects().length > 0;
 
 
@@ -187,9 +187,9 @@
   function initSavings(){if(screen!=='savings-detail')return;const ui=ensureSavingsUi();if(!ui)return;const contribution=window.NovaProduct.data.goals.find(goal=>goal.id===(params.get('goal')||'emergency'))?.contribution||0;ui.input.value=String(contribution);renderSavingsHorizon(contribution);}
 
   const accountSuffix=(text='')=>Object.keys(RECIPIENTS).find((suffix)=>String(text).includes(suffix))||'';
-  function recipientFromNode(node){if(!node)return null;const suffix=accountSuffix(node.textContent||'');if(suffix)return RECIPIENTS[suffix];const name=(node.querySelector('strong')?.textContent||'').trim().toLowerCase();return Object.values(RECIPIENTS).find((recipient)=>recipient.name.toLowerCase().startsWith(name))||null;}
-  function saveRecipient(recipient){if(!recipient)return;try{localStorage.setItem(STORAGE.recipient,JSON.stringify(recipient));}catch{}}
-  function activeRecipient(){try{const stored=JSON.parse(localStorage.getItem(STORAGE.recipient)||'null');const known=Object.values(RECIPIENTS).find((recipient)=>recipient.id===stored?.id);if(known)return{...known,...stored};}catch{}return DEFAULT_RECIPIENT;}
+  function recipientFromNode(node){if(!node)return null;const byId=node.dataset?.recipientId&&Object.values(RECIPIENTS).find((recipient)=>recipient.id===node.dataset.recipientId);if(byId)return byId;const suffix=accountSuffix(node.textContent||'');if(suffix)return RECIPIENTS[suffix];const name=(node.querySelector('strong')?.textContent||'').trim().toLowerCase();return Object.values(RECIPIENTS).find((recipient)=>recipient.name.toLowerCase().startsWith(name))||null;}
+  function saveRecipient(recipient){if(!recipient)return;try{sessionStorage.setItem(STORAGE.recipient,JSON.stringify(recipient));}catch{}}
+  function activeRecipient(){try{const stored=JSON.parse(sessionStorage.getItem(STORAGE.recipient)||'null');const known=Object.values(RECIPIENTS).find((recipient)=>recipient.id===stored?.id);if(known)return{...stored,...known};}catch{}return DEFAULT_RECIPIENT;}
   const recipientDetail=(recipient)=>recipient.bank?`${recipient.bank}, ${recipient.account}`:recipient.account;
   function setRecipientValue(row,recipient){const value=row?.querySelector('strong');if(!value)return;value.textContent=recipient.name;const meta=document.createElement('span');meta.className='meta';meta.textContent=recipientDetail(recipient);value.append(document.createElement('br'),meta);}
   function focusRecipientSearch(event){event?.preventDefault();const input=document.querySelector('#pay-recipient-search');input?.focus();input?.scrollIntoView({block:'center',behavior:'smooth'});}
@@ -229,7 +229,7 @@
     const info = (title, body) => openDialog({title, body, primaryLabel:'Done', secondaryLabel:''});
     const applyProfile = () => {
       let profile;
-      try { profile = JSON.parse(storageGet('nova_profile', 'null')); } catch {}
+      try { profile = window.NovaStore ? window.NovaStore.get('profile') : JSON.parse(storageGet('nova_profile', 'null')); } catch {}
       if (!profile || typeof profile.name !== 'string' || typeof profile.email !== 'string') return;
       document.querySelectorAll('.v3-settings-profile h2').forEach(node => node.textContent = profile.name);
       document.querySelectorAll('.v3-settings-profile p').forEach(node => node.textContent = profile.email);
@@ -242,6 +242,7 @@
       document.querySelectorAll('.nova-profile-chip .nova-avatar,.rail-account .nova-avatar,.v3-profile-avatar').forEach(node => node.textContent = initials);
     };
     applyProfile();
+    document.addEventListener('nova:profile-changed', applyProfile);
     document.addEventListener('click', event => {
       const trigger = event.target.closest('[data-v3-toast],[data-v4-toast]');
       if (!trigger) return;

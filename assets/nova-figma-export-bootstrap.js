@@ -11,7 +11,7 @@
     return;
   }
   const memory = new Map(Object.entries(entry.canonical_state.storage));
-  // Shadow Storage only in this document; browser-origin localStorage is untouched.
+  // Shadow Storage only in this document; browser-origin local and session storage are untouched.
   const storage = Object.freeze({
     getItem: key => memory.has(String(key)) ? memory.get(String(key)) : null,
     setItem: (key, value) => memory.set(String(key), String(value)),
@@ -19,6 +19,7 @@
     key: index => [...memory.keys()][index] ?? null, get length() { return memory.size; }
   });
   Object.defineProperty(window, 'localStorage', { configurable: true, value: storage });
+  Object.defineProperty(window, 'sessionStorage', { configurable: true, value: storage });
   const query = new URLSearchParams({ screen: entry.canonical_state.screen, state: entry.canonical_state.state, pin: '1' });
   history.replaceState(null, '', entry.path + '?' + query);
   window.NovaExport = Object.freeze({ entry, storage, manifest });
