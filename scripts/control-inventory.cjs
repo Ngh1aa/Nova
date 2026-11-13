@@ -41,8 +41,12 @@ async function collect(page) {
   }, CONTROL);
 }
 
+// Waits for async regions (loading skeletons) so control indexes are stable.
+const settle = (page) => page.waitForFunction(() => !document.querySelector('[aria-busy="true"]'), null, { timeout: 4000 }).catch(() => {});
+
 async function probe(page, url, index) {
   await page.goto(url, { waitUntil: 'load' });
+  await settle(page);
   await page.waitForTimeout(150);
   await page.evaluate(() => {
     window.__inv = { mutations: 0 };
@@ -104,7 +108,7 @@ async function probe(page, url, index) {
           await page.goto(url, { waitUntil: 'load' });
           await page.evaluate(() => { try { sessionStorage.clear(); localStorage.clear(); } catch {} }).catch(() => {});
           await page.goto(url, { waitUntil: 'load' });
-          await page.waitForTimeout(500); await page.waitForLoadState('load'); // lets a meta refresh (index.html) settle
+          await page.waitForTimeout(500); await page.waitForLoadState('load'); await settle(page); // meta refresh and async lists settle
           controls = await collect(page);
         } catch (error) { if (attempt === 2) { report.dead.push({ route, width, label: '(page failed to load)', kind: 'page', href: null, effect: 'load-error', detail: String(error.message).split('\n')[0] }); controls = []; } else await new Promise((r) => setTimeout(r, 1000)); }
       }
